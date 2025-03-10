@@ -1,10 +1,11 @@
 import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
+import 'package:restrant_app/screens/servicesScreen/services_screen.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
+import 'package:restrant_app/utils/colors_utility.dart';
 
 void main() => runApp(
   DevicePreview(
@@ -23,8 +24,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-     
+      title: 'Flutter Demo',
       theme: ThemeData(
+        scaffoldBackgroundColor: ColorsUtility.mainBackgroundColor,
         fontFamily: 'Raleway',
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -35,6 +37,8 @@ class MyApp extends StatelessWidget {
         switch (routeName) {
           case OnboardingScreen.id:
             return MaterialPageRoute(builder: (context) => const OnboardingScreen());
+          case ServicesScreen.id:
+            return MaterialPageRoute(builder: (context) => const ServicesScreen());
           default:
             return MaterialPageRoute(builder: (context) => const SplashPage());
         }
@@ -52,4 +56,3 @@ class AppScrollBehavior extends MaterialScrollBehavior {
         PointerDeviceKind.trackpad,
       };
 }
-

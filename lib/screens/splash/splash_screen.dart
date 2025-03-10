@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
 import 'package:restrant_app/screens/splash/logic/cubit/splash_cubit.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
-
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -16,7 +14,7 @@ class SplashPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => SplashCubit()..initialize(),
       child: Scaffold(
-        backgroundColor: ColorsUtility.mainBackgroundColor,
+        // backgroundColor: ColorsUtility.mainBackgroundColor,
         body: SafeArea(
           child: Center(
             child: Column(
