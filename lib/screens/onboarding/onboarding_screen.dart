@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_data.dart';
-import 'package:restrant_app/screens/servicesScreen/services_screen.dart';
+import 'package:restrant_app/screens/foodHomeScreen/food_home_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -44,6 +44,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
+    }else {
+      Navigator.pushNamed(context, FoodHomeScreen.id);
     }
   }
 
@@ -66,8 +68,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             description: data['description']!,
             imagePath1: data['image1']!,
             imagePath2: data['image2']!,
-            onSkipPressed: () =>
-                Navigator.pushNamed(context, ServicesScreen.id),
+            onSkipPressed:
+                () => Navigator.pushNamed(context, FoodHomeScreen.id),
             onForwardPressed: _goToNextPage,
           );
         },
