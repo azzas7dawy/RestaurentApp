@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
+import 'package:restrant_app/screens/register/login_screen.dart';
+import 'package:restrant_app/screens/register/signUp_srceen.dart';
 import 'package:restrant_app/screens/servicesScreen/services_screen.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -37,6 +39,10 @@ class MyApp extends StatelessWidget {
         switch (routeName) {
           case OnboardingScreen.id:
             return MaterialPageRoute(builder: (context) => const OnboardingScreen());
+          case SignupSrceen.id:
+            return MaterialPageRoute(builder: (context) =>  SignupSrceen());
+          case LoginScreen.id:
+            return MaterialPageRoute(builder: (context) =>  LoginScreen());  
           case ServicesScreen.id:
             return MaterialPageRoute(builder: (context) => const ServicesScreen());
           default:
