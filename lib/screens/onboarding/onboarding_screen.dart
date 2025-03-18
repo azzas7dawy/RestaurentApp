@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_data.dart';
-import 'package:restrant_app/screens/register/login_screen.dart';
-import 'package:restrant_app/screens/register/signUp_srceen.dart';
-import 'package:restrant_app/screens/servicesScreen/services_screen.dart';
+import 'package:restrant_app/screens/foodHomeScreen/food_home_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -19,22 +17,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       'title': 'Plan your weekly menu',
       'description':
           'You can order weekly meals, and we\'ll bring them straight to your door.',
-      'image1': './assets/images/pexels-akbarattamimi-2104699.jpg',
-      'image2': './assets/images/pexels-alteredsnaps-14536809.jpg',
+      'image1': '../../../assets/images/pexels-akbarattamimi-2104699.jpg',
+      'image2': '../../../assets/images/pexels-alteredsnaps-14536809.jpg',
     },
     {
       'title': 'Reserve a table',
       'description':
           'Tired of having to wait? Make a table reservation right away.',
-      'image1': './assets/images/pexels-alteredsnaps-28449692.jpg',
-      'image2': './assets/images/pexels-artofxx-325140257-28593083.jpg',
+      'image1': '../../../assets/images/pexels-alteredsnaps-28449692.jpg',
+      'image2': '../../../assets/images/pexels-artofxx-325140257-28593083.jpg',
     },
     {
       'title': 'Place catering Orders',
       'description': 'Place catering orders with us.',
-      'image1': './assets/images/pexels-mikitayo-18252321.jpg',
+      'image1': '../../../assets/images/pexels-mikitayo-18252321.jpg',
       'image2':
-          './assets/images/pexels-sylwester-ficek-154797634-14611857.jpg',
+          '../../../assets/images/pexels-sylwester-ficek-154797634-14611857.jpg',
     },
   ];
 
@@ -46,6 +44,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
+    }else {
+      Navigator.pushNamed(context, FoodHomeScreen.id);
     }
   }
 
@@ -68,8 +68,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             description: data['description']!,
             imagePath1: data['image1']!,
             imagePath2: data['image2']!,
-            onSkipPressed: () =>
-                Navigator.pushNamed(context, LoginScreen.id),
+            onSkipPressed:
+                () => Navigator.pushNamed(context, FoodHomeScreen.id),
             onForwardPressed: _goToNextPage,
           );
         },
