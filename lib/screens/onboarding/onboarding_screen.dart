@@ -44,7 +44,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
-    }else {
+    } else {
       Navigator.pushNamed(context, FoodHomeScreen.id);
     }
   }
@@ -68,12 +68,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             description: data['description']!,
             imagePath1: data['image1']!,
             imagePath2: data['image2']!,
-            onSkipPressed:
-                () => Navigator.pushNamed(context, FoodHomeScreen.id),
+            onSkipPressed: () =>
+                Navigator.pushNamed(context, FoodHomeScreen.id),
             onForwardPressed: _goToNextPage,
           );
         },
       ),
     );
   }
+
+  // void onLogin() {
+  //   PrefService.isOnboardingSeen = true;
+  //   Navigator.pushNamed(context, FoodHomeScreen.id);}
 }

@@ -21,8 +21,8 @@ class ServiceCard extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            width: 150,
-            height: 200,
+            width: 130,
+            height: 180,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(35),
@@ -40,8 +40,8 @@ class ServiceCard extends StatelessWidget {
               ),
               child: Image.asset(
                 imagePath,
-                width: 150,
-                height: 200,
+                width: 130,
+                height: 180,
                 fit: BoxFit.cover,
               ),
             ),
@@ -49,8 +49,8 @@ class ServiceCard extends StatelessWidget {
           Positioned(
             bottom: 0,
             child: Container(
-              width: 150,
-              height: 50,
+              width: 130,
+              height: 30,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(15),
@@ -63,7 +63,7 @@ class ServiceCard extends StatelessWidget {
                   title,
                   style: const TextStyle(
                     color: ColorsUtility.onboardingColor,
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
