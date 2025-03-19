@@ -1,22 +1,39 @@
+import 'dart:developer';
 import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/firebase_options.dart';
+import 'package:restrant_app/screens/auth/logic/cubit/auth_cubit.dart';
+import 'package:restrant_app/screens/auth/verify_otp_screen.dart';
+import 'package:restrant_app/screens/auth/login_screen.dart';
+import 'package:restrant_app/screens/auth/sign_up_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
 import 'package:restrant_app/screens/foodHomeScreen/food_home_screen.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
+import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
-);
+  await PrefService.init();
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    log('failed to initialize firebase : $e');
+  }
 
   runApp(
-    DevicePreview(enabled: !kReleaseMode, builder: (context) => const MyApp()),
+    DevicePreview(
+        enabled: !kReleaseMode,
+        builder: (context) => BlocProvider(
+              create: (context) => AuthCubit(),
+              child: const MyApp(),
+            )),
   );
 }
 
@@ -39,7 +56,7 @@ class MyApp extends StatelessWidget {
       ),
       onGenerateRoute: (settings) {
         final String routeName = settings.name ?? '';
-        // final dynamic data = settings.arguments;
+        final dynamic data = settings.arguments;
         switch (routeName) {
           case OnboardingScreen.id:
             return MaterialPageRoute(
@@ -48,6 +65,20 @@ class MyApp extends StatelessWidget {
           case FoodHomeScreen.id:
             return MaterialPageRoute(
               builder: (context) => const FoodHomeScreen(),
+            );
+          case LoginScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => const LoginScreen(),
+            );
+          case SignUpScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => const SignUpScreen(),
+            );
+          case VerifyOtpScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => VerifyOtpScreen(
+                verificationId: data,
+              ),
             );
           default:
             return MaterialPageRoute(builder: (context) => const SplashPage());
@@ -61,8 +92,8 @@ class MyApp extends StatelessWidget {
 class AppScrollBehavior extends MaterialScrollBehavior {
   @override
   Set<PointerDeviceKind> get dragDevices => {
-    PointerDeviceKind.touch,
-    PointerDeviceKind.mouse,
-    PointerDeviceKind.trackpad,
-  };
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.trackpad,
+      };
 }
