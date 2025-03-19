@@ -12,27 +12,27 @@ class FoodHomeScreen extends StatelessWidget {
     final List serviceData = [
       {
         'title': 'ORDER FOOD',
-        'imagePath': '../../../assets/images/kerfin7_nea_3142.jpg',
+        'imagePath': './assets/images/kerfin7_nea_3142.jpg',
         'color': ColorsUtility.orderFoodColor,
       },
       {
         'title': 'TAKE AWAY',
-        'imagePath': '../../../assets/images/6157272.jpg',
+        'imagePath': './assets/images/6157272.jpg',
         'color': ColorsUtility.takeAwayColor,
       },
       {
         'title': 'RESERVE TABLE',
-        'imagePath': '../../../assets/images/38597.jpg',
+        'imagePath': './assets/images/38597.jpg',
         'color': ColorsUtility.reserveTableColor,
       },
       {
         'title': 'FOOD PLANNER',
-        'imagePath': '../../../assets/images/schedule_calendar_flat_style.jpg',
+        'imagePath': './assets/images/schedule_calendar_flat_style.jpg',
         'color': ColorsUtility.calenderColor,
       },
       {
         'title': 'CATERING',
-        'imagePath': '../../../assets/images/9555977.jpg',
+        'imagePath': './assets/images/9555977.jpg',
         'color': ColorsUtility.cateringColor,
       },
     ];

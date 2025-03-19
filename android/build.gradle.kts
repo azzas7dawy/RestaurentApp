@@ -20,8 +20,3 @@ tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
 
-dependencies {
-    classpath("dev.flutter:flutter-gradle-plugin")
-    id 'com.google.gms.google-services' version '4.4.2' apply false
-}
-
