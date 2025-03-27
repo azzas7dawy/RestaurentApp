@@ -14,3 +14,4 @@ final class SplashCubitProgress extends SplashState {
 final class SplashCubitAnimationComplete extends SplashState {}
 
 final class SplashCubitNavigateToHome extends SplashState {}
+
