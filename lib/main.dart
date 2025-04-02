@@ -5,11 +5,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:restrant_app/firebase_options.dart';
+import 'package:restrant_app/screens/auth/complete_user_data.dart';
 import 'package:restrant_app/screens/auth/logic/cubit/auth_cubit.dart';
-import 'package:restrant_app/screens/auth/verify_otp_screen.dart';
+// import 'package:restrant_app/screens/auth/verify_otp_screen.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/screens/auth/sign_up_screen.dart';
+import 'package:restrant_app/screens/home_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
 import 'package:restrant_app/screens/foodHomeScreen/food_home_screen.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
@@ -29,11 +32,12 @@ Future<void> main() async {
 
   runApp(
     DevicePreview(
-        enabled: !kReleaseMode,
-        builder: (context) => BlocProvider(
-              create: (context) => AuthCubit(),
-              child: const MyApp(),
-            )),
+      enabled: !kReleaseMode,
+      builder: (context) => BlocProvider(
+        create: (context) => AuthCubit(),
+        child: const MyApp(),
+      ),
+    ),
   );
 }
 
@@ -74,10 +78,14 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => const SignUpScreen(),
             );
-          case VerifyOtpScreen.id:
+          case HomeScreen.id:
             return MaterialPageRoute(
-              builder: (context) => VerifyOtpScreen(
-                verificationId: data,
+              builder: (context) => const HomeScreen(),
+            );
+          case CompleteUserDataScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => CompleteUserDataScreen(
+                user: data,
               ),
             );
           default:
