@@ -10,11 +10,23 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: TextButton(
-        onPressed: () {
-          context.read<AuthCubit>().signOut(context);
-        },
-        child: const Text('log out', style: TextStyle(color: Colors.white),),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton(
+            onPressed: () {
+              context.read<AuthCubit>().signOut(context);
+            },
+            child: const Text('log out', style: TextStyle(color: Colors.white),),
+          ),
+          const SizedBox(height: 20),
+          TextButton(
+            onPressed: () {
+              context.read<AuthCubit>().deleteAccount(context);
+            },
+            child: const Text('delete account', style: TextStyle(color: Colors.white),),
+          ),
+        ],
       ),
     );
   }
