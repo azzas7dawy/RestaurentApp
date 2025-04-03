@@ -159,76 +159,80 @@ class AuthCubit extends Cubit<AuthState> {
   // =================================================================================
   // google sign in
   Future<void> signInWithGoogle(BuildContext context) async {
-  emit(GoogleLoginLoading());
-  try {
-    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    emit(GoogleLoginLoading());
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
-    if (googleUser == null) {
-      emit(GoogleLoginFailed('Google sign in cancelled'));
-      return;
-    }
+      if (googleUser == null) {
+        emit(GoogleLoginFailed('Google sign in cancelled'));
+        return;
+      }
 
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
 
-    final UserCredential userCredential = await _auth.signInWithCredential(credential);
-    final User? user = userCredential.user;
+      final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+      final User? user = userCredential.user;
 
-    if (user != null) {
-      final userDoc = await _firestore.collection('users2').doc(user.uid).get();
-      final bool isProfileComplete = userDoc.exists 
-          ? (userDoc.data()?['isProfileComplete'] as bool?) ?? false 
-          : false;
+      if (user != null) {
+        final userDoc =
+            await _firestore.collection('users2').doc(user.uid).get();
+        final bool isProfileComplete = userDoc.exists
+            ? (userDoc.data()?['isProfileComplete'] as bool?) ?? false
+            : false;
 
-      if (isProfileComplete == false) {
-        if (context.mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CompleteUserDataScreen(
-                user: user,
-                isGoogleSignIn: true,
+        if (isProfileComplete == false) {
+          if (context.mounted) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CompleteUserDataScreen(
+                  user: user,
+                  isGoogleSignIn: true,
+                ),
               ),
-            ),
+            );
+          }
+        } else {
+          await _saveUserDataToFirestore(
+            userId: user.uid,
+            name: user.displayName ?? 'No Name',
+            email: user.email ?? 'No Email',
+            phone: '',
+            provider: 'google',
+            isProfileComplete: true,
           );
+
+          emit(GoogleLoginSuccess());
+          if (context.mounted) {
+            appSnackbar(
+              context,
+              text: 'Google sign in successful!',
+              backgroundColor: ColorsUtility.successSnackbarColor,
+            );
+            Navigator.pushReplacementNamed(context, HomeScreen.id);
+          }
         }
       } else {
-        await _saveUserDataToFirestore(
-          userId: user.uid,
-          name: user.displayName ?? 'No Name',
-          email: user.email ?? 'No Email',
-          phone: '',
-          provider: 'google',
-          isProfileComplete: true,
-        );
-
-        emit(GoogleLoginSuccess());
-        if (context.mounted) {
-          appSnackbar(
-            context,
-            text: 'Google sign in successful!',
-            backgroundColor: ColorsUtility.successSnackbarColor,
-          );
-          Navigator.pushReplacementNamed(context, HomeScreen.id);
-        }
+        emit(GoogleLoginFailed('User is null after sign in'));
       }
-    } else {
-      emit(GoogleLoginFailed('User is null after sign in'));
+    } catch (e) {
+      if (!context.mounted) return;
+      appSnackbar(
+        context,
+        text: 'Sign in failed',
+        backgroundColor: ColorsUtility.errorSnackbarColor,
+      );
+      log('google sign in failed: $e');
+      emit(GoogleLoginFailed(e.toString()));
     }
-  } catch (e) {
-    if (!context.mounted) return;
-    appSnackbar(
-      context,
-      text: 'Sign in failed',
-      backgroundColor: ColorsUtility.errorSnackbarColor,
-    );
-    log('google sign in failed: $e');
-    emit(GoogleLoginFailed(e.toString()));
   }
-}
+
   // =================================================================================
   // complete user prof
   Future<void> completeUserProfile({
@@ -295,7 +299,8 @@ class AuthCubit extends Cubit<AuthState> {
     }, SetOptions(merge: true));
   }
 
-  Future<Map<String, dynamic>?> _findUserByPhoneNumber(String phoneNumber) async {
+  Future<Map<String, dynamic>?> _findUserByPhoneNumber(
+      String phoneNumber) async {
     try {
       final querySnapshot = await _firestore
           .collection('users2')
@@ -376,4 +381,99 @@ class AuthCubit extends Cubit<AuthState> {
       }
     }
   }
+
+  // =================================================================================
+  // reset password
+  Future<void> resetPassword({
+    required String email,
+    required BuildContext context,
+  }) async {
+    emit(ResetPasswordLoading());
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      emit(ResetPasswordSuccess());
+      if (context.mounted) {
+        appSnackbar(
+          context,
+          text: 'Password reset email sent. Check your inbox.',
+          backgroundColor: ColorsUtility.successSnackbarColor,
+        );
+        Navigator.pop(context);
+      }
+    } on FirebaseAuthException catch (e) {
+      final errorMessage = _getResetPasswordErrorMessage(e);
+      emit(ResetPasswordFailed(errorMessage));
+      if (context.mounted) {
+        appSnackbar(
+          context,
+          text: errorMessage,
+          backgroundColor: ColorsUtility.errorSnackbarColor,
+        );
+      }
+    } catch (e) {
+      const errorMessage = 'An unexpected error occurred. Please try again.';
+      emit(ResetPasswordFailed(errorMessage));
+      if (context.mounted) {
+        appSnackbar(
+          context,
+          text: errorMessage,
+          backgroundColor: ColorsUtility.errorSnackbarColor,
+        );
+      }
+    }
+  }
+
+  String _getResetPasswordErrorMessage(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'user-not-found':
+        return 'No account found with this email.';
+      case 'invalid-email':
+        return 'The email address is invalid.';
+      case 'too-many-requests':
+        return 'Too many requests. Try again later.';
+      default:
+        return 'Password reset failed. Please try again.';
+    }
+  }
+
+  // =================================================================================
+  // delete account
+  Future<void> deleteAccount(BuildContext context) async {
+    emit(DeleteAccountLoading());
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        await _firestore.collection('users2').doc(user.uid).delete();
+        await user.delete();
+        emit(DeleteAccountSuccess());
+        if (context.mounted) {
+          appSnackbar(
+            context,
+            text: 'Account deleted successfully!',
+            backgroundColor: ColorsUtility.successSnackbarColor,
+          );
+          Navigator.pushReplacementNamed(context, LoginScreen.id);
+        }
+      }
+    } on FirebaseAuthException catch (e) {
+      emit(DeleteAccountFailed(e.toString()));
+      if (context.mounted) {
+        appSnackbar(
+          context,
+          text: 'Error deleting account: ${e.message}',
+          backgroundColor: ColorsUtility.errorSnackbarColor,
+        );
+      }
+    } catch (e) {
+      emit(DeleteAccountFailed(e.toString()));
+      if (context.mounted) {
+        appSnackbar(
+          context,
+          text: 'Error deleting account: $e',
+          backgroundColor: ColorsUtility.errorSnackbarColor,
+        );
+      }
+    }
+  }
+
 }

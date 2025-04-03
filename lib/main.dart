@@ -5,11 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:restrant_app/firebase_options.dart';
 import 'package:restrant_app/screens/auth/complete_user_data.dart';
+import 'package:restrant_app/screens/auth/forgot_password_screen.dart';
 import 'package:restrant_app/screens/auth/logic/cubit/auth_cubit.dart';
-// import 'package:restrant_app/screens/auth/verify_otp_screen.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/screens/auth/sign_up_screen.dart';
 import 'package:restrant_app/screens/home_screen.dart';
@@ -87,6 +86,10 @@ class MyApp extends StatelessWidget {
               builder: (context) => CompleteUserDataScreen(
                 user: data,
               ),
+            );
+          case ForgotPasswordScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => ForgotPasswordScreen(),
             );
           default:
             return MaterialPageRoute(builder: (context) => const SplashPage());

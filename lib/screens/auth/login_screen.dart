@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:restrant_app/screens/auth/forgot_password_screen.dart';
 import 'package:restrant_app/screens/auth/logic/cubit/auth_cubit.dart';
 import 'package:restrant_app/screens/foodHomeScreen/food_home_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     label: 'Email/Phone number',
                     keyboardType: TextInputType.text,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   AppTextField(
                     controller: _passwordController,
                     validator: _passwordValidator,
@@ -94,6 +94,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     obscureText: isVisible,
+                  ),
+                  const SizedBox(height: 10),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          ForgotPasswordScreen.id,
+                        );
+                      },
+                      child: const Text(
+                        'Forgot your password?',
+                        style: TextStyle(
+                          color: ColorsUtility.takeAwayColor,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

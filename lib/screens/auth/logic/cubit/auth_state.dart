@@ -57,3 +57,21 @@ final class ProfileUpdateFailed extends ProfileUpdateState {
   final String error;
   ProfileUpdateFailed(this.error);
 }
+
+
+final class ResetPasswordState extends AuthState {}
+final class ResetPasswordLoading extends ResetPasswordState {}
+final class ResetPasswordSuccess extends ResetPasswordState {}
+final class ResetPasswordFailed extends ResetPasswordState {
+  final String error;
+  ResetPasswordFailed(this.error);
+}
+
+final class DeleteAccountState extends AuthState {}
+final class DeleteAccountLoading extends DeleteAccountState {}
+final class DeleteAccountSuccess extends DeleteAccountState {}
+final class DeleteAccountFailed extends DeleteAccountState {
+  final String error;
+  DeleteAccountFailed(this.error);
+}
+
