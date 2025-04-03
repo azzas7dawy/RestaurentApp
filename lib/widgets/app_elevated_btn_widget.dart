@@ -6,10 +6,14 @@ class AppElevatedBtn extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.text,
+    this.child, 
+    this.isLoading = false,
   });
 
   final void Function()? onPressed;
   final String text;
+  final Widget? child;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {

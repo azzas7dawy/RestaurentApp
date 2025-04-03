@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
+// import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/screens/foodHomeScreen/service_card.dart';
+import 'package:restrant_app/screens/home_screen.dart';
 import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 
@@ -79,17 +81,21 @@ class FoodHomeScreen extends StatelessWidget {
                         if (!loggedIn) {
                           Navigator.pushNamed(context, LoginScreen.id);
                         } else {
-                            if (index == 0) {
-                              //navigator to order food
-                            } else if (index == 1) {
-                              //navigator to take away
-                            } else if (index == 2) {
-                              //navigator to reserve table
-                            } else if (index == 3) {
-                              //navigator to food planner
-                            } else if (index == 4) {
-                              //navigator to catering
-                            }
+                          // if (index == 0) {
+                          //   //navigator to order food
+                          // } else if (index == 1) {
+                          //   //navigator to take away
+                          // } else if (index == 2) {
+                          //   //navigator to reserve table
+                          // } else if (index == 3) {
+                          //   //navigator to food planner
+                          // } else if (index == 4) {
+                          //   //navigator to catering
+                          // }
+                          Navigator.pushNamed(
+                            context,
+                            HomeScreen.id,
+                          );
                         }
                       }
                     },
