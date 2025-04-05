@@ -17,22 +17,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       'title': 'Plan your weekly menu',
       'description':
           'You can order weekly meals, and we\'ll bring them straight to your door.',
-      'image1': '../../../assets/images/pexels-akbarattamimi-2104699.jpg',
-      'image2': '../../../assets/images/pexels-alteredsnaps-14536809.jpg',
+      'image1': 'assets/images/pexels-akbarattamimi-2104699.jpg',
+      'image2': 'assets/images/pexels-alteredsnaps-14536809.jpg',
     },
     {
       'title': 'Reserve a table',
       'description':
           'Tired of having to wait? Make a table reservation right away.',
-      'image1': '../../../assets/images/pexels-alteredsnaps-28449692.jpg',
-      'image2': '../../../assets/images/pexels-artofxx-325140257-28593083.jpg',
+      'image1': 'assets/images/pexels-alteredsnaps-28449692.jpg',
+      'image2': 'assets/images/pexels-artofxx-325140257-28593083.jpg',
     },
     {
       'title': 'Place catering Orders',
       'description': 'Place catering orders with us.',
-      'image1': '../../../assets/images/pexels-mikitayo-18252321.jpg',
+      'image1': 'assets/images/pexels-mikitayo-18252321.jpg',
       'image2':
-          '../../../assets/images/pexels-sylwester-ficek-154797634-14611857.jpg',
+          'assets/images/pexels-sylwester-ficek-154797634-14611857.jpg',
     },
   ];
 
