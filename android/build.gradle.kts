@@ -1,8 +1,13 @@
-allprojects {
-    //  ext.kotlin_version = '1.9.22'
+buildscript {
+    // ext.kotlin_version = '1.3.50'
     repositories {
         google()
-        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:4.1.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50")
+        classpath("com.google.gms:google-services:4.3.3")
     }
 }
 
@@ -21,8 +26,8 @@ tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
 
-dependencies {
-    classpath("dev.flutter:flutter-gradle-plugin")
-    id 'com.google.gms.google-services' version '4.4.2' apply false
-}
+// dependencies {
+//      id ("dev.flutter:flutter-gradle-plugin")
+//     id 'com.google.gms.google-services' 
+// }
 

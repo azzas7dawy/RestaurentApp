@@ -7,6 +7,7 @@ import 'package:restrant_app/firebase_options.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
 import 'package:restrant_app/screens/foodHomeScreen/food_home_screen.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
+import 'package:restrant_app/screens/trackOrder/track_order_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 
 Future<void> main() async {
@@ -49,11 +50,15 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => const FoodHomeScreen(),
             );
+                case OrderTrackingPage.id:
+            return MaterialPageRoute(
+              builder: (context) =>  OrderTrackingPage(),
+            );
           default:
             return MaterialPageRoute(builder: (context) => const SplashPage());
         }
       },
-      initialRoute: SplashPage.id,
+      initialRoute: OrderTrackingPage.id,
     );
   }
 }
