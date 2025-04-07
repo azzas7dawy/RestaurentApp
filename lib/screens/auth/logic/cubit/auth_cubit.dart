@@ -9,6 +9,7 @@ import 'package:meta/meta.dart';
 import 'package:restrant_app/screens/auth/complete_user_data.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/screens/home_screen.dart';
+import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
 
@@ -59,6 +60,14 @@ class AuthCubit extends Cubit<AuthState> {
           phone: phone,
           provider: 'email',
           isProfileComplete: true,
+        );
+
+        await PrefService.setLoggedIn(true);
+        await PrefService.saveUserData(
+          userId: userCredential.user!.uid,
+          name: name,
+          email: email,
+          phone: phone,
         );
 
         emit(SignupSuccess());
@@ -123,6 +132,13 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       if (userCredential.user != null) {
+        await PrefService.setLoggedIn(true);
+        await PrefService.saveUserData(
+          userId: userCredential.user!.uid,
+          name: userCredential.user!.displayName ?? '',
+          email: userCredential.user!.email ?? '',
+          phone: await _getUserPhone(userCredential.user!.uid),
+        );
         emit(LoginSuccess());
         if (context.mounted) {
           appSnackbar(
@@ -180,6 +196,13 @@ class AuthCubit extends Cubit<AuthState> {
       final User? user = userCredential.user;
 
       if (user != null) {
+        await PrefService.setLoggedIn(true);
+        await PrefService.saveUserData(
+          userId: user.uid,
+          name: user.displayName ?? '',
+          email: user.email ?? '',
+          phone: await _getUserPhone(user.uid),
+        );
         final userDoc =
             await _firestore.collection('users2').doc(user.uid).get();
         final bool isProfileComplete = userDoc.exists
@@ -299,6 +322,8 @@ class AuthCubit extends Cubit<AuthState> {
     }, SetOptions(merge: true));
   }
 
+  // ========================================================================================
+  // user phone
   Future<Map<String, dynamic>?> _findUserByPhoneNumber(
       String phoneNumber) async {
     try {
@@ -361,6 +386,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       await _auth.signOut();
       await _googleSignIn.signOut();
+      await PrefService.clearUserData();
       emit(LogoutSuccess());
       if (context.mounted) {
         appSnackbar(
@@ -476,4 +502,15 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  // ====================================================================================
+  // fetch user phone for shared pref
+  Future<String> _getUserPhone(String userId) async {
+    try {
+      final doc = await _firestore.collection('users2').doc(userId).get();
+      return doc.data()?['phone'] ?? '';
+    } catch (e) {
+      log('Error getting user phone: $e');
+      return '';
+    }
+  }
 }

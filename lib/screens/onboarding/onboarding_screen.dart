@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:restrant_app/screens/auth/sign_up_screen.dart';
+import 'package:restrant_app/screens/home_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_data.dart';
-import 'package:restrant_app/screens/foodHomeScreen/food_home_screen.dart';
+import 'package:restrant_app/services/pref_service.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -31,8 +33,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       'title': 'Place catering Orders',
       'description': 'Place catering orders with us.',
       'image1': 'assets/images/pexels-mikitayo-18252321.jpg',
-      'image2':
-          'assets/images/pexels-sylwester-ficek-154797634-14611857.jpg',
+      'image2': 'assets/images/pexels-sylwester-ficek-154797634-14611857.jpg',
     },
   ];
 
@@ -45,7 +46,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      Navigator.pushNamed(context, FoodHomeScreen.id);
+      _navigateBasedOnAuthStatus();
+    }
+  }
+
+  Future<void> _navigateBasedOnAuthStatus() async {
+    await PrefService.setOnboardingSeen(true);
+
+    if (PrefService.isLoggedIn) {
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, HomeScreen.id);
+      }
+    } else {
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, SignUpScreen.id);
+      }
     }
   }
 
@@ -68,8 +83,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             description: data['description']!,
             imagePath1: data['image1']!,
             imagePath2: data['image2']!,
-            onSkipPressed: () =>
-                Navigator.pushNamed(context, FoodHomeScreen.id),
+            onSkipPressed: () => Navigator.pushNamed(context, SignUpScreen.id),
             onForwardPressed: _goToNextPage,
           );
         },

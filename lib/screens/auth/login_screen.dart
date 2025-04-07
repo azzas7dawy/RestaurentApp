@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/screens/auth/forgot_password_screen.dart';
 import 'package:restrant_app/screens/auth/logic/cubit/auth_cubit.dart';
-import 'package:restrant_app/screens/foodHomeScreen/food_home_screen.dart';
+import 'package:restrant_app/screens/home_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_text_field.dart';
 import 'package:restrant_app/widgets/auth_template_widget.dart';
@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   context: context,
                 );
             if (context.mounted) {
-              Navigator.pushReplacementNamed(context, FoodHomeScreen.id);
+              Navigator.pushReplacementNamed(context, HomeScreen.id);
             }
           }
         },

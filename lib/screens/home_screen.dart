@@ -17,14 +17,20 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               context.read<AuthCubit>().signOut(context);
             },
-            child: const Text('log out', style: TextStyle(color: Colors.white),),
+            child: const Text(
+              'log out',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
           const SizedBox(height: 20),
           TextButton(
             onPressed: () {
               context.read<AuthCubit>().deleteAccount(context);
             },
-            child: const Text('delete account', style: TextStyle(color: Colors.white),),
+            child: const Text(
+              'delete account',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),

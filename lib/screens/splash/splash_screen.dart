@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restrant_app/screens/auth/login_screen.dart';
+import 'package:restrant_app/screens/home_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
 import 'package:restrant_app/screens/splash/logic/cubit/splash_cubit.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -14,7 +16,6 @@ class SplashPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => SplashCubit()..initialize(),
       child: Scaffold(
-        // backgroundColor: ColorsUtility.mainBackgroundColor,
         body: SafeArea(
           child: Center(
             child: Column(
@@ -28,7 +29,10 @@ class SplashPage extends StatelessWidget {
                     if (state is SplashCubitProgress) {
                       fadeValue = state.progress.clamp(0.0, 1.0);
                       scaleValue = 0.5 + (0.5 * state.progress);
-                    } else if (state is SplashCubitAnimationComplete || state is SplashCubitNavigateToHome) {
+                    } else if (state is SplashCubitAnimationComplete ||
+                        state is SplashCubitNavigateToHome ||
+                        state is SplashCubitNavigateToLogin ||
+                        state is SplashCubitNavigateToOnboarding) {
                       fadeValue = 1.0;
                       scaleValue = 1.0;
                     }
@@ -52,7 +56,10 @@ class SplashPage extends StatelessWidget {
                 const SizedBox(height: 50),
                 BlocBuilder<SplashCubit, SplashState>(
                   builder: (context, state) {
-                    if (state is SplashCubitAnimationComplete || state is SplashCubitNavigateToHome) {
+                    if (state is SplashCubitAnimationComplete ||
+                        state is SplashCubitNavigateToHome ||
+                        state is SplashCubitNavigateToLogin ||
+                        state is SplashCubitNavigateToOnboarding) {
                       return const CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation<Color>(
                             ColorsUtility.progressIndictorColor),
@@ -64,7 +71,18 @@ class SplashPage extends StatelessWidget {
                 BlocListener<SplashCubit, SplashState>(
                   listener: (context, state) {
                     if (state is SplashCubitNavigateToHome) {
-                      Navigator.pushReplacementNamed(context, OnboardingScreen.id);
+                      Navigator.pushReplacementNamed(context, HomeScreen.id);
+                    } else if (state is SplashCubitNavigateToLogin) {
+                      Navigator.pushReplacementNamed(context, LoginScreen.id);
+                    } else if (state is SplashCubitNavigateToOnboarding) {
+                      Navigator.pushReplacementNamed(
+                          context, OnboardingScreen.id);
+                    } else if (state is SplashCubitError) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(state.message)),
+                      );
+                      Navigator.pushReplacementNamed(
+                          context, OnboardingScreen.id);
                     }
                   },
                   child: const SizedBox.shrink(),

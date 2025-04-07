@@ -15,3 +15,12 @@ final class SplashCubitAnimationComplete extends SplashState {}
 
 final class SplashCubitNavigateToHome extends SplashState {}
 
+final class SplashCubitNavigateToLogin extends SplashState {}
+
+final class SplashCubitNavigateToOnboarding extends SplashState {}
+
+final class SplashCubitError extends SplashState {
+  final String message;
+
+  SplashCubitError(this.message);
+}

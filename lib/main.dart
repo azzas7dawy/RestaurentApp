@@ -13,7 +13,6 @@ import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/screens/auth/sign_up_screen.dart';
 import 'package:restrant_app/screens/home_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
-import 'package:restrant_app/screens/foodHomeScreen/food_home_screen.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
 import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -64,10 +63,6 @@ class MyApp extends StatelessWidget {
           case OnboardingScreen.id:
             return MaterialPageRoute(
               builder: (context) => const OnboardingScreen(),
-            );
-          case FoodHomeScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => const FoodHomeScreen(),
             );
           case LoginScreen.id:
             return MaterialPageRoute(
