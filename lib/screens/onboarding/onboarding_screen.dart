@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restrant_app/screens/auth/sign_up_screen.dart';
-import 'package:restrant_app/screens/home_screen.dart';
+import 'package:restrant_app/screens/customScreen/custom_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_data.dart';
 import 'package:restrant_app/services/pref_service.dart';
 
@@ -55,7 +55,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
     if (PrefService.isLoggedIn) {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, HomeScreen.id);
+        Navigator.pushReplacementNamed(context, CustomScreen.id);
       }
     } else {
       if (mounted) {
