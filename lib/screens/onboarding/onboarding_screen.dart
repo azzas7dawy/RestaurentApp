@@ -3,6 +3,7 @@ import 'package:restrant_app/screens/auth/sign_up_screen.dart';
 import 'package:restrant_app/screens/customScreen/custom_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_data.dart';
 import 'package:restrant_app/services/pref_service.dart';
+import 'package:restrant_app/utils/images_utility.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -19,21 +20,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       'title': 'Plan your weekly menu',
       'description':
           'You can order weekly meals, and we\'ll bring them straight to your door.',
-      'image1': 'assets/images/pexels-akbarattamimi-2104699.jpg',
-      'image2': 'assets/images/pexels-alteredsnaps-14536809.jpg',
+      'image1': ImagesUtility.onboardingImage1,
+      'image2': ImagesUtility.onboardingImage2,
     },
     {
       'title': 'Reserve a table',
       'description':
           'Tired of having to wait? Make a table reservation right away.',
-      'image1': 'assets/images/pexels-alteredsnaps-28449692.jpg',
-      'image2': 'assets/images/pexels-artofxx-325140257-28593083.jpg',
+      'image1': ImagesUtility.onboardingImage3,
+      'image2': ImagesUtility.onboardingImage4,
     },
     {
       'title': 'Place catering Orders',
       'description': 'Place catering orders with us.',
-      'image1': 'assets/images/pexels-mikitayo-18252321.jpg',
-      'image2': 'assets/images/pexels-sylwester-ficek-154797634-14611857.jpg',
+      'image1': ImagesUtility.onboardingImage5,
+      'image2': ImagesUtility.onboardingImage6,
     },
   ];
 
@@ -90,8 +91,4 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
     );
   }
-
-  // void onLogin() {
-  //   PrefService.isOnboardingSeen = true;
-  //   Navigator.pushNamed(context, FoodHomeScreen.id);}
 }

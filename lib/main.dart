@@ -13,7 +13,9 @@ import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/screens/auth/sign_up_screen.dart';
 import 'package:restrant_app/screens/customScreen/custom_screen.dart';
 import 'package:restrant_app/screens/homeScreen/home_screen.dart';
+import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
+import 'package:restrant_app/screens/specialPlatesScreen/special_plates_screen.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
 import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -92,6 +94,18 @@ class MyApp extends StatelessWidget {
           case HomeScreen.id:
             return MaterialPageRoute(
               builder: (context) => const HomeScreen(),
+            );
+          case SpecialPlatesScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => SpecialPlatesScreen(
+                items: data,
+              ),
+            );
+          case MealDetailsScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => MealDetailsScreen(
+                meal: data,
+              ),
             );
           default:
             return MaterialPageRoute(builder: (context) => const SplashPage());
