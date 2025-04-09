@@ -11,8 +11,11 @@ import 'package:restrant_app/screens/auth/forgot_password_screen.dart';
 import 'package:restrant_app/screens/auth/logic/cubit/auth_cubit.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/screens/auth/sign_up_screen.dart';
-import 'package:restrant_app/screens/home_screen.dart';
+import 'package:restrant_app/screens/customScreen/custom_screen.dart';
+import 'package:restrant_app/screens/homeScreen/home_screen.dart';
+import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
+import 'package:restrant_app/screens/specialPlatesScreen/special_plates_screen.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
 import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -51,6 +54,8 @@ class MyApp extends StatelessWidget {
       builder: DevicePreview.appBuilder,
       title: 'Flutter Demo',
       theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+            backgroundColor: ColorsUtility.mainBackgroundColor),
         scaffoldBackgroundColor: ColorsUtility.mainBackgroundColor,
         fontFamily: 'Raleway',
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -72,9 +77,9 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => const SignUpScreen(),
             );
-          case HomeScreen.id:
+          case CustomScreen.id:
             return MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
+              builder: (context) => const CustomScreen(),
             );
           case CompleteUserDataScreen.id:
             return MaterialPageRoute(
@@ -85,6 +90,22 @@ class MyApp extends StatelessWidget {
           case ForgotPasswordScreen.id:
             return MaterialPageRoute(
               builder: (context) => ForgotPasswordScreen(),
+            );
+          case HomeScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => const HomeScreen(),
+            );
+          case SpecialPlatesScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => SpecialPlatesScreen(
+                items: data,
+              ),
+            );
+          case MealDetailsScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => MealDetailsScreen(
+                meal: data,
+              ),
             );
           default:
             return MaterialPageRoute(builder: (context) => const SplashPage());

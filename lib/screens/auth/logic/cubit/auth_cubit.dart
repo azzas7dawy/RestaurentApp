@@ -8,7 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
 import 'package:restrant_app/screens/auth/complete_user_data.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
-import 'package:restrant_app/screens/home_screen.dart';
+import 'package:restrant_app/screens/customScreen/custom_screen.dart';
 import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
@@ -77,7 +77,7 @@ class AuthCubit extends Cubit<AuthState> {
             text: 'Registration successful!',
             backgroundColor: ColorsUtility.successSnackbarColor,
           );
-          Navigator.pushReplacementNamed(context, HomeScreen.id);
+          Navigator.pushReplacementNamed(context, CustomScreen.id);
         }
       }
     } on FirebaseAuthException catch (e) {
@@ -146,7 +146,7 @@ class AuthCubit extends Cubit<AuthState> {
             text: 'Login successful!',
             backgroundColor: ColorsUtility.successSnackbarColor,
           );
-          Navigator.pushReplacementNamed(context, HomeScreen.id);
+          Navigator.pushReplacementNamed(context, CustomScreen.id);
         }
       }
     } on FirebaseAuthException catch (e) {
@@ -238,7 +238,7 @@ class AuthCubit extends Cubit<AuthState> {
               text: 'Google sign in successful!',
               backgroundColor: ColorsUtility.successSnackbarColor,
             );
-            Navigator.pushReplacementNamed(context, HomeScreen.id);
+            Navigator.pushReplacementNamed(context, CustomScreen.id);
           }
         }
       } else {
@@ -287,7 +287,7 @@ class AuthCubit extends Cubit<AuthState> {
           text: 'Profile completed successfully!',
           backgroundColor: ColorsUtility.successSnackbarColor,
         );
-        Navigator.pushReplacementNamed(context, HomeScreen.id);
+        Navigator.pushReplacementNamed(context, CustomScreen.id);
       }
     } catch (e) {
       emit(ProfileUpdateFailed(e.toString()));

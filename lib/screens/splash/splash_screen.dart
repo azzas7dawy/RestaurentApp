@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
-import 'package:restrant_app/screens/home_screen.dart';
+import 'package:restrant_app/screens/customScreen/custom_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
 import 'package:restrant_app/screens/splash/logic/cubit/splash_cubit.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -71,7 +71,7 @@ class SplashPage extends StatelessWidget {
                 BlocListener<SplashCubit, SplashState>(
                   listener: (context, state) {
                     if (state is SplashCubitNavigateToHome) {
-                      Navigator.pushReplacementNamed(context, HomeScreen.id);
+                      Navigator.pushReplacementNamed(context, CustomScreen.id);
                     } else if (state is SplashCubitNavigateToLogin) {
                       Navigator.pushReplacementNamed(context, LoginScreen.id);
                     } else if (state is SplashCubitNavigateToOnboarding) {
