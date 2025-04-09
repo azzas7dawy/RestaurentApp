@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restrant_app/screens/categoriesScreens/notify_success.dart';
 
 void showConfirmationSheet(BuildContext context) {
   showModalBottomSheet(
@@ -83,7 +84,7 @@ class ConfirmationSheet extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                
+                Navigator.push(context, MaterialPageRoute(builder: (context) => OrderConfirmationScreen(orderId: 'ID4578',)));
                 },
                 child: Text("PROCEED"),
               ),

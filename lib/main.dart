@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:restrant_app/firebase_options.dart';
 import 'package:restrant_app/screens/categoriesScreens/categroy_one.dart';
+import 'package:restrant_app/screens/categoriesScreens/notify_success.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
 import 'package:restrant_app/screens/foodHomeScreen/food_home_screen.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
@@ -64,10 +65,10 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) =>  OnboardingScreen(),
             );
-            //  case CateringBottomSheet.id:
-            // return MaterialPageRoute(
-            //   builder: (context) =>  CateringBottomSheet(),
-            // );
+             case OrderConfirmationScreen.id:
+            return MaterialPageRoute(
+              builder: (context) =>  OrderConfirmationScreen(orderId: 'ID4578',),
+            );
           default:
             return MaterialPageRoute(builder: (context) => const SplashPage());
         }
