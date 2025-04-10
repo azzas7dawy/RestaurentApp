@@ -1,5 +1,7 @@
 // widgets/custom_drawer.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restrant_app/screens/auth/logic/cubit/auth_cubit.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 
@@ -78,6 +80,17 @@ class AppDrawer extends StatelessWidget {
                     title: const Text("About / Help",
                         style: TextStyle(color: ColorsUtility.takeAwayColor)),
                     onTap: () => Navigator.pop(context),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.logout_outlined,
+                        color: ColorsUtility.takeAwayColor),
+                    title: const Text(
+                      "Log Out",
+                      style: TextStyle(color: ColorsUtility.takeAwayColor),
+                    ),
+                    onTap: () {
+                      context.read<AuthCubit>().signOut(context);
+                    },
                   ),
                 ],
               ),
