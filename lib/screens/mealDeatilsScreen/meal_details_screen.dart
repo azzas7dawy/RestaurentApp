@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 
@@ -10,6 +11,7 @@ class MealDetailsScreen extends StatelessWidget {
   });
   final Map<String, dynamic> meal;
   static const String id = 'MealDetailsScreen';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,7 +153,33 @@ class MealDetailsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Center(
-              child: AppElevatedBtn(onPressed: () {}, text: 'Add To Orders'),
+              child: AppElevatedBtn(
+                onPressed: meal['is_available']
+                    ? () {
+                        final mealWithQuantity =
+                            Map<String, dynamic>.from(meal);
+                        mealWithQuantity['quantity'] = 1;
+                        final currentOrders = List<Map<String, dynamic>>.from(
+                            OrdersScreen.allOrdersMeals);
+
+                        final existingIndex = currentOrders.indexWhere(
+                          (m) => m['title'] == meal['title'],
+                        );
+                        if (existingIndex != -1) {
+                          currentOrders[existingIndex]['quantity'] += 1;
+                        } else {
+                          currentOrders.add(mealWithQuantity);
+                        }
+                        OrdersScreen.allOrdersMeals = currentOrders;
+                        Navigator.pushNamed(
+                          context,
+                          OrdersScreen.id,
+                          arguments: currentOrders,
+                        );
+                      }
+                    : null,
+                text: 'Add To Orders',
+              ),
             ),
           ],
         ),
