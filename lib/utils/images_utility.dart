@@ -18,4 +18,6 @@ class ImagesUtility {
       'assets/images/pexels-mikitayo-18252321.jpg';
   static const String onboardingImage6 =
       'assets/images/pexels-sylwester-ficek-154797634-14611857.jpg';
+  static const String reserveTableImage =
+      'assets/images/istockphoto-1018141890-612x612.jpg';
 }

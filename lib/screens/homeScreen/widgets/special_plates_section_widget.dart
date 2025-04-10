@@ -39,7 +39,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final screenHeight = MediaQuery.sizeOf(context).height;
-    final cardWidth = screenWidth * 0.5;
+    final cardWidth = screenWidth * 0.4;
     final cardHeight = screenHeight * 0.32;
 
     return FutureBuilder<List<Map<String, dynamic>>>(
