@@ -57,6 +57,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.1"
+<<<<<<< HEAD
   crypto:
     dependency: transitive
     description:
@@ -65,6 +66,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.6"
+=======
+>>>>>>> master
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -365,6 +368,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.16.0"
+<<<<<<< HEAD
   mgrs_dart:
     dependency: transitive
     description:
@@ -373,6 +377,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+=======
+>>>>>>> master
   nested:
     dependency: transitive
     description:
@@ -538,6 +544,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.1"
+<<<<<<< HEAD
   sprintf:
     dependency: transitive
     description:
@@ -546,6 +553,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+=======
+>>>>>>> master
   stack_trace:
     dependency: transitive
     description:
