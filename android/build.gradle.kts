@@ -1,19 +1,25 @@
-allprojects {
-    //  ext.kotlin_version = '1.9.22'
+buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:4.1.0")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50")
-        classpath("com.google.gms:google-services:4.3.3")
-    }
-    dependencies {
-        
+        classpath("com.android.tools.build:gradle:8.7.0")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.23")
-        // classpath("dev.flutter:flutter-gradle-plugin:1.0.0") // استخدم نسخة flutter المناسبة
-        classpath("com.google.gms:google-services:4.4.1")
+        classpath("com.google.gms:google-services:4.4.1")  // تأكد من تحديد النسخة بشكل موحد
+    }
+}
+
+plugins {
+    id("com.android.application") version "8.7.0" apply false
+    id("org.jetbrains.kotlin.android") version "1.9.23" apply false
+    id("com.google.gms.google-services") version "4.3.15" apply false// استخدام نفس النسخة
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
     }
 }
 
@@ -25,16 +31,6 @@ subprojects {
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
 
-subprojects {
-    project.evaluationDependsOn(":app")
-}
-
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
-
-dependencies {
-    classpath("dev.flutter:flutter-gradle-plugin")
-    id 'com.google.gms.google-services' version '4.4.2' apply false
-}
-

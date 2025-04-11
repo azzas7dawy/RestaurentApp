@@ -89,21 +89,15 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                   markers: [
                     Marker(
                       point: restaurantLocation,
-                      width: 40,
-                      height: 40,
-                      child: Icon(Icons.restaurant, color: Colors.red, size: 30),
+                      builder: (context) => Icon(Icons.restaurant, color: Colors.red, size: 30),
                     ),
                     Marker(
                       point: userLocation,
-                      width: 40,
-                      height: 40,
-                      child: Icon(Icons.home, color: Colors.blue, size: 30),
+                      builder: (context) => Icon(Icons.home, color: Colors.blue, size: 30),
                     ),
                     Marker(
                       point: driverLocation!,
-                      width: 40,
-                      height: 40,
-                      child: Icon(Icons.delivery_dining, color: Colors.green, size: 30),
+                      builder: (context) => Icon(Icons.delivery_dining, color: Colors.green, size: 30),
                     ),
                   ],
                 ),
