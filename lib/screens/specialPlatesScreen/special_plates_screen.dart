@@ -14,11 +14,11 @@ class SpecialPlatesScreen extends StatelessWidget {
         title: const Text(
           'All Special Plates',
           style: TextStyle(
-            color: ColorsUtility.textFieldLabelColor,
+            color: ColorsUtility.takeAwayColor,
           ),
         ),
         iconTheme: const IconThemeData(
-          color: ColorsUtility.textFieldLabelColor,
+          color: ColorsUtility.takeAwayColor,
         ),
       ),
       body: ListView.builder(

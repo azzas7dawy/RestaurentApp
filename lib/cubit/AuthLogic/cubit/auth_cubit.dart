@@ -34,7 +34,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(SignupLoading());
     try {
       final phoneQuery = await _firestore
-          .collection('users')
+          .collection('users2')
           .where('phone', isEqualTo: phone)
           .limit(1)
           .get();

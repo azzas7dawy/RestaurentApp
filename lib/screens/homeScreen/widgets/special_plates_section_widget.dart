@@ -193,12 +193,29 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.favorite_border,
-                                    color: ColorsUtility.progressIndictorColor,
-                                  ),
-                                  onPressed: () {},
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.favorite_border,
+                                        color:
+                                            ColorsUtility.progressIndictorColor,
+                                      ),
+                                      onPressed: () {
+                                        // Handle favorite logic
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.add_circle_outline,
+                                        color:
+                                            ColorsUtility.progressIndictorColor,
+                                      ),
+                                      onPressed: () {
+                                        // Handle add to cart logic
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
