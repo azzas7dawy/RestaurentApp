@@ -46,6 +46,8 @@ dependencies:
   carousel_slider: ^5.0.0
   animated_text_kit: ^4.2.3
   flutter_rating_bar: ^4.0.1
+  flutter_paypal_checkout: ^1.0.1
+  http: ^0.13.6
 
 
 dev_dependencies:
