@@ -19,12 +19,24 @@ class MealDetailsScreen extends StatelessWidget {
         title: Text(
           meal['title'] ?? 'Unknown',
           style: const TextStyle(
-            color: ColorsUtility.textFieldLabelColor,
+            color: ColorsUtility.takeAwayColor,
           ),
         ),
         iconTheme: const IconThemeData(
-          color: ColorsUtility.textFieldLabelColor,
+          color: ColorsUtility.takeAwayColor,
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.favorite_border,
+              color: ColorsUtility.takeAwayColor,
+              size: 30,
+            ),
+            onPressed: () {
+              // Handle favorite logic
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -38,14 +50,14 @@ class MealDetailsScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             const SizedBox(height: 16),
-            Text(
-              meal['title'],
-              style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: ColorsUtility.takeAwayColor),
-            ),
-            const SizedBox(height: 8),
+            // Text(
+            //   meal['title'],
+            //   style: const TextStyle(
+            //       fontSize: 24,
+            //       fontWeight: FontWeight.bold,
+            //       color: ColorsUtility.takeAwayColor),
+            // ),
+            // const SizedBox(height: 8),
             Row(
               children: [
                 Chip(

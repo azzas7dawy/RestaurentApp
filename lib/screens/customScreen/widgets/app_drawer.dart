@@ -1,7 +1,7 @@
 // widgets/custom_drawer.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restrant_app/screens/auth/logic/cubit/auth_cubit.dart';
+import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 

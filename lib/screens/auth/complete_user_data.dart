@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:restrant_app/screens/auth/logic/cubit/auth_cubit.dart';
+import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 import 'package:restrant_app/widgets/app_text_field.dart';
@@ -68,11 +68,14 @@ class _CompleteUserDataScreenState extends State<CompleteUserDataScreen> {
                   children: [
                     const Text(
                       'Please provide the following details:',
-                      style: TextStyle(fontSize: 16, color: ColorsUtility.textFieldLabelColor),
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: ColorsUtility.textFieldLabelColor),
                     ),
                     const SizedBox(height: 30),
-            
-                    if (widget.isGoogleSignIn && (widget.user.displayName == null || widget.user.displayName!.isEmpty))
+                    if (widget.isGoogleSignIn &&
+                        (widget.user.displayName == null ||
+                            widget.user.displayName!.isEmpty))
                       Column(
                         children: [
                           AppTextField(
@@ -84,14 +87,12 @@ class _CompleteUserDataScreenState extends State<CompleteUserDataScreen> {
                           const SizedBox(height: 20),
                         ],
                       ),
-            
                     AppTextField(
                       controller: _phoneController,
                       label: 'Phone Number',
                       keyboardType: TextInputType.phone,
                       validator: _validatePhone,
                     ),
-            
                     const SizedBox(height: 40),
                     BlocBuilder<AuthCubit, AuthState>(
                       builder: (context, state) {
@@ -121,12 +122,12 @@ class _CompleteUserDataScreenState extends State<CompleteUserDataScreen> {
     final phone = _phoneController.text.trim();
 
     context.read<AuthCubit>().completeUserProfile(
-      user: widget.user,
-      name: name,
-      phone: phone,
-      isGoogleSignIn: widget.isGoogleSignIn,
-      context: context,
-    );
+          user: widget.user,
+          name: name,
+          phone: phone,
+          isGoogleSignIn: widget.isGoogleSignIn,
+          context: context,
+        );
   }
 
   String? _validateName(String? value) {
