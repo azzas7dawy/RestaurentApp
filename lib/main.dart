@@ -1,17 +1,22 @@
 import 'dart:developer';
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
+import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
+import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/firebase_options.dart';
 import 'package:restrant_app/screens/auth/complete_user_data.dart';
 import 'package:restrant_app/screens/auth/forgot_password_screen.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/screens/auth/sign_up_screen.dart';
 import 'package:restrant_app/screens/customScreen/custom_screen.dart';
+import 'package:restrant_app/screens/favoritesScreen/favorites_screen.dart';
 import 'package:restrant_app/screens/homeScreen/home_screen.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
@@ -36,8 +41,24 @@ Future<void> main() async {
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
-      builder: (context) => BlocProvider(
-        create: (context) => AuthCubit(),
+      builder: (context) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => AuthCubit(),
+          ),
+          BlocProvider(
+            create: (context) => OrdersCubit(
+              firestore: FirebaseFirestore.instance,
+              userId: FirebaseAuth.instance.currentUser?.uid ?? '',
+            ),
+          ),
+          BlocProvider(
+            create: (context) => FavoritesCubit(
+              firestore: FirebaseFirestore.instance,
+              userId: FirebaseAuth.instance.currentUser?.uid ?? '',
+            ),
+          ),
+        ],
         child: const MyApp(),
       ),
     ),
@@ -81,7 +102,7 @@ class MyApp extends StatelessWidget {
             );
           case CustomScreen.id:
             return MaterialPageRoute(
-              builder: (context) => const CustomScreen(),
+              builder: (context) => CustomScreen(),
             );
           case CompleteUserDataScreen.id:
             return MaterialPageRoute(
@@ -95,7 +116,7 @@ class MyApp extends StatelessWidget {
             );
           case HomeScreen.id:
             return MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
+              builder: (context) => HomeScreen(),
             );
           case SpecialPlatesScreen.id:
             return MaterialPageRoute(
@@ -111,13 +132,15 @@ class MyApp extends StatelessWidget {
             );
           case OrdersScreen.id:
             return MaterialPageRoute(
-              builder: (context) => OrdersScreen(
-                orderedMeals: data,
-              ),
+              builder: (context) => const OrdersScreen(),
             );
           case ReserveTableScreen.id:
             return MaterialPageRoute(
               builder: (context) => const ReserveTableScreen(),
+            );
+          case FavoritesScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => const FavoritesScreen(),
             );
           default:
             return MaterialPageRoute(builder: (context) => const SplashPage());

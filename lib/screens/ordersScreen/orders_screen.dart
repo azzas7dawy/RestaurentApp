@@ -1,62 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:restrant_app/widgets/app_confirmation_dialog.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
+import 'package:restrant_app/widgets/app_snackbar.dart';
 
-class OrdersScreen extends StatefulWidget {
-  const OrdersScreen({super.key, this.orderedMeals});
-  final List<Map<String, dynamic>>? orderedMeals;
+class OrdersScreen extends StatelessWidget {
+  const OrdersScreen({super.key});
   static const String id = 'OrdersScreen';
-
-  static List<Map<String, dynamic>> allOrdersMeals = [];
-
-  @override
-  State<OrdersScreen> createState() => _OrdersScreenState();
-}
-
-class _OrdersScreenState extends State<OrdersScreen> {
-  @override
-  void initState() {
-    super.initState();
-    // تحديث القائمة فقط إذا تم تمرير وجبات جديدة
-    if (widget.orderedMeals != null) {
-      OrdersScreen.allOrdersMeals = List.from(widget.orderedMeals!);
-    }
-  }
-
-  void _incrementQuantity(int index) {
-    setState(() {
-      OrdersScreen.allOrdersMeals[index]['quantity'] =
-          (OrdersScreen.allOrdersMeals[index]['quantity'] ?? 1) + 1;
-    });
-  }
-
-  void _decrementQuantity(int index) {
-    setState(() {
-      final currentQuantity =
-          OrdersScreen.allOrdersMeals[index]['quantity'] ?? 1;
-      if (currentQuantity > 1) {
-        OrdersScreen.allOrdersMeals[index]['quantity'] = currentQuantity - 1;
-      }
-    });
-  }
-
-  void _removeMeal(int index) {
-    setState(() {
-      OrdersScreen.allOrdersMeals.removeAt(index);
-    });
-  }
-
-  double _calculateTotalPrice() {
-    double total = 0;
-    for (var meal in OrdersScreen.allOrdersMeals) {
-      final price = meal['price'] is int
-          ? (meal['price'] as int).toDouble()
-          : meal['price'] as double;
-      final quantity = meal['quantity'] ?? 1;
-      total += price * quantity;
-    }
-    return total;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,147 +16,197 @@ class _OrdersScreenState extends State<OrdersScreen> {
       appBar: AppBar(
         title: const Text(
           'Your Orders',
-          style: TextStyle(color: ColorsUtility.textFieldLabelColor),
+          style: TextStyle(color: ColorsUtility.takeAwayColor),
         ),
         iconTheme: const IconThemeData(
-          color: ColorsUtility.textFieldLabelColor,
+          color: ColorsUtility.takeAwayColor,
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: OrdersScreen.allOrdersMeals.isEmpty
-                ? const Center(
-                    child: Text('No meals added to your order yet'),
-                  )
-                : ListView.builder(
-                    itemCount: OrdersScreen.allOrdersMeals.length,
-                    itemBuilder: (context, index) {
-                      final meal = OrdersScreen.allOrdersMeals[index];
-                      final quantity = meal['quantity'] ?? 1;
+      body: BlocConsumer<OrdersCubit, OrdersState>(
+        listener: (context, state) {
+          if (state is OrdersSubmissionSuccess) {
+            appSnackbar(
+              context,
+              text: 'Order submitted successfully',
+              backgroundColor: ColorsUtility.successSnackbarColor,
+            );
+          }
+          if (state is OrdersSubmissionError) {
+            appSnackbar(
+              context,
+              text: state.errorMessage,
+              backgroundColor: ColorsUtility.errorSnackbarColor,
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is OrdersLoading) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: ColorsUtility.progressIndictorColor,
+              ),
+            );
+          }
 
-                      return Card(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
+          final cubit = context.read<OrdersCubit>();
+          final meals = cubit.meals;
+
+          return Column(
+            children: [
+              Expanded(
+                child: meals.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'No meals added yet',
+                          style: TextStyle(
+                            color: ColorsUtility.progressIndictorColor,
+                          ),
                         ),
-                        color: ColorsUtility.elevatedBtnColor,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.network(
-                                meal['image'],
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.cover,
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      meal['title'],
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: ColorsUtility.takeAwayColor,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      '${meal['price']} EGP',
-                                      style: const TextStyle(
-                                        color:
-                                            ColorsUtility.progressIndictorColor,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Row(
+                      )
+                    : ListView.builder(
+                        itemCount: meals.length,
+                        itemBuilder: (context, index) {
+                          final meal = meals[index];
+                          final quantity = meal['quantity'] ?? 1;
+
+                          return Card(
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            color: ColorsUtility.elevatedBtnColor,
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Image.network(
+                                    meal['image'],
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        IconButton(
-                                          onPressed: () =>
-                                              _decrementQuantity(index),
-                                          icon: const Icon(Icons.remove),
-                                          iconSize: 20,
-                                          color: ColorsUtility
-                                              .progressIndictorColor,
-                                        ),
                                         Text(
-                                          '$quantity',
+                                          meal['title'],
                                           style: const TextStyle(
                                             fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: ColorsUtility.takeAwayColor,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          '${meal['price']} EGP',
+                                          style: const TextStyle(
                                             color: ColorsUtility
                                                 .progressIndictorColor,
                                           ),
                                         ),
-                                        IconButton(
-                                          onPressed: () =>
-                                              _incrementQuantity(index),
-                                          icon: const Icon(Icons.add),
-                                          iconSize: 20,
-                                          color: ColorsUtility
-                                              .progressIndictorColor,
-                                        ),
-                                        const Spacer(),
-                                        IconButton(
-                                          onPressed: () => _removeMeal(index),
-                                          icon: const Icon(Icons.delete),
-                                          color:
-                                              ColorsUtility.errorSnackbarColor,
+                                        const SizedBox(height: 8),
+                                        Row(
+                                          children: [
+                                            IconButton(
+                                              onPressed: () => cubit
+                                                  .decrementQuantity(index),
+                                              icon: const Icon(Icons.remove),
+                                              iconSize: 20,
+                                              color: ColorsUtility
+                                                  .progressIndictorColor,
+                                            ),
+                                            Text(
+                                              '$quantity',
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                color: ColorsUtility
+                                                    .progressIndictorColor,
+                                              ),
+                                            ),
+                                            IconButton(
+                                              onPressed: () => cubit
+                                                  .incrementQuantity(index),
+                                              icon: const Icon(Icons.add),
+                                              iconSize: 20,
+                                              color: ColorsUtility
+                                                  .progressIndictorColor,
+                                            ),
+                                            const Spacer(),
+                                            IconButton(
+                                              onPressed: () =>
+                                                  _showDeleteConfirmationDialog(
+                                                      context, index),
+                                              icon: const Icon(Icons.delete),
+                                              color: ColorsUtility
+                                                  .errorSnackbarColor,
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-          ),
-          if (OrdersScreen.allOrdersMeals.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Total Price:',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: ColorsUtility.progressIndictorColor,
-                        ),
+                            ),
+                          );
+                        },
                       ),
-                      Text(
-                        '${_calculateTotalPrice().toStringAsFixed(2)} EGP',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: ColorsUtility.progressIndictorColor,
-                        ),
+              ),
+              if (meals.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Total Price:',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: ColorsUtility.progressIndictorColor,
+                            ),
+                          ),
+                          Text(
+                            '${cubit.calculateTotal().toStringAsFixed(2)} EGP',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: ColorsUtility.progressIndictorColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      AppElevatedBtn(
+                        onPressed: () => cubit.submitOrder(),
+                        text: 'Proceed to Payment',
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  AppElevatedBtn(
-                    onPressed: () {
-                      // logic
-                    },
-                    text: 'Proceed to Payment',
-                  ),
-                ],
-              ),
-            ),
-        ],
+                )
+            ],
+          );
+        },
       ),
+    );
+  }
+
+  Future<void> _showDeleteConfirmationDialog(
+      BuildContext context, int index) async {
+    await CustomConfirmationDialog.show(
+      context: context,
+      title: 'Confirm Removal',
+      message: 'Are you sure you want to remove this meal?',
+      confirmText: 'Remove',
+      onConfirm: () {
+        context.read<OrdersCubit>().removeMeal(index);
+      },
     );
   }
 }
