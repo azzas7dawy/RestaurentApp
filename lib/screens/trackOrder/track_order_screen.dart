@@ -76,8 +76,8 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
         children: [
           FlutterMap(
             options: MapOptions(
-              center: driverLocation ?? restaurantLocation,
-              zoom: 14.0,
+              initialCenter: driverLocation ?? restaurantLocation,
+              initialZoom: 14.0,
             ),
             children: [
               TileLayer(
@@ -85,22 +85,29 @@ class _OrderTrackingPageState extends State<OrderTrackingPage> {
                 subdomains: ['a', 'b', 'c'],
               ),
               if (driverLocation != null)
-                MarkerLayer(
-                  markers: [
-                    Marker(
-                      point: restaurantLocation,
-                      builder: (context) => Icon(Icons.restaurant, color: Colors.red, size: 30),
-                    ),
-                    Marker(
-                      point: userLocation,
-                      builder: (context) => Icon(Icons.home, color: Colors.blue, size: 30),
-                    ),
-                    Marker(
-                      point: driverLocation!,
-                      builder: (context) => Icon(Icons.delivery_dining, color: Colors.green, size: 30),
-                    ),
-                  ],
-                ),
+
+            MarkerLayer(
+  markers: [
+    Marker(
+      width: 40,
+      height: 40,
+      point: restaurantLocation,
+      child: Icon(Icons.restaurant, color: Colors.red, size: 30),
+    ),
+    Marker(
+      width: 40,
+      height: 40,
+      point: userLocation,
+      child: Icon(Icons.home, color: Colors.blue, size: 30),
+    ),
+    Marker(
+      width: 40,
+      height: 40,
+      point: driverLocation!,
+      child: Icon(Icons.delivery_dining, color: Colors.green, size: 30),
+    ),
+  ],
+)
             ],
           ),
           _buildOrderDetails(),
