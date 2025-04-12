@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
+import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
+import 'package:restrant_app/widgets/app_snackbar.dart';
 
 class MealDetailsScreen extends StatelessWidget {
   const MealDetailsScreen({
     super.key,
     required this.meal,
   });
+
   final Map<String, dynamic> meal;
   static const String id = 'MealDetailsScreen';
 
@@ -26,14 +31,34 @@ class MealDetailsScreen extends StatelessWidget {
           color: ColorsUtility.takeAwayColor,
         ),
         actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.favorite_border,
-              color: ColorsUtility.takeAwayColor,
-              size: 30,
-            ),
-            onPressed: () {
-              // Handle favorite logic
+          BlocBuilder<FavoritesCubit, FavoritesState>(
+            builder: (context, state) {
+              final isFavorite = state is FavoritesLoaded
+                  ? state.favorites.any((fav) => fav['title'] == meal['title'])
+                  : false;
+              return IconButton(
+                icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: ColorsUtility.progressIndictorColor),
+                onPressed: () {
+                  if (isFavorite) {
+                    context
+                        .read<FavoritesCubit>()
+                        .removeFromFavorites(meal['title']);
+                    appSnackbar(
+                      context,
+                      text: '${meal['title']} removed from favorites',
+                      backgroundColor: ColorsUtility.successSnackbarColor,
+                    );
+                  } else {
+                    context.read<FavoritesCubit>().addToFavorites(meal);
+                    appSnackbar(
+                      context,
+                      text: '${meal['title']} added to favorites',
+                      backgroundColor: ColorsUtility.successSnackbarColor,
+                    );
+                  }
+                },
+              );
             },
           ),
         ],
@@ -50,14 +75,6 @@ class MealDetailsScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             const SizedBox(height: 16),
-            // Text(
-            //   meal['title'],
-            //   style: const TextStyle(
-            //       fontSize: 24,
-            //       fontWeight: FontWeight.bold,
-            //       color: ColorsUtility.takeAwayColor),
-            // ),
-            // const SizedBox(height: 8),
             Row(
               children: [
                 Chip(
@@ -74,9 +91,7 @@ class MealDetailsScreen extends StatelessWidget {
                     color: ColorsUtility.progressIndictorColor,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      50,
-                    ),
+                    borderRadius: BorderRadius.circular(50),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -96,9 +111,7 @@ class MealDetailsScreen extends StatelessWidget {
                       color: ColorsUtility.progressIndictorColor,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        50,
-                      ),
+                      borderRadius: BorderRadius.circular(50),
                     ),
                   ),
               ],
@@ -117,9 +130,10 @@ class MealDetailsScreen extends StatelessWidget {
                 const Text(
                   'Rating: ',
                   style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: ColorsUtility.progressIndictorColor),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: ColorsUtility.progressIndictorColor,
+                  ),
                 ),
                 RatingBar.builder(
                   initialRating: meal['rate']?.toDouble() ?? 0,
@@ -168,25 +182,16 @@ class MealDetailsScreen extends StatelessWidget {
               child: AppElevatedBtn(
                 onPressed: meal['is_available']
                     ? () {
-                        final mealWithQuantity =
-                            Map<String, dynamic>.from(meal);
-                        mealWithQuantity['quantity'] = 1;
-                        final currentOrders = List<Map<String, dynamic>>.from(
-                            OrdersScreen.allOrdersMeals);
-
-                        final existingIndex = currentOrders.indexWhere(
-                          (m) => m['title'] == meal['title'],
+                        context.read<OrdersCubit>().addMeal(meal);
+                        appSnackbar(
+                          context,
+                          text: '${meal['title']} added to cart successfully',
+                          backgroundColor: ColorsUtility.successSnackbarColor,
                         );
-                        if (existingIndex != -1) {
-                          currentOrders[existingIndex]['quantity'] += 1;
-                        } else {
-                          currentOrders.add(mealWithQuantity);
-                        }
-                        OrdersScreen.allOrdersMeals = currentOrders;
                         Navigator.pushNamed(
                           context,
                           OrdersScreen.id,
-                          arguments: currentOrders,
+                          arguments: context.read<OrdersCubit>().meals,
                         );
                       }
                     : null,

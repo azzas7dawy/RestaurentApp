@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
+import 'package:restrant_app/screens/favoritesScreen/favorites_screen.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:restrant_app/widgets/app_confirmation_dialog.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -16,7 +18,7 @@ class AppDrawer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header
+            // header
             // Container(
             //   width: double.infinity,
             //   padding: const EdgeInsets.all(16),
@@ -50,7 +52,7 @@ class AppDrawer extends StatelessWidget {
             //   ),
             // ),
 
-            // Items
+            // items
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.all(16),
@@ -75,6 +77,16 @@ class AppDrawer extends StatelessWidget {
                     ),
                   ),
                   ListTile(
+                    leading: const Icon(Icons.favorite_sharp,
+                        color: ColorsUtility.takeAwayColor),
+                    title: const Text("Your Favorites",
+                        style: TextStyle(color: ColorsUtility.takeAwayColor)),
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      FavoritesScreen.id,
+                    ),
+                  ),
+                  ListTile(
                     leading: const Icon(Icons.info_outline,
                         color: ColorsUtility.takeAwayColor),
                     title: const Text("About / Help",
@@ -89,7 +101,7 @@ class AppDrawer extends StatelessWidget {
                       style: TextStyle(color: ColorsUtility.takeAwayColor),
                     ),
                     onTap: () {
-                      context.read<AuthCubit>().signOut(context);
+                      _showLogoutConfirmation(context);
                     },
                   ),
                 ],
@@ -98,6 +110,18 @@ class AppDrawer extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _showLogoutConfirmation(BuildContext context) async {
+    await CustomConfirmationDialog.show(
+      context: context,
+      title: 'Log Out',
+      message: 'Are you sure you want to log out?',
+      confirmText: 'Yes',
+      onConfirm: () {
+        context.read<AuthCubit>().signOut(context);
+      },
     );
   }
 }
