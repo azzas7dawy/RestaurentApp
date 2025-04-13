@@ -12,7 +12,6 @@ import 'package:restrant_app/screens/foodHomeScreen/food_home_screen.dart';
 import 'package:restrant_app/screens/paymentOptions/checkout.dart';
 import 'package:restrant_app/screens/paymentOptions/checkout_page.dart';
 import 'package:restrant_app/screens/profileScreen/profile.dart';
-import 'package:restrant_app/screens/profileScreen/profilewithoutlogic.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
 import 'package:restrant_app/screens/trackOrder/track_order_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';

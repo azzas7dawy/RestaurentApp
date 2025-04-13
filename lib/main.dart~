@@ -63,9 +63,9 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) =>  OrderTrackingPage(),
             );
-          case  ProfileSectionn.id:
+          case  ProfileSection.id:
             return MaterialPageRoute(
-              builder: (context) =>  ProfileSectionn(),
+              builder: (context) =>  ProfileSection(),
             );
           case CheckoutPage.id:
             return MaterialPageRoute(
@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
         }
       },
       // initialRoute: SplashPage.id,
-      initialRoute: ProfileSectionn.id,
+      initialRoute: ProfileSection.id,
         // initialRoute: CartOrderScreen.id,
         //   initialRoute: OrderTrackingPage.id,
             // initialRoute: CateringScreen.id,
