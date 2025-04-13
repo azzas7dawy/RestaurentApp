@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
@@ -21,9 +22,12 @@ import 'package:restrant_app/screens/homeScreen/home_screen.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
+import 'package:restrant_app/screens/paymentScreen/complete_payment_screen.dart';
+import 'package:restrant_app/screens/paymentScreen/payment_screen.dart';
 import 'package:restrant_app/screens/reserveTableScreen/reserve_table_screen.dart';
 import 'package:restrant_app/screens/specialPlatesScreen/special_plates_screen.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
+import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
 import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 
@@ -37,7 +41,7 @@ Future<void> main() async {
   } catch (e) {
     log('failed to initialize firebase : $e');
   }
-
+  await dotenv.load(fileName: ".env");
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
@@ -78,10 +82,12 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
-            backgroundColor: ColorsUtility.mainBackgroundColor),
+          backgroundColor: ColorsUtility.mainBackgroundColor,
+        ),
         scaffoldBackgroundColor: ColorsUtility.mainBackgroundColor,
         fontFamily: 'Raleway',
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: ColorsUtility.progressIndictorColor),
         useMaterial3: true,
       ),
       onGenerateRoute: (settings) {
@@ -102,7 +108,7 @@ class MyApp extends StatelessWidget {
             );
           case CustomScreen.id:
             return MaterialPageRoute(
-              builder: (context) => CustomScreen(),
+              builder: (context) => const CustomScreen(),
             );
           case CompleteUserDataScreen.id:
             return MaterialPageRoute(
@@ -116,7 +122,7 @@ class MyApp extends StatelessWidget {
             );
           case HomeScreen.id:
             return MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+              builder: (context) => const HomeScreen(),
             );
           case SpecialPlatesScreen.id:
             return MaterialPageRoute(
@@ -141,6 +147,22 @@ class MyApp extends StatelessWidget {
           case FavoritesScreen.id:
             return MaterialPageRoute(
               builder: (context) => const FavoritesScreen(),
+            );
+          case PaymentScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => const PaymentScreen(),
+            );
+          case CompletePaymentScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => CompletePaymentScreen(
+                paymentMethod: data,
+                totalAmount: data,
+                discountAmount: data,
+              ),
+            );
+          case TrackOrdersScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => const TrackOrdersScreen(),
             );
           default:
             return MaterialPageRoute(builder: (context) => const SplashPage());

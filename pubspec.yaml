@@ -46,6 +46,11 @@ dependencies:
   carousel_slider: ^5.0.0
   animated_text_kit: ^4.2.3
   flutter_rating_bar: ^4.0.1
+  flutter_dotenv: ^5.2.1
+  flutter_paypal_checkout: ^1.0.1
+  
+  
+
 
 
 dev_dependencies:
@@ -75,6 +80,7 @@ flutter:
     - assets/images/
     - assets/fonts/
     - assets/icons/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
