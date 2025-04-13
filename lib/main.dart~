@@ -11,6 +11,8 @@ import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
 import 'package:restrant_app/screens/foodHomeScreen/food_home_screen.dart';
 import 'package:restrant_app/screens/paymentOptions/checkout.dart';
 import 'package:restrant_app/screens/paymentOptions/checkout_page.dart';
+import 'package:restrant_app/screens/profileScreen/profile.dart';
+import 'package:restrant_app/screens/profileScreen/profilewithoutlogic.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
 import 'package:restrant_app/screens/trackOrder/track_order_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -56,24 +58,28 @@ class MyApp extends StatelessWidget {
           case LoginScreen.id:
             return MaterialPageRoute(
               builder: (context) => const LoginScreen(),
-            );  
+            );
           case  OrderTrackingPage.id:
             return MaterialPageRoute(
               builder: (context) =>  OrderTrackingPage(),
-            );  
-            case CheckoutPage.id:
+            );
+          case  ProfileSectionn.id:
+            return MaterialPageRoute(
+              builder: (context) =>  ProfileSectionn(),
+            );
+          case CheckoutPage.id:
             return MaterialPageRoute(
               builder: (context) =>  CheckoutPage(),
             );
-            
+
           default:
             return MaterialPageRoute(builder: (context) => const SplashPage());
         }
       },
       // initialRoute: SplashPage.id,
-      // initialRoute: CheckoutPage.id,
+      initialRoute: ProfileSectionn.id,
         // initialRoute: CartOrderScreen.id,
-          initialRoute: OrderTrackingPage.id,  
+        //   initialRoute: OrderTrackingPage.id,
             // initialRoute: CateringScreen.id,
     );
   }
