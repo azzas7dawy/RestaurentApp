@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/screens/favoritesScreen/favorites_screen.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
+import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_confirmation_dialog.dart';
 
@@ -87,6 +88,16 @@ class AppDrawer extends StatelessWidget {
                     ),
                   ),
                   ListTile(
+                    leading: const Icon(Icons.track_changes_outlined,
+                        color: ColorsUtility.takeAwayColor),
+                    title: const Text("Track your orders",
+                        style: TextStyle(color: ColorsUtility.takeAwayColor)),
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      TrackOrdersScreen.id,
+                    ),
+                  ),
+                  ListTile(
                     leading: const Icon(Icons.info_outline,
                         color: ColorsUtility.takeAwayColor),
                     title: const Text("About / Help",
@@ -114,7 +125,7 @@ class AppDrawer extends StatelessWidget {
   }
 
   Future<void> _showLogoutConfirmation(BuildContext context) async {
-    await CustomConfirmationDialog.show(
+    await AppConfirmationDialog.show(
       context: context,
       title: 'Log Out',
       message: 'Are you sure you want to log out?',
