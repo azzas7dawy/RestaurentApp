@@ -18,31 +18,31 @@ class OrdersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentUserId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Your Orders',
-          style: TextStyle(color: ColorsUtility.takeAwayColor),
-        ),
-        iconTheme: const IconThemeData(
-          color: ColorsUtility.takeAwayColor,
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushReplacementNamed(
-              context,
-              CustomScreen.id,
-            );
-          },
-        ),
+    return BlocProvider(
+      create: (context) => OrdersCubit(
+        firestore: FirebaseFirestore.instance,
+        userId: currentUserId,
       ),
-      body: BlocProvider(
-        create: (context) => OrdersCubit(
-          firestore: FirebaseFirestore.instance,
-          userId: currentUserId,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Your Orders',
+            style: TextStyle(color: ColorsUtility.takeAwayColor),
+          ),
+          iconTheme: const IconThemeData(
+            color: ColorsUtility.takeAwayColor,
+          ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushReplacementNamed(
+                context,
+                CustomScreen.id,
+              );
+            },
+          ),
         ),
-        child: BlocConsumer<OrdersCubit, OrdersState>(
+        body: BlocConsumer<OrdersCubit, OrdersState>(
           listener: (context, state) {
             if (state is OrdersSubmissionSuccess) {
               appSnackbar(
@@ -68,7 +68,7 @@ class OrdersScreen extends StatelessWidget {
             }
 
             final cubit = context.read<OrdersCubit>();
-            final meals = cubit.meals;
+            final meals = state is OrdersLoaded ? state.meals : cubit.meals;
 
             return Column(
               children: [
@@ -122,10 +122,13 @@ class OrdersScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Image.network(
-                                      meal['image'],
+                                      meal['image'] ?? '',
                                       width: 80,
                                       height: 80,
                                       fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              const Icon(Icons.error),
                                     ),
                                     const SizedBox(width: 16),
                                     Expanded(
@@ -134,7 +137,7 @@ class OrdersScreen extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            meal['title'],
+                                            meal['title'] ?? 'Unknown',
                                             style: const TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
@@ -144,7 +147,7 @@ class OrdersScreen extends StatelessWidget {
                                           ),
                                           const SizedBox(height: 4),
                                           Text(
-                                            '${meal['price']} EGP',
+                                            '${meal['price'] ?? 0} EGP',
                                             style: const TextStyle(
                                               color: ColorsUtility
                                                   .progressIndictorColor,
@@ -227,8 +230,7 @@ class OrdersScreen extends StatelessWidget {
                         const SizedBox(height: 16),
                         AppElevatedBtn(
                           onPressed: () {
-                            Navigator.pushReplacementNamed(
-                                context, PaymentScreen.id);
+                            Navigator.pushNamed(context, PaymentScreen.id);
                           },
                           text: 'Proceed to Payment',
                         ),

@@ -32,10 +32,12 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
           .get();
 
       for (var doc in snapshot.docs) {
-        specialItems.add(doc.data() as Map<String, dynamic>);
+        var data = doc.data() as Map<String, dynamic>;
+        data['documentId'] = doc.id;
+        data['category'] = docName;
+        specialItems.add(data);
       }
     }
-
     return specialItems;
   }
 
@@ -252,18 +254,31 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                                 : ColorsUtility
                                                     .textFieldLabelColor,
                                           ),
-                                          onPressed: () {
+                                          onPressed: () async {
                                             if (item['is_available'] ?? true) {
-                                              context
+                                              final mealToAdd = {
+                                                ...item,
+                                                'documentId':
+                                                    item['documentId'],
+                                                'title': item['title'],
+                                                'price': item['price'],
+                                                'image': item['image'],
+                                                'description':
+                                                    item['description'],
+                                                'category': item['category'],
+                                              };
+                                              await context
                                                   .read<OrdersCubit>()
-                                                  .addMeal(item);
-                                              appSnackbar(
-                                                context,
-                                                text:
-                                                    '${item['title']} added to cart',
-                                                backgroundColor: ColorsUtility
-                                                    .successSnackbarColor,
-                                              );
+                                                  .addMeal(mealToAdd);
+                                              if (context.mounted) {
+                                                appSnackbar(
+                                                  context,
+                                                  text:
+                                                      '${item['title']} added to cart',
+                                                  backgroundColor: ColorsUtility
+                                                      .successSnackbarColor,
+                                                );
+                                              }
                                             } else {
                                               appSnackbar(
                                                 context,

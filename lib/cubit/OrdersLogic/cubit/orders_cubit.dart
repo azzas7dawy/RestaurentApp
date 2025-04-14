@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
@@ -12,6 +13,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   String? _phoneNumber;
   String? _deliveryAddress;
   String? _customerName;
+  bool _isLoadingCart = false;
 
   OrdersCubit({
     required this.firestore,
@@ -33,40 +35,53 @@ class OrdersCubit extends Cubit<OrdersState> {
   }
 
   Future<void> _loadCartFromFirestore() async {
+    if (_isLoadingCart) return;
+    _isLoadingCart = true;
+    emit(OrdersLoading());
     try {
       final doc = await firestore.collection('users2').doc(userId).get();
       if (doc.exists && doc.data()?['cartItems'] != null) {
-        meals = List<Map<String, dynamic>>.from(doc.data()?['cartItems'] ?? []);
-        emit(OrdersLoaded(meals: meals));
+        meals = List<Map<String, dynamic>>.from(doc.data()?['cartItems'] ?? [])
+            .map((meal) => {
+                  ...meal,
+                  'quantity': meal['quantity'] ?? 1,
+                })
+            .toList();
+      } else {
+        meals = [];
       }
+      emit(OrdersLoaded(meals: List.from(meals)));
     } catch (e) {
       emit(OrdersError(errorMessage: 'Failed to load cart: ${e.toString()}'));
+    } finally {
+      _isLoadingCart = false;
     }
   }
 
   void loadMeals(List<Map<String, dynamic>> initialMeals) {
     meals = List.from(initialMeals);
-    emit(OrdersLoaded(meals: meals));
+    _updateCartInFirestore();
+    emit(OrdersLoaded(meals: List.from(meals)));
   }
 
   void incrementQuantity(int index) {
     meals[index]['quantity'] = (meals[index]['quantity'] ?? 1) + 1;
     _updateCartInFirestore();
-    emit(OrdersLoaded(meals: meals));
+    emit(OrdersLoaded(meals: List.from(meals)));
   }
 
   void decrementQuantity(int index) {
     if (meals[index]['quantity'] > 1) {
       meals[index]['quantity'] = meals[index]['quantity'] - 1;
       _updateCartInFirestore();
-      emit(OrdersLoaded(meals: meals));
+      emit(OrdersLoaded(meals: List.from(meals)));
     }
   }
 
   void removeMeal(int index) {
     meals.removeAt(index);
     _updateCartInFirestore();
-    emit(OrdersLoaded(meals: meals));
+    emit(OrdersLoaded(meals: List.from(meals)));
   }
 
   double calculateTotal() {
@@ -77,9 +92,9 @@ class OrdersCubit extends Cubit<OrdersState> {
 
   Future<void> _updateCartInFirestore() async {
     try {
-      await firestore.collection('users2').doc(userId).update({
+      await firestore.collection('users2').doc(userId).set({
         'cartItems': meals,
-      });
+      }, SetOptions(merge: true));
     } catch (e) {
       emit(OrdersError(errorMessage: 'Failed to update cart: ${e.toString()}'));
     }
@@ -105,23 +120,30 @@ class OrdersCubit extends Cubit<OrdersState> {
         await _loadCustomerName();
       }
 
+      final List<Map<String, dynamic>> orderItems = meals.map((meal) {
+        return {
+          'title': meal['title']?.toString() ?? 'Unknown Item',
+          'quantity': meal['quantity'] ?? 1,
+          'price': meal['price']?.toDouble() ?? 0.0,
+        };
+      }).toList();
+
       await firestore.collection('orders').add({
         'userId': userId,
-        'customerName': _customerName ?? 'Unknown',
-        'items': meals,
+        'customer': _customerName ?? 'Unknown',
+        'items': orderItems,
         'total': totalAmount,
-        'discount': discountAmount,
+        'discountApplied': discountAmount,
         'paymentMethod': paymentMethod,
         'phoneNumber': _phoneNumber,
         'deliveryAddress': _deliveryAddress,
         'timestamp': FieldValue.serverTimestamp(),
         'status': 'pending',
-        'isPaid': isPaid,
       });
 
       await _clearCart();
       meals.clear();
-      emit(OrdersLoaded(meals: meals));
+      emit(OrdersLoaded(meals: List.from(meals)));
       emit(OrdersSubmissionSuccess());
     } catch (e) {
       emit(OrdersSubmissionError(errorMessage: e.toString()));
@@ -138,17 +160,30 @@ class OrdersCubit extends Cubit<OrdersState> {
     }
   }
 
-  void addMeal(Map<String, dynamic> meal) {
-    final existingIndex = meals.indexWhere((m) => m['title'] == meal['title']);
+  Future<void> addMeal(Map<String, dynamic> meal) async {
+    while (_isLoadingCart) {
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+
+    emit(OrdersLoading());
+
+    final documentId =
+        meal['documentId'] ?? meal['title'] ?? UniqueKey().toString();
+
+    final existingIndex =
+        meals.indexWhere((m) => m['documentId'] == documentId);
 
     if (existingIndex != -1) {
       meals[existingIndex]['quantity'] =
           (meals[existingIndex]['quantity'] ?? 1) + 1;
     } else {
-      meals.add({...meal, 'quantity': 1});
+      meals.add({
+        ...meal,
+        'documentId': documentId,
+        'quantity': 1,
+      });
     }
-
-    _updateCartInFirestore();
+    await _updateCartInFirestore();
     emit(OrdersLoaded(meals: List.from(meals)));
   }
 }
