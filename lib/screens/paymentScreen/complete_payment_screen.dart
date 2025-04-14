@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_paypal_checkout/flutter_paypal_checkout.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/utils/icons_utility.dart';
@@ -52,6 +53,12 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
         ),
         iconTheme: const IconThemeData(
           color: ColorsUtility.takeAwayColor,
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, OrdersScreen.id);
+          },
         ),
       ),
       body: Padding(
@@ -190,24 +197,25 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
           ),
           const Spacer(),
           AppElevatedBtn(
-            onPressed: () {
+            onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 final phoneNumber = _phoneController.text;
                 final address = _addressController.text;
 
-                context.read<OrdersCubit>()
-                  ..setDeliveryInfo(phone: phoneNumber, address: address)
-                  ..submitOrder(
-                    paymentMethod: 'cash',
-                    totalAmount: widget.totalAmount,
-                    discountAmount: widget.discountAmount,
-                    isPaid: false,
-                  );
+                final ordersCubit = context.read<OrdersCubit>();
+
+                ordersCubit.setDeliveryInfo(
+                    phone: phoneNumber, address: address);
+
+                await ordersCubit.submitOrder(
+                  paymentMethod: 'cash',
+                  totalAmount: widget.totalAmount,
+                  discountAmount: widget.discountAmount,
+                  isPaid: false,
+                );
+
                 if (mounted) {
-                  Navigator.pushReplacementNamed(
-                    context,
-                    TrackOrdersScreen.id,
-                  );
+                  Navigator.pushReplacementNamed(context, TrackOrdersScreen.id);
                 }
               }
             },

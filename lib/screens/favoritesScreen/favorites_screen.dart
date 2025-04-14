@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
+import 'package:restrant_app/screens/customScreen/custom_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
 
@@ -22,6 +23,15 @@ class FavoritesScreen extends StatelessWidget {
         ),
         iconTheme: const IconThemeData(
           color: ColorsUtility.takeAwayColor,
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(
+              context,
+              CustomScreen.id,
+            );
+          },
         ),
       ),
       body: BlocBuilder<FavoritesCubit, FavoritesState>(

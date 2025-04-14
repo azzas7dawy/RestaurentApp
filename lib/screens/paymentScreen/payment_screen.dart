@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
+import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/screens/paymentScreen/complete_payment_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
@@ -110,6 +111,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ),
         iconTheme: const IconThemeData(
           color: ColorsUtility.takeAwayColor,
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, OrdersScreen.id);
+          },
         ),
       ),
       body: Column(
