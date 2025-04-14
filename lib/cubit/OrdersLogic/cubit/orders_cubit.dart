@@ -121,6 +121,7 @@ class OrdersCubit extends Cubit<OrdersState> {
 
       await _clearCart();
       meals.clear();
+      emit(OrdersLoaded(meals: meals));
       emit(OrdersSubmissionSuccess());
     } catch (e) {
       emit(OrdersSubmissionError(errorMessage: e.toString()));

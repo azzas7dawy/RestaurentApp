@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
+import 'package:restrant_app/screens/customScreen/custom_screen.dart';
 import 'package:restrant_app/screens/paymentScreen/payment_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_confirmation_dialog.dart';
@@ -25,6 +26,15 @@ class OrdersScreen extends StatelessWidget {
         ),
         iconTheme: const IconThemeData(
           color: ColorsUtility.takeAwayColor,
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(
+              context,
+              CustomScreen.id,
+            );
+          },
         ),
       ),
       body: BlocProvider(
@@ -217,7 +227,8 @@ class OrdersScreen extends StatelessWidget {
                         const SizedBox(height: 16),
                         AppElevatedBtn(
                           onPressed: () {
-                            Navigator.pushNamed(context, PaymentScreen.id);
+                            Navigator.pushReplacementNamed(
+                                context, PaymentScreen.id);
                           },
                           text: 'Proceed to Payment',
                         ),
