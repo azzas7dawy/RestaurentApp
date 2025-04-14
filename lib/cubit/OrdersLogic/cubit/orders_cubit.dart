@@ -131,7 +131,7 @@ class OrdersCubit extends Cubit<OrdersState> {
       await firestore.collection('orders').add({
         'userId': userId,
         'customer': _customerName ?? 'Unknown',
-        'items': orderItems,
+        'orderItems': orderItems,
         'total': totalAmount,
         'discountApplied': discountAmount,
         'paymentMethod': paymentMethod,
