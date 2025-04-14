@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 
-class CustomConfirmationDialog extends StatelessWidget {
+class AppConfirmationDialog extends StatelessWidget {
   final String title;
   final String message;
   final String confirmText;
@@ -11,7 +11,7 @@ class CustomConfirmationDialog extends StatelessWidget {
   final VoidCallback onConfirm;
   final VoidCallback? onCancel;
 
-  const CustomConfirmationDialog({
+  const AppConfirmationDialog({
     super.key,
     required this.title,
     required this.message,
@@ -89,7 +89,7 @@ class CustomConfirmationDialog extends StatelessWidget {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return CustomConfirmationDialog(
+        return AppConfirmationDialog(
           title: title,
           message: message,
           confirmText: confirmText,

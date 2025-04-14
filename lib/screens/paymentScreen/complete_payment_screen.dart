@@ -204,7 +204,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
                     isPaid: false,
                   );
                 if (mounted) {
-                  Navigator.pushNamed(
+                  Navigator.pushReplacementNamed(
                     context,
                     TrackOrdersScreen.id,
                   );

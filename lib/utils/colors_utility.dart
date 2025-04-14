@@ -16,4 +16,7 @@ class ColorsUtility {
   static const inkwellTextColor = Color.fromARGB(255, 161, 31, 35);
   static const successSnackbarColor = Colors.green;
   static const errorSnackbarColor = Colors.red;
+  static const processingStatusColor = Colors.blue;
+  static const onTheWayStatusColor = Colors.purple;
+  static const failedStatusColor = Colors.redAccent;
 }
