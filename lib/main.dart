@@ -5,6 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:restrant_app/firebase_options.dart';
+import 'package:restrant_app/screens/ReservationPages/reservation_page.dart';
+import 'package:restrant_app/screens/ReservationPages/reservationsplash.dart';
+
 import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/screens/categoriesScreens/categroy_one.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
@@ -61,9 +64,13 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) =>  OrderTrackingPage(),
             );  
-            case CheckoutPage.id:
+            case ReservationPage.id:
             return MaterialPageRoute(
-              builder: (context) =>  CheckoutPage(),
+              builder: (context) =>  ReservationPage(),
+            );
+          case ReservationsplashScreen.id:
+            return MaterialPageRoute(
+              builder: (context) =>  ReservationsplashScreen(),
             );
             
           default:
@@ -71,7 +78,7 @@ class MyApp extends StatelessWidget {
         }
       },
       // initialRoute: SplashPage.id,
-      initialRoute: CheckoutPage.id,
+      initialRoute: ReservationsplashScreen.id,
         // initialRoute: CartOrderScreen.id,
         //   initialRoute: OrderTrackingPage.id,
             // initialRoute: CateringScreen.id,
