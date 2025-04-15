@@ -3,6 +3,7 @@ import 'package:restrant_app/screens/customScreen/widgets/app_bottom_nav_bar.dar
 import 'package:restrant_app/screens/customScreen/widgets/app_drawer.dart';
 import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/screens/homeScreen/home_screen.dart';
+import 'package:restrant_app/screens/menuScreens/menu_screen.dart';
 import 'package:restrant_app/screens/reserveTableScreen/reserve_table_screen.dart';
 
 class CustomScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _HomePageState extends State<CustomScreen> {
   late int _currentIndex;
   final List<Widget> _pages = const [
     HomeScreen(),
-    Center(child: Text('Order Food')),
+    MenuScreen(),
     ReserveTableScreen(),
     Center(child: Text('Profile')),
   ];
