@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
@@ -60,11 +61,23 @@ class SpecialPlatesScreen extends StatelessWidget {
                   ClipRRect(
                     borderRadius:
                         const BorderRadius.vertical(top: Radius.circular(15)),
-                    child: Image.network(
-                      item['image'],
+                    child: CachedNetworkImage(
+                      imageUrl: item['image'],
                       height: 180,
                       width: double.infinity,
                       fit: BoxFit.cover,
+                      placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(
+                          color: ColorsUtility.progressIndictorColor,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => const Center(
+                        child: Icon(
+                          Icons.fastfood,
+                          size: 40,
+                          color: ColorsUtility.progressIndictorColor,
+                        ),
+                      ),
                     ),
                   ),
                   Padding(
@@ -160,7 +173,7 @@ class SpecialPlatesScreen extends StatelessWidget {
                                   context.read<OrdersCubit>().addMeal(item);
                                   appSnackbar(
                                     context,
-                                    text: '${item['title']} added to cart',
+                                    text: '${item['title']} added to orders',
                                     backgroundColor:
                                         ColorsUtility.successSnackbarColor,
                                   );

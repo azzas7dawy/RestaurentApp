@@ -242,9 +242,10 @@ class TrackOrdersScreen extends StatelessWidget {
     );
   }
 
-// ==============================================================================================================
+// ======================================================================================================
+
   void _showCancelConfirmationDialog(BuildContext context, String orderId) {
-    final scaffoldContext = context; // حفظ الـ context الأصلي
+    final scaffoldContext = context;
 
     showDialog(
       context: context,
@@ -276,7 +277,7 @@ class TrackOrdersScreen extends StatelessWidget {
             TextButton(
               onPressed: () async {
                 Navigator.of(dialogContext).pop();
-                await _cancelOrder(scaffoldContext, orderId);
+                await _deleteOrder(scaffoldContext, orderId);
               },
               child: const Text(
                 'Yes',
@@ -291,17 +292,16 @@ class TrackOrdersScreen extends StatelessWidget {
     );
   }
 
-// ==============================================================================================================
-  Future<void> _cancelOrder(BuildContext context, String orderId) async {
+// ======================================================================================================
+
+  Future<void> _deleteOrder(BuildContext context, String orderId) async {
     try {
-      await FirebaseFirestore.instance
-          .collection('orders')
-          .doc(orderId)
-          .update({'status': 'cancelled'});
+      final ordersCubit = context.read<OrdersCubit>();
+      await ordersCubit.deleteOrder(orderId);
       if (context.mounted) {
         appSnackbar(
           context,
-          text: 'Order has been cancelled',
+          text: 'Order has been cancelled and deleted',
           backgroundColor: ColorsUtility.successSnackbarColor,
         );
       }
@@ -316,7 +316,8 @@ class TrackOrdersScreen extends StatelessWidget {
     }
   }
 
-// ==============================================================================================================
+// ======================================================================================================
+
   Widget _buildStatusIndicator(String status) {
     const activeColor = ColorsUtility.takeAwayColor;
     const inactiveColor = ColorsUtility.progressIndictorColor;
@@ -410,7 +411,8 @@ class TrackOrdersScreen extends StatelessWidget {
     );
   }
 
-// ==============================================================================================================
+// ======================================================================================================
+
   Widget _buildStatusStep(String label,
       {required bool isActive, required bool isCompleted}) {
     return Column(
@@ -454,11 +456,16 @@ class TrackOrdersScreen extends StatelessWidget {
     );
   }
 
-// ==============================================================================================================
+// ======================================================================================================
+
   Color _getStatusColor(String status) {
     switch (status) {
       case 'pending':
         return ColorsUtility.progressIndictorColor;
+      case 'accepted':
+        return ColorsUtility.successSnackbarColor;
+      case 'rejected':
+        return ColorsUtility.errorSnackbarColor;
       case 'processing':
         return ColorsUtility.processingStatusColor;
       case 'on_the_way':
@@ -474,13 +481,15 @@ class TrackOrdersScreen extends StatelessWidget {
     }
   }
 
-// ==============================================================================================================
+// ======================================================================================================
+
   String _capitalizeFirstLetter(String text) {
     if (text.isEmpty) return text;
     return text[0].toUpperCase() + text.substring(1).replaceAll('_', ' ');
   }
 
-// ==============================================================================================================
+// ======================================================================================================
+
   void _showOrderDetailsDialog(
     BuildContext context, {
     required String orderId,
@@ -754,7 +763,8 @@ class TrackOrdersScreen extends StatelessWidget {
     );
   }
 
-// ==============================================================================================================
+// ======================================================================================================
+
   IconData _getStatusIcon(String status) {
     switch (status) {
       case 'pending':
