@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/screens/specialPlatesScreen/special_plates_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SpecialPlatesSectionWidget extends StatelessWidget {
   const SpecialPlatesSectionWidget({super.key});
@@ -41,6 +43,23 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
     return specialItems;
   }
 
+  Widget _buildShimmerLoading(BuildContext context, double cardWidth) {
+    return SizedBox(
+      height: 130,
+      width: cardWidth,
+      child: Shimmer.fromColors(
+        baseColor: ColorsUtility.elevatedBtnColor,
+        highlightColor: ColorsUtility.textFieldFillColor,
+        child: Container(
+          decoration: BoxDecoration(
+            color: ColorsUtility.elevatedBtnColor,
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
@@ -52,9 +71,53 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
       future: fetchSpecialPlates(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(
-              color: ColorsUtility.progressIndictorColor,
+          return SizedBox(
+            height: cardHeight,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                return Container(
+                  width: cardWidth,
+                  margin: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildShimmerLoading(context, cardWidth),
+                      const SizedBox(height: 8),
+                      Shimmer.fromColors(
+                        baseColor: ColorsUtility.elevatedBtnColor,
+                        highlightColor: ColorsUtility.textFieldFillColor,
+                        child: Container(
+                          height: 16,
+                          width: cardWidth * 0.6,
+                          color: ColorsUtility.elevatedBtnColor,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Shimmer.fromColors(
+                        baseColor: ColorsUtility.elevatedBtnColor,
+                        highlightColor: ColorsUtility.textFieldFillColor,
+                        child: Container(
+                          height: 14,
+                          width: cardWidth * 0.8,
+                          color: ColorsUtility.elevatedBtnColor,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Shimmer.fromColors(
+                        baseColor: ColorsUtility.mainBackgroundColor,
+                        highlightColor: ColorsUtility.textFieldFillColor,
+                        child: Container(
+                          height: 14,
+                          width: cardWidth * 0.5,
+                          color: ColorsUtility.elevatedBtnColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
           );
         }
@@ -161,11 +224,30 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                 borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(15),
                                 ),
-                                child: Image.network(
-                                  item['image'],
+                                child: CachedNetworkImage(
+                                  imageUrl: item['image'],
                                   height: 130,
                                   width: double.infinity,
                                   fit: BoxFit.cover,
+                                  placeholder: (context, url) =>
+                                      Shimmer.fromColors(
+                                    baseColor: Colors.grey[300]!,
+                                    highlightColor: Colors.grey[100]!,
+                                    child: Container(
+                                      height: 130,
+                                      width: double.infinity,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Center(
+                                    child: Icon(
+                                      Icons.fastfood,
+                                      size: 40,
+                                      color:
+                                          ColorsUtility.progressIndictorColor,
+                                    ),
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -274,7 +356,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                                 appSnackbar(
                                                   context,
                                                   text:
-                                                      '${item['title']} added to cart',
+                                                      '${item['title']} added to orders',
                                                   backgroundColor: ColorsUtility
                                                       .successSnackbarColor,
                                                 );

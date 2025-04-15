@@ -97,8 +97,8 @@ class OrdersScreen extends StatelessWidget {
                                 'No meals added here',
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: ColorsUtility.progressIndictorColor
-                                      .withAlpha(179),
+                                  color: ColorsUtility.textFieldLabelColor
+                                      .withAlpha(128),
                                 ),
                               ),
                             ],

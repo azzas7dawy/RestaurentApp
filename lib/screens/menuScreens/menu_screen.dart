@@ -79,62 +79,68 @@ class MenuScreen extends StatelessWidget {
               ),
             ),
           ),
-          StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('menu').snapshots(),
-            builder: (context, menuSnapshot) {
-              if (menuSnapshot.connectionState == ConnectionState.waiting) {
-                return const SliverFillRemaining(
-                  child: Center(
+          SliverPadding(
+            padding: const EdgeInsets.only(
+              top: 20,
+            ),
+            sliver: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection('menu').snapshots(),
+              builder: (context, menuSnapshot) {
+                if (menuSnapshot.connectionState == ConnectionState.waiting) {
+                  return const SliverFillRemaining(
+                    child: Center(
                       child: CircularProgressIndicator(
-                    color: ColorsUtility.progressIndictorColor,
-                  )),
-                );
-              }
-
-              if (!menuSnapshot.hasData || menuSnapshot.data!.docs.isEmpty) {
-                return const SliverFillRemaining(
-                  child: Center(
-                      child: Text(
-                    'No menus available currently',
-                    style: TextStyle(
-                      color: ColorsUtility.progressIndictorColor,
-                    ),
-                  )),
-                );
-              }
-
-              var filteredDocs = menuSnapshot.data!.docs
-                  .where((doc) => categories.contains(doc.id))
-                  .toList();
-
-              if (filteredDocs.isEmpty) {
-                return const SliverFillRemaining(
-                  child: Center(
-                    child: Text(
-                      'No matching categories found',
-                      style: TextStyle(
                         color: ColorsUtility.progressIndictorColor,
                       ),
                     ),
+                  );
+                }
+
+                if (!menuSnapshot.hasData || menuSnapshot.data!.docs.isEmpty) {
+                  return const SliverFillRemaining(
+                    child: Center(
+                        child: Text(
+                      'No menus available currently',
+                      style: TextStyle(
+                        color: ColorsUtility.progressIndictorColor,
+                      ),
+                    )),
+                  );
+                }
+
+                var filteredDocs = menuSnapshot.data!.docs
+                    .where((doc) => categories.contains(doc.id))
+                    .toList();
+
+                if (filteredDocs.isEmpty) {
+                  return const SliverFillRemaining(
+                    child: Center(
+                      child: Text(
+                        'No matching categories found',
+                        style: TextStyle(
+                          color: ColorsUtility.progressIndictorColor,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                return SliverGrid(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 15,
+                    crossAxisSpacing: 15,
+                    childAspectRatio: 0.9,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      var categoryDoc = filteredDocs[index];
+                      return _buildCategoryCard(categoryDoc, context);
+                    },
+                    childCount: filteredDocs.length,
                   ),
                 );
-              }
-              return SliverGrid(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 15,
-                  crossAxisSpacing: 15,
-                  childAspectRatio: 0.9,
-                ),
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    var categoryDoc = filteredDocs[index];
-                    return _buildCategoryCard(categoryDoc, context);
-                  },
-                  childCount: filteredDocs.length,
-                ),
-              );
-            },
+              },
+            ),
           ),
         ],
       ),
@@ -165,14 +171,6 @@ class MenuScreen extends StatelessWidget {
                 CategoryItemsScreen.id,
                 arguments: categoryDoc,
               );
-
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) =>
-              //         CategoryItemsScreen(categoryDoc: categoryDoc),
-              //   ),
-              // );
             },
             child: Stack(
               children: [

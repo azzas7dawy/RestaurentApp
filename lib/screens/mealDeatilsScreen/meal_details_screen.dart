@@ -1,8 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
-import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
@@ -68,11 +68,16 @@ class MealDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(
-              meal['image'],
+            CachedNetworkImage(
+              imageUrl: meal['image'],
               height: 250,
               width: double.infinity,
               fit: BoxFit.cover,
+              placeholder: (context, url) => const Center(
+                child: CircularProgressIndicator(
+                  color: ColorsUtility.progressIndictorColor,
+                ),
+              ),
             ),
             const SizedBox(height: 16),
             Row(
@@ -95,25 +100,25 @@ class MealDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                if (meal['category_type'] != null &&
-                    meal['category_type'].isNotEmpty)
-                  Chip(
-                    label: Text(
-                      meal['category_type'] ?? '',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: ColorsUtility.progressIndictorColor,
-                      ),
-                    ),
-                    backgroundColor: ColorsUtility.mainBackgroundColor,
-                    side: const BorderSide(
-                      color: ColorsUtility.progressIndictorColor,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                  ),
+                // if (meal['category_type'] != null &&
+                //     meal['category_type'].isNotEmpty)
+                //   Chip(
+                //     label: Text(
+                //       meal['category_type'] ?? '',
+                //       style: const TextStyle(
+                //         fontSize: 12,
+                //         fontWeight: FontWeight.bold,
+                //         color: ColorsUtility.progressIndictorColor,
+                //       ),
+                //     ),
+                //     backgroundColor: ColorsUtility.mainBackgroundColor,
+                //     side: const BorderSide(
+                //       color: ColorsUtility.progressIndictorColor,
+                //     ),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(50),
+                //     ),
+                //   ),
               ],
             ),
             const SizedBox(height: 8),
@@ -196,14 +201,14 @@ class MealDetailsScreen extends StatelessWidget {
                           if (context.mounted) {
                             appSnackbar(
                               context,
-                              text: '${meal['title']} added to cart',
+                              text: '${meal['title']} added to orders',
                               backgroundColor:
                                   ColorsUtility.successSnackbarColor,
                             );
-                            Navigator.pushNamed(
-                              context,
-                              OrdersScreen.id,
-                            );
+                            // Navigator.pushNamed(
+                            //   context,
+                            //   OrdersScreen.id,
+                            // );
                           }
                         } else {
                           appSnackbar(

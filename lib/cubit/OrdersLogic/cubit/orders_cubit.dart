@@ -150,6 +150,16 @@ class OrdersCubit extends Cubit<OrdersState> {
     }
   }
 
+  Future<void> deleteOrder(String orderId) async {
+    try {
+      await firestore.collection('orders').doc(orderId).delete();
+      emit(OrdersSubmissionSuccess());
+    } catch (e) {
+      emit(OrdersSubmissionError(
+          errorMessage: 'Failed to delete order: ${e.toString()}'));
+    }
+  }
+
   Future<void> _clearCart() async {
     try {
       await firestore.collection('users2').doc(userId).update({
