@@ -181,18 +181,37 @@ class MealDetailsScreen extends StatelessWidget {
             Center(
               child: AppElevatedBtn(
                 onPressed: meal['is_available']
-                    ? () {
-                        context.read<OrdersCubit>().addMeal(meal);
-                        appSnackbar(
-                          context,
-                          text: '${meal['title']} added to cart successfully',
-                          backgroundColor: ColorsUtility.successSnackbarColor,
-                        );
-                        Navigator.pushNamed(
-                          context,
-                          OrdersScreen.id,
-                          arguments: context.read<OrdersCubit>().meals,
-                        );
+                    ? () async {
+                        if (meal['is_available'] ?? true) {
+                          final mealToAdd = {
+                            ...meal,
+                            'documentId': meal['documentId'],
+                            'title': meal['title'],
+                            'price': meal['price'],
+                            'image': meal['image'],
+                            'description': meal['description'],
+                            'category': meal['category'],
+                          };
+                          await context.read<OrdersCubit>().addMeal(mealToAdd);
+                          if (context.mounted) {
+                            appSnackbar(
+                              context,
+                              text: '${meal['title']} added to cart',
+                              backgroundColor:
+                                  ColorsUtility.successSnackbarColor,
+                            );
+                            Navigator.pushNamed(
+                              context,
+                              OrdersScreen.id,
+                            );
+                          }
+                        } else {
+                          appSnackbar(
+                            context,
+                            text: '${meal['title']} is not available for now',
+                            backgroundColor: ColorsUtility.errorSnackbarColor,
+                          );
+                        }
                       }
                     : null,
                 text: 'Add To Orders',

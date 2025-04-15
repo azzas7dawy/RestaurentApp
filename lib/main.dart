@@ -20,6 +20,7 @@ import 'package:restrant_app/screens/customScreen/custom_screen.dart';
 import 'package:restrant_app/screens/favoritesScreen/favorites_screen.dart';
 import 'package:restrant_app/screens/homeScreen/home_screen.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
+import 'package:restrant_app/screens/menuScreens/category_items_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/screens/paymentScreen/complete_payment_screen.dart';
@@ -163,6 +164,12 @@ class MyApp extends StatelessWidget {
           case TrackOrdersScreen.id:
             return MaterialPageRoute(
               builder: (context) => const TrackOrdersScreen(),
+            );
+          case CategoryItemsScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => CategoryItemsScreen(
+                categoryDoc: data,
+              ),
             );
           default:
             return MaterialPageRoute(builder: (context) => const SplashPage());
