@@ -4,6 +4,7 @@ import 'package:restrant_app/screens/customScreen/widgets/app_drawer.dart';
 import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/screens/homeScreen/home_screen.dart';
 import 'package:restrant_app/screens/menuScreens/menu_screen.dart';
+// import 'package:restrant_app/screens/profileScreen/profile_screen.dart';
 import 'package:restrant_app/screens/reserveTableScreen/reserve_table_screen.dart';
 
 class CustomScreen extends StatefulWidget {
@@ -21,7 +22,7 @@ class _HomePageState extends State<CustomScreen> {
     HomeScreen(),
     MenuScreen(),
     ReserveTableScreen(),
-    Center(child: Text('Profile')),
+    // ProfileScreen(),
   ];
 
   @override

@@ -513,4 +513,52 @@ class AuthCubit extends Cubit<AuthState> {
       return '';
     }
   }
+
+  // ====================================================================================
+  // update user profile
+
+  Future<void> updateUserProfile({
+    required String name,
+    required String phone,
+    required BuildContext context,
+  }) async {
+    emit(ProfileUpdateLoading());
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        await user.updateDisplayName(name);
+
+        await _firestore.collection('users2').doc(user.uid).update({
+          'name': name,
+          'phone': phone,
+          'updatedAt': FieldValue.serverTimestamp(),
+        });
+
+        await PrefService.saveUserData(
+          userId: user.uid,
+          name: name,
+          email: user.email ?? '',
+          phone: phone,
+        );
+
+        emit(ProfileUpdateSuccess());
+        if (context.mounted) {
+          appSnackbar(
+            context,
+            text: 'Profile updated successfully!',
+            backgroundColor: ColorsUtility.successSnackbarColor,
+          );
+        }
+      }
+    } catch (e) {
+      emit(ProfileUpdateFailed(e.toString()));
+      if (context.mounted) {
+        appSnackbar(
+          context,
+          text: 'Error updating profile: ${e.toString()}',
+          backgroundColor: ColorsUtility.errorSnackbarColor,
+        );
+      }
+    }
+  }
 }

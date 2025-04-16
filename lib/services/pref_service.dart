@@ -40,21 +40,42 @@ class PrefService {
     required String name,
     required String email,
     required String phone,
+    String? imageUrl,
   }) async {
     _checkInitialized();
     await _prefs!.setString('userId', userId);
     await _prefs!.setString('userName', name);
     await _prefs!.setString('userEmail', email);
     await _prefs!.setString('userPhone', phone);
+    if (imageUrl != null) {
+      await _prefs!.setString('userImageUrl', imageUrl);
+    }
+  }
+
+  static Future<void> saveUserImage(String imageUrl) async {
+    _checkInitialized();
+    await _prefs!.setString('userImageUrl', imageUrl);
   }
 
   static Map<String, String> get userData {
     _checkInitialized();
     return {
       'userId': _prefs!.getString('userId') ?? '',
-      'userName': _prefs!.getString('userName') ?? '',
-      'userEmail': _prefs!.getString('userEmail') ?? '',
-      'userPhone': _prefs!.getString('userPhone') ?? '',
+      'name': _prefs!.getString('userName') ?? '',
+      'email': _prefs!.getString('userEmail') ?? '',
+      'phone': _prefs!.getString('userPhone') ?? '',
+      'imageUrl': _prefs!.getString('userImageUrl') ?? '',
+    };
+  }
+
+  static Future<Map<String, dynamic>> getUserData() async {
+    _checkInitialized();
+    return {
+      'userId': _prefs!.getString('userId'),
+      'name': _prefs!.getString('userName'),
+      'email': _prefs!.getString('userEmail'),
+      'phone': _prefs!.getString('userPhone'),
+      'imageUrl': _prefs!.getString('userImageUrl'),
     };
   }
 
@@ -64,6 +85,7 @@ class PrefService {
     await _prefs!.remove('userName');
     await _prefs!.remove('userEmail');
     await _prefs!.remove('userPhone');
+    await _prefs!.remove('userImageUrl');
     await _prefs!.remove('isLoggedIn');
   }
 
