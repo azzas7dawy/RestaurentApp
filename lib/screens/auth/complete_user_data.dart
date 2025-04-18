@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 import 'package:restrant_app/widgets/app_text_field.dart';
@@ -66,8 +67,8 @@ class _CompleteUserDataScreenState extends State<CompleteUserDataScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Please provide the following details:',
+                     Text(
+                     S.of(context).completeDetails,
                       style: TextStyle(
                           fontSize: 16,
                           color: ColorsUtility.textFieldLabelColor),
@@ -80,7 +81,7 @@ class _CompleteUserDataScreenState extends State<CompleteUserDataScreen> {
                         children: [
                           AppTextField(
                             controller: _nameController,
-                            label: 'Full Name',
+                            label: S.of(context).fullName,
                             keyboardType: TextInputType.name,
                             validator: _validateName,
                           ),
@@ -89,7 +90,7 @@ class _CompleteUserDataScreenState extends State<CompleteUserDataScreen> {
                       ),
                     AppTextField(
                       controller: _phoneController,
-                      label: 'Phone Number',
+                      label: S.of(context).enterPhone,
                       keyboardType: TextInputType.phone,
                       validator: _validatePhone,
                     ),
@@ -132,20 +133,20 @@ class _CompleteUserDataScreenState extends State<CompleteUserDataScreen> {
 
   String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your name';
+      return S.of(context).validationErrorFullName;
     }
     if (value.length < 3) {
-      return 'Name must be at least 3 characters';
+      return S.of(context).threeLetterName;
     }
     return null;
   }
 
   String? _validatePhone(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter phone number';
+      return S.of(context).enterPhone;
     }
     if (!RegExp(r'^[0-9]{10,15}$').hasMatch(value)) {
-      return 'Enter valid phone number (10-15 digits)';
+      return S.of(context).validPhone;
     }
     return null;
   }
