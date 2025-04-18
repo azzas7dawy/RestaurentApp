@@ -8,8 +8,12 @@ import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key});
+  const PaymentScreen({
+    super.key,
+    required this.initialTotal,
+  });
   static const String id = 'PaymentScreen';
+  final double initialTotal;
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -73,7 +77,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     });
   }
 
-  void _handleContinueButton() {
+  void _handleContinueButton(double totalPrice) {
     if (_selectedPaymentMethod == null) {
       appSnackbar(
         context,
@@ -86,10 +90,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         MaterialPageRoute(
           builder: (context) => CompletePaymentScreen(
             paymentMethod: _selectedPaymentMethod!,
-            totalAmount: _discountAmount > 0
-                ? (context.read<OrdersCubit>().calculateTotal() -
-                    _discountAmount)
-                : context.read<OrdersCubit>().calculateTotal(),
+            totalAmount: totalPrice - _discountAmount,
             discountAmount: _discountAmount,
           ),
         ),
@@ -99,9 +100,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<OrdersCubit>();
-    final totalPrice = cubit.calculateTotal();
-    final finalPrice = totalPrice - _discountAmount;
+    final totalPrice = ModalRoute.of(context)!.settings.arguments as double? ??
+        widget.initialTotal;
 
     return Scaffold(
       appBar: AppBar(
@@ -119,55 +119,60 @@ class _PaymentScreenState extends State<PaymentScreen> {
           },
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Select your preferred payment method',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: ColorsUtility.textFieldLabelColor,
-                    ),
+      body: BlocBuilder<OrdersCubit, OrdersState>(
+        builder: (context, state) {
+          // final cubit = context.read<OrdersCubit>();
+          final finalPrice = totalPrice - _discountAmount;
+
+          return Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Select your preferred payment method',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: ColorsUtility.textFieldLabelColor,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      _buildPaymentMethodCard(
+                        context,
+                        icon: Icons.money,
+                        title: "Cash on Delivery",
+                        subtitle: "Pay when you receive your order",
+                        value: "cash",
+                      ),
+                      const SizedBox(height: 16),
+                      _buildPaymentMethodCard(
+                        context,
+                        icon: Icons.payment,
+                        title: "PayPal",
+                        subtitle: "Pay securely with PayPal",
+                        value: "paypal",
+                      ),
+                      const SizedBox(height: 24),
+                      _buildCouponSection(context, totalPrice),
+                      const SizedBox(height: 24),
+                      _buildOrderSummary(context, totalPrice, finalPrice),
+                    ],
                   ),
-                  const SizedBox(height: 24),
-                  _buildPaymentMethodCard(
-                    context,
-                    icon: Icons.money,
-                    title: "Cash on Delivery",
-                    subtitle: "Pay when you receive your order",
-                    value: "cash",
-                  ),
-                  const SizedBox(height: 16),
-                  _buildPaymentMethodCard(
-                    context,
-                    icon: Icons.payment,
-                    title: "PayPal",
-                    subtitle: "Pay securely with PayPal",
-                    value: "paypal",
-                  ),
-                  const SizedBox(height: 24),
-                  _buildCouponSection(context, totalPrice),
-                  const SizedBox(height: 24),
-                  _buildOrderSummary(context, totalPrice, finalPrice),
-                ],
+                ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 10,
-            ),
-            child: AppElevatedBtn(
-              onPressed: _handleContinueButton,
-              text: 'Continue',
-            ),
-          ),
-        ],
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: AppElevatedBtn(
+                  onPressed: () => _handleContinueButton(totalPrice),
+                  text: 'Continue',
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

@@ -1,10 +1,11 @@
-// widgets/custom_drawer.dart
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/screens/favoritesScreen/favorites_screen.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
+import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_confirmation_dialog.dart';
 
@@ -13,6 +14,11 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userData = PrefService.userData;
+    final userName = userData['userName'] ?? 'Guest';
+    final userEmail = userData['userEmail'] ?? 'No email';
+    final userImage = userData['userImage'];
+
     return Drawer(
       backgroundColor: ColorsUtility.onboardingDescriptionColor,
       child: SafeArea(
@@ -20,38 +26,46 @@ class AppDrawer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // header
-            // Container(
-            //   width: double.infinity,
-            //   padding: const EdgeInsets.all(16),
-            //   child: const Row(
-            //     children: [
-            //       CircleAvatar(
-            //         radius: 30,
-            //         backgroundImage: AssetImage('assets/images/user.png'),
-            //       ),
-            //       SizedBox(width: 16),
-            //       Column(
-            //         crossAxisAlignment: CrossAxisAlignment.start,
-            //         children: [
-            //           Text(
-            //             "Hello, Enas",
-            //             style: TextStyle(
-            //               color: ColorsUtility.takeAwayColor,
-            //               fontSize: 18,
-            //             ),
-            //           ),
-            //           Text(
-            //             "Enas@mail.com",
-            //             style: TextStyle(
-            //               color: ColorsUtility.takeAwayColor,
-            //               fontSize: 14,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundImage: userImage != null && userImage.isNotEmpty
+                        ? CachedNetworkImageProvider(userImage)
+                        : const NetworkImage(
+                                'https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png')
+                            as ImageProvider,
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Hello, ${userName.toUpperCase()}",
+                          style: const TextStyle(
+                            color: ColorsUtility.takeAwayColor,
+                            fontSize: 18,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                        ),
+                        Text(
+                          userEmail,
+                          style: const TextStyle(
+                            color: ColorsUtility.takeAwayColor,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
 
             // items
             Expanded(

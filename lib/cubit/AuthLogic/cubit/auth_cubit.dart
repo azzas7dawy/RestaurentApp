@@ -1,8 +1,10 @@
 import 'dart:developer';
-
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
@@ -20,10 +22,9 @@ class AuthCubit extends Cubit<AuthState> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  // =================================================================================
-  // sign up
   Future<void> signUp({
     required String name,
     required String email,
@@ -60,6 +61,7 @@ class AuthCubit extends Cubit<AuthState> {
           phone: phone,
           provider: 'email',
           isProfileComplete: true,
+          imageUrl: '',
         );
 
         await PrefService.setLoggedIn(true);
@@ -103,8 +105,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // =================================================================================
-  // login
   Future<void> login({
     required String emailOrPhone,
     required String password,
@@ -132,13 +132,28 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       if (userCredential.user != null) {
+        final doc = await _firestore
+            .collection('users2')
+            .doc(userCredential.user!.uid)
+            .get();
+        String phone = '';
+        String imageUrl = '';
+        if (doc.exists) {
+          phone = doc.data()?['phone'] ?? '';
+          imageUrl = doc.data()?['imageUrl'] ?? '';
+        }
+
         await PrefService.setLoggedIn(true);
         await PrefService.saveUserData(
           userId: userCredential.user!.uid,
           name: userCredential.user!.displayName ?? '',
           email: userCredential.user!.email ?? '',
-          phone: await _getUserPhone(userCredential.user!.uid),
+          phone: phone,
         );
+        if (imageUrl.isNotEmpty) {
+          await PrefService.saveUserImage(imageUrl);
+        }
+
         emit(LoginSuccess());
         if (context.mounted) {
           appSnackbar(
@@ -172,8 +187,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // =================================================================================
-  // google sign in
   Future<void> signInWithGoogle(BuildContext context) async {
     emit(GoogleLoginLoading());
     try {
@@ -196,13 +209,29 @@ class AuthCubit extends Cubit<AuthState> {
       final User? user = userCredential.user;
 
       if (user != null) {
+        String imageUrl = '';
+        String phone = '';
+        final doc = await _firestore.collection('users2').doc(user.uid).get();
+        if (doc.exists) {
+          phone = doc.data()?['phone'] ?? '';
+          imageUrl = doc.data()?['imageUrl'] ?? '';
+        }
+
+        if (imageUrl.isEmpty && user.photoURL != null) {
+          imageUrl = user.photoURL!;
+        }
+
         await PrefService.setLoggedIn(true);
         await PrefService.saveUserData(
           userId: user.uid,
           name: user.displayName ?? '',
           email: user.email ?? '',
-          phone: await _getUserPhone(user.uid),
+          phone: phone,
         );
+        if (imageUrl.isNotEmpty) {
+          await PrefService.saveUserImage(imageUrl);
+        }
+
         final userDoc =
             await _firestore.collection('users2').doc(user.uid).get();
         final bool isProfileComplete = userDoc.exists
@@ -226,9 +255,10 @@ class AuthCubit extends Cubit<AuthState> {
             userId: user.uid,
             name: user.displayName ?? 'No Name',
             email: user.email ?? 'No Email',
-            phone: '',
+            phone: phone,
             provider: 'google',
             isProfileComplete: true,
+            imageUrl: imageUrl,
           );
 
           emit(GoogleLoginSuccess());
@@ -256,8 +286,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // =================================================================================
-  // complete user prof
   Future<void> completeUserProfile({
     required User user,
     required String name,
@@ -271,6 +299,8 @@ class AuthCubit extends Cubit<AuthState> {
         await user.updateDisplayName(name);
       }
 
+      String imageUrl = isGoogleSignIn ? (user.photoURL ?? '') : '';
+
       await _saveUserDataToFirestore(
         userId: user.uid,
         name: name,
@@ -278,7 +308,18 @@ class AuthCubit extends Cubit<AuthState> {
         phone: phone,
         provider: isGoogleSignIn ? 'google' : 'email',
         isProfileComplete: true,
+        imageUrl: imageUrl,
       );
+
+      await PrefService.saveUserData(
+        userId: user.uid,
+        name: name,
+        email: user.email ?? 'No Email',
+        phone: phone,
+      );
+      if (imageUrl.isNotEmpty) {
+        await PrefService.saveUserImage(imageUrl);
+      }
 
       emit(ProfileUpdateSuccess());
       if (context.mounted) {
@@ -301,8 +342,92 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // =================================================================================
-  // sve user data to firestore
+  Future<void> updateUserProfile({
+    required String name,
+    required String phone,
+    required File? imageFile,
+    required Uint8List? webImageBytes,
+    required BuildContext context,
+  }) async {
+    emit(ProfileUpdateLoading());
+    try {
+      final user = _auth.currentUser;
+      if (user == null) {
+        throw Exception('No user is currently signed in');
+      }
+
+      String imageUrl = PrefService.userData['userImage'] ?? '';
+
+      if (imageFile != null || webImageBytes != null) {
+        try {
+          log('Starting image upload...');
+          final storageRef =
+              _storage.ref().child('user_images').child('${user.uid}.jpg');
+          log('Storage reference created: ${storageRef.fullPath}');
+
+          if (webImageBytes != null) {
+            await storageRef.putData(webImageBytes);
+            log('Web image bytes uploaded successfully');
+          } else if (imageFile != null) {
+            await storageRef.putFile(imageFile);
+            log('Image file uploaded successfully');
+          }
+
+          imageUrl = await storageRef.getDownloadURL();
+          log('Download URL obtained: $imageUrl');
+        } catch (e) {
+          log('Error uploading image: $e');
+          throw Exception('Failed to upload profile image');
+        }
+      }
+
+      await user.updateDisplayName(name);
+
+      await _saveUserDataToFirestore(
+        userId: user.uid,
+        name: name,
+        email: user.email ?? 'No Email',
+        phone: phone,
+        provider:
+            user.providerData.any((info) => info.providerId == 'google.com')
+                ? 'google'
+                : 'email',
+        isProfileComplete: true,
+        imageUrl: imageUrl,
+      );
+
+      await PrefService.saveUserData(
+        userId: user.uid,
+        name: name,
+        email: user.email ?? 'No Email',
+        phone: phone,
+      );
+
+      if (imageUrl.isNotEmpty) {
+        await PrefService.saveUserImage(imageUrl);
+      }
+
+      emit(ProfileUpdateSuccess());
+      if (context.mounted) {
+        appSnackbar(
+          context,
+          text: 'Profile updated successfully!',
+          backgroundColor: ColorsUtility.successSnackbarColor,
+        );
+      }
+    } catch (e) {
+      log('Error in updateUserProfile: $e');
+      emit(ProfileUpdateFailed(e.toString()));
+      if (context.mounted) {
+        appSnackbar(
+          context,
+          text: 'Error updating profile: ${e.toString()}',
+          backgroundColor: ColorsUtility.errorSnackbarColor,
+        );
+      }
+    }
+  }
+
   Future<void> _saveUserDataToFirestore({
     required String userId,
     required String name,
@@ -310,8 +435,9 @@ class AuthCubit extends Cubit<AuthState> {
     required String phone,
     required String provider,
     required bool isProfileComplete,
+    required String imageUrl,
   }) async {
-    await _firestore.collection('users2').doc(userId).set({
+    final data = {
       'name': name,
       'email': email,
       'phone': phone,
@@ -319,11 +445,18 @@ class AuthCubit extends Cubit<AuthState> {
       'isProfileComplete': isProfileComplete,
       'updatedAt': FieldValue.serverTimestamp(),
       'createdAt': FieldValue.serverTimestamp(),
-    }, SetOptions(merge: true));
+    };
+
+    if (imageUrl.isNotEmpty) {
+      data['imageUrl'] = imageUrl;
+    }
+
+    await _firestore.collection('users2').doc(userId).set(
+          data,
+          SetOptions(merge: true),
+        );
   }
 
-  // ========================================================================================
-  // user phone
   Future<Map<String, dynamic>?> _findUserByPhoneNumber(
       String phoneNumber) async {
     try {
@@ -342,7 +475,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // errors
   String _getErrorMessage(FirebaseAuthException e) {
     switch (e.code) {
       case 'weak-password':
@@ -379,8 +511,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // =================================================================================
-  // sign out
   Future<void> signOut(BuildContext context) async {
     emit(LogoutLoading());
     try {
@@ -408,8 +538,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // =================================================================================
-  // reset password
   Future<void> resetPassword({
     required String email,
     required BuildContext context,
@@ -462,8 +590,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // =================================================================================
-  // delete account
   Future<void> deleteAccount(BuildContext context) async {
     emit(DeleteAccountLoading());
     try {
@@ -471,6 +597,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (user != null) {
         await _firestore.collection('users2').doc(user.uid).delete();
         await user.delete();
+        await PrefService.clearUserData();
         emit(DeleteAccountSuccess());
         if (context.mounted) {
           appSnackbar(
@@ -478,39 +605,23 @@ class AuthCubit extends Cubit<AuthState> {
             text: 'Account deleted successfully!',
             backgroundColor: ColorsUtility.successSnackbarColor,
           );
-          Navigator.pushReplacementNamed(context, LoginScreen.id);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            LoginScreen.id,
+            (Route<dynamic> route) => false,
+          );
         }
       }
-    } on FirebaseAuthException catch (e) {
-      emit(DeleteAccountFailed(e.toString()));
-      if (context.mounted) {
-        appSnackbar(
-          context,
-          text: 'Error deleting account: ${e.message}',
-          backgroundColor: ColorsUtility.errorSnackbarColor,
-        );
-      }
     } catch (e) {
       emit(DeleteAccountFailed(e.toString()));
       if (context.mounted) {
         appSnackbar(
           context,
-          text: 'Error deleting account: $e',
+          text: 'Error deleting account: ${e.toString()}',
           backgroundColor: ColorsUtility.errorSnackbarColor,
         );
       }
-    }
-  }
-
-  // ====================================================================================
-  // fetch user phone for shared pref
-  Future<String> _getUserPhone(String userId) async {
-    try {
-      final doc = await _firestore.collection('users2').doc(userId).get();
-      return doc.data()?['phone'] ?? '';
-    } catch (e) {
-      log('Error getting user phone: $e');
-      return '';
+      rethrow;
     }
   }
 }

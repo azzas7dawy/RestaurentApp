@@ -14,33 +14,38 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
   const SpecialPlatesSectionWidget({super.key});
 
   Future<List<Map<String, dynamic>>> fetchSpecialPlates() async {
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    final List<String> menuDocs = [
-      'beef sandwich',
-      'chicken sandwich',
-      'desserts',
-      'mexican',
-      'drinks',
-    ];
+    try {
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
+      final List<String> menuDocs = [
+        'beef sandwich',
+        'chicken sandwich',
+        'desserts',
+        'mexican',
+        'drinks',
+      ];
 
-    List<Map<String, dynamic>> specialItems = [];
+      List<Map<String, dynamic>> specialItems = [];
 
-    for (String docName in menuDocs) {
-      QuerySnapshot snapshot = await firestore
-          .collection('menu')
-          .doc(docName)
-          .collection('items')
-          .where('special', isEqualTo: true)
-          .get();
+      for (String docName in menuDocs) {
+        QuerySnapshot snapshot = await firestore
+            .collection('menu')
+            .doc(docName)
+            .collection('items')
+            .where('special', isEqualTo: true)
+            .get();
 
-      for (var doc in snapshot.docs) {
-        var data = doc.data() as Map<String, dynamic>;
-        data['documentId'] = doc.id;
-        data['category'] = docName;
-        specialItems.add(data);
+        for (var doc in snapshot.docs) {
+          var data = doc.data() as Map<String, dynamic>;
+          data['documentId'] = doc.id;
+          data['category'] = docName;
+          specialItems.add(data);
+        }
       }
+      return specialItems;
+    } catch (e) {
+      debugPrint('Error fetching special plates: $e');
+      return [];
     }
-    return specialItems;
   }
 
   Widget _buildShimmerLoading(BuildContext context, double cardWidth) {
@@ -55,6 +60,39 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
             color: ColorsUtility.elevatedBtnColor,
             borderRadius: BorderRadius.circular(15),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageWidget(String imageUrl) {
+    if (imageUrl.isEmpty) {
+      return Container(
+        height: 130,
+        width: double.infinity,
+        color: Colors.grey[300],
+        child: const Icon(
+          Icons.fastfood,
+          size: 40,
+          color: ColorsUtility.progressIndictorColor,
+        ),
+      );
+    }
+
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      height: 130,
+      width: double.infinity,
+      fit: BoxFit.cover,
+      placeholder: (context, url) => Container(
+        color: Colors.grey[300],
+      ),
+      errorWidget: (context, url, error) => Container(
+        color: Colors.grey[300],
+        child: const Icon(
+          Icons.fastfood,
+          size: 40,
+          color: ColorsUtility.progressIndictorColor,
         ),
       ),
     );
@@ -123,13 +161,24 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
         }
 
         if (snapshot.hasError) {
-          return const Center(child: Text('Something went wrong'));
+          debugPrint('Error in special plates: ${snapshot.error}');
+          return const Center(
+            child: Text(
+              'Something went wrong',
+              style: TextStyle(color: ColorsUtility.takeAwayColor),
+            ),
+          );
         }
 
         final items = snapshot.data ?? [];
 
         if (items.isEmpty) {
-          return const Center(child: Text('No Special Plates found'));
+          return const Center(
+            child: Text(
+              'No Special Plates found',
+              style: TextStyle(color: ColorsUtility.takeAwayColor),
+            ),
+          );
         }
 
         return Column(
@@ -207,10 +256,8 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                             color: ColorsUtility.elevatedBtnColor,
                             boxShadow: [
                               BoxShadow(
-                                color:
-                                    ColorsUtility.mainBackgroundColor.withAlpha(
-                                  (0.2 * 255).round(),
-                                ),
+                                color: ColorsUtility.mainBackgroundColor
+                                    .withAlpha((0.2 * 255).round()),
                                 spreadRadius: 2,
                                 blurRadius: 5,
                                 offset: const Offset(0, 3),
@@ -224,36 +271,12 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                 borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(15),
                                 ),
-                                child: CachedNetworkImage(
-                                  imageUrl: item['image'],
-                                  height: 130,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) =>
-                                      Shimmer.fromColors(
-                                    baseColor: Colors.grey[300]!,
-                                    highlightColor: Colors.grey[100]!,
-                                    child: Container(
-                                      height: 130,
-                                      width: double.infinity,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      const Center(
-                                    child: Icon(
-                                      Icons.fastfood,
-                                      size: 40,
-                                      color:
-                                          ColorsUtility.progressIndictorColor,
-                                    ),
-                                  ),
-                                ),
+                                child: _buildImageWidget(item['image'] ?? ''),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  item['title'],
+                                  item['title'] ?? 'No Title',
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -267,7 +290,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Text(
-                                  item['description'],
+                                  item['description'] ?? 'No Description',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
@@ -284,7 +307,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      '${item['price']} EGP',
+                                      '${item['price'] ?? '0'} EGP',
                                       style: const TextStyle(
                                         color:
                                             ColorsUtility.progressIndictorColor,
