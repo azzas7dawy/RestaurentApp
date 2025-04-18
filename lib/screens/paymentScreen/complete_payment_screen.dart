@@ -256,10 +256,104 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
           ),
           textAlign: TextAlign.center,
         ),
+        const SizedBox(height: 30),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: TextFormField(
+            style: const TextStyle(color: ColorsUtility.onboardingColor),
+            controller: _phoneController,
+            keyboardType: TextInputType.phone,
+            decoration: InputDecoration(
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              labelText: 'Phone Number',
+              labelStyle: const TextStyle(
+                color: ColorsUtility.textFieldLabelColor,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(
+                  color: ColorsUtility.onboardingDescriptionColor,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(
+                  color: ColorsUtility.takeAwayColor,
+                ),
+              ),
+              prefixIcon: const Icon(
+                Icons.phone,
+                color: ColorsUtility.takeAwayColor,
+              ),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your phone number';
+              }
+              if (!RegExp(r'^[0-9]{10,15}$').hasMatch(value)) {
+                return 'Please enter a valid phone number';
+              }
+              return null;
+            },
+          ),
+        ),
+        const SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: TextFormField(
+            style: const TextStyle(color: ColorsUtility.onboardingColor),
+            controller: _addressController,
+            keyboardType: TextInputType.streetAddress,
+            maxLines: 3,
+            decoration: InputDecoration(
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              labelText: 'Delivery Address',
+              labelStyle: const TextStyle(
+                color: ColorsUtility.textFieldLabelColor,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(
+                  color: ColorsUtility.onboardingDescriptionColor,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(
+                  color: ColorsUtility.takeAwayColor,
+                ),
+              ),
+              prefixIcon: const Icon(
+                Icons.location_on,
+                color: ColorsUtility.takeAwayColor,
+              ),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your delivery address';
+              }
+              if (value.length < 10) {
+                return 'Address is too short';
+              }
+              return null;
+            },
+          ),
+        ),
         const Spacer(),
         AppElevatedBtn(
           onPressed: () {
-            _launchPayPalCheckout(context);
+            if (_formKey.currentState == null ||
+                _formKey.currentState!.validate()) {
+              _launchPayPalCheckout(context);
+            }
           },
           text: 'Proceed to PayPal',
         ),
@@ -311,24 +405,13 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             final phoneNumber = _phoneController.text;
             final address = _addressController.text;
 
-            await context.read<OrdersCubit>()
+            context.read<OrdersCubit>()
               ..setDeliveryInfo(phone: phoneNumber, address: address)
               ..submitOrder(
-                paymentMethod: 'paypal',
-                totalAmount: widget.totalAmount,
-                discountAmount: widget.discountAmount,
-                isPaid: true,
-              );
-
-            Navigator.pop(context);
-          },
-          onError: (error) {
-            print("onError: $error");
-            Navigator.pop(context);
-          },
-          onCancel: () {
-            print('cancelled:');
-            Navigator.pop(context);
+                  discountAmount: widget.discountAmount,
+                  isPaid: true,
+                  paymentMethod: 'paypal',
+                  totalAmount: widget.totalAmount);
           },
         ),
       ),

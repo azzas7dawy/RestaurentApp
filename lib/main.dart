@@ -151,7 +151,9 @@ class MyApp extends StatelessWidget {
             );
           case PaymentScreen.id:
             return MaterialPageRoute(
-              builder: (context) => const PaymentScreen(),
+              builder: (context) => PaymentScreen(
+                initialTotal: data,
+              ),
             );
           case CompletePaymentScreen.id:
             return MaterialPageRoute(

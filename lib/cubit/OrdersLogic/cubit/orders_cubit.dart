@@ -85,8 +85,14 @@ class OrdersCubit extends Cubit<OrdersState> {
   }
 
   double calculateTotal() {
-    return meals.fold(0, (total, meal) {
-      return total + (meal['price'] * (meal['quantity'] ?? 1));
+    return meals.fold(0.0, (double total, meal) {
+      final price = meal['price'] is int
+          ? (meal['price'] as int).toDouble()
+          : meal['price'] as double? ?? 0.0;
+      final quantity = meal['quantity'] is int
+          ? (meal['quantity'] as int).toDouble()
+          : meal['quantity'] as double? ?? 1.0;
+      return total + (price * quantity);
     });
   }
 

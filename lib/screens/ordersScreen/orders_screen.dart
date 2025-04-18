@@ -230,7 +230,12 @@ class OrdersScreen extends StatelessWidget {
                         const SizedBox(height: 16),
                         AppElevatedBtn(
                           onPressed: () {
-                            Navigator.pushNamed(context, PaymentScreen.id);
+                            final total = cubit.calculateTotal();
+                            Navigator.pushNamed(
+                              context,
+                              PaymentScreen.id,
+                              arguments: total,
+                            );
                           },
                           text: 'Proceed to Payment',
                         ),
