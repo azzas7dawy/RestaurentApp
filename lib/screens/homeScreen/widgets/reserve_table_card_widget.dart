@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restrant_app/utils/colors_utility.dart';
-import 'package:restrant_app/utils/images_utility.dart';
+
+import '../../../utils/colors_utility.dart';
+import '../../../utils/images_utility.dart';
 
 class ReserveTableCardWidget extends StatelessWidget {
   const ReserveTableCardWidget({super.key, this.onTap});

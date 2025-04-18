@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restrant_app/utils/colors_utility.dart';
+
+import '../../utils/colors_utility.dart';
+
 
 class ServiceCard extends StatelessWidget {
   const ServiceCard({

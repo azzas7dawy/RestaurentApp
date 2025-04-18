@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
-import 'package:restrant_app/screens/specialPlatesScreen/special_plates_screen.dart';
-import 'package:restrant_app/utils/colors_utility.dart';
+
+import '../../../utils/colors_utility.dart';
+import '../../mealDeatilsScreen/meal_details_screen.dart';
+import '../../specialPlatesScreen/special_plates_screen.dart';
 
 class SpecialPlatesSectionWidget extends StatelessWidget {
   const SpecialPlatesSectionWidget({super.key});

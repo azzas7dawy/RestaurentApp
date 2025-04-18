@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'notify_success.dart';
-
+import 'package:restrant_app/screens/categoriesScreens/notify_success.dart';
 
 void showConfirmationSheet(BuildContext context) {
   showModalBottomSheet(

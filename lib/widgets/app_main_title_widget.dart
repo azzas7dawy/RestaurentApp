@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restrant_app/utils/colors_utility.dart';
+
+import '../utils/colors_utility.dart';
+
 
 class AppMainTitleWidget extends StatelessWidget {
   const AppMainTitleWidget({super.key, required this.title});

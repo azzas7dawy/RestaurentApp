@@ -4,16 +4,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:restrant_app/firebase_options.dart';
-import 'package:restrant_app/screens/auth/login_screen.dart';
-import 'package:restrant_app/screens/categoriesScreens/categroy_one.dart';
-import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
-import 'package:restrant_app/screens/foodHomeScreen/food_home_screen.dart';
-import 'package:restrant_app/screens/paymentOptions/checkout.dart';
-import 'package:restrant_app/screens/paymentOptions/checkout_page.dart';
-import 'package:restrant_app/screens/splash/splash_screen.dart';
-import 'package:restrant_app/screens/trackOrder/track_order_screen.dart';
-import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:restaurant_app/generated/l10n.dart';
+import 'package:restaurant_app/screens/auth/login_screen.dart';
+import 'package:restaurant_app/screens/onboarding/onboarding_screen.dart';
+import 'package:restaurant_app/screens/splash/splash_screen.dart';
+import 'package:restaurant_app/screens/trackOrder/track_order_screen.dart';
+import 'package:restaurant_app/utils/colors_utility.dart';
+// import 'generated/l10n.dart';
+import 'firebase_options.dart';
+
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,9 +33,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale:Locale('ar'),
+
+         localizationsDelegates: [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+
+      // locale: Locale('en'),
       scrollBehavior: AppScrollBehavior(),
       debugShowCheckedModeBanner: false,
-      locale: DevicePreview.locale(context),
+      // locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -51,7 +63,7 @@ class MyApp extends StatelessWidget {
         switch (routeName) {
           case OnboardingScreen.id:
             return MaterialPageRoute(
-              builder: (context) => const OnboardingScreen(),
+              builder: (context) =>  OnboardingScreen(),
             );
           case LoginScreen.id:
             return MaterialPageRoute(
@@ -61,17 +73,17 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) =>  OrderTrackingPage(),
             );  
-            case CheckoutPage.id:
-            return MaterialPageRoute(
-              builder: (context) =>  CheckoutPage(),
-            );
+            // case CheckoutPage.id:
+            // return MaterialPageRoute(
+            //   builder: (context) =>  CheckoutPage(),
+            // );
             
           default:
             return MaterialPageRoute(builder: (context) => const SplashPage());
         }
       },
-      // initialRoute: SplashPage.id,
-      initialRoute: CheckoutPage.id,
+      initialRoute: SplashPage.id,
+      // initialRoute: CheckoutPage.id,
         // initialRoute: CartOrderScreen.id,
         //   initialRoute: OrderTrackingPage.id,
             // initialRoute: CateringScreen.id,

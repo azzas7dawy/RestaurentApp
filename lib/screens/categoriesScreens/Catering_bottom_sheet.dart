@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restrant_app/screens/categoriesScreens/confirmation_screen.dart';
+
+import 'confirmation_screen.dart';
+
 
 void showCateringBottomSheet(BuildContext context) {
   showModalBottomSheet(

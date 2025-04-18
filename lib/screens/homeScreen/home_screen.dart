@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:restrant_app/screens/customScreen/custom_screen.dart';
-import 'package:restrant_app/screens/homeScreen/widgets/animated_text_widget.dart';
-import 'package:restrant_app/screens/homeScreen/widgets/reserve_table_card_widget.dart';
-import 'package:restrant_app/screens/homeScreen/widgets/slider_widget.dart';
-import 'package:restrant_app/screens/homeScreen/widgets/special_plates_section_widget.dart';
-import 'package:restrant_app/widgets/app_main_title_widget.dart';
+import 'package:restaurant_app/screens/homeScreen/widgets/slider_widget.dart' show SliderWidget;
+import 'package:restaurant_app/screens/homeScreen/widgets/animated_text_widget.dart' show AnimatedTextWidget;
+
+import 'package:restaurant_app/screens/homeScreen/widgets/reserve_table_card_widget.dart' show ReserveTableCardWidget;
+import 'package:restaurant_app/screens/homeScreen/widgets/special_plates_section_widget.dart' show SpecialPlatesSectionWidget;
+
+import '../../widgets/app_main_title_widget.dart';
+import '../customScreen/custom_screen.dart';
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -21,8 +24,8 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: 20),
           const AnimatedTextWidget(),
           const SizedBox(height: 20),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: AppMainTitleWidget(
               title: 'Special Plates',
             ),

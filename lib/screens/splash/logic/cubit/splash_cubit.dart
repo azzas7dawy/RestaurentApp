@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:restrant_app/services/pref_service.dart';
+
+import '../../../../services/pref_service.dart';
+
 
 part 'splash_state.dart';
 

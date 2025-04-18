@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
-import 'package:restrant_app/utils/colors_utility.dart';
+
+import '../../utils/colors_utility.dart';
+import '../mealDeatilsScreen/meal_details_screen.dart';
 
 class SpecialPlatesScreen extends StatelessWidget {
   const SpecialPlatesScreen({super.key, required this.items});

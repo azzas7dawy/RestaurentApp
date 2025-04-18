@@ -1,10 +1,9 @@
 // ignore_for_file: use_super_parameters
 
 import 'package:flutter/material.dart';
-
-import '../../utils/colors_utility.dart';
-import 'Catering_bottom_sheet.dart';
-
+import 'package:restrant_app/screens/categoriesScreens/Catering_bottom_sheet.dart';
+import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:restrant_app/utils/widgets/show_bottomsheet.dart';
 
 class CateringScreen extends StatelessWidget {
   static const String id = 'catering_screen';

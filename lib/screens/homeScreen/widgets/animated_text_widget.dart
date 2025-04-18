@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:restrant_app/utils/colors_utility.dart';
+
+import '../../../utils/colors_utility.dart';
+
 
 class AnimatedTextWidget extends StatelessWidget {
   const AnimatedTextWidget({super.key});

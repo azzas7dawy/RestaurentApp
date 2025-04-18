@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restrant_app/screens/auth/logic/cubit/auth_cubit.dart';
-import 'package:restrant_app/utils/colors_utility.dart';
-import 'package:restrant_app/widgets/app_text_field.dart';
-import 'package:restrant_app/widgets/auth_template_widget.dart';
+
+import '../../utils/colors_utility.dart';
+import '../../widgets/app_text_field.dart';
+import '../../widgets/auth_template_widget.dart';
+import 'logic/cubit/auth_cubit.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

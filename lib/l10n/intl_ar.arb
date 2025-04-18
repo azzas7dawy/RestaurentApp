@@ -1,0 +1,13 @@
+{
+  "splashTitle": "باراجون",
+  "skipButton": "تخطي",
+  "onboardingTitleOne": "خطط لوجبتك الأسبوعية",
+  "onboardingDescriptionOne": "يمكنك طلب وجبات الأسبوعية ونقلها بطريقة سريعة إلى باب منزلك.",
+  "onboardingTitleTwo": "احجز طاولة",
+  "onboardingDescriptionTwo": "تعبت من الانتظار؟ احجز طاولة على الفور.",
+  "onboardingTitleThree": "اطلب خدمات الطعام",
+  "onboardingDescriptionThree": "اطلب خدمات الطعام معنا.",
+  "continueButton": "استمرار",
+  "successMessage": "تم حجز الطاولة بنجاح",
+  "note": "مدة الحجز ساعة واحدة فقط"
+}

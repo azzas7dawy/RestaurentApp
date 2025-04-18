@@ -1,11 +1,9 @@
 // widgets/custom_bottom_navbar.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:restrant_app/utils/icons_utility.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-
-import '../../../utils/colors_utility.dart';
-import '../../../utils/icons_utility.dart';
 
 class AppBottomNavBar extends StatelessWidget {
   final int currentIndex;

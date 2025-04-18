@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
-import '../../../utils/colors_utility.dart';
-import '../../../utils/images_utility.dart';
-
+import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:restrant_app/utils/images_utility.dart';
 
 class SliderWidget extends StatelessWidget {
   const SliderWidget({super.key});
