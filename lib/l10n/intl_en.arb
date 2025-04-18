@@ -8,6 +8,41 @@
   "onboardingDescriptionTwo": "Tired of having to wait? Make a table reservation right away.",
   "onboardingTitleThree": "Place catering Orders",
   "onboardingDescriptionThree": "Place catering orders with us.",
+  
+
+  
+  "emailOrPhone": "Email/Phone number",
+  "password": "Password",
+  "loginButton": "Login",
+  "signupButton": "Sign up",
+  "forgotPassword": "Forgot password?",
+   "validationErrorEmail": "Please enter your email or phone number",
+  "validationErrorPassword": "Please enter a valid password",
+  "validationErrorPasswordLength": "Password must be at least 6 characters long",
+
+
+  "fullName": "Full name",
+  "email": "Email",
+  "phoneNumber": "Phone number",
+   "confirmPassword": "Confirm password",
+  "validationErrorFullName": "Please enter your full name",
+  "validName": "Please enter a valid name (letters and spaces only)",
+  "nameLength": "Name must be at least 2 characters long",
+  "firstAndLastName": "Please enter your first and last name",
+  "enterPhone": "Please enter your phone number",
+  "validPhone": "Please enter a valid phone number (10-15 digits)",
+  "matchPassword": "Passwords do not match",
+
+
+
+  
+  "resetEmail": " Enter your email address to receive a password reset link",
+  "resetPassword": "Reset password",
+   "sendButton": "Send Reset Link",
+   
+   "completeDetails": "Please provide the following details: ",
+
+
 
   "continueButton": "Continue",
   "successMessage": "Your table is reserved",
