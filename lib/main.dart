@@ -8,10 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/firebase_options.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/auth/complete_user_data.dart';
 import 'package:restrant_app/screens/auth/forgot_password_screen.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
@@ -78,7 +80,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       scrollBehavior: AppScrollBehavior(),
       debugShowCheckedModeBanner: false,
-      locale: DevicePreview.locale(context),
+         locale:Locale('ar'),
+                  localizationsDelegates: [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+          
+      // Removed the locale property as it expects a Locale? type, not a Future<S>.
+      // locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -97,7 +109,7 @@ class MyApp extends StatelessWidget {
         switch (routeName) {
           case OnboardingScreen.id:
             return MaterialPageRoute(
-              builder: (context) => const OnboardingScreen(),
+              builder: (context) =>  OnboardingScreen(),
             );
           case LoginScreen.id:
             return MaterialPageRoute(
