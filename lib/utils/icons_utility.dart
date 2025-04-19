@@ -7,4 +7,5 @@ class IconsUtility {
   static const String profileIcon = 'assets/icons/profile.svg';
   static const String cashOnDeliveryIcon = 'assets/icons/cash-on-delivery.svg';
   static const String paypalIcon = 'assets/icons/icons8-paypal.svg';
+  static const String searchIcon = 'assets/icons/icons8-search.svg';
 }

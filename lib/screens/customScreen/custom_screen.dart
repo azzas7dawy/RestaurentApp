@@ -6,6 +6,7 @@ import 'package:restrant_app/screens/homeScreen/home_screen.dart';
 import 'package:restrant_app/screens/menuScreens/menu_screen.dart';
 import 'package:restrant_app/screens/profileScreen/profile_screen.dart';
 import 'package:restrant_app/screens/reserveTableScreen/reserve_table_screen.dart';
+import 'package:restrant_app/screens/searchScreen/search_screen.dart';
 
 class CustomScreen extends StatefulWidget {
   const CustomScreen({super.key, this.initialIndex = 0});
@@ -18,11 +19,12 @@ class CustomScreen extends StatefulWidget {
 
 class _HomePageState extends State<CustomScreen> {
   late int _currentIndex;
-  final List<Widget> _pages = const [
-    HomeScreen(),
-    MenuScreen(),
-    ReserveTableScreen(),
-    ProfileScreen(),
+  final List<Widget> _pages = [
+    const HomeScreen(),
+    const MenuScreen(),
+    SearchScreen(),
+    const ReserveTableScreen(),
+    const ProfileScreen(),
   ];
 
   @override
