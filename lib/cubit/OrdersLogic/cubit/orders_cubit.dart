@@ -78,9 +78,9 @@ class OrdersCubit extends Cubit<OrdersState> {
     }
   }
 
-  void removeMeal(int index) {
+  void removeMeal(int index) async {
     meals.removeAt(index);
-    _updateCartInFirestore();
+    await _updateCartInFirestore(); // مهم جدًا لحذف البيانات من Firestore
     emit(OrdersLoaded(meals: List.from(meals)));
   }
 
@@ -103,6 +103,17 @@ class OrdersCubit extends Cubit<OrdersState> {
       }, SetOptions(merge: true));
     } catch (e) {
       emit(OrdersError(errorMessage: 'Failed to update cart: ${e.toString()}'));
+    }
+  }
+
+  Future<void> _clearCart() async {
+    try {
+      await firestore.collection('users2').doc(userId).update({
+        'cartItems': [],
+      });
+      meals.clear(); // مهم جدًا لمسح البيانات من الذاكرة بعد حفظها
+    } catch (e) {
+      emit(OrdersError(errorMessage: 'Failed to clear cart: ${e.toString()}'));
     }
   }
 
@@ -148,7 +159,6 @@ class OrdersCubit extends Cubit<OrdersState> {
       });
 
       await _clearCart();
-      meals.clear();
       emit(OrdersLoaded(meals: List.from(meals)));
       emit(OrdersSubmissionSuccess());
     } catch (e) {
@@ -166,25 +176,22 @@ class OrdersCubit extends Cubit<OrdersState> {
     }
   }
 
-  Future<void> _clearCart() async {
-    try {
-      await firestore.collection('users2').doc(userId).update({
-        'cartItems': [],
-      });
-    } catch (e) {
-      emit(OrdersError(errorMessage: 'Failed to clear cart: ${e.toString()}'));
-    }
-  }
-
   Future<void> addMeal(Map<String, dynamic> meal) async {
     while (_isLoadingCart) {
       await Future.delayed(const Duration(milliseconds: 100));
     }
 
-    emit(OrdersLoading());
+    // emit(OrdersLoading());
 
     final documentId =
         meal['documentId'] ?? meal['title'] ?? UniqueKey().toString();
+
+    final doc = await firestore.collection('users2').doc(userId).get();
+    if (doc.exists && doc.data()?['cartItems'] != null) {
+      meals = List<Map<String, dynamic>>.from(doc.data()?['cartItems'] ?? []);
+    } else {
+      meals = [];
+    }
 
     final existingIndex =
         meals.indexWhere((m) => m['documentId'] == documentId);
@@ -199,6 +206,7 @@ class OrdersCubit extends Cubit<OrdersState> {
         'quantity': 1,
       });
     }
+
     await _updateCartInFirestore();
     emit(OrdersLoaded(meals: List.from(meals)));
   }

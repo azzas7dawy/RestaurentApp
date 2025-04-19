@@ -1,4 +1,3 @@
-// widgets/custom_bottom_navbar.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -24,8 +23,8 @@ class AppBottomNavBar extends StatelessWidget {
         SalomonBottomBarItem(
           icon: SvgPicture.asset(
             IconsUtility.homeIcon,
-            width: 24,
-            height: 24,
+            width: 20,
+            height: 20,
           ),
           title: const Text("Home"),
           selectedColor: ColorsUtility.takeAwayColor,
@@ -33,24 +32,33 @@ class AppBottomNavBar extends StatelessWidget {
         SalomonBottomBarItem(
           icon: SvgPicture.asset(
             IconsUtility.orderFoodIcon,
-            width: 24,
-            height: 24,
+            width: 20,
+            height: 20,
           ),
           title: const Text("Menu"),
           selectedColor: ColorsUtility.takeAwayColor,
         ),
         SalomonBottomBarItem(
           icon: SvgPicture.asset(
+            IconsUtility.searchIcon,
+            width: 20,
+            height: 20,
+          ),
+          title: const Text("Search"),
+          selectedColor: ColorsUtility.takeAwayColor,
+        ),
+        SalomonBottomBarItem(
+          icon: SvgPicture.asset(
             IconsUtility.reserveTableIcon,
-            width: 24,
-            height: 24,
+            width: 20,
+            height: 20,
           ),
           title: const Text("Reserve Table"),
           selectedColor: ColorsUtility.takeAwayColor,
         ),
         SalomonBottomBarItem(
           icon:
-              SvgPicture.asset(IconsUtility.profileIcon, width: 24, height: 24),
+              SvgPicture.asset(IconsUtility.profileIcon, width: 20, height: 20),
           title: const Text("Profile"),
           selectedColor: ColorsUtility.takeAwayColor,
         ),
