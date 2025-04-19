@@ -1,0 +1,7 @@
+[build]
+  command   = "flutter build web"
+  publish   = "build/web"
+  functions = "build/functions"  # لو عندك Functions
+
+[context.production.environment]
+  FLUTTER_WEB_USE_SKIA = "true"  # اختياري لو عايزة سكيا للويب

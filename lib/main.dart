@@ -36,16 +36,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  NotificationSettings settings = await FirebaseMessaging.instance.requestPermission();
-  print('Permission: ${settings.authorizationStatus}');
-
-  // خدي FCM Token
-  String? token = await FirebaseMessaging.instance.getToken(
-    vapidKey: "BKUu1ugjmvRlcjeZdDRBtsatP1FoF4nE49HhYOTX4B40nWbJegaHqNw1jhpTF33TbxvA7c_SboXLGXAEmRAmfzU",
-  );
-  print("FCM Token: $token");
-
+   
+ 
   await PrefService.init();
   try {
     await Firebase.initializeApp(
@@ -55,6 +47,15 @@ Future<void> main() async {
     log('failed to initialize firebase : $e');
   }
   await dotenv.load(fileName: ".env");
+   NotificationSettings settings = await FirebaseMessaging.instance.requestPermission();
+  print('Permission: ${settings.authorizationStatus}');
+
+  // خدي FCM Token
+  String? token = await FirebaseMessaging.instance.getToken(
+    vapidKey: "BKUu1ugjmvRlcjeZdDRBtsatP1FoF4nE49HhYOTX4B40nWbJegaHqNw1jhpTF33TbxvA7c_SboXLGXAEmRAmfzU",
+  );
+  print("FCM Token: $token");
+
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
