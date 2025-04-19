@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restrant_app/generated/l10n.dart';
 
 class TableSelection extends StatelessWidget {
   final int? selectedTable;
@@ -25,7 +26,7 @@ class TableSelection extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              'Select a Table',
+             S.of(context).selectYourTable,
               style: TextStyle(color: Colors.black, fontSize: 24),
               textAlign: TextAlign.center,
             ),
@@ -49,7 +50,7 @@ class TableSelection extends StatelessWidget {
                       children: [
                         Image.network(table['image'], width: 100, height: 100),
                         Text(
-                          'Table ${table['id']}',
+                          '${S.of(context).selectseats} ${table['id']}',
                           style: TextStyle(color: Colors.white),
                         ),
                       ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/reserveTableScreen/widgets/city_restrant_bottomsheet.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 
@@ -58,7 +59,7 @@ class ReserveTableScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Reserve Table',
+                    S.of(context).reserveTable,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 32,

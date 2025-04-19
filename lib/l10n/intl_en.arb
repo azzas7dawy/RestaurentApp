@@ -40,8 +40,7 @@
     "createAccount": "Create a new account",
     "pleaseLogin": "Please login to your account",
     "fillForm": "Please fill in the form to continue",
-    "loginGoogle": "Login with Google",
-    "SignIBnGoogle": "Sign in with Google",
+     "saveButton": "Save",
   
     
     "resetEmail": " Enter your email address to receive a password reset link",
@@ -49,10 +48,56 @@
      "sendButton": "Send Reset Link",
      
      "completeDetails": "Please provide the following details: ",
+     "loginGoogle": "Login with Google",
+     "sigUpGoogle": "Sign in with Google",
+     "donotHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "sigUp": "Sign up",
+    "login": "Login",
+    "SIGIUP": "SIGN UP",
+    "LOGIN": "LOGIN",
+    "eitherSigUPOrLogin": "Either onLogin or onSignUp should be provided",
+    "CancelButton": "Cancel",
   
   
+
+ "reserveationTable": "Table Reservation",
+ "selectTable": "Select a table",
+ "reserveTable": "Reserve Table",
+ "reserNow":"Reserve a table at Paragon right now",
+  "successReser": "Success",
+  "tableReserved": "Your table is reserved",
+  "tableReservedMessage": "NOTE: Reservation is only for 1 hour",
+
+ "fillAllFields": "Please fill out all fields.",
+  "successMessage": "Reservation successful!",
+  "revervationForm": "Reservation Form",
+  "setectData":"Select Date",
+ "selectTime":"Select Time",
+ "selectNumberOfPeople":"Persons",
+"reserve":"Reserve",
+
+"cityOne":"Calicut",
+"cityTwo":"Kochi",
+"cityThree":"Thiruvananthapuram",
+"cNameOne":"Paragon Restaurant",
+"cNameTwo":"M Grill - Paragon Group",
+"cNameThree":"Brown Town - Paragon Group",
+"cAddressOne":"Kannur road, Near CH over bridge",
+"cAddressTwo":"M Grill - Paragon Group, Kochi",
+"cAddressThree":"Brown Town - Paragon Group, Thiruvananthapuram",
+"setectCity":"Select your city",
+"setectRestaurant":"Select the restaurant",
+"nextButton":"NEXT",
+"selectYourTable":" Select a Table",
+"selectseats":"seats",
+
+
+
+
+
+
   
-    "continueButton": "Continue",
-    "successMessage": "Your table is reserved",
+    
     "note": "Reservation is only for 1 hour"
   }

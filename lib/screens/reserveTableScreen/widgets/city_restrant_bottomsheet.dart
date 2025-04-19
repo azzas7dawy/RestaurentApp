@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restrant_app/generated/l10n.dart';
 
 import 'package:restrant_app/screens/reserveTableScreen/reservation_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,30 +13,33 @@ class _RestaurantBottomSheetState extends State<RestaurantBottomSheet> {
   String selectedCity = 'Calicut';
   Map<String, String>? selectedRestaurant;
 
-  final Map<String, List<Map<String, String>>> restaurantsByCity = {
-    'Calicut': [
-      {
-        'name': 'Paragon Restaurant',
-        'address': 'Kannur road, Near CH over bridge',
-      },
-      {
-        'name': 'M Grill - Paragon Group',
-        'address': 'Focus Mall, Rajaji Road',
-      },
-      {
-        'name': 'Brown Town - Paragon Group',
-        'address': 'Pottamal Junction, Pottamal',
-      },
-    ],
-    'Kochi': [],
-    'Trivandrum': [],
-  };
+  late Map<String, List<Map<String, String>>> restaurantsByCity;
 
   @override
   void initState() {
     super.initState();
+    restaurantsByCity = {
+      S.of(context).cityOne: [
+        {
+          'name': S.of(context).cNameOne,
+          'address': S.of(context).cAddressOne,
+        },
+        {
+          'name': S.of(context).cNameTwo,
+          'address': S.of(context).cAddressTwo,
+        },
+        {
+          'name': S.of(context).cNameThree,
+          'address': S.of(context).cAddressThree,
+        },
+      ],
+      S.of(context).cityTwo: [],
+      S.of(context).cityThree: [],
+    };
     loadSelectedData();
   }
+
+  // Duplicate initState method removed
 
   Future<void> loadSelectedData() async {
     final prefs = await SharedPreferences.getInstance();
@@ -72,7 +76,7 @@ class _RestaurantBottomSheetState extends State<RestaurantBottomSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("Select your city", style: TextStyle(color: Colors.white)),
+          Text(S.of(context).setectCity, style: TextStyle(color: Colors.white)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: restaurantsByCity.keys.map((city) {
@@ -90,8 +94,8 @@ class _RestaurantBottomSheetState extends State<RestaurantBottomSheet> {
               );
             }).toList(),
           ),
-          const SizedBox(height: 20),
-          Text("Select the restaurant", style: TextStyle(color: Colors.white)),
+           SizedBox(height: 20),
+          Text(S.of(context).setectRestaurant, style: TextStyle(color: Colors.white)),
           ...cityRestaurants.map((restaurant) {
             bool isSelected = selectedRestaurant?['name'] == restaurant['name'];
             return GestureDetector(
@@ -121,7 +125,7 @@ class _RestaurantBottomSheetState extends State<RestaurantBottomSheet> {
                 Navigator.push(context, MaterialPageRoute(builder: (context)
                 => ReservationPage()));
                 },
-                child: Text("NEXT", style: TextStyle(color: Colors.white))),
+                child: Text(S.of(context).nextButton, style: TextStyle(color: Colors.white))),
           )
         ],
       ),

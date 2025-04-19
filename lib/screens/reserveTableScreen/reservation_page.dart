@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/reserveTableScreen/widgets/bottom_sheet.dart';
 import 'package:restrant_app/screens/reserveTableScreen/widgets/table_selection_widget.dart';
 
@@ -19,7 +20,7 @@ class _ReservationPageState extends State<ReservationPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text('Table Reservation'),
+        title: Text(S.of(context).reserveationTable),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -54,7 +55,7 @@ class _ReservationPageState extends State<ReservationPage> {
                 children: [
                   ElevatedButton(
                     onPressed: () => _showTableSelection(context),
-                    child: Text('Select Table', style: TextStyle(color:
+                    child: Text(S.of(context).selectTable, style: TextStyle(color:
                     Colors.black)),
                   ),
                    SizedBox(height: 20,),
@@ -63,7 +64,7 @@ class _ReservationPageState extends State<ReservationPage> {
                       onPressed: () =>
 
                           _showReservationForm(context),
-                      child: Text('Reserve Table $selectedTable', style: TextStyle(color: Colors.black)),
+                      child: Text('${S.of(context).reserveTable} $selectedTable', style: TextStyle(color: Colors.black)),
                     ),
                 ],
               ),

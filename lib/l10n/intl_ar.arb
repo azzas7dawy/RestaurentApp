@@ -33,7 +33,67 @@
   
     "resetEmail": "البريد الإلكتروني لإعادة تعيين كلمة المرور",
     "resetPassword": "إعادة تعيين كلمة المرور",
-  
+    "loginGoogle": "تسجيل دخول بواسطة جوجل",
+    "sigUpGoogle": "انشاء حساب دخول بواسطة جوجل",
+    "donotHaveAccount": "لا تملك حساب؟",
+    "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
+    "sigUp": "إنشاء حساب",
+    "login": "تسجيل الدخول",
+    "SIGIUP": "انشاء الحساب",
+    "LOGIN": "تسجيل الدخول",
+    "eitherSigUPOrLogin": " يجب توفير إما تسجيل الدخول أو إنشاء حساب",
+    "CancelButton": " إلغاء",
+    "saveButton": "حفظ",
+
+
+
+    "reserveationTable": "حجز طاولة",
+    "selectTable": "حدد طاولة",
+    "reserveTable": "احجز الطاولة",
+    "reserNow":"احجز طاولة في باراجون الآن",
+    "successReser": "نجاح",
+    "tableReserved": "تم حجز الطاولة بنجاح",
+    "tableReservedMessage": "تم حجز الطاولة بنجاح. سنقوم بالتواصل معك قريبًا لتأكيد الحجز.",
+
+    "fillAllFields": "يرجى ملء جميع الحقول.",
+    "successMessage": "تم الحجز بنجاح!",
+    "revervationForm": "نموذج الحجز",
+    "setectData":"حدد التاريخ",
+      "selectTime":"حدد الوقت",
+      "selectNumberOfPeople":"حدد عدد الأشخاص",
+      "reserve":"احجز",
+
+"cityOne":"سيراليون",
+"cityTwo":"كوتشي",
+"cityThree":"تيروفانانثابورام",
+"cNameOne":"باراجون",
+"cNameTwo":"باراجون - مجموعة باراجون",
+"cNameThree":"باراجون - برون تاون - مجموعة باراجون",
+"cAddressOne":" باراجون -كنار - باراجون" ,
+"cAddressTwo":"ماينجالاد - باراجون",
+"cAddressThree":"برون تاون - باراجون",
+"setectCity":"حدد المدينة",
+"setectRestaurant":"حدد المطعم",
+"nextButton":"التالي",
+"selectYourTable":" حدد طاولة",
+"selectseats":"المقاعد",
+
+
+
+
+
+
+
+
+
+
+"note": "يرجى ملاحظة: الحجز لمدة ساعة واحدة فقط",
+
+
+
+
+
+
   
   
     "continueButton": "استمر"

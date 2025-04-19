@@ -101,7 +101,7 @@ class _CompleteUserDataScreenState extends State<CompleteUserDataScreen> {
                           onPressed: state is ProfileUpdateLoading
                               ? null
                               : _updateUserData,
-                          text: 'Save Profile',
+                          text: S.of(context).saveButton,
                           isLoading: state is ProfileUpdateLoading,
                         );
                       },

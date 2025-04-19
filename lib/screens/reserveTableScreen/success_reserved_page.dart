@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restrant_app/generated/l10n.dart';
 
 void showReservationSuccess(BuildContext context) {
   showModalBottomSheet(
@@ -34,8 +35,8 @@ class ReservationSuccessSheet extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40),
-              const Text(
-                "Success",
+               Text(
+                S.of(context).successReser,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
@@ -43,16 +44,16 @@ class ReservationSuccessSheet extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                "Your table is reserved",
+               Text(
+                S.of(context).tableReserved,
                 style: TextStyle(
                   color: Colors.white70,
                   fontSize: 16,
                 ),
               ),
               const SizedBox(height: 30),
-              const Text(
-                "NOTE: Reservation is only for 1 hour",
+               Text(
+                S.of(context).tableReservedMessage,
                 style: TextStyle(
                   color: Colors.white60,
                   fontSize: 12,

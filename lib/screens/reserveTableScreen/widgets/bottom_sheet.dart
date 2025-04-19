@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:restrant_app/generated/l10n.dart';
 class ReservationDetailsForm extends StatefulWidget {
   final int selectedTable;
 
@@ -22,7 +23,7 @@ class _ReservationDetailsFormState extends State<ReservationDetailsForm> {
         dateController.text.isEmpty ||
         timeController.text.isEmpty) {
       setState(() {
-        error = 'Please fill out all fields.';
+        error = S.of(context).fillAllFields;
       });
       return;
     }
@@ -37,7 +38,7 @@ class _ReservationDetailsFormState extends State<ReservationDetailsForm> {
 
 
     Navigator.pop(context);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Reservation successful!')));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(S.of(context).successMessage)));
   }
 
   @override
@@ -49,7 +50,7 @@ class _ReservationDetailsFormState extends State<ReservationDetailsForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Reservation Form',
+            S.of(context).revervationForm,
             style: TextStyle(color: Colors.white, fontSize: 24),
             textAlign: TextAlign.center,
           ),
@@ -57,12 +58,12 @@ class _ReservationDetailsFormState extends State<ReservationDetailsForm> {
           TextField(
             controller: nameController,
             style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(labelText: 'Your Name', labelStyle: TextStyle(color: Colors.white)),
+            decoration: InputDecoration(labelText: S.of(context).fullName, labelStyle: TextStyle(color: Colors.white)),
           ),
           TextField(
             controller: dateController,
             style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(labelText: 'Select Date', labelStyle: TextStyle(color: Colors.white)),
+            decoration: InputDecoration(labelText: S.of(context).setectData, labelStyle: TextStyle(color: Colors.white)),
             keyboardType: TextInputType.datetime,
           ),
 
@@ -78,7 +79,7 @@ class _ReservationDetailsFormState extends State<ReservationDetailsForm> {
             items: [4, 6, 3,2,1].map((value) {
               return DropdownMenuItem<int>(
                 value: value,
-                child: Text('$value Persons'),
+                child: Text('$value ${S.of(context).selectNumberOfPeople}', style: TextStyle(color: Colors.white)),
               );
             }).toList(),
           ),
@@ -86,7 +87,7 @@ class _ReservationDetailsFormState extends State<ReservationDetailsForm> {
           TextField(
             controller: timeController,
             style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(labelText: 'Select Time', labelStyle: TextStyle(color: Colors.white)),
+            decoration: InputDecoration(labelText: S.of(context).selectTime, labelStyle: TextStyle(color: Colors.white)),
             keyboardType: TextInputType.datetime,
           ),
           if (error.isNotEmpty) ...[
@@ -96,7 +97,7 @@ class _ReservationDetailsFormState extends State<ReservationDetailsForm> {
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: _submitForm,
-            child: Text('Reserve', style: TextStyle(color: Colors.black)),
+            child: Text(S.of(context).reserve, style: TextStyle(color: Colors.black)),
           ),
         ],
       ),

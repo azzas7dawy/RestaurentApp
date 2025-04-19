@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 import 'package:restrant_app/widgets/app_text_field.dart';
@@ -22,8 +23,8 @@ class ForgotPasswordScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(height: 100),
-              const Text(
-                'Enter your email address to receive a password reset link',
+               Text(
+               S.of(context).resetEmail,
                 style: TextStyle(
                     fontSize: 16, color: ColorsUtility.textFieldLabelColor),
                 textAlign: TextAlign.center,
@@ -31,10 +32,10 @@ class ForgotPasswordScreen extends StatelessWidget {
               const SizedBox(height: 70),
               AppTextField(
                 controller: _emailController,
-                label: 'Email',
+                label: S.of(context).email,
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
-                  return emailValidator(value);
+                  return emailValidator(value, context);
                 },
               ),
               const SizedBox(height: 70),
@@ -46,7 +47,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     );
                   }
                   return AppElevatedBtn(
-                    text: 'Send Reset Link',
+                    text: S.of(context).sendButton,
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         context.read<AuthCubit>().resetPassword(
@@ -65,11 +66,11 @@ class ForgotPasswordScreen extends StatelessWidget {
     );
   }
 
-  String? emailValidator(String? value) {
+  String? emailValidator(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your email';
+      return S.of(context).validationErrorEmail;
     } else if (!value.contains('@')) {
-      return 'Please enter a valid email';
+      return '${S.of(context).validEmail}';
     }
     return null;
   }

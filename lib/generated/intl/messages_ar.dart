@@ -22,26 +22,64 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "CancelButton": MessageLookupByLibrary.simpleMessage(" إلغاء"),
+    "LOGIN": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+    "SIGIUP": MessageLookupByLibrary.simpleMessage("انشاء الحساب"),
+    "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
+      "هل لديك حساب بالفعل؟",
+    ),
+    "cAddressOne": MessageLookupByLibrary.simpleMessage(
+      " باراجون -كنار - باراجون",
+    ),
+    "cAddressThree": MessageLookupByLibrary.simpleMessage(
+      "برون تاون - باراجون",
+    ),
+    "cAddressTwo": MessageLookupByLibrary.simpleMessage("ماينجالاد - باراجون"),
+    "cNameOne": MessageLookupByLibrary.simpleMessage("باراجون"),
+    "cNameThree": MessageLookupByLibrary.simpleMessage(
+      "باراجون - برون تاون - مجموعة باراجون",
+    ),
+    "cNameTwo": MessageLookupByLibrary.simpleMessage(
+      "باراجون - مجموعة باراجون",
+    ),
+    "cityOne": MessageLookupByLibrary.simpleMessage("سيراليون"),
+    "cityThree": MessageLookupByLibrary.simpleMessage("تيروفانانثابورام"),
+    "cityTwo": MessageLookupByLibrary.simpleMessage("كوتشي"),
     "confirmPassword": MessageLookupByLibrary.simpleMessage(
       "تأكيد كلمة المرور",
     ),
     "continueButton": MessageLookupByLibrary.simpleMessage("استمر"),
+    "donotHaveAccount": MessageLookupByLibrary.simpleMessage("لا تملك حساب؟"),
+    "eitherSigUPOrLogin": MessageLookupByLibrary.simpleMessage(
+      " يجب توفير إما تسجيل الدخول أو إنشاء حساب",
+    ),
     "email": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
     "emailOrPhone": MessageLookupByLibrary.simpleMessage(
       "البريد الإلكتروني/رقم الهاتف",
     ),
     "enterPhone": MessageLookupByLibrary.simpleMessage("يرجى إدخال رقم هاتفك"),
+    "fillAllFields": MessageLookupByLibrary.simpleMessage(
+      "يرجى ملء جميع الحقول.",
+    ),
     "firstAndLastName": MessageLookupByLibrary.simpleMessage(
       "يرجى إدخال اسمك الأول والأخير",
     ),
     "forgotPassword": MessageLookupByLibrary.simpleMessage("نسيت كلمة المرور؟"),
     "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
+    "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "loginButton": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+    "loginGoogle": MessageLookupByLibrary.simpleMessage(
+      "تسجيل دخول بواسطة جوجل",
+    ),
     "matchPassword": MessageLookupByLibrary.simpleMessage(
       "كلمات المرور غير متطابقة",
     ),
     "nameLength": MessageLookupByLibrary.simpleMessage(
       "يجب أن يكون الاسم على الأقل 2 حرف",
+    ),
+    "nextButton": MessageLookupByLibrary.simpleMessage("التالي"),
+    "note": MessageLookupByLibrary.simpleMessage(
+      "يرجى ملاحظة: الحجز لمدة ساعة واحدة فقط",
     ),
     "onboardingDescriptionOne": MessageLookupByLibrary.simpleMessage(
       "يمكنك طلب وجبات الأسبوعية ونقلها بطريقة سريعة إلى باب منزلك.",
@@ -61,15 +99,45 @@ class MessageLookup extends MessageLookupByLibrary {
     "onboardingTitleTwo": MessageLookupByLibrary.simpleMessage("احجز طاولة"),
     "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+    "reserNow": MessageLookupByLibrary.simpleMessage(
+      "احجز طاولة في باراجون الآن",
+    ),
+    "reserve": MessageLookupByLibrary.simpleMessage("احجز"),
+    "reserveTable": MessageLookupByLibrary.simpleMessage("احجز الطاولة"),
+    "reserveationTable": MessageLookupByLibrary.simpleMessage("حجز طاولة"),
     "resetEmail": MessageLookupByLibrary.simpleMessage(
       "البريد الإلكتروني لإعادة تعيين كلمة المرور",
     ),
     "resetPassword": MessageLookupByLibrary.simpleMessage(
       "إعادة تعيين كلمة المرور",
     ),
+    "revervationForm": MessageLookupByLibrary.simpleMessage("نموذج الحجز"),
+    "saveButton": MessageLookupByLibrary.simpleMessage("حفظ"),
+    "selectNumberOfPeople": MessageLookupByLibrary.simpleMessage(
+      "حدد عدد الأشخاص",
+    ),
+    "selectTable": MessageLookupByLibrary.simpleMessage("حدد طاولة"),
+    "selectTime": MessageLookupByLibrary.simpleMessage("حدد الوقت"),
+    "selectYourTable": MessageLookupByLibrary.simpleMessage(" حدد طاولة"),
+    "selectseats": MessageLookupByLibrary.simpleMessage("المقاعد"),
+    "setectCity": MessageLookupByLibrary.simpleMessage("حدد المدينة"),
+    "setectData": MessageLookupByLibrary.simpleMessage("حدد التاريخ"),
+    "setectRestaurant": MessageLookupByLibrary.simpleMessage("حدد المطعم"),
+    "sigUp": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
+    "sigUpGoogle": MessageLookupByLibrary.simpleMessage(
+      "انشاء حساب دخول بواسطة جوجل",
+    ),
     "signupButton": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
     "skipButton": MessageLookupByLibrary.simpleMessage("تخطي"),
     "splashTitle": MessageLookupByLibrary.simpleMessage("باراجون"),
+    "successMessage": MessageLookupByLibrary.simpleMessage("تم الحجز بنجاح!"),
+    "successReser": MessageLookupByLibrary.simpleMessage("نجاح"),
+    "tableReserved": MessageLookupByLibrary.simpleMessage(
+      "تم حجز الطاولة بنجاح",
+    ),
+    "tableReservedMessage": MessageLookupByLibrary.simpleMessage(
+      "تم حجز الطاولة بنجاح. سنقوم بالتواصل معك قريبًا لتأكيد الحجز.",
+    ),
     "validName": MessageLookupByLibrary.simpleMessage(
       "يرجى إدخال اسم صحيح (حروف ومسافات فقط)",
     ),

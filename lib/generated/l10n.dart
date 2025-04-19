@@ -360,24 +360,9 @@ class S {
     );
   }
 
-  /// `Login with Google`
-  String get loginGoogle {
-    return Intl.message(
-      'Login with Google',
-      name: 'loginGoogle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Sign in with Google`
-  String get SignIBnGoogle {
-    return Intl.message(
-      'Sign in with Google',
-      name: 'SignIBnGoogle',
-      desc: '',
-      args: [],
-    );
+  /// `Save`
+  String get saveButton {
+    return Intl.message('Save', name: 'saveButton', desc: '', args: []);
   }
 
   /// ` Enter your email address to receive a password reset link`
@@ -420,14 +405,319 @@ class S {
     );
   }
 
+  /// `Login with Google`
+  String get loginGoogle {
+    return Intl.message(
+      'Login with Google',
+      name: 'loginGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in with Google`
+  String get sigUpGoogle {
+    return Intl.message(
+      'Sign in with Google',
+      name: 'sigUpGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't have an account?`
+  String get donotHaveAccount {
+    return Intl.message(
+      'Don\'t have an account?',
+      name: 'donotHaveAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Already have an account?`
+  String get alreadyHaveAccount {
+    return Intl.message(
+      'Already have an account?',
+      name: 'alreadyHaveAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign up`
+  String get sigUp {
+    return Intl.message('Sign up', name: 'sigUp', desc: '', args: []);
+  }
+
+  /// `Login`
+  String get login {
+    return Intl.message('Login', name: 'login', desc: '', args: []);
+  }
+
+  /// `SIGN UP`
+  String get SIGIUP {
+    return Intl.message('SIGN UP', name: 'SIGIUP', desc: '', args: []);
+  }
+
+  /// `LOGIN`
+  String get LOGIN {
+    return Intl.message('LOGIN', name: 'LOGIN', desc: '', args: []);
+  }
+
+  /// `Either onLogin or onSignUp should be provided`
+  String get eitherSigUPOrLogin {
+    return Intl.message(
+      'Either onLogin or onSignUp should be provided',
+      name: 'eitherSigUPOrLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get CancelButton {
+    return Intl.message('Cancel', name: 'CancelButton', desc: '', args: []);
+  }
+
+  /// `Table Reservation`
+  String get reserveationTable {
+    return Intl.message(
+      'Table Reservation',
+      name: 'reserveationTable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a table`
+  String get selectTable {
+    return Intl.message(
+      'Select a table',
+      name: 'selectTable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reserve Table`
+  String get reserveTable {
+    return Intl.message(
+      'Reserve Table',
+      name: 'reserveTable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reserve a table at Paragon right now`
+  String get reserNow {
+    return Intl.message(
+      'Reserve a table at Paragon right now',
+      name: 'reserNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get successReser {
+    return Intl.message('Success', name: 'successReser', desc: '', args: []);
+  }
+
   /// `Your table is reserved`
-  String get successMessage {
+  String get tableReserved {
     return Intl.message(
       'Your table is reserved',
+      name: 'tableReserved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `NOTE: Reservation is only for 1 hour`
+  String get tableReservedMessage {
+    return Intl.message(
+      'NOTE: Reservation is only for 1 hour',
+      name: 'tableReservedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please fill out all fields.`
+  String get fillAllFields {
+    return Intl.message(
+      'Please fill out all fields.',
+      name: 'fillAllFields',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reservation successful!`
+  String get successMessage {
+    return Intl.message(
+      'Reservation successful!',
       name: 'successMessage',
       desc: '',
       args: [],
     );
+  }
+
+  /// `Reservation Form`
+  String get revervationForm {
+    return Intl.message(
+      'Reservation Form',
+      name: 'revervationForm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Date`
+  String get setectData {
+    return Intl.message('Select Date', name: 'setectData', desc: '', args: []);
+  }
+
+  /// `Select Time`
+  String get selectTime {
+    return Intl.message('Select Time', name: 'selectTime', desc: '', args: []);
+  }
+
+  /// `Persons`
+  String get selectNumberOfPeople {
+    return Intl.message(
+      'Persons',
+      name: 'selectNumberOfPeople',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reserve`
+  String get reserve {
+    return Intl.message('Reserve', name: 'reserve', desc: '', args: []);
+  }
+
+  /// `Calicut`
+  String get cityOne {
+    return Intl.message('Calicut', name: 'cityOne', desc: '', args: []);
+  }
+
+  /// `Kochi`
+  String get cityTwo {
+    return Intl.message('Kochi', name: 'cityTwo', desc: '', args: []);
+  }
+
+  /// `Thiruvananthapuram`
+  String get cityThree {
+    return Intl.message(
+      'Thiruvananthapuram',
+      name: 'cityThree',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Paragon Restaurant`
+  String get cNameOne {
+    return Intl.message(
+      'Paragon Restaurant',
+      name: 'cNameOne',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `M Grill - Paragon Group`
+  String get cNameTwo {
+    return Intl.message(
+      'M Grill - Paragon Group',
+      name: 'cNameTwo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Brown Town - Paragon Group`
+  String get cNameThree {
+    return Intl.message(
+      'Brown Town - Paragon Group',
+      name: 'cNameThree',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kannur road, Near CH over bridge`
+  String get cAddressOne {
+    return Intl.message(
+      'Kannur road, Near CH over bridge',
+      name: 'cAddressOne',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `M Grill - Paragon Group, Kochi`
+  String get cAddressTwo {
+    return Intl.message(
+      'M Grill - Paragon Group, Kochi',
+      name: 'cAddressTwo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Brown Town - Paragon Group, Thiruvananthapuram`
+  String get cAddressThree {
+    return Intl.message(
+      'Brown Town - Paragon Group, Thiruvananthapuram',
+      name: 'cAddressThree',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select your city`
+  String get setectCity {
+    return Intl.message(
+      'Select your city',
+      name: 'setectCity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select the restaurant`
+  String get setectRestaurant {
+    return Intl.message(
+      'Select the restaurant',
+      name: 'setectRestaurant',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `NEXT`
+  String get nextButton {
+    return Intl.message('NEXT', name: 'nextButton', desc: '', args: []);
+  }
+
+  /// ` Select a Table`
+  String get selectYourTable {
+    return Intl.message(
+      ' Select a Table',
+      name: 'selectYourTable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `seats`
+  String get selectseats {
+    return Intl.message('seats', name: 'selectseats', desc: '', args: []);
   }
 
   /// `Reservation is only for 1 hour`
