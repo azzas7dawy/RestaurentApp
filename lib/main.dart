@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:restrant_app/chatAndNotifiction/notifiction.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
@@ -31,9 +32,20 @@ import 'package:restrant_app/screens/splash/splash_screen.dart';
 import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
 import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  NotificationSettings settings = await FirebaseMessaging.instance.requestPermission();
+  print('Permission: ${settings.authorizationStatus}');
+
+  // خدي FCM Token
+  String? token = await FirebaseMessaging.instance.getToken(
+    vapidKey: "BKUu1ugjmvRlcjeZdDRBtsatP1FoF4nE49HhYOTX4B40nWbJegaHqNw1jhpTF33TbxvA7c_SboXLGXAEmRAmfzU",
+  );
+  print("FCM Token: $token");
+
   await PrefService.init();
   try {
     await Firebase.initializeApp(
@@ -177,7 +189,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => const SplashPage());
         }
       },
-      initialRoute: SplashPage.id,
+      // initialRoute: SplashPage.id,
+      home: NotificationHome(),
     );
   }
 }
