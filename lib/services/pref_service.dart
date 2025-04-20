@@ -48,6 +48,11 @@ class PrefService {
     await _prefs!.setString('userPhone', phone);
   }
 
+  static Future<void> saveUserImage(String imageUrl) async {
+    _checkInitialized();
+    await _prefs!.setString('userImage', imageUrl);
+  }
+
   static Map<String, String> get userData {
     _checkInitialized();
     return {
@@ -55,6 +60,7 @@ class PrefService {
       'userName': _prefs!.getString('userName') ?? '',
       'userEmail': _prefs!.getString('userEmail') ?? '',
       'userPhone': _prefs!.getString('userPhone') ?? '',
+      'userImage': _prefs!.getString('userImage') ?? '',
     };
   }
 
@@ -64,6 +70,7 @@ class PrefService {
     await _prefs!.remove('userName');
     await _prefs!.remove('userEmail');
     await _prefs!.remove('userPhone');
+    await _prefs!.remove('userImage');
     await _prefs!.remove('isLoggedIn');
   }
 

@@ -1,327 +1,558 @@
-import 'dart:typed_data';
-import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
+import 'package:restrant_app/services/pref_service.dart';
+import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
+import 'package:restrant_app/widgets/app_snackbar.dart';
 
-class ProfileSection extends StatefulWidget {
-  const ProfileSection({super.key});
-  static const String id = 'ProfileSection';
+class ProfileScreen extends StatefulWidget {
+  static const String id = 'profile_screen';
+
+  const ProfileScreen({super.key});
 
   @override
-  State<ProfileSection> createState() => _ProfileSectionState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileSectionState extends State<ProfileSection> {
-  String? imageUrl;
-  String? name;
-  String? phone;
-  String? email;
-  String? address;
-  String? calorieCounter;
-  String? payments;
-
-  // Food planner statuses
-  bool breakfastDone = false;
-  bool lunchDone = false;
-  bool dinnerDone = false;
+class _ProfileScreenState extends State<ProfileScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late TextEditingController _nameController;
+  late TextEditingController _emailController;
+  late TextEditingController _phoneController;
+  File? _imageFile;
+  Uint8List? _webImageBytes;
+  String _imageUrl = '';
+  bool _isLoading = true;
+  bool _isGoogleUser = false;
+  bool _isEditing = false;
 
   @override
   void initState() {
     super.initState();
-    fetchProfileData();
+    _nameController = TextEditingController();
+    _emailController = TextEditingController();
+    _phoneController = TextEditingController();
+    _initializeUserData();
   }
 
-  Future<void> fetchProfileData() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    setState(() {
-      imageUrl = prefs.getString('profileImage');
-      name = prefs.getString('name') ?? 'No Name';
-      phone = prefs.getString('phone') ?? 'No Phone';
-      email = prefs.getString('email') ?? 'No Email';
-      address = prefs.getString('address') ?? 'No address yet';
-      calorieCounter = prefs.getString('calories') ?? 'Not set';
-      payments = prefs.getString('payments') ?? 'No payments found';
-
-      // Load food planner statuses
-      breakfastDone = prefs.getBool('breakfastDone') ?? false;
-      lunchDone = prefs.getBool('lunchDone') ?? false;
-      dinnerDone = prefs.getBool('dinnerDone') ?? false;
-    });
-  }
-
-  Future<void> pickImage() async {
+  Future<void> _initializeUserData() async {
     try {
-      final result = await FilePicker.platform.pickFiles(type: FileType.image);
+      final User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        _isGoogleUser =
+            user.providerData.any((info) => info.providerId == 'google.com');
 
-      if (result != null && result.files.single.bytes != null) {
-        Uint8List bytes = result.files.single.bytes!;
-        final fileName = result.files.single.name;
+        if (_isGoogleUser) {
+          String phone = '';
+          String imageUrl = '';
+          final DocumentSnapshot doc = await FirebaseFirestore.instance
+              .collection('users2')
+              .doc(user.uid)
+              .get();
 
-        final storageRef =
-        FirebaseStorage.instance.ref('profile_images/$fileName');
-        await storageRef.putData(bytes);
-        final downloadUrl = await storageRef.getDownloadURL();
+          if (doc.exists) {
+            phone = doc.get('phone') ?? '';
+            imageUrl = doc.get('imageUrl') ?? '';
+          }
 
-        await FirebaseFirestore.instance.collection('users2').add({
-          'profileImage': downloadUrl,
-          'timestamp': FieldValue.serverTimestamp(),
+          if (imageUrl.isEmpty) {
+            imageUrl = user.photoURL ?? '';
+          }
+
+          setState(() {
+            _nameController.text = user.displayName ?? '';
+            _emailController.text = user.email ?? '';
+            _phoneController.text = phone;
+            _imageUrl = imageUrl;
+            _isLoading = false;
+          });
+
+          await PrefService.saveUserData(
+            userId: user.uid,
+            name: user.displayName ?? '',
+            email: user.email ?? '',
+            phone: phone,
+          );
+
+          if (_imageUrl.isNotEmpty) {
+            await PrefService.saveUserImage(_imageUrl);
+          }
+        } else {
+          final DocumentSnapshot doc = await FirebaseFirestore.instance
+              .collection('users2')
+              .doc(user.uid)
+              .get();
+
+          if (doc.exists) {
+            final Map<String, dynamic> data =
+                doc.data() as Map<String, dynamic>;
+            final Map<String, String> userData = {
+              'userId': user.uid,
+              'userName': data['name']?.toString() ?? '',
+              'userEmail': data['email']?.toString() ?? '',
+              'userPhone': data['phone']?.toString() ?? '',
+              'userImage': data['imageUrl']?.toString() ?? '',
+            };
+
+            await PrefService.saveUserData(
+              userId: userData['userId']!,
+              name: userData['userName']!,
+              email: userData['userEmail']!,
+              phone: userData['userPhone']!,
+            );
+
+            if (userData['userImage']!.isNotEmpty) {
+              await PrefService.saveUserImage(userData['userImage']!);
+            }
+
+            setState(() {
+              _nameController.text = userData['userName']!;
+              _emailController.text = userData['userEmail']!;
+              _phoneController.text = userData['userPhone']!;
+              _imageUrl = userData['userImage']!;
+              _isLoading = false;
+            });
+          } else {
+            final Map<String, String> userData = PrefService.userData;
+            setState(() {
+              _nameController.text = userData['userName'] ?? '';
+              _emailController.text = userData['userEmail'] ?? '';
+              _phoneController.text = userData['userPhone'] ?? '';
+              _imageUrl = userData['userImage'] ?? '';
+              _isLoading = false;
+            });
+          }
+        }
+      } else {
+        final Map<String, String> userData = PrefService.userData;
+        setState(() {
+          _nameController.text = userData['userName'] ?? '';
+          _emailController.text = userData['userEmail'] ?? '';
+          _phoneController.text = userData['userPhone'] ?? '';
+          _imageUrl = userData['userImage'] ?? '';
+          _isLoading = false;
         });
-
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('profileImage', downloadUrl);
-
-        setState(() => imageUrl = downloadUrl);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('فشل في رفع الصورة! تأكد من الاتصال بالإنترنت.')),
-      );
+      if (mounted) {
+        appSnackbar(
+          context,
+          text: 'Failed to load user data: ${e.toString()}',
+          backgroundColor: ColorsUtility.errorSnackbarColor,
+        );
+      }
+
+      final Map<String, String> userData = PrefService.userData;
+      setState(() {
+        _nameController.text = userData['userName'] ?? '';
+        _emailController.text = userData['userEmail'] ?? '';
+        _phoneController.text = userData['userPhone'] ?? '';
+        _imageUrl = userData['userImage'] ?? '';
+        _isLoading = false;
+      });
     }
   }
 
-  void showEditDialog(String field, String currentValue, BuildContext context) {
-    final controller = TextEditingController(text: currentValue);
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text('Edit $field'),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(hintText: 'Enter new value'),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.setString(field, controller.text);
-
-              Navigator.of(ctx).pop();
-              fetchProfileData();
-
-              if (mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('$field updated successfully!')),
-                );
-              }
-            },
-            child: const Text('Save'),
-          ),
-        ],
-      ),
-    );
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    super.dispose();
   }
 
-  Widget buildFoodPlannerStep(String label, bool isDone, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        children: [
-          CircleAvatar(
-            radius: 16,
-            backgroundColor: isDone ? Colors.green : Colors.grey,
-            child: Icon(
-              isDone ? Icons.check : Icons.circle_outlined,
-              color: Colors.white,
-              size: 18,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(label, style: const TextStyle(color: Colors.white70, fontSize: 12)),
-        ],
-      ),
-    );
-  }
+  Future<void> _pickImage() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? pickedFile =
+          await picker.pickImage(source: ImageSource.gallery);
 
-  Widget buildFoodPlannerCard() {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      color: Colors.grey[900],
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: const [
-                Icon(Icons.restaurant_menu, color: Colors.white70, size: 18),
-                SizedBox(width: 10),
-                Text('Food Planner', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-              ],
-            ),
-            const SizedBox(height: 16),
-            const Text("Today", style: TextStyle(color: Colors.white, fontSize: 14)),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                buildFoodPlannerStep("Breakfast", breakfastDone, () => toggleMealStatus("breakfastDone")),
-                Container(width: 30, height: 2, color: Colors.grey),
-                buildFoodPlannerStep("Lunch", lunchDone, () => toggleMealStatus("lunchDone")),
-                Container(width: 30, height: 2, color: Colors.grey),
-                buildFoodPlannerStep("Dinner", dinnerDone, () => toggleMealStatus("dinnerDone")),
-              ],
-            ),
-            const SizedBox(height: 16),
-            const Divider(color: Colors.white24),
-            const SizedBox(height: 8),
-            const Text("This Week", style: TextStyle(color: Colors.white)),
-            const SizedBox(height: 4),
-            const Text("Next Week", style: TextStyle(color: Colors.white)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> toggleMealStatus(String mealKey) async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      if (mealKey == 'breakfastDone') {
-        breakfastDone = !breakfastDone;
-        prefs.setBool('breakfastDone', breakfastDone);
-      } else if (mealKey == 'lunchDone') {
-        lunchDone = !lunchDone;
-        prefs.setBool('lunchDone', lunchDone);
-      } else if (mealKey == 'dinnerDone') {
-        dinnerDone = !dinnerDone;
-        prefs.setBool('dinnerDone', dinnerDone);
+      if (pickedFile != null) {
+        if (kIsWeb) {
+          final Uint8List bytes = await pickedFile.readAsBytes();
+          setState(() {
+            _webImageBytes = bytes;
+            _imageFile = null;
+          });
+        } else {
+          setState(() {
+            _imageFile = File(pickedFile.path);
+            _webImageBytes = null;
+          });
+        }
       }
-    });
+    } catch (e) {
+      if (mounted) {
+        appSnackbar(
+          context,
+          text: 'Failed to pick image: ${e.toString()}',
+          backgroundColor: ColorsUtility.errorSnackbarColor,
+        );
+      }
+    }
   }
+
+  ImageProvider? _getBackgroundImage() {
+    if (kIsWeb && _webImageBytes != null) {
+      return MemoryImage(_webImageBytes!);
+    } else if (!kIsWeb && _imageFile != null) {
+      return FileImage(_imageFile!);
+    } else if (_imageUrl.isNotEmpty) {
+      return CachedNetworkImageProvider(
+        _imageUrl,
+        errorListener: (error) {
+          if (mounted) {
+            appSnackbar(
+              context,
+              text: 'Failed to load profile image',
+              backgroundColor: ColorsUtility.errorSnackbarColor,
+            );
+          }
+        },
+      );
+    } else if (_isGoogleUser &&
+        FirebaseAuth.instance.currentUser?.photoURL != null) {
+      return CachedNetworkImageProvider(
+        FirebaseAuth.instance.currentUser!.photoURL!,
+        errorListener: (error) {
+          if (mounted) {
+            appSnackbar(
+              context,
+              text: 'Failed to load Google profile image',
+              backgroundColor: ColorsUtility.errorSnackbarColor,
+            );
+          }
+        },
+      );
+    }
+    return null;
+  }
+
+  // void _showDeleteAccountDialog(BuildContext parentContext) {
+  //   showDialog(
+  //     context: parentContext,
+  //     builder: (BuildContext dialogContext) {
+  //       return AppConfirmationDialog(
+  //         title: 'Delete Account',
+  //         message:
+  //             'Are you sure you want to delete your account? This action cannot be undone.',
+  //         confirmText: 'Delete',
+  //         onConfirm: () async {
+  //           Navigator.of(dialogContext).pop();
+  //           await parentContext.read<AuthCubit>().deleteAccount(parentContext);
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.black,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.clear();
-              if (mounted) {
-                Navigator.of(context).pushReplacementNamed('/login');
-              }
-            },
-          )
-        ],
-      ),
-      backgroundColor: Colors.black,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Column(
-          children: [
-            GestureDetector(
-              onTap: pickImage,
-              child: CircleAvatar(
-                radius: 45,
-                backgroundImage: imageUrl != null
-                    ? NetworkImage(imageUrl!)
-                    : null,
-                child: imageUrl == null
-                    ? const Icon(Icons.person, size: 45)
-                    : null,
-              ),
-            ),
-            const SizedBox(height: 10),
-            InkWell(
-              onTap: () => showEditDialog('name', name ?? '', context),
-              child: Text(name ?? '',
-                  style: const TextStyle(color: Colors.white, fontSize: 20)),
-            ),
-            const SizedBox(height: 4),
-            InkWell(
-              onTap: () => showEditDialog('phone', phone ?? '', context),
-              child: Text(phone ?? '',
-                  style: const TextStyle(color: Colors.white70)),
-            ),
-            InkWell(
-              onTap: () => showEditDialog('email', email ?? '', context),
-              child: Text(email ?? '',
-                  style: const TextStyle(color: Colors.white70)),
-            ),
-            const SizedBox(height: 20),
-            buildEditableCard(
-              title: 'Address',
-              content: address ?? '',
-              icon: Icons.location_on,
-              onEdit: () =>
-                  showEditDialog('address', address ?? '', context),
-            ),
-            buildFoodPlannerCard(),
-            buildEditableCard(
-              title: 'Calorie Counter',
-              content: calorieCounter ?? '',
-              icon: Icons.local_fire_department,
-              onEdit: () => showEditDialog('calories', calorieCounter ?? '', context),
-            ),
-            buildEditableCard(
-              title: 'Payments',
-              content: payments ?? '',
-              icon: Icons.payment,
-              onEdit: () =>
-                  showEditDialog('payments', payments ?? '', context),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildEditableCard({
-    required String title,
-    required String content,
-    required IconData icon,
-    required VoidCallback onEdit,
-  }) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      color: Colors.grey[900],
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(icon, size: 18, color: Colors.redAccent),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(title,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white)),
-                      IconButton(
-                        onPressed: onEdit,
-                        icon: const Icon(Icons.edit,
-                            size: 18, color: Colors.white70),
-                      )
-                    ],
-                  ),
-                  Text(content,
-                      style: const TextStyle(color: Colors.white70)),
-                ],
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: ColorsUtility.progressIndictorColor,
               ),
             )
-          ],
-        ),
-      ),
+          : BlocListener<AuthCubit, AuthState>(
+              listener: (BuildContext context, AuthState state) {
+                if (state is ProfileUpdateSuccess) {
+                  final User? user = FirebaseAuth.instance.currentUser;
+                  if (user != null) {
+                    FirebaseFirestore.instance
+                        .collection('users2')
+                        .doc(user.uid)
+                        .get()
+                        .then((doc) {
+                      String updatedImageUrl =
+                          doc.exists ? (doc.get('imageUrl') ?? '') : '';
+                      if (mounted) {
+                        setState(() {
+                          _imageFile = null;
+                          _webImageBytes = null;
+                          _imageUrl = updatedImageUrl.isNotEmpty
+                              ? updatedImageUrl
+                              : PrefService.userData['userImage'] ?? '';
+                          _isEditing = false;
+                        });
+                      }
+                    });
+                  }
+                } else if (state is ProfileUpdateFailed) {
+                  if (mounted) {
+                    appSnackbar(
+                      context,
+                      text: state.error,
+                      backgroundColor: ColorsUtility.errorSnackbarColor,
+                    );
+                  }
+                }
+              },
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      Card(
+                        color: ColorsUtility.elevatedBtnColor,
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(
+                                      _isEditing ? Icons.close : Icons.edit,
+                                      color:
+                                          ColorsUtility.progressIndictorColor,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _isEditing = !_isEditing;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: _isEditing ? _pickImage : null,
+                                child: Stack(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 50,
+                                      backgroundImage: _getBackgroundImage(),
+                                      child: _getBackgroundImage() == null
+                                          ? const Icon(
+                                              Icons.person,
+                                              size: 50,
+                                              color: ColorsUtility
+                                                  .mainBackgroundColor,
+                                            )
+                                          : null,
+                                    ),
+                                    if (_isEditing)
+                                      Positioned(
+                                        bottom: 0,
+                                        right: 0,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: const BoxDecoration(
+                                            color: ColorsUtility
+                                                .mainBackgroundColor,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: const Icon(
+                                            Icons.camera_alt,
+                                            size: 20,
+                                            color: ColorsUtility
+                                                .progressIndictorColor,
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              TextFormField(
+                                style: const TextStyle(
+                                  color: ColorsUtility.progressIndictorColor,
+                                ),
+                                controller: _nameController,
+                                decoration: InputDecoration(
+                                  border: _isEditing
+                                      ? const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: ColorsUtility
+                                                  .elevatedBtnColor),
+                                        )
+                                      : InputBorder.none,
+                                  enabledBorder: _isEditing
+                                      ? const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: ColorsUtility
+                                                  .mainBackgroundColor),
+                                        )
+                                      : InputBorder.none,
+                                  focusedBorder: _isEditing
+                                      ? const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: ColorsUtility
+                                                  .mainBackgroundColor),
+                                        )
+                                      : InputBorder.none,
+                                  prefixIcon: const Icon(
+                                    Icons.person,
+                                    color: ColorsUtility.progressIndictorColor,
+                                  ),
+                                  suffixIcon: _isEditing
+                                      ? const Icon(
+                                          Icons.edit,
+                                          color: ColorsUtility
+                                              .progressIndictorColor,
+                                        )
+                                      : null,
+                                ),
+                                readOnly: !_isEditing,
+                                validator: (String? value) {
+                                  if (_isEditing &&
+                                      (value == null || value.isEmpty)) {
+                                    return 'Please enter your name';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 16),
+                              TextFormField(
+                                style: const TextStyle(
+                                  color: ColorsUtility.progressIndictorColor,
+                                ),
+                                controller: _emailController,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  prefixIcon: Icon(
+                                    Icons.email,
+                                    color: ColorsUtility.progressIndictorColor,
+                                  ),
+                                ),
+                                readOnly: true,
+                              ),
+                              const SizedBox(height: 16),
+                              TextFormField(
+                                style: const TextStyle(
+                                  color: ColorsUtility.progressIndictorColor,
+                                ),
+                                controller: _phoneController,
+                                decoration: InputDecoration(
+                                  border: _isEditing
+                                      ? const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: ColorsUtility
+                                                  .elevatedBtnColor),
+                                        )
+                                      : InputBorder.none,
+                                  enabledBorder: _isEditing
+                                      ? const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: ColorsUtility
+                                                  .mainBackgroundColor),
+                                        )
+                                      : InputBorder.none,
+                                  focusedBorder: _isEditing
+                                      ? const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: ColorsUtility
+                                                  .mainBackgroundColor),
+                                        )
+                                      : InputBorder.none,
+                                  prefixIcon: const Icon(
+                                    Icons.phone,
+                                    color: ColorsUtility.progressIndictorColor,
+                                  ),
+                                  suffixIcon: _isEditing
+                                      ? const Icon(
+                                          Icons.edit,
+                                          color: ColorsUtility
+                                              .progressIndictorColor,
+                                        )
+                                      : null,
+                                ),
+                                readOnly: !_isEditing,
+                                validator: (String? value) {
+                                  if (_isEditing &&
+                                      (value == null || value.isEmpty)) {
+                                    return 'Please enter your phone number';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      if (_isEditing)
+                        Column(
+                          children: [
+                            SizedBox(
+                              width: double.infinity,
+                              child: AppElevatedBtn(
+                                onPressed: () {
+                                  if (_formKey.currentState != null &&
+                                      _formKey.currentState!.validate()) {
+                                    context.read<AuthCubit>().updateUserProfile(
+                                          name: _nameController.text.trim(),
+                                          phone: _phoneController.text.trim(),
+                                          imageFile: _imageFile,
+                                          webImageBytes: _webImageBytes,
+                                          context: context,
+                                        );
+                                  } else {
+                                    appSnackbar(
+                                      context,
+                                      text: 'Please fill all required fields',
+                                      backgroundColor:
+                                          ColorsUtility.errorSnackbarColor,
+                                    );
+                                  }
+                                },
+                                text: 'Save Changes',
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                          ],
+                        ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          onPressed: () async {
+                            // _showDeleteAccountDialog(context);
+                            await context.read<AuthCubit>().deleteAccount(
+                                  context,
+                                );
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            side: const BorderSide(
+                              color: ColorsUtility.errorSnackbarColor,
+                            ),
+                          ),
+                          child: const Text(
+                            'Delete Account',
+                            style: TextStyle(
+                              color: ColorsUtility.errorSnackbarColor,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
     );
   }
 }

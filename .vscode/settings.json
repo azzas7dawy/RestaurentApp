@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "D:/project graduated flutter/RestaurentApp/windows/flutter"
+    "cmake.sourceDirectory": "D:/project graduated flutter/RestaurentApp/windows/flutter",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

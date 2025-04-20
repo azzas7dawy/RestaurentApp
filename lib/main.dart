@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
       ),
       onGenerateRoute: (settings) {
         final String routeName = settings.name ?? '';
-        final dynamic data = settings.arguments;
+        // final dynamic data = settings.arguments;
         switch (routeName) {
           case OnboardingScreen.id:
             return MaterialPageRoute(
@@ -62,10 +62,10 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) =>  OrderTrackingPage(),
             );
-          case  ProfileSection.id:
-            return MaterialPageRoute(
-              builder: (context) =>  ProfileSection(),
-            );
+          // case  ProfileSection.id:
+          //   return MaterialPageRoute(
+          //     builder: (context) =>  ProfileSection(),
+          //   );
           case CheckoutPage.id:
             return MaterialPageRoute(
               builder: (context) =>  CheckoutPage(),
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
         }
       },
       // initialRoute: SplashPage.id,
-      initialRoute: ProfileSection.id,
+      // initialRoute: ProfileSection.id,
         // initialRoute: CartOrderScreen.id,
         //   initialRoute: OrderTrackingPage.id,
             // initialRoute: CateringScreen.id,
