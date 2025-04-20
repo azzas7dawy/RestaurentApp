@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) {
                     return const CustomScreen(
-                      initialIndex: 2,
+                      initialIndex: 3,
                     );
                   },
                 ),
