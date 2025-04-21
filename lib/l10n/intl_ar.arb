@@ -1,0 +1,87 @@
+{
+    "splashTitle": "باراجون",
+    "skipButton": "تخطي",
+    "continueButton": "استمر",
+    "onboardingTitleOne": "خطط لوجبتك الأسبوعية",
+    "onboardingDescriptionOne": "يمكنك طلب وجبات الأسبوعية ونقلها بطريقة سريعة إلى باب منزلك.",
+    "onboardingTitleTwo": "احجز طاولة",
+    "onboardingDescriptionTwo": "تعبت من الانتظار؟ احجز طاولة على الفور.",
+    "onboardingTitleThree": "اطلب خدمات الطعام",
+    "onboardingDescriptionThree": "اطلب خدمات الطعام معنا.",
+
+
+    "emailOrPhone": "البريد الإلكتروني/رقم الهاتف",
+    "password": "كلمة المرور",
+    "loginButton": "تسجيل الدخول",
+    "signupButton": "إنشاء حساب",
+    "forgotPassword": "نسيت كلمة المرور؟",
+     "validationErrorEmail": "يرجى إدخال بريدك الإلكتروني أو رقم هاتفك",
+    "validationErrorPassword": "يرجى إدخال كلمة مرور صحيحة",
+    "validationErrorPasswordLength": "كلمة المرور يجب أن تكون على الأقل 6 أحرف",
+
+
+    "fullName": "الاسم الكامل",
+    "email": "البريد الإلكتروني",
+    "phoneNumber": "رقم الهاتف",
+     "confirmPassword": "تأكيد كلمة المرور",
+    "validationErrorFullName": "يرجى إدخال اسمك الكامل",
+    "validName": "يرجى إدخال اسم صحيح (حروف ومسافات فقط)",
+    "nameLength": "يجب أن يكون الاسم على الأقل 2 حرف",
+    "firstAndLastName": "يرجى إدخال اسمك الأول والأخير",
+    "enterPhone": "يرجى إدخال رقم هاتفك",
+    "validPhone": "يرجى إدخال رقم هاتف صحيح (10-15 رقم)",
+    "matchPassword": "كلمات المرور غير متطابقة",
+
+
+    "resetEmail": "البريد الإلكتروني لإعادة تعيين كلمة المرور",
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "loginGoogle": "تسجيل دخول بواسطة جوجل",
+    "sigUpGoogle": "انشاء حساب دخول بواسطة جوجل",
+    "donotHaveAccount": "لا تملك حساب؟",
+    "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
+    "sigUp": "إنشاء حساب",
+    "login": "تسجيل الدخول",
+    "SIGIUP": "انشاء الحساب",
+    "LOGIN": "تسجيل الدخول",
+    "eitherSigUPOrLogin": " يجب توفير إما تسجيل الدخول أو إنشاء حساب",
+    "CancelButton": " إلغاء",
+    "saveButton": "حفظ",
+
+
+    "reserveationTable": "حجز طاولة",
+    "selectTable": "حدد طاولة",
+    "reserveTable": "احجز الطاولة",
+    "reserNow":"احجز طاولة في باراجون الآن",
+    "successReser": "نجاح",
+    "tableReserved": "تم حجز الطاولة بنجاح",
+    "tableReservedMessage": "تم حجز الطاولة بنجاح. سنقوم بالتواصل معك قريبًا لتأكيد الحجز.",
+
+
+    "fillAllFields": "يرجى ملء جميع الحقول.",
+    "successMessage": "تم الحجز بنجاح!",
+    "revervationForm": "نموذج الحجز",
+    "setectData":"حدد التاريخ",
+    "selectTime":"حدد الوقت",
+    "selectNumberOfPeople":"حدد عدد الأشخاص",
+    "reserve":"احجز",
+
+
+    "cityOne":"سيراليون",
+    "cityTwo":"كوتشي",
+    "cityThree":"تيروفانانثابورام",
+    "cNameOne":"باراجون",
+    "cNameTwo":"باراجون - مجموعة باراجون",
+    "cNameThree":"باراجون - برون تاون - مجموعة باراجون",
+    "cAddressOne":" باراجون -كنار - باراجون" ,
+    "cAddressTwo":"ماينجالاد - باراجون",
+    "cAddressThree":"برون تاون - باراجون",
+    "setectCity":"حدد المدينة",
+    "setectRestaurant":"حدد المطعم",
+    "nextButton":"التالي",
+    "selectYourTable":" حدد طاولة",
+    "selectseats":"المقاعد",
+
+    "note": "يرجى ملاحظة: الحجز لمدة ساعة واحدة فقط"
+
+    
+}

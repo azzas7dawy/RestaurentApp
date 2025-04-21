@@ -8,10 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/firebase_options.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/auth/complete_user_data.dart';
 import 'package:restrant_app/screens/auth/forgot_password_screen.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
@@ -29,6 +31,7 @@ import 'package:restrant_app/screens/reserveTableScreen/reserve_table_screen.dar
 import 'package:restrant_app/screens/specialPlatesScreen/special_plates_screen.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
 import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
+import 'package:restrant_app/screens/settingsScreen/settings_screen.dart';
 import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 
@@ -76,6 +79,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
       scrollBehavior: AppScrollBehavior(),
       debugShowCheckedModeBanner: false,
       locale: DevicePreview.locale(context),
@@ -172,6 +182,10 @@ class MyApp extends StatelessWidget {
               builder: (context) => CategoryItemsScreen(
                 categoryDoc: data,
               ),
+            );
+          case SettignsScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => const SettignsScreen(),
             );
           default:
             return MaterialPageRoute(builder: (context) => const SplashPage());

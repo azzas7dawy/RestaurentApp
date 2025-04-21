@@ -1,0 +1,103 @@
+{
+    "splashTitle": "PARAGON",
+    "skipButton": "Skip",
+    "continueButton": "Continue",
+    "onboardingTitleOne": "Plan your weekly menu",
+    "onboardingDescriptionOne": "You can order weekly meals, and we'll bring them straight to your door.",
+    "onboardingTitleTwo": "Reserve a table",
+    "onboardingDescriptionTwo": "Tired of having to wait? Make a table reservation right away.",
+    "onboardingTitleThree": "Place catering Orders",
+    "onboardingDescriptionThree": "Place catering orders with us.",
+
+
+    "emailOrPhone": "Email/Phone number",
+    "password": "Password",
+    "loginButton": "Login",
+    "signupButton": "Sign up",
+    "forgotPassword": "Forgot password?",
+     "validationErrorEmail": "Please enter your email or phone number",
+    "validationErrorPassword": "Please enter a valid password",
+    "validationErrorPasswordLength": "Password must be at least 6 characters long",
+
+
+
+    "fullName": "Full name",
+    "email": "Email",
+    "validEmail": "Please enter a valid email address",
+    "phoneNumber": "Phone number",
+     "confirmPassword": "Confirm password",
+    "validationErrorFullName": "Please enter your full name",
+    "threeLetterName": "Name must be at least 3 characters long",
+    "validName": "Please enter a valid name (letters and spaces only)",
+    "nameLength": "Name must be at least 2 characters long",
+    "firstAndLastName": "Please enter your first and last name",
+    "enterPhone": "Please enter your phone number",
+    "validPhone": "Please enter a valid phone number (10-15 digits)",
+    "matchPassword": "Passwords do not match",
+    "enetrLetterNumberPassword": "Password must include both letters and numbers",
+
+
+    "welcome": "Welcome Back!",
+    "createAccount": "Create a new account",
+    "pleaseLogin": "Please login to your account",
+    "fillForm": "Please fill in the form to continue",
+     "saveButton": "Save",
+
+
+     "resetEmail": " Enter your email address to receive a password reset link",
+     "resetPassword": "Reset password",
+      "sendButton": "Send Reset Link",
+
+
+    "completeDetails": "Please provide the following details: ",
+    "loginGoogle": "Login with Google",
+    "sigUpGoogle": "Sign in with Google",
+    "donotHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "sigUp": "Sign up",
+    "login": "Login",
+    "SIGIUP": "SIGN UP",
+    "LOGIN": "LOGIN",
+    "eitherSigUPOrLogin": "Either onLogin or onSignUp should be provided",
+    "CancelButton": "Cancel",
+
+
+
+    "reserveationTable": "Table Reservation",
+    "selectTable": "Select a table",
+    "reserveTable": "Reserve Table",
+    "reserNow":"Reserve a table at Paragon right now",
+    "successReser": "Success",
+    "tableReserved": "Your table is reserved",
+    "tableReservedMessage": "NOTE: Reservation is only for 1 hour",
+
+
+    "fillAllFields": "Please fill out all fields.",
+    "successMessage": "Reservation successful!",
+    "revervationForm": "Reservation Form",
+    "setectData":"Select Date",
+    "selectTime":"Select Time",
+    "selectNumberOfPeople":"Persons",
+    "reserve":"Reserve",
+
+
+    "cityOne":"Calicut",
+    "cityTwo":"Kochi",
+    "cityThree":"Thiruvananthapuram",
+    "cNameOne":"Paragon Restaurant",
+    "cNameTwo":"M Grill - Paragon Group",
+    "cNameThree":"Brown Town - Paragon Group",
+    "cAddressOne":"Kannur road, Near CH over bridge",
+    "cAddressTwo":"M Grill - Paragon Group, Kochi",
+    "cAddressThree":"Brown Town - Paragon Group, Thiruvananthapuram",
+    "setectCity":"Select your city",
+    "setectRestaurant":"Select the restaurant",
+    "nextButton":"NEXT",
+    "selectYourTable":" Select a Table",
+    "selectseats":"seats",
+
+
+    "note": "Reservation is only for 1 hour"
+
+    
+}

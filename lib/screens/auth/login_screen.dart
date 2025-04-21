@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/auth/forgot_password_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_text_field.dart';
@@ -60,14 +61,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   AppTextField(
                     controller: _emailOrPhoneController,
                     validator: _emailOrPhoneValidator,
-                    label: 'Email/Phone number',
+                    label: S.of(context).emailOrPhone,
                     keyboardType: TextInputType.text,
                   ),
                   const SizedBox(height: 20),
                   AppTextField(
                     controller: _passwordController,
                     validator: _passwordValidator,
-                    label: 'Password',
+                    label: S.of(context).password,
                     keyboardType: TextInputType.visiblePassword,
                     suffixIcon: IconButton(
                       onPressed: () {
@@ -92,8 +93,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ForgotPasswordScreen.id,
                         );
                       },
-                      child: const Text(
-                        'Forgot your password?',
+                      child: Text(
+                        S.of(context).forgotPassword,
                         style: TextStyle(
                           color: ColorsUtility.takeAwayColor,
                           decoration: TextDecoration.underline,
@@ -112,16 +113,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   String? _emailOrPhoneValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your email or phone number';
+      return S.of(context).validationErrorEmail;
     }
     return null;
   }
 
   String? _passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your password';
+      return S.of(context).validationErrorPassword;
     } else if (value.length < 6) {
-      return 'Password must be at least 6 characters long';
+      return S.of(context).validationErrorPasswordLength;
     }
     return null;
   }

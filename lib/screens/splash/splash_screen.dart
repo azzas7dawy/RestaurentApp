@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/SplashLogic/cubit/splash_cubit.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/screens/customScreen/custom_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
@@ -41,8 +42,8 @@ class SplashPage extends StatelessWidget {
                       opacity: fadeValue,
                       child: Transform.scale(
                         scale: scaleValue,
-                        child: const Text(
-                          'PARAGON',
+                        child: Text(
+                          S.of(context).splashTitle,
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
