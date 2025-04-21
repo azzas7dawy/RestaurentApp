@@ -36,7 +36,7 @@ class AppBottomNavBar extends StatelessWidget {
             width: 24,
             height: 24,
           ),
-          title: const Text("Order Food"),
+          title: const Text("Menu"),
           selectedColor: ColorsUtility.takeAwayColor,
         ),
         SalomonBottomBarItem(

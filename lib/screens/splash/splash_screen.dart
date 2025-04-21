@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restrant_app/cubit/SplashLogic/cubit/splash_cubit.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/screens/customScreen/custom_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
-import 'package:restrant_app/screens/splash/logic/cubit/splash_cubit.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 
 class SplashPage extends StatelessWidget {

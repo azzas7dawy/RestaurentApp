@@ -1,6 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
+import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:restrant_app/widgets/app_snackbar.dart';
 
 class SpecialPlatesScreen extends StatelessWidget {
   const SpecialPlatesScreen({super.key, required this.items});
@@ -14,11 +19,11 @@ class SpecialPlatesScreen extends StatelessWidget {
         title: const Text(
           'All Special Plates',
           style: TextStyle(
-            color: ColorsUtility.textFieldLabelColor,
+            color: ColorsUtility.takeAwayColor,
           ),
         ),
         iconTheme: const IconThemeData(
-          color: ColorsUtility.textFieldLabelColor,
+          color: ColorsUtility.takeAwayColor,
         ),
       ),
       body: ListView.builder(
@@ -56,11 +61,23 @@ class SpecialPlatesScreen extends StatelessWidget {
                   ClipRRect(
                     borderRadius:
                         const BorderRadius.vertical(top: Radius.circular(15)),
-                    child: Image.network(
-                      item['image'],
+                    child: CachedNetworkImage(
+                      imageUrl: item['image'],
                       height: 180,
                       width: double.infinity,
                       fit: BoxFit.cover,
+                      placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(
+                          color: ColorsUtility.progressIndictorColor,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => const Center(
+                        child: Icon(
+                          Icons.fastfood,
+                          size: 40,
+                          color: ColorsUtility.progressIndictorColor,
+                        ),
+                      ),
                     ),
                   ),
                   Padding(
@@ -101,12 +118,77 @@ class SpecialPlatesScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.favorite_border,
-                            color: ColorsUtility.progressIndictorColor,
-                          ),
-                          onPressed: () {},
+                        Row(
+                          children: [
+                            BlocBuilder<FavoritesCubit, FavoritesState>(
+                              builder: (context, state) {
+                                final isFavorite = state is FavoritesLoaded
+                                    ? state.favorites.any(
+                                        (fav) => fav['title'] == item['title'])
+                                    : false;
+                                return IconButton(
+                                  icon: Icon(
+                                      isFavorite
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color:
+                                          ColorsUtility.progressIndictorColor),
+                                  onPressed: () {
+                                    if (isFavorite) {
+                                      context
+                                          .read<FavoritesCubit>()
+                                          .removeFromFavorites(item['title']);
+                                      appSnackbar(
+                                        context,
+                                        text:
+                                            '${item['title']} removed from favorites',
+                                        backgroundColor:
+                                            ColorsUtility.successSnackbarColor,
+                                      );
+                                    } else {
+                                      context
+                                          .read<FavoritesCubit>()
+                                          .addToFavorites(item);
+                                      appSnackbar(
+                                        context,
+                                        text:
+                                            '${item['title']} added to favorites',
+                                        backgroundColor:
+                                            ColorsUtility.successSnackbarColor,
+                                      );
+                                    }
+                                  },
+                                );
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.add_circle_outline,
+                                color: item['is_available'] ?? true
+                                    ? ColorsUtility.progressIndictorColor
+                                    : ColorsUtility.textFieldLabelColor,
+                              ),
+                              onPressed: () {
+                                if (item['is_available'] ?? true) {
+                                  context.read<OrdersCubit>().addMeal(item);
+                                  appSnackbar(
+                                    context,
+                                    text: '${item['title']} added to orders',
+                                    backgroundColor:
+                                        ColorsUtility.successSnackbarColor,
+                                  );
+                                } else {
+                                  appSnackbar(
+                                    context,
+                                    text:
+                                        '${item['title']} is not available for now',
+                                    backgroundColor:
+                                        ColorsUtility.errorSnackbarColor,
+                                  );
+                                }
+                              },
+                            ),
+                          ],
                         ),
                       ],
                     ),

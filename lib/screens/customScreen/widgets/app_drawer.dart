@@ -1,56 +1,73 @@
-// widgets/custom_drawer.dart
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restrant_app/screens/auth/logic/cubit/auth_cubit.dart';
+import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
+import 'package:restrant_app/screens/favoritesScreen/favorites_screen.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
+import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
+import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:restrant_app/widgets/app_confirmation_dialog.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final userData = PrefService.userData;
+    final userName = userData['userName'] ?? 'Guest';
+    final userEmail = userData['userEmail'] ?? 'No email';
+    final userImage = userData['userImage'];
+
     return Drawer(
       backgroundColor: ColorsUtility.onboardingDescriptionColor,
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header
-            // Container(
-            //   width: double.infinity,
-            //   padding: const EdgeInsets.all(16),
-            //   child: const Row(
-            //     children: [
-            //       CircleAvatar(
-            //         radius: 30,
-            //         backgroundImage: AssetImage('assets/images/user.png'),
-            //       ),
-            //       SizedBox(width: 16),
-            //       Column(
-            //         crossAxisAlignment: CrossAxisAlignment.start,
-            //         children: [
-            //           Text(
-            //             "Hello, Enas",
-            //             style: TextStyle(
-            //               color: ColorsUtility.takeAwayColor,
-            //               fontSize: 18,
-            //             ),
-            //           ),
-            //           Text(
-            //             "Enas@mail.com",
-            //             style: TextStyle(
-            //               color: ColorsUtility.takeAwayColor,
-            //               fontSize: 14,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            // header
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundImage: userImage != null && userImage.isNotEmpty
+                        ? CachedNetworkImageProvider(userImage)
+                        : const NetworkImage(
+                                'https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png')
+                            as ImageProvider,
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Hello, ${userName.toUpperCase()}",
+                          style: const TextStyle(
+                            color: ColorsUtility.takeAwayColor,
+                            fontSize: 18,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                        ),
+                        Text(
+                          userEmail,
+                          style: const TextStyle(
+                            color: ColorsUtility.takeAwayColor,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
 
-            // Items
+            // items
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.all(16),
@@ -75,6 +92,26 @@ class AppDrawer extends StatelessWidget {
                     ),
                   ),
                   ListTile(
+                    leading: const Icon(Icons.favorite_sharp,
+                        color: ColorsUtility.takeAwayColor),
+                    title: const Text("Your Favorites",
+                        style: TextStyle(color: ColorsUtility.takeAwayColor)),
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      FavoritesScreen.id,
+                    ),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.track_changes_outlined,
+                        color: ColorsUtility.takeAwayColor),
+                    title: const Text("Track your orders",
+                        style: TextStyle(color: ColorsUtility.takeAwayColor)),
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      TrackOrdersScreen.id,
+                    ),
+                  ),
+                  ListTile(
                     leading: const Icon(Icons.info_outline,
                         color: ColorsUtility.takeAwayColor),
                     title: const Text("About / Help",
@@ -89,7 +126,7 @@ class AppDrawer extends StatelessWidget {
                       style: TextStyle(color: ColorsUtility.takeAwayColor),
                     ),
                     onTap: () {
-                      context.read<AuthCubit>().signOut(context);
+                      _showLogoutConfirmation(context);
                     },
                   ),
                 ],
@@ -98,6 +135,18 @@ class AppDrawer extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _showLogoutConfirmation(BuildContext context) async {
+    await AppConfirmationDialog.show(
+      context: context,
+      title: 'Log Out',
+      message: 'Are you sure you want to log out?',
+      confirmText: 'Yes',
+      onConfirm: () {
+        context.read<AuthCubit>().signOut(context);
+      },
     );
   }
 }

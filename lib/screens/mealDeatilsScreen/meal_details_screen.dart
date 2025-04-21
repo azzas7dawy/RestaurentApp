@@ -1,14 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
+import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
+import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
+import 'package:restrant_app/widgets/app_snackbar.dart';
 
 class MealDetailsScreen extends StatelessWidget {
   const MealDetailsScreen({
     super.key,
     required this.meal,
   });
+
   final Map<String, dynamic> meal;
   static const String id = 'MealDetailsScreen';
 
@@ -19,33 +24,62 @@ class MealDetailsScreen extends StatelessWidget {
         title: Text(
           meal['title'] ?? 'Unknown',
           style: const TextStyle(
-            color: ColorsUtility.textFieldLabelColor,
+            color: ColorsUtility.takeAwayColor,
           ),
         ),
         iconTheme: const IconThemeData(
-          color: ColorsUtility.textFieldLabelColor,
+          color: ColorsUtility.takeAwayColor,
         ),
+        actions: [
+          BlocBuilder<FavoritesCubit, FavoritesState>(
+            builder: (context, state) {
+              final isFavorite = state is FavoritesLoaded
+                  ? state.favorites.any((fav) => fav['title'] == meal['title'])
+                  : false;
+              return IconButton(
+                icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: ColorsUtility.progressIndictorColor),
+                onPressed: () {
+                  if (isFavorite) {
+                    context
+                        .read<FavoritesCubit>()
+                        .removeFromFavorites(meal['title']);
+                    appSnackbar(
+                      context,
+                      text: '${meal['title']} removed from favorites',
+                      backgroundColor: ColorsUtility.successSnackbarColor,
+                    );
+                  } else {
+                    context.read<FavoritesCubit>().addToFavorites(meal);
+                    appSnackbar(
+                      context,
+                      text: '${meal['title']} added to favorites',
+                      backgroundColor: ColorsUtility.successSnackbarColor,
+                    );
+                  }
+                },
+              );
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(
-              meal['image'],
+            CachedNetworkImage(
+              imageUrl: meal['image'],
               height: 250,
               width: double.infinity,
               fit: BoxFit.cover,
+              placeholder: (context, url) => const Center(
+                child: CircularProgressIndicator(
+                  color: ColorsUtility.progressIndictorColor,
+                ),
+              ),
             ),
             const SizedBox(height: 16),
-            Text(
-              meal['title'],
-              style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: ColorsUtility.takeAwayColor),
-            ),
-            const SizedBox(height: 8),
             Row(
               children: [
                 Chip(
@@ -62,33 +96,29 @@ class MealDetailsScreen extends StatelessWidget {
                     color: ColorsUtility.progressIndictorColor,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      50,
-                    ),
+                    borderRadius: BorderRadius.circular(50),
                   ),
                 ),
                 const SizedBox(width: 8),
-                if (meal['category_type'] != null &&
-                    meal['category_type'].isNotEmpty)
-                  Chip(
-                    label: Text(
-                      meal['category_type'] ?? '',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: ColorsUtility.progressIndictorColor,
-                      ),
-                    ),
-                    backgroundColor: ColorsUtility.mainBackgroundColor,
-                    side: const BorderSide(
-                      color: ColorsUtility.progressIndictorColor,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        50,
-                      ),
-                    ),
-                  ),
+                // if (meal['category_type'] != null &&
+                //     meal['category_type'].isNotEmpty)
+                //   Chip(
+                //     label: Text(
+                //       meal['category_type'] ?? '',
+                //       style: const TextStyle(
+                //         fontSize: 12,
+                //         fontWeight: FontWeight.bold,
+                //         color: ColorsUtility.progressIndictorColor,
+                //       ),
+                //     ),
+                //     backgroundColor: ColorsUtility.mainBackgroundColor,
+                //     side: const BorderSide(
+                //       color: ColorsUtility.progressIndictorColor,
+                //     ),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(50),
+                //     ),
+                //   ),
               ],
             ),
             const SizedBox(height: 8),
@@ -105,9 +135,10 @@ class MealDetailsScreen extends StatelessWidget {
                 const Text(
                   'Rating: ',
                   style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: ColorsUtility.progressIndictorColor),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: ColorsUtility.progressIndictorColor,
+                  ),
                 ),
                 RatingBar.builder(
                   initialRating: meal['rate']?.toDouble() ?? 0,
@@ -155,27 +186,37 @@ class MealDetailsScreen extends StatelessWidget {
             Center(
               child: AppElevatedBtn(
                 onPressed: meal['is_available']
-                    ? () {
-                        final mealWithQuantity =
-                            Map<String, dynamic>.from(meal);
-                        mealWithQuantity['quantity'] = 1;
-                        final currentOrders = List<Map<String, dynamic>>.from(
-                            OrdersScreen.allOrdersMeals);
-
-                        final existingIndex = currentOrders.indexWhere(
-                          (m) => m['title'] == meal['title'],
-                        );
-                        if (existingIndex != -1) {
-                          currentOrders[existingIndex]['quantity'] += 1;
+                    ? () async {
+                        if (meal['is_available'] ?? true) {
+                          final mealToAdd = {
+                            ...meal,
+                            'documentId': meal['documentId'],
+                            'title': meal['title'],
+                            'price': meal['price'],
+                            'image': meal['image'],
+                            'description': meal['description'],
+                            'category': meal['category'],
+                          };
+                          await context.read<OrdersCubit>().addMeal(mealToAdd);
+                          if (context.mounted) {
+                            appSnackbar(
+                              context,
+                              text: '${meal['title']} added to orders',
+                              backgroundColor:
+                                  ColorsUtility.successSnackbarColor,
+                            );
+                            // Navigator.pushNamed(
+                            //   context,
+                            //   OrdersScreen.id,
+                            // );
+                          }
                         } else {
-                          currentOrders.add(mealWithQuantity);
+                          appSnackbar(
+                            context,
+                            text: '${meal['title']} is not available for now',
+                            backgroundColor: ColorsUtility.errorSnackbarColor,
+                          );
                         }
-                        OrdersScreen.allOrdersMeals = currentOrders;
-                        Navigator.pushNamed(
-                          context,
-                          OrdersScreen.id,
-                          arguments: currentOrders,
-                        );
                       }
                     : null,
                 text: 'Add To Orders',
