@@ -7,7 +7,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:restrant_app/adminDashbord/admin_panel.dart';
+
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
@@ -42,7 +44,7 @@ Future<void> main() async {
   } catch (e) {
     log('failed to initialize firebase : $e');
   }
-  await dotenv.load(fileName: ".env");
+  // await dotenv.load(fileName: ".env");
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
@@ -173,11 +175,18 @@ class MyApp extends StatelessWidget {
                 categoryDoc: data,
               ),
             );
-          default:
-            return MaterialPageRoute(builder: (context) => const SplashPage());
+           case AdminPanel.id:
+            return MaterialPageRoute(
+              builder: (context) => AdminPanel(
+             
+              ),
+            );
+          // default:
+          //   return MaterialPageRoute(builder: (context) => const SplashPage());
         }
       },
-      initialRoute: SplashPage.id,
+      // initialRoute: SplashPage.id,
+      initialRoute: AdminPanel.id,
     );
   }
 }
