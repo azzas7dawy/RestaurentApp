@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/screens/auth/sign_up_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -32,11 +33,11 @@ class AuthTemplateWidget extends StatefulWidget {
 class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
   bool get isLogin => widget.onLogin != null;
 
-  String get title => isLogin ? 'Welcome Back!' : 'Create a new account';
+  String get title =>
+      isLogin ? S.of(context).welcome : S.of(context).createAccount;
 
-  String get subTitle => isLogin
-      ? 'Please login to your account'
-      : 'Please fill in the form to continue';
+  String get subTitle =>
+      isLogin ? S.of(context).pleaseLogin : S.of(context).fillForm;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +73,8 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: AppElevatedBtn(
-                      text: isLogin ? 'LOGIN' : 'SIGN UP',
+                      text:
+                          isLogin ? S.of(context).LOGIN : S.of(context).SIGIUP,
                       onPressed: widget.isLoading
                           ? null
                           : () {
@@ -129,8 +131,8 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
                               const SizedBox(width: 10),
                               Text(
                                 isLogin
-                                    ? 'Login with Google'
-                                    : 'Sign in with Google',
+                                    ? S.of(context).loginGoogle
+                                    : S.of(context).sigUpGoogle,
                                 style: const TextStyle(
                                   color: ColorsUtility.onboardingColor,
                                   fontSize: 14,
@@ -149,8 +151,8 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
                     children: [
                       Text(
                         isLogin
-                            ? 'Don\'t have an account? '
-                            : 'Already have an account? ',
+                            ? S.of(context).donotHaveAccount
+                            : S.of(context).alreadyHaveAccount,
                         style: const TextStyle(
                           color: ColorsUtility.onboardingColor,
                         ),
@@ -167,7 +169,7 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
                             }
                           },
                           child: Text(
-                            isLogin ? 'Sign Up' : 'Login',
+                            isLogin ? S.of(context).sigUp : S.of(context).login,
                             style: const TextStyle(
                               color: ColorsUtility.inkwellTextColor,
                               fontWeight: FontWeight.w700,

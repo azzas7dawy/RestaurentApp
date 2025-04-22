@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
+import 'package:restrant_app/generated/l10n.dart';
+import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
@@ -16,8 +18,8 @@ class SpecialPlatesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'All Special Plates',
+        title: Text(
+          S.of(context).specialPlates,
           style: TextStyle(
             color: ColorsUtility.takeAwayColor,
           ),
@@ -83,7 +85,9 @@ class SpecialPlatesScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      item['title'],
+                      isArabic()
+                          ? item['title_ar']
+                          : item['title'] ?? 'No Title',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -96,7 +100,9 @@ class SpecialPlatesScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
-                      item['description'],
+                      isArabic()
+                          ? item['desc_ar']
+                          : item['description'] ?? 'No Description',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -112,7 +118,7 @@ class SpecialPlatesScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '${item['price']} EGP',
+                          '${item['price']} ${S.of(context).egp}',
                           style: const TextStyle(
                             color: ColorsUtility.progressIndictorColor,
                             fontWeight: FontWeight.bold,
@@ -141,7 +147,7 @@ class SpecialPlatesScreen extends StatelessWidget {
                                       appSnackbar(
                                         context,
                                         text:
-                                            '${item['title']} removed from favorites',
+                                            '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).removedFromFavorites}',
                                         backgroundColor:
                                             ColorsUtility.successSnackbarColor,
                                       );
@@ -152,7 +158,7 @@ class SpecialPlatesScreen extends StatelessWidget {
                                       appSnackbar(
                                         context,
                                         text:
-                                            '${item['title']} added to favorites',
+                                            '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).addedToFavorites}',
                                         backgroundColor:
                                             ColorsUtility.successSnackbarColor,
                                       );
@@ -173,7 +179,8 @@ class SpecialPlatesScreen extends StatelessWidget {
                                   context.read<OrdersCubit>().addMeal(item);
                                   appSnackbar(
                                     context,
-                                    text: '${item['title']} added to orders',
+                                    text:
+                                        '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).addedToOrders}',
                                     backgroundColor:
                                         ColorsUtility.successSnackbarColor,
                                   );
@@ -181,7 +188,7 @@ class SpecialPlatesScreen extends StatelessWidget {
                                   appSnackbar(
                                     context,
                                     text:
-                                        '${item['title']} is not available for now',
+                                        '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).notAvailable}',
                                     backgroundColor:
                                         ColorsUtility.errorSnackbarColor,
                                   );

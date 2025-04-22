@@ -14,6 +14,7 @@ import 'package:restrant_app/screens/customScreen/custom_screen.dart';
 import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_state.dart';
 
@@ -623,5 +624,38 @@ class AuthCubit extends Cubit<AuthState> {
       }
       rethrow;
     }
+  }
+
+  Future<void> changeLanguage(Locale newLocale, BuildContext context) async {
+    emit(LanguageChanged(newLocale));
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('languageCode', newLocale.languageCode);
+
+      if (context.mounted) {
+        appSnackbar(
+          context,
+          text: newLocale.languageCode == 'ar'
+              ? 'تم تغيير اللغة إلى العربية'
+              : 'Language changed to English',
+          backgroundColor: ColorsUtility.successSnackbarColor,
+        );
+      }
+    } catch (e) {
+      emit(LanguageChangeFailed(e.toString()));
+      if (context.mounted) {
+        appSnackbar(
+          context,
+          text: 'Failed to change language',
+          backgroundColor: ColorsUtility.errorSnackbarColor,
+        );
+      }
+    }
+  }
+
+  Future<Locale> getSavedLocale() async {
+    final prefs = await SharedPreferences.getInstance();
+    final languageCode = prefs.getString('languageCode') ?? 'ar';
+    return Locale(languageCode);
   }
 }

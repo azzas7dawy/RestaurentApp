@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 
 class AppConfirmationDialog extends StatelessWidget {
@@ -93,7 +94,7 @@ class AppConfirmationDialog extends StatelessWidget {
           title: title,
           message: message,
           confirmText: confirmText,
-          cancelText: cancelText ?? 'Cancel',
+          cancelText: cancelText ?? S.of(context).cancel,
           confirmColor: confirmColor ?? ColorsUtility.errorSnackbarColor,
           cancelColor: cancelColor ?? ColorsUtility.progressIndictorColor,
           onConfirm: onConfirm,
