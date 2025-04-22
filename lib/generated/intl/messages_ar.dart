@@ -62,6 +62,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "cityOne": MessageLookupByLibrary.simpleMessage("سيراليون"),
     "cityThree": MessageLookupByLibrary.simpleMessage("تيروفانانثابورام"),
     "cityTwo": MessageLookupByLibrary.simpleMessage("كوتشي"),
+    "completeDetails": MessageLookupByLibrary.simpleMessage(
+      "يرجى تقديم التفاصيل التالية: ",
+    ),
     "confirmLogout": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد أنك تريد تسجيل الخروج؟",
     ),
