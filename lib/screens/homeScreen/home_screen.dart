@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/customScreen/custom_screen.dart';
 import 'package:restrant_app/screens/homeScreen/widgets/animated_text_widget.dart';
 import 'package:restrant_app/screens/homeScreen/widgets/reserve_table_card_widget.dart';
@@ -21,10 +22,10 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: 20),
           const AnimatedTextWidget(),
           const SizedBox(height: 20),
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: AppMainTitleWidget(
-              title: 'Special Plates',
+              title: S.of(context).specialPlates,
             ),
           ),
           const SpecialPlatesSectionWidget(),

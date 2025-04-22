@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/customScreen/custom_screen.dart';
+import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
@@ -16,8 +18,8 @@ class FavoritesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Your Favorites',
+        title: Text(
+          S.of(context).yourFavorites,
           style: TextStyle(
             color: ColorsUtility.takeAwayColor,
           ),
@@ -72,7 +74,7 @@ class FavoritesScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'No favorites yet',
+                      S.of(context).noFav,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
@@ -81,7 +83,7 @@ class FavoritesScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      'Tap the heart icon to add favorites',
+                      S.of(context).favTxt,
                       style: TextStyle(
                         fontSize: 14,
                         color: ColorsUtility.textFieldLabelColor.withAlpha(128),
@@ -138,7 +140,9 @@ class FavoritesScreen extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          item['title'],
+                                          isArabic()
+                                              ? item['title_ar']
+                                              : item['title'] ?? 'No Title',
                                           style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -173,7 +177,7 @@ class FavoritesScreen extends StatelessWidget {
                                                 appSnackbar(
                                                   context,
                                                   text:
-                                                      '${item['title']} removed from favorites',
+                                                      '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).removedFromFavorites}',
                                                   backgroundColor: ColorsUtility
                                                       .successSnackbarColor,
                                                 );
@@ -197,7 +201,9 @@ class FavoritesScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    item['description'],
+                                    isArabic()
+                                        ? item['desc_ar']
+                                        : item['description'],
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: ColorsUtility.textFieldLabelColor
@@ -214,7 +220,7 @@ class FavoritesScreen extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        '${item['price']} EGP',
+                                        '${item['price']} ${S.of(context).egp}',
                                         style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
@@ -239,7 +245,7 @@ class FavoritesScreen extends StatelessWidget {
                                             appSnackbar(
                                               context,
                                               text:
-                                                  '${item['title']} added to cart',
+                                                  '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).addedToOrders}',
                                               backgroundColor: ColorsUtility
                                                   .successSnackbarColor,
                                             );
@@ -247,7 +253,7 @@ class FavoritesScreen extends StatelessWidget {
                                             appSnackbar(
                                               context,
                                               text:
-                                                  '${item['title']} is not available for now',
+                                                  '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).notAvailable}',
                                               backgroundColor: ColorsUtility
                                                   .errorSnackbarColor,
                                             );

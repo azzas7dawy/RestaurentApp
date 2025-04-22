@@ -1,5 +1,6 @@
-// widgets/custom_app_bar.dart
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -9,10 +10,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-      title: const Align(
-        alignment: Alignment.centerLeft,
+      title: Align(
+        alignment: isArabic() ? Alignment.centerRight : Alignment.centerLeft,
         child: Text(
-          'PARAGON',
+          S.of(context).splashTitle,
           style: TextStyle(color: ColorsUtility.takeAwayColor),
         ),
       ),
@@ -32,4 +33,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+bool isArabic() {
+  return Intl.getCurrentLocale() == 'ar';
 }

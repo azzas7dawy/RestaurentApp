@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
+import 'package:restrant_app/generated/l10n.dart';
+import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/screens/specialPlatesScreen/special_plates_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -162,9 +164,9 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
 
         if (snapshot.hasError) {
           debugPrint('Error in special plates: ${snapshot.error}');
-          return const Center(
+          return Center(
             child: Text(
-              'Something went wrong',
+              S.of(context).somethingWentWrong,
               style: TextStyle(color: ColorsUtility.takeAwayColor),
             ),
           );
@@ -173,9 +175,9 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
         final items = snapshot.data ?? [];
 
         if (items.isEmpty) {
-          return const Center(
+          return Center(
             child: Text(
-              'No Special Plates found',
+              S.of(context).noSpecialPlates,
               style: TextStyle(color: ColorsUtility.takeAwayColor),
             ),
           );
@@ -218,9 +220,9 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            'See More',
+                            S.of(context).seeMore,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -276,7 +278,9 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  item['title'] ?? 'No Title',
+                                  isArabic()
+                                      ? item['title_ar']
+                                      : item['title'] ?? 'No Title',
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -290,7 +294,9 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Text(
-                                  item['description'] ?? 'No Description',
+                                  isArabic()
+                                      ? item['desc_ar']
+                                      : item['description'] ?? 'No Description',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
@@ -307,7 +313,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      '${item['price'] ?? '0'} EGP',
+                                      '${item['price'] ?? '0'} ${S.of(context).egp}',
                                       style: const TextStyle(
                                         color:
                                             ColorsUtility.progressIndictorColor,
@@ -332,7 +338,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                               appSnackbar(
                                                 context,
                                                 text:
-                                                    '${item['title']} removed from favorites',
+                                                    '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).removedFromFavorites}',
                                                 backgroundColor: ColorsUtility
                                                     .successSnackbarColor,
                                               );
@@ -343,7 +349,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                               appSnackbar(
                                                 context,
                                                 text:
-                                                    '${item['title']} added to favorites',
+                                                    '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).addedToFavorites}',
                                                 backgroundColor: ColorsUtility
                                                     .successSnackbarColor,
                                               );
@@ -365,12 +371,18 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                                 ...item,
                                                 'documentId':
                                                     item['documentId'],
-                                                'title': item['title'],
+                                                'title': isArabic()
+                                                    ? item['title_ar']
+                                                    : item['title'] ??
+                                                        'No Title',
                                                 'price': item['price'],
                                                 'image': item['image'],
-                                                'description':
-                                                    item['description'],
-                                                'category': item['category'],
+                                                'description': isArabic()
+                                                    ? item['desc_ar']
+                                                    : item['description'],
+                                                'category': isArabic()
+                                                    ? item['category_ar']
+                                                    : item['category'],
                                               };
                                               await context
                                                   .read<OrdersCubit>()
@@ -379,7 +391,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                                 appSnackbar(
                                                   context,
                                                   text:
-                                                      '${item['title']} added to orders',
+                                                      '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).addedToOrders}',
                                                   backgroundColor: ColorsUtility
                                                       .successSnackbarColor,
                                                 );
@@ -388,7 +400,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                               appSnackbar(
                                                 context,
                                                 text:
-                                                    '${item['title']} is not available for now',
+                                                    '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).notAvailable}',
                                                 backgroundColor: ColorsUtility
                                                     .errorSnackbarColor,
                                               );

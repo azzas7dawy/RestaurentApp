@@ -729,6 +729,666 @@ class S {
       args: [],
     );
   }
+
+  /// `More Options`
+  String get moreOptions {
+    return Intl.message(
+      'More Options',
+      name: 'moreOptions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Orders`
+  String get yourOrders {
+    return Intl.message('Your Orders', name: 'yourOrders', desc: '', args: []);
+  }
+
+  /// `Your Favorites`
+  String get yourFavorites {
+    return Intl.message(
+      'Your Favorites',
+      name: 'yourFavorites',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track your orders`
+  String get trackYourOrders {
+    return Intl.message(
+      'Track your orders',
+      name: 'trackYourOrders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About / Help`
+  String get aboutHelp {
+    return Intl.message('About / Help', name: 'aboutHelp', desc: '', args: []);
+  }
+
+  /// `Settings`
+  String get settings {
+    return Intl.message('Settings', name: 'settings', desc: '', args: []);
+  }
+
+  /// `Logout`
+  String get logout {
+    return Intl.message('Logout', name: 'logout', desc: '', args: []);
+  }
+
+  /// `Home`
+  String get home {
+    return Intl.message('Home', name: 'home', desc: '', args: []);
+  }
+
+  /// `Menu`
+  String get menu {
+    return Intl.message('Menu', name: 'menu', desc: '', args: []);
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message('Search', name: 'search', desc: '', args: []);
+  }
+
+  /// `Profile`
+  String get profile {
+    return Intl.message('Profile', name: 'profile', desc: '', args: []);
+  }
+
+  /// `Delicious Desserts Just for You! Indulge in the Sweetest Treats.`
+  String get sliderOne {
+    return Intl.message(
+      'Delicious Desserts Just for You! Indulge in the Sweetest Treats.',
+      name: 'sliderOne',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Freshly Baked Pizzas with Perfect Toppings! Taste the Flavor in Every Bite.`
+  String get sliderTwo {
+    return Intl.message(
+      'Freshly Baked Pizzas with Perfect Toppings! Taste the Flavor in Every Bite.',
+      name: 'sliderTwo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Juicy Burgers with a Perfect Blend of Flavors! Savor Every Bite.`
+  String get sliderThree {
+    return Intl.message(
+      'Juicy Burgers with a Perfect Blend of Flavors! Savor Every Bite.',
+      name: 'sliderThree',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Spicy and Savory Mexican Delights! Taste the Fiesta in Every Bite.`
+  String get sliderFour {
+    return Intl.message(
+      'Spicy and Savory Mexican Delights! Taste the Fiesta in Every Bite.',
+      name: 'sliderFour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Book Your Table Now`
+  String get reserveCardTitle {
+    return Intl.message(
+      'Book Your Table Now',
+      name: 'reserveCardTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `REnjoy your visit without waiting. Reserve from home!`
+  String get reserveCardDescription {
+    return Intl.message(
+      'REnjoy your visit without waiting. Reserve from home!',
+      name: 'reserveCardDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Special Plates`
+  String get specialPlates {
+    return Intl.message(
+      'Special Plates',
+      name: 'specialPlates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hi`
+  String get hi {
+    return Intl.message('Hi', name: 'hi', desc: '', args: []);
+  }
+
+  /// `Ready to order?`
+  String get readyToOrder {
+    return Intl.message(
+      'Ready to order?',
+      name: 'readyToOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hello`
+  String get hello {
+    return Intl.message('Hello', name: 'hello', desc: '', args: []);
+  }
+
+  /// `Something went wrong`
+  String get somethingWentWrong {
+    return Intl.message(
+      'Something went wrong',
+      name: 'somethingWentWrong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No special plates found`
+  String get noSpecialPlates {
+    return Intl.message(
+      'No special plates found',
+      name: 'noSpecialPlates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See More`
+  String get seeMore {
+    return Intl.message('See More', name: 'seeMore', desc: '', args: []);
+  }
+
+  /// `EGP`
+  String get egp {
+    return Intl.message('EGP', name: 'egp', desc: '', args: []);
+  }
+
+  /// `Added to favorites`
+  String get addedToFavorites {
+    return Intl.message(
+      'Added to favorites',
+      name: 'addedToFavorites',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `removed from favorites`
+  String get removedFromFavorites {
+    return Intl.message(
+      'removed from favorites',
+      name: 'removedFromFavorites',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `added to orders`
+  String get addedToOrders {
+    return Intl.message(
+      'added to orders',
+      name: 'addedToOrders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `removed from orders`
+  String get removedFromOrders {
+    return Intl.message(
+      'removed from orders',
+      name: 'removedFromOrders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `is not available for now`
+  String get notAvailable {
+    return Intl.message(
+      'is not available for now',
+      name: 'notAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Special Plates`
+  String get allSpecialPlates {
+    return Intl.message(
+      'All Special Plates',
+      name: 'allSpecialPlates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rating: `
+  String get rating {
+    return Intl.message('Rating: ', name: 'rating', desc: '', args: []);
+  }
+
+  /// `You rated this meal`
+  String get youRatedThisMeal {
+    return Intl.message(
+      'You rated this meal',
+      name: 'youRatedThisMeal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You rated:`
+  String get youRated {
+    return Intl.message('You rated:', name: 'youRated', desc: '', args: []);
+  }
+
+  /// `Available`
+  String get available {
+    return Intl.message('Available', name: 'available', desc: '', args: []);
+  }
+
+  /// `Not Available`
+  String get notAvailableTxt {
+    return Intl.message(
+      'Not Available',
+      name: 'notAvailableTxt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add to Orders`
+  String get addToOrdersBtn {
+    return Intl.message(
+      'Add to Orders',
+      name: 'addToOrdersBtn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message('Language', name: 'language', desc: '', args: []);
+  }
+
+  /// `Order submitted successfully`
+  String get orderSubmit {
+    return Intl.message(
+      'Order submitted successfully',
+      name: 'orderSubmit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No orders yet`
+  String get noOrders {
+    return Intl.message('No orders yet', name: 'noOrders', desc: '', args: []);
+  }
+
+  /// `No meals added here`
+  String get noMealsAdded {
+    return Intl.message(
+      'No meals added here',
+      name: 'noMealsAdded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Price:`
+  String get totalPrice {
+    return Intl.message('Total Price:', name: 'totalPrice', desc: '', args: []);
+  }
+
+  /// `Proceed to Payment`
+  String get payBtn {
+    return Intl.message(
+      'Proceed to Payment',
+      name: 'payBtn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Removal`
+  String get confirmRemoval {
+    return Intl.message(
+      'Confirm Removal',
+      name: 'confirmRemoval',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to remove this meal?`
+  String get removeMeal {
+    return Intl.message(
+      'Are you sure you want to remove this meal?',
+      name: 'removeMeal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove`
+  String get remove {
+    return Intl.message('Remove', name: 'remove', desc: '', args: []);
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message('Cancel', name: 'cancel', desc: '', args: []);
+  }
+
+  /// `No favorites yet`
+  String get noFav {
+    return Intl.message('No favorites yet', name: 'noFav', desc: '', args: []);
+  }
+
+  /// `Tap the heart icon to add favorites`
+  String get favTxt {
+    return Intl.message(
+      'Tap the heart icon to add favorites',
+      name: 'favTxt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cash on Delivery`
+  String get cashOnDelivery {
+    return Intl.message(
+      'Cash on Delivery',
+      name: 'cashOnDelivery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PayPal Checkout`
+  String get paypal {
+    return Intl.message('PayPal Checkout', name: 'paypal', desc: '', args: []);
+  }
+
+  /// `You will pay`
+  String get txtp1 {
+    return Intl.message('You will pay', name: 'txtp1', desc: '', args: []);
+  }
+
+  /// `when you receive your order`
+  String get txtp2 {
+    return Intl.message(
+      'when you receive your order',
+      name: 'txtp2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Our delivery agent will collect the payment when your order arrives`
+  String get subTitle {
+    return Intl.message(
+      'Our delivery agent will collect the payment when your order arrives',
+      name: 'subTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone Number`
+  String get phoneLabel {
+    return Intl.message('Phone Number', name: 'phoneLabel', desc: '', args: []);
+  }
+
+  /// `Delivery Address`
+  String get deliveryAddress {
+    return Intl.message(
+      'Delivery Address',
+      name: 'deliveryAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your delivery address`
+  String get enterAddress {
+    return Intl.message(
+      'Please enter your delivery address',
+      name: 'enterAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address is too short`
+  String get shortAddress {
+    return Intl.message(
+      'Address is too short',
+      name: 'shortAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Order`
+  String get confirmOrder {
+    return Intl.message(
+      'Confirm Order',
+      name: 'confirmOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Amount:`
+  String get totalAmount {
+    return Intl.message(
+      'Total Amount:',
+      name: 'totalAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You will be redirected to PayPal to complete your payment securely`
+  String get paypalTitle {
+    return Intl.message(
+      'You will be redirected to PayPal to complete your payment securely',
+      name: 'paypalTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Proceed to PayPal`
+  String get paypalBtn {
+    return Intl.message(
+      'Proceed to PayPal',
+      name: 'paypalBtn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a coupon code`
+  String get enterCoupon {
+    return Intl.message(
+      'Please enter a coupon code',
+      name: 'enterCoupon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coupon applied successfully!`
+  String get validCoupon {
+    return Intl.message(
+      'Coupon applied successfully!',
+      name: 'validCoupon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid coupon code`
+  String get invalidCoupon {
+    return Intl.message(
+      'Invalid coupon code',
+      name: 'invalidCoupon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please choose a payment method`
+  String get payMethod {
+    return Intl.message(
+      'Please choose a payment method',
+      name: 'payMethod',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment Method`
+  String get paymentMethod {
+    return Intl.message(
+      'Payment Method',
+      name: 'paymentMethod',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select your preferred payment method`
+  String get favPayMethod {
+    return Intl.message(
+      'Select your preferred payment method',
+      name: 'favPayMethod',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay when you receive your order`
+  String get cashTxt {
+    return Intl.message(
+      'Pay when you receive your order',
+      name: 'cashTxt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PayPal`
+  String get paypalTxt {
+    return Intl.message('PayPal', name: 'paypalTxt', desc: '', args: []);
+  }
+
+  /// `Pay securely with PayPal`
+  String get paypalSubtitle {
+    return Intl.message(
+      'Pay securely with PayPal',
+      name: 'paypalSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get continueBtn {
+    return Intl.message('Continue', name: 'continueBtn', desc: '', args: []);
+  }
+
+  /// `Apply Coupon`
+  String get applyCoupon {
+    return Intl.message(
+      'Apply Coupon',
+      name: 'applyCoupon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter coupon code`
+  String get enterCouponCode {
+    return Intl.message(
+      'Enter coupon code',
+      name: 'enterCouponCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply`
+  String get apply {
+    return Intl.message('Apply', name: 'apply', desc: '', args: []);
+  }
+
+  /// `Order Summary`
+  String get orderSummary {
+    return Intl.message(
+      'Order Summary',
+      name: 'orderSummary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subtotal`
+  String get subtotal {
+    return Intl.message('Subtotal', name: 'subtotal', desc: '', args: []);
+  }
+
+  /// `Delivery Fee`
+  String get fees {
+    return Intl.message('Delivery Fee', name: 'fees', desc: '', args: []);
+  }
+
+  /// `Discount`
+  String get discount {
+    return Intl.message('Discount', name: 'discount', desc: '', args: []);
+  }
+
+  /// `Total`
+  String get total {
+    return Intl.message('Total', name: 'total', desc: '', args: []);
+  }
+
+  /// `Are you sure you want to log out?`
+  String get confirmLogout {
+    return Intl.message(
+      'Are you sure you want to log out?',
+      name: 'confirmLogout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yes {
+    return Intl.message('Yes', name: 'yes', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -78,121 +78,148 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: S.delegate.supportedLocales,
-      scrollBehavior: AppScrollBehavior(),
-      debugShowCheckedModeBanner: false,
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(
-          backgroundColor: ColorsUtility.mainBackgroundColor,
-        ),
-        scaffoldBackgroundColor: ColorsUtility.mainBackgroundColor,
-        fontFamily: 'Raleway',
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: ColorsUtility.progressIndictorColor),
-        useMaterial3: true,
-      ),
-      onGenerateRoute: (settings) {
-        final String routeName = settings.name ?? '';
-        final dynamic data = settings.arguments;
-        switch (routeName) {
-          case OnboardingScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => const OnboardingScreen(),
-            );
-          case LoginScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => const LoginScreen(),
-            );
-          case SignUpScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => const SignUpScreen(),
-            );
-          case CustomScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => const CustomScreen(),
-            );
-          case CompleteUserDataScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => CompleteUserDataScreen(
-                user: data,
-              ),
-            );
-          case ForgotPasswordScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => ForgotPasswordScreen(),
-            );
-          case HomeScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
-            );
-          case SpecialPlatesScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => SpecialPlatesScreen(
-                items: data,
-              ),
-            );
-          case MealDetailsScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => MealDetailsScreen(
-                meal: data,
-              ),
-            );
-          case OrdersScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => const OrdersScreen(),
-            );
-          case ReserveTableScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => const ReserveTableScreen(),
-            );
-          case FavoritesScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => const FavoritesScreen(),
-            );
-          case PaymentScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => PaymentScreen(
-                initialTotal: data,
-              ),
-            );
-          case CompletePaymentScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => CompletePaymentScreen(
-                paymentMethod: data,
-                totalAmount: data,
-                discountAmount: data,
-              ),
-            );
-          case TrackOrdersScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => const TrackOrdersScreen(),
-            );
-          case CategoryItemsScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => CategoryItemsScreen(
-                categoryDoc: data,
-              ),
-            );
-          case SettignsScreen.id:
-            return MaterialPageRoute(
-              builder: (context) => const SettignsScreen(),
-            );
-          default:
-            return MaterialPageRoute(builder: (context) => const SplashPage());
-        }
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, state) {
+        return FutureBuilder<Locale>(
+            future: _getLocale(context, state),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return MaterialApp(
+                  localizationsDelegates: [
+                    S.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  supportedLocales: S.delegate.supportedLocales,
+                  scrollBehavior: AppScrollBehavior(),
+                  debugShowCheckedModeBanner: false,
+                  // locale: DevicePreview.locale(context),
+                  locale: snapshot.data,
+                  builder: DevicePreview.appBuilder,
+                  title: 'Flutter Demo',
+                  theme: ThemeData(
+                    appBarTheme: const AppBarTheme(
+                      backgroundColor: ColorsUtility.mainBackgroundColor,
+                    ),
+                    scaffoldBackgroundColor: ColorsUtility.mainBackgroundColor,
+                    fontFamily: 'Raleway',
+                    colorScheme: ColorScheme.fromSeed(
+                        seedColor: ColorsUtility.progressIndictorColor),
+                    useMaterial3: true,
+                  ),
+                  onGenerateRoute: (settings) {
+                    final String routeName = settings.name ?? '';
+                    final dynamic data = settings.arguments;
+                    switch (routeName) {
+                      case OnboardingScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => const OnboardingScreen(),
+                        );
+                      case LoginScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        );
+                      case SignUpScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => const SignUpScreen(),
+                        );
+                      case CustomScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => const CustomScreen(),
+                        );
+                      case CompleteUserDataScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => CompleteUserDataScreen(
+                            user: data,
+                          ),
+                        );
+                      case ForgotPasswordScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => ForgotPasswordScreen(),
+                        );
+                      case HomeScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => const HomeScreen(),
+                        );
+                      case SpecialPlatesScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => SpecialPlatesScreen(
+                            items: data,
+                          ),
+                        );
+                      case MealDetailsScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => MealDetailsScreen(
+                            meal: data,
+                          ),
+                        );
+                      case OrdersScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => const OrdersScreen(),
+                        );
+                      case ReserveTableScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => const ReserveTableScreen(),
+                        );
+                      case FavoritesScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => const FavoritesScreen(),
+                        );
+                      case PaymentScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => PaymentScreen(
+                            initialTotal: data,
+                          ),
+                        );
+                      case CompletePaymentScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => CompletePaymentScreen(
+                            paymentMethod: data,
+                            totalAmount: data,
+                            discountAmount: data,
+                          ),
+                        );
+                      case TrackOrdersScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => const TrackOrdersScreen(),
+                        );
+                      case CategoryItemsScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => CategoryItemsScreen(
+                            categoryDoc: data,
+                          ),
+                        );
+                      case SettignsScreen.id:
+                        return MaterialPageRoute(
+                          builder: (context) => const SettignsScreen(),
+                        );
+                      default:
+                        return MaterialPageRoute(
+                            builder: (context) => const SplashPage());
+                    }
+                  },
+                  initialRoute: SplashPage.id,
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: ColorsUtility.progressIndictorColor,
+                  ),
+                );
+              }
+            });
       },
-      initialRoute: SplashPage.id,
     );
+  }
+
+  Future<Locale> _getLocale(BuildContext context, AuthState state) async {
+    if (state is LanguageChanged) {
+      return state.locale;
+    } else {
+      final authCubit = BlocProvider.of<AuthCubit>(context);
+      return await authCubit.getSavedLocale();
+    }
   }
 }
 

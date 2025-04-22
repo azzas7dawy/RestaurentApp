@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/utils/icons_utility.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -26,7 +27,7 @@ class AppBottomNavBar extends StatelessWidget {
             width: 20,
             height: 20,
           ),
-          title: const Text("Home"),
+          title: Text(S.of(context).home),
           selectedColor: ColorsUtility.takeAwayColor,
         ),
         SalomonBottomBarItem(
@@ -35,7 +36,7 @@ class AppBottomNavBar extends StatelessWidget {
             width: 20,
             height: 20,
           ),
-          title: const Text("Menu"),
+          title: Text(S.of(context).menu),
           selectedColor: ColorsUtility.takeAwayColor,
         ),
         SalomonBottomBarItem(
@@ -44,7 +45,7 @@ class AppBottomNavBar extends StatelessWidget {
             width: 20,
             height: 20,
           ),
-          title: const Text("Search"),
+          title: Text(S.of(context).search),
           selectedColor: ColorsUtility.takeAwayColor,
         ),
         SalomonBottomBarItem(
@@ -53,13 +54,13 @@ class AppBottomNavBar extends StatelessWidget {
             width: 20,
             height: 20,
           ),
-          title: const Text("Reserve Table"),
+          title: Text(S.of(context).reserveTable),
           selectedColor: ColorsUtility.takeAwayColor,
         ),
         SalomonBottomBarItem(
           icon:
               SvgPicture.asset(IconsUtility.profileIcon, width: 20, height: 20),
-          title: const Text("Profile"),
+          title: Text(S.of(context).profile),
           selectedColor: ColorsUtility.takeAwayColor,
         ),
       ],

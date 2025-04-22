@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/utils/images_utility.dart';
 
@@ -37,7 +38,7 @@ class ReserveTableCardWidget extends StatelessWidget {
               ),
             ],
           ),
-          child: const Row(
+          child: Row(
             children: [
               SizedBox(width: 12),
               Expanded(
@@ -48,7 +49,7 @@ class ReserveTableCardWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Book Your Table Now',
+                        S.of(context).reserveCardTitle,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -57,7 +58,7 @@ class ReserveTableCardWidget extends StatelessWidget {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'Enjoy your visit without waiting. Reserve from home!',
+                        S.of(context).reserveCardDescription,
                         style: TextStyle(
                           fontSize: 14,
                           color: ColorsUtility.onboardingColor,

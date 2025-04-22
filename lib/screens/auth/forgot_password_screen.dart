@@ -16,6 +16,15 @@ class ForgotPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          S.of(context).resetPassword,
+          style: TextStyle(color: ColorsUtility.takeAwayColor),
+        ),
+        iconTheme: const IconThemeData(
+          color: ColorsUtility.takeAwayColor,
+        ),
+      ),
       body: SafeArea(
         child: Form(
           key: _formKey,
