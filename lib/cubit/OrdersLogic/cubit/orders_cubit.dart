@@ -80,7 +80,7 @@ class OrdersCubit extends Cubit<OrdersState> {
 
   void removeMeal(int index) async {
     meals.removeAt(index);
-    await _updateCartInFirestore(); // مهم جدًا لحذف البيانات من Firestore
+    await _updateCartInFirestore();
     emit(OrdersLoaded(meals: List.from(meals)));
   }
 
@@ -111,7 +111,7 @@ class OrdersCubit extends Cubit<OrdersState> {
       await firestore.collection('users2').doc(userId).update({
         'cartItems': [],
       });
-      meals.clear(); // مهم جدًا لمسح البيانات من الذاكرة بعد حفظها
+      meals.clear();
     } catch (e) {
       emit(OrdersError(errorMessage: 'Failed to clear cart: ${e.toString()}'));
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/screens/paymentScreen/complete_payment_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -38,7 +39,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
     if (couponCode.isEmpty) {
       setState(() {
-        _couponMessage = 'Please enter a coupon code';
+        _couponMessage = S.of(context).enterCoupon;
         _couponMessageColor = ColorsUtility.errorSnackbarColor;
       });
       return;
@@ -48,21 +49,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
       setState(() {
         _discountAmount = totalPrice * 0.1;
         _isCouponApplied = true;
-        _couponMessage = 'Coupon applied successfully!';
+        _couponMessage = S.of(context).validCoupon;
         _couponMessageColor = ColorsUtility.successSnackbarColor;
       });
     } else if (couponCode == 'iti20') {
       setState(() {
         _discountAmount = totalPrice * 0.2;
         _isCouponApplied = true;
-        _couponMessage = 'Coupon applied successfully!';
+        _couponMessage = S.of(context).validCoupon;
         _couponMessageColor = ColorsUtility.successSnackbarColor;
       });
     } else {
       setState(() {
         _discountAmount = 0.0;
         _isCouponApplied = false;
-        _couponMessage = 'Invalid coupon code';
+        _couponMessage = S.of(context).invalidCoupon;
         _couponMessageColor = ColorsUtility.errorSnackbarColor;
       });
     }
@@ -81,7 +82,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     if (_selectedPaymentMethod == null) {
       appSnackbar(
         context,
-        text: 'Please choose a payment method',
+        text: S.of(context).payMethod,
         backgroundColor: ColorsUtility.errorSnackbarColor,
       );
     } else {
@@ -105,8 +106,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Payment Method',
+        title: Text(
+          S.of(context).paymentMethod,
           style: TextStyle(color: ColorsUtility.takeAwayColor),
         ),
         iconTheme: const IconThemeData(
@@ -132,8 +133,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Select your preferred payment method',
+                      Text(
+                        S.of(context).favPayMethod,
                         style: TextStyle(
                           fontSize: 14,
                           color: ColorsUtility.textFieldLabelColor,
@@ -143,16 +144,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       _buildPaymentMethodCard(
                         context,
                         icon: Icons.money,
-                        title: "Cash on Delivery",
-                        subtitle: "Pay when you receive your order",
+                        title: S.of(context).cashOnDelivery,
+                        subtitle: S.of(context).cashTxt,
                         value: "cash",
                       ),
                       const SizedBox(height: 16),
                       _buildPaymentMethodCard(
                         context,
                         icon: Icons.payment,
-                        title: "PayPal",
-                        subtitle: "Pay securely with PayPal",
+                        title: S.of(context).paypalTxt,
+                        subtitle: S.of(context).paypalSubtitle,
                         value: "paypal",
                       ),
                       const SizedBox(height: 24),
@@ -167,7 +168,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 padding: const EdgeInsets.only(bottom: 10),
                 child: AppElevatedBtn(
                   onPressed: () => _handleContinueButton(totalPrice),
-                  text: 'Continue',
+                  text: S.of(context).continueBtn,
                 ),
               ),
             ],
@@ -181,8 +182,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Apply Coupon',
+        Text(
+          S.of(context).applyCoupon,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -206,7 +207,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           color: ColorsUtility.textFieldLabelColor),
                       controller: _couponController,
                       decoration: InputDecoration(
-                        hintText: 'Enter coupon code',
+                        hintText: S.of(context).enterCouponCode,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: const BorderSide(
@@ -251,8 +252,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               horizontal: 16,
                             ),
                           ),
-                          child: const Text(
-                            'Apply',
+                          child: Text(
+                            S.of(context).apply,
                             style:
                                 TextStyle(color: ColorsUtility.onboardingColor),
                           ),
@@ -361,8 +362,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Order Summary',
+        Text(
+          S.of(context).orderSummary,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -378,15 +379,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
           child: Column(
             children: [
-              _buildSummaryRow(
-                  'Subtotal', '${totalPrice.toStringAsFixed(2)} EGP'),
+              _buildSummaryRow(S.of(context).subtotal,
+                  '${totalPrice.toStringAsFixed(2)} ${S.of(context).egp}'),
               const SizedBox(height: 8),
-              _buildSummaryRow('Delivery Fee', '0.00 EGP'),
+              _buildSummaryRow(S.of(context).fees, '0.00 ${S.of(context).egp}'),
               if (_isCouponApplied) ...[
                 const SizedBox(height: 8),
                 _buildSummaryRow(
-                  'Discount',
-                  '-${_discountAmount.toStringAsFixed(2)} EGP',
+                  S.of(context).discount,
+                  '-${_discountAmount.toStringAsFixed(2)} ${S.of(context).egp}',
                   isDiscount: true,
                 ),
               ],
@@ -394,8 +395,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
               const Divider(height: 1),
               const SizedBox(height: 8),
               _buildSummaryRow(
-                'Total',
-                '${finalPrice.toStringAsFixed(2)} EGP',
+                S.of(context).total,
+                '${finalPrice.toStringAsFixed(2)} ${S.of(context).egp}',
                 isTotal: true,
               ),
             ],

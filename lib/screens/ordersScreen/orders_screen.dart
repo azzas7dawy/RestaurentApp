@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/customScreen/custom_screen.dart';
+import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/screens/paymentScreen/payment_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_confirmation_dialog.dart';
@@ -25,8 +27,8 @@ class OrdersScreen extends StatelessWidget {
       ),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Your Orders',
+          title: Text(
+            S.of(context).yourOrders,
             style: TextStyle(color: ColorsUtility.takeAwayColor),
           ),
           iconTheme: const IconThemeData(
@@ -47,7 +49,7 @@ class OrdersScreen extends StatelessWidget {
             if (state is OrdersSubmissionSuccess) {
               appSnackbar(
                 context,
-                text: 'Order submitted successfully',
+                text: S.of(context).orderSubmit,
                 backgroundColor: ColorsUtility.successSnackbarColor,
               );
             }
@@ -85,8 +87,8 @@ class OrdersScreen extends StatelessWidget {
                                     .withAlpha(128),
                               ),
                               const SizedBox(height: 16),
-                              const Text(
-                                'No orders yet',
+                              Text(
+                                S.of(context).noOrders,
                                 style: TextStyle(
                                   fontSize: 18,
                                   color: ColorsUtility.takeAwayColor,
@@ -94,7 +96,7 @@ class OrdersScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'No meals added here',
+                                S.of(context).noMealsAdded,
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: ColorsUtility.textFieldLabelColor
@@ -137,7 +139,9 @@ class OrdersScreen extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            meal['title'] ?? 'Unknown',
+                                            isArabic()
+                                                ? meal['title_ar']
+                                                : meal['title'] ?? 'No Title',
                                             style: const TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
@@ -147,7 +151,7 @@ class OrdersScreen extends StatelessWidget {
                                           ),
                                           const SizedBox(height: 4),
                                           Text(
-                                            '${meal['price'] ?? 0} EGP',
+                                            '${meal['price'] ?? 0} ${S.of(context).egp}',
                                             style: const TextStyle(
                                               color: ColorsUtility
                                                   .progressIndictorColor,
@@ -209,8 +213,8 @@ class OrdersScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              'Total Price:',
+                            Text(
+                              S.of(context).totalPrice,
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -218,7 +222,7 @@ class OrdersScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '${cubit.calculateTotal().toStringAsFixed(2)} EGP',
+                              '${cubit.calculateTotal().toStringAsFixed(2)} ${S.of(context).egp}',
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -237,7 +241,7 @@ class OrdersScreen extends StatelessWidget {
                               arguments: total,
                             );
                           },
-                          text: 'Proceed to Payment',
+                          text: S.of(context).payBtn,
                         ),
                       ],
                     ),
@@ -254,9 +258,9 @@ class OrdersScreen extends StatelessWidget {
       BuildContext context, int index) async {
     await AppConfirmationDialog.show(
       context: context,
-      title: 'Confirm Removal',
-      message: 'Are you sure you want to remove this meal?',
-      confirmText: 'Remove',
+      title: S.of(context).confirmRemoval,
+      message: S.of(context).removeMeal,
+      confirmText: S.of(context).remove,
       onConfirm: () {
         context.read<OrdersCubit>().removeMeal(index);
       },

@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/favoritesScreen/favorites_screen.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
+import 'package:restrant_app/screens/settingsScreen/settings_screen.dart';
 import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
 import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -45,7 +47,7 @@ class AppDrawer extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Hello, ${userName.toUpperCase()}",
+                          "${S.of(context).hello}, ${userName.toUpperCase()}",
                           style: const TextStyle(
                             color: ColorsUtility.takeAwayColor,
                             fontSize: 18,
@@ -72,8 +74,8 @@ class AppDrawer extends StatelessWidget {
               child: ListView(
                 padding: const EdgeInsets.all(16),
                 children: [
-                  const Text(
-                    'More Options',
+                  Text(
+                    S.of(context).moreOptions,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -84,7 +86,7 @@ class AppDrawer extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.fastfood,
                         color: ColorsUtility.takeAwayColor),
-                    title: const Text("Your Orders",
+                    title: Text(S.of(context).yourOrders,
                         style: TextStyle(color: ColorsUtility.takeAwayColor)),
                     onTap: () => Navigator.pushNamed(
                       context,
@@ -94,7 +96,7 @@ class AppDrawer extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.favorite_sharp,
                         color: ColorsUtility.takeAwayColor),
-                    title: const Text("Your Favorites",
+                    title: Text(S.of(context).yourFavorites,
                         style: TextStyle(color: ColorsUtility.takeAwayColor)),
                     onTap: () => Navigator.pushNamed(
                       context,
@@ -104,7 +106,7 @@ class AppDrawer extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.track_changes_outlined,
                         color: ColorsUtility.takeAwayColor),
-                    title: const Text("Track your orders",
+                    title: Text(S.of(context).trackYourOrders,
                         style: TextStyle(color: ColorsUtility.takeAwayColor)),
                     onTap: () => Navigator.pushNamed(
                       context,
@@ -114,15 +116,25 @@ class AppDrawer extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.info_outline,
                         color: ColorsUtility.takeAwayColor),
-                    title: const Text("About / Help",
+                    title: Text(S.of(context).aboutHelp,
                         style: TextStyle(color: ColorsUtility.takeAwayColor)),
                     onTap: () => Navigator.pop(context),
                   ),
                   ListTile(
+                    leading: const Icon(Icons.settings_outlined,
+                        color: ColorsUtility.takeAwayColor),
+                    title: Text(S.of(context).settings,
+                        style: TextStyle(color: ColorsUtility.takeAwayColor)),
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      SettignsScreen.id,
+                    ),
+                  ),
+                  ListTile(
                     leading: const Icon(Icons.logout_outlined,
                         color: ColorsUtility.takeAwayColor),
-                    title: const Text(
-                      "Log Out",
+                    title: Text(
+                      S.of(context).logout,
                       style: TextStyle(color: ColorsUtility.takeAwayColor),
                     ),
                     onTap: () {
@@ -141,9 +153,9 @@ class AppDrawer extends StatelessWidget {
   Future<void> _showLogoutConfirmation(BuildContext context) async {
     await AppConfirmationDialog.show(
       context: context,
-      title: 'Log Out',
-      message: 'Are you sure you want to log out?',
-      confirmText: 'Yes',
+      title: S.of(context).logout,
+      message: S.of(context).confirmLogout,
+      confirmText: S.of(context).yes,
       onConfirm: () {
         context.read<AuthCubit>().signOut(context);
       },

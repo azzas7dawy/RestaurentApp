@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:restrant_app/screens/auth/sign_up_screen.dart';
-import 'package:restrant_app/screens/customScreen/custom_screen.dart';
+
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_data.dart';
 import 'package:restrant_app/services/pref_service.dart';
-import 'package:restrant_app/utils/images_utility.dart';
+
+import '../../utils/images_utility.dart';
+import '../auth/sign_up_screen.dart';
+import '../customScreen/custom_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -15,30 +18,46 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final List onboardingData = [
-    {
-      'title': 'Plan your weekly menu',
-      'description':
-          'You can order weekly meals, and we\'ll bring them straight to your door.',
-      'image1': ImagesUtility.onboardingImage1,
-      'image2': ImagesUtility.onboardingImage2,
-    },
-    {
-      'title': 'Reserve a table',
-      'description':
-          'Tired of having to wait? Make a table reservation right away.',
-      'image1': ImagesUtility.onboardingImage3,
-      'image2': ImagesUtility.onboardingImage4,
-    },
-    {
-      'title': 'Place catering Orders',
-      'description': 'Place catering orders with us.',
-      'image1': ImagesUtility.onboardingImage5,
-      'image2': ImagesUtility.onboardingImage6,
-    },
-  ];
+  late List<Map<String, String>> onboardingData;
 
   final PageController _pageController = PageController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    onboardingData = [];
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (onboardingData.isEmpty) {
+      onboardingData = [
+        {
+          'title': S.of(context).onboardingTitleOne,
+          'description': S.of(context).onboardingDescriptionOne,
+          'image1': ImagesUtility.onboardingImage1,
+          'image2': ImagesUtility.onboardingImage2,
+        },
+        {
+          'title': S.of(context).onboardingTitleTwo,
+          'description': S.of(context).onboardingDescriptionTwo,
+          'image1': ImagesUtility.onboardingImage3,
+          'image2': ImagesUtility.onboardingImage4,
+        },
+        {
+          'title': S.of(context).onboardingTitleThree,
+          'description': S.of(context).onboardingDescriptionThree,
+          'image1': ImagesUtility.onboardingImage5,
+          'image2': ImagesUtility.onboardingImage6,
+        },
+      ];
+
+      setState(() {});
+    }
+  }
 
   void _goToNextPage() {
     if (_pageController.page! < onboardingData.length - 1) {

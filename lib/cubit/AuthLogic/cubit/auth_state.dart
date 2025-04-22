@@ -13,11 +13,8 @@ final class SignupSuccess extends SignupState {}
 
 final class SignupFailed extends SignupState {
   final String error;
-
   SignupFailed(this.error);
 }
-
-// login
 
 final class LoginState extends AuthState {}
 
@@ -27,7 +24,6 @@ final class LoginSuccess extends LoginState {}
 
 final class LoginFailed extends LoginState {
   final String error;
-
   LoginFailed(this.error);
 }
 
@@ -39,7 +35,6 @@ final class LogoutSuccess extends LogoutState {}
 
 final class LogoutFailed extends LogoutState {
   final String error;
-
   LogoutFailed(this.error);
 }
 
@@ -51,7 +46,6 @@ final class GoogleLoginSuccess extends GoogleLoginState {}
 
 final class GoogleLoginFailed extends GoogleLoginState {
   final String error;
-
   GoogleLoginFailed(this.error);
 }
 
@@ -86,4 +80,16 @@ final class DeleteAccountSuccess extends DeleteAccountState {}
 final class DeleteAccountFailed extends DeleteAccountState {
   final String error;
   DeleteAccountFailed(this.error);
+}
+
+final class LanguageState extends AuthState {}
+
+final class LanguageChanged extends LanguageState {
+  final Locale locale;
+  LanguageChanged(this.locale);
+}
+
+final class LanguageChangeFailed extends LanguageState {
+  final String error;
+  LanguageChangeFailed(this.error);
 }

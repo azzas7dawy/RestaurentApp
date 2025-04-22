@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 
 class AnimatedTextWidget extends StatefulWidget {
@@ -18,7 +19,7 @@ class _AnimatedTextWidgetState extends State<AnimatedTextWidget> {
       child: AnimatedTextKit(
         animatedTexts: [
           TypewriterAnimatedText(
-            'Hi ${FirebaseAuth.instance.currentUser?.displayName?.toUpperCase() ?? 'User'.toUpperCase()}, Ready to order?',
+            '${S.of(context).hi} ${FirebaseAuth.instance.currentUser?.displayName?.toUpperCase() ?? 'User'.toUpperCase()}, ${S.of(context).readyToOrder}',
             textStyle: const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
