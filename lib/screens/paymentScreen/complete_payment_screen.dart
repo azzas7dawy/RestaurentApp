@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_paypal_checkout/flutter_paypal_checkout.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -44,8 +45,8 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
       appBar: AppBar(
         title: Text(
           widget.paymentMethod == 'cash'
-              ? "Cash on Delivery"
-              : "PayPal Checkout",
+              ? S.of(context).cashOnDelivery
+              : S.of(context).paypal,
           style: const TextStyle(
             fontSize: 20,
             color: ColorsUtility.takeAwayColor,
@@ -87,7 +88,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
           ),
           const SizedBox(height: 20),
           Text(
-            'You will pay ${widget.totalAmount.toStringAsFixed(2)} EGP when you receive your order',
+            '${S.of(context).txtp1} ${widget.totalAmount.toStringAsFixed(2)} ${S.of(context).egp} ${S.of(context).txtp2}',
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -96,8 +97,8 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 20),
-          const Text(
-            'Our delivery agent will collect the payment when your order arrives',
+          Text(
+            S.of(context).subTitle,
             style: TextStyle(
               fontSize: 16,
               color: ColorsUtility.progressIndictorColor,
@@ -113,7 +114,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.never,
-                labelText: 'Phone Number',
+                labelText: S.of(context).phoneLabel,
                 labelStyle: const TextStyle(
                   color: ColorsUtility.textFieldLabelColor,
                 ),
@@ -140,10 +141,10 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter your phone number';
+                  return S.of(context).enterPhone;
                 }
                 if (!RegExp(r'^[0-9]{10,15}$').hasMatch(value)) {
-                  return 'Please enter a valid phone number';
+                  return S.of(context).validPhone;
                 }
                 return null;
               },
@@ -159,7 +160,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
               maxLines: 3,
               decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.never,
-                labelText: 'Delivery Address',
+                labelText: S.of(context).deliveryAddress,
                 labelStyle: const TextStyle(
                   color: ColorsUtility.textFieldLabelColor,
                 ),
@@ -186,10 +187,10 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter your delivery address';
+                  return S.of(context).enterAddress;
                 }
                 if (value.length < 10) {
-                  return 'Address is too short';
+                  return S.of(context).shortAddress;
                 }
                 return null;
               },
@@ -219,7 +220,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
                 }
               }
             },
-            text: 'Confirm Order',
+            text: S.of(context).confirmOrder,
           ),
         ],
       ),
@@ -240,7 +241,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
         ),
         const SizedBox(height: 20),
         Text(
-          'Total Amount: ${widget.totalAmount.toStringAsFixed(2)} EGP',
+          '${S.of(context).totalAmount} ${widget.totalAmount.toStringAsFixed(2)} ${S.of(context).egp}',
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -248,8 +249,8 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
           ),
         ),
         const SizedBox(height: 20),
-        const Text(
-          'You will be redirected to PayPal to complete your payment securely',
+        Text(
+          S.of(context).paypalTitle,
           style: TextStyle(
             fontSize: 16,
             color: ColorsUtility.progressIndictorColor,
@@ -265,7 +266,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
               floatingLabelBehavior: FloatingLabelBehavior.never,
-              labelText: 'Phone Number',
+              labelText: S.of(context).phoneLabel,
               labelStyle: const TextStyle(
                 color: ColorsUtility.textFieldLabelColor,
               ),
@@ -292,10 +293,10 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter your phone number';
+                return S.of(context).enterPhone;
               }
               if (!RegExp(r'^[0-9]{10,15}$').hasMatch(value)) {
-                return 'Please enter a valid phone number';
+                return S.of(context).validPhone;
               }
               return null;
             },
@@ -311,7 +312,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             maxLines: 3,
             decoration: InputDecoration(
               floatingLabelBehavior: FloatingLabelBehavior.never,
-              labelText: 'Delivery Address',
+              labelText: S.of(context).deliveryAddress,
               labelStyle: const TextStyle(
                 color: ColorsUtility.textFieldLabelColor,
               ),
@@ -338,10 +339,10 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter your delivery address';
+                return S.of(context).enterAddress;
               }
               if (value.length < 10) {
-                return 'Address is too short';
+                return S.of(context).shortAddress;
               }
               return null;
             },
@@ -355,7 +356,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
               _launchPayPalCheckout(context);
             }
           },
-          text: 'Proceed to PayPal',
+          text: S.of(context).paypalBtn,
         ),
       ],
     );

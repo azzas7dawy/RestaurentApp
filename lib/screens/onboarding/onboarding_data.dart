@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'dart:async';
 
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -22,11 +23,10 @@ class OnboardingData extends StatefulWidget {
   });
 
   @override
-  State <OnboardingData> createState() => _OnboardingDataState();
+  State<OnboardingData> createState() => _OnboardingDataState();
 }
 
 class _OnboardingDataState extends State<OnboardingData> {
-
   double _opacity1 = 0;
   double _opacity2 = 0;
 
@@ -138,8 +138,8 @@ class _OnboardingDataState extends State<OnboardingData> {
             children: [
               TextButton(
                 onPressed: widget.onSkipPressed,
-                child: const Text(
-                  'Skip',
+                child: Text(
+                  S.of(context).skipButton,
                   style: TextStyle(
                     color: ColorsUtility.onboardingColor,
                     fontSize: 16,

@@ -1,14 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
+import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
+import 'package:restrant_app/generated/l10n.dart';
+import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
-import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
 
-class MealDetailsScreen extends StatelessWidget {
+class MealDetailsScreen extends StatefulWidget {
   const MealDetailsScreen({
     super.key,
     required this.meal,
@@ -18,11 +22,62 @@ class MealDetailsScreen extends StatelessWidget {
   static const String id = 'MealDetailsScreen';
 
   @override
+  State<MealDetailsScreen> createState() => _MealDetailsScreenState();
+}
+
+class _MealDetailsScreenState extends State<MealDetailsScreen> {
+  double? userRating;
+  double? defaultMealRating;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserRating();
+  }
+
+  Future<void> _loadUserRating() async {
+    final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+
+    final userDoc =
+        await FirebaseFirestore.instance.collection('users2').doc(userId).get();
+    final ratings = userDoc.data()?['ratings'] as Map<String, dynamic>?;
+
+    if (ratings != null && ratings.containsKey(widget.meal['documentId'])) {
+      setState(() {
+        userRating = (ratings[widget.meal['documentId']] as num).toDouble();
+      });
+    }
+
+    if (userRating == null && widget.meal['rate'] != null) {
+      setState(() {
+        defaultMealRating = (widget.meal['rate'] as num).toDouble();
+      });
+    }
+  }
+
+  Future<void> _saveUserRating(double rating) async {
+    final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+    final docRef = FirebaseFirestore.instance.collection('users2').doc(userId);
+
+    await docRef.set({
+      'ratings': {
+        widget.meal['documentId']: rating,
+      }
+    }, SetOptions(merge: true));
+
+    setState(() {
+      userRating = rating;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final meal = widget.meal;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          meal['title'] ?? 'Unknown',
+          isArabic() ? meal['title_ar'] : meal['title'] ?? 'No Title',
           style: const TextStyle(
             color: ColorsUtility.takeAwayColor,
           ),
@@ -46,14 +101,16 @@ class MealDetailsScreen extends StatelessWidget {
                         .removeFromFavorites(meal['title']);
                     appSnackbar(
                       context,
-                      text: '${meal['title']} removed from favorites',
+                      text:
+                          '${isArabic() ? meal['title_ar'] : meal['title']} ${S.of(context).removedFromFavorites}',
                       backgroundColor: ColorsUtility.successSnackbarColor,
                     );
                   } else {
                     context.read<FavoritesCubit>().addToFavorites(meal);
                     appSnackbar(
                       context,
-                      text: '${meal['title']} added to favorites',
+                      text:
+                          '${isArabic() ? meal['title_ar'] : meal['title']} ${S.of(context).addedToFavorites}',
                       backgroundColor: ColorsUtility.successSnackbarColor,
                     );
                   }
@@ -84,7 +141,7 @@ class MealDetailsScreen extends StatelessWidget {
               children: [
                 Chip(
                   label: Text(
-                    meal['category'] ?? '',
+                    isArabic() ? meal['category_ar'] : meal['category'] ?? '',
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -99,63 +156,64 @@ class MealDetailsScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(50),
                   ),
                 ),
-                const SizedBox(width: 8),
-                // if (meal['category_type'] != null &&
-                //     meal['category_type'].isNotEmpty)
-                //   Chip(
-                //     label: Text(
-                //       meal['category_type'] ?? '',
-                //       style: const TextStyle(
-                //         fontSize: 12,
-                //         fontWeight: FontWeight.bold,
-                //         color: ColorsUtility.progressIndictorColor,
-                //       ),
-                //     ),
-                //     backgroundColor: ColorsUtility.mainBackgroundColor,
-                //     side: const BorderSide(
-                //       color: ColorsUtility.progressIndictorColor,
-                //     ),
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(50),
-                //     ),
-                //   ),
               ],
             ),
             const SizedBox(height: 8),
             Text(
-              meal['description'],
+              isArabic() ? meal['desc_ar'] : meal['description'],
               style: const TextStyle(
                 fontSize: 16,
                 color: ColorsUtility.textFieldLabelColor,
               ),
             ),
             const SizedBox(height: 16),
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Rating: ',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: ColorsUtility.progressIndictorColor,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      S.of(context).rating,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: ColorsUtility.progressIndictorColor,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    RatingBar.builder(
+                      initialRating: userRating ?? defaultMealRating ?? 0,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemSize: 24.0,
+                      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      itemBuilder: (context, _) => const Icon(
+                        Icons.star,
+                        color: ColorsUtility.takeAwayColor,
+                      ),
+                      onRatingUpdate: (rating) {
+                        _saveUserRating(rating);
+                        appSnackbar(
+                          context,
+                          text: '${S.of(context).youRatedThisMeal} $rating ',
+                          backgroundColor: ColorsUtility.successSnackbarColor,
+                        );
+                      },
+                    ),
+                  ],
                 ),
-                RatingBar.builder(
-                  initialRating: meal['rate']?.toDouble() ?? 0,
-                  minRating: 1,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  itemSize: 24.0,
-                  itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  itemBuilder: (context, _) => const Icon(
-                    Icons.star,
-                    color: ColorsUtility.takeAwayColor,
+                if (userRating != null) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    '${S.of(context).youRated} ${userRating!.toStringAsFixed(1)}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: ColorsUtility.progressIndictorColor,
+                    ),
                   ),
-                  onRatingUpdate: (rating) {
-                    // logic to give rate
-                  },
-                ),
+                ]
               ],
             ),
             const SizedBox(height: 16),
@@ -163,7 +221,7 @@ class MealDetailsScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${meal['price']} EGP',
+                  '${meal['price']} ${S.of(context).egp}',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -171,7 +229,9 @@ class MealDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  meal['is_available'] ? 'Available' : 'Not Available',
+                  meal['is_available']
+                      ? S.of(context).available
+                      : S.of(context).notAvailableTxt,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -187,39 +247,33 @@ class MealDetailsScreen extends StatelessWidget {
               child: AppElevatedBtn(
                 onPressed: meal['is_available']
                     ? () async {
-                        if (meal['is_available'] ?? true) {
-                          final mealToAdd = {
-                            ...meal,
-                            'documentId': meal['documentId'],
-                            'title': meal['title'],
-                            'price': meal['price'],
-                            'image': meal['image'],
-                            'description': meal['description'],
-                            'category': meal['category'],
-                          };
-                          await context.read<OrdersCubit>().addMeal(mealToAdd);
-                          if (context.mounted) {
-                            appSnackbar(
-                              context,
-                              text: '${meal['title']} added to orders',
-                              backgroundColor:
-                                  ColorsUtility.successSnackbarColor,
-                            );
-                            // Navigator.pushNamed(
-                            //   context,
-                            //   OrdersScreen.id,
-                            // );
-                          }
-                        } else {
+                        final mealToAdd = {
+                          ...meal,
+                          'documentId': meal['documentId'],
+                          'title': isArabic()
+                              ? meal['title_ar']
+                              : meal['title'] ?? 'No Title',
+                          'price': meal['price'],
+                          'image': meal['image'],
+                          'description': isArabic()
+                              ? meal['desc_ar']
+                              : meal['description'],
+                          'category': isArabic()
+                              ? meal['category_ar']
+                              : meal['category'],
+                        };
+                        await context.read<OrdersCubit>().addMeal(mealToAdd);
+                        if (context.mounted) {
                           appSnackbar(
                             context,
-                            text: '${meal['title']} is not available for now',
-                            backgroundColor: ColorsUtility.errorSnackbarColor,
+                            text:
+                                '${isArabic() ? meal['title_ar'] : meal['title']} ${S.of(context).addedToOrders}',
+                            backgroundColor: ColorsUtility.successSnackbarColor,
                           );
                         }
                       }
                     : null,
-                text: 'Add To Orders',
+                text: S.of(context).addToOrdersBtn,
               ),
             ),
           ],

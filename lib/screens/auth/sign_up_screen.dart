@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_text_field.dart';
 import 'package:restrant_app/widgets/auth_template_widget.dart';
@@ -47,14 +48,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        // if (state is SignupFailed) {
-        //   ScaffoldMessenger.of(context).showSnackBar(
-        //     SnackBar(
-        //       content: Text(state.error),
-        //       backgroundColor: ColorsUtility.errorSnackbarColor,
-        //     ),
-        //   );
-        // }
+        if (state is SignupFailed) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.error),
+              backgroundColor: ColorsUtility.errorSnackbarColor,
+            ),
+          );
+        }
       },
       child: AuthTemplateWidget(
         isLoading: context.select<AuthCubit, bool>(
@@ -67,28 +68,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               children: [
                 AppTextField(
-                  label: 'Full Name',
+                  label: S.of(context).fullName,
                   controller: _nameController,
                   validator: _nameValidator,
                   keyboardType: TextInputType.name,
                 ),
                 const SizedBox(height: 20),
                 AppTextField(
-                  label: 'Email',
+                  label: S.of(context).email,
                   controller: _emailController,
                   validator: _emailValidator,
                   keyboardType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 20),
                 AppTextField(
-                  label: 'Phone Number',
+                  label: S.of(context).enterPhone,
                   controller: _phoneController,
                   validator: _phoneValidator,
                   keyboardType: TextInputType.phone,
                 ),
                 const SizedBox(height: 20),
                 AppTextField(
-                  label: 'Password',
+                  label: S.of(context).password,
                   controller: _passwordController,
                   validator: _passwordValidator,
                   keyboardType: TextInputType.visiblePassword,
@@ -102,7 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 20),
                 AppTextField(
-                  label: 'Confirm Password',
+                  label: S.of(context).confirmPassword,
                   controller: _confirmPasswordController,
                   validator: _confirmPasswordValidator,
                   keyboardType: TextInputType.visiblePassword,
@@ -137,16 +138,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? _nameValidator(String? value) {
     final trimmedValue = value?.trim() ?? '';
     if (trimmedValue.isEmpty) {
-      return 'Please enter your full name';
+      return S.of(context).validationErrorFullName;
     }
     if (!RegExp(r'^[A-Za-z ]+$').hasMatch(trimmedValue)) {
-      return 'Please enter a valid name (letters and spaces only)';
+      return S.of(context).validName;
     }
     if (trimmedValue.length < 2) {
-      return 'Name must be at least 2 characters long';
+      return S.of(context).nameLength;
     }
     if (trimmedValue.split(' ').length < 2) {
-      return 'Please enter your first and last name';
+      return S.of(context).firstAndLastName;
     }
     return null;
   }
@@ -154,10 +155,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? _emailValidator(String? value) {
     final trimmedValue = value?.trim() ?? '';
     if (trimmedValue.isEmpty) {
-      return 'Please enter your email';
+      return S.of(context).validationErrorEmail;
     }
     if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(trimmedValue)) {
-      return 'Please enter a valid email';
+      return S.of(context).validEmail;
     }
     return null;
   }
@@ -165,10 +166,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? _phoneValidator(String? value) {
     final trimmedValue = value?.trim() ?? '';
     if (trimmedValue.isEmpty) {
-      return 'Please enter your phone number';
+      return S.of(context).enterPhone;
     }
     if (!RegExp(r'^[0-9]{10,15}$').hasMatch(trimmedValue)) {
-      return 'Please enter a valid phone number (10-15 digits)';
+      return S.of(context).validPhone;
     }
     return null;
   }
@@ -176,20 +177,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? _passwordValidator(String? value) {
     final trimmedValue = value?.trim() ?? '';
     if (trimmedValue.isEmpty) {
-      return 'Please enter your password';
+      return S.of(context).validationErrorPassword;
     }
     if (trimmedValue.length < 8) {
-      return 'Password must be at least 8 characters long';
+      return S.of(context).validationErrorPasswordLength;
     }
     if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d).+$').hasMatch(trimmedValue)) {
-      return 'Password must include both letters and numbers';
+      return S.of(context).enetrLetterNumberPassword;
     }
     return null;
   }
 
   String? _confirmPasswordValidator(String? value) {
     if (value != _passwordController.text) {
-      return 'Passwords do not match';
+      return S.of(context).matchPassword;
     }
     return null;
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ColorsUtility {
+  // dark mode
   static const mainBackgroundColor = Color(0xFF151518);
   static const progressIndictorColor = Color(0xffC5B358);
   static const onboardingColor = Color(0xfffffeff);
@@ -19,4 +20,6 @@ class ColorsUtility {
   static const processingStatusColor = Colors.blue;
   static const onTheWayStatusColor = Colors.purple;
   static const failedStatusColor = Colors.redAccent;
+
+  // light mode
 }
