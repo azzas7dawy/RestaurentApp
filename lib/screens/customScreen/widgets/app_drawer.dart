@@ -8,7 +8,11 @@ import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/screens/settingsScreen/settings_screen.dart';
 import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
 import 'package:restrant_app/services/pref_service.dart';
+<<<<<<< HEAD
 import 'package:restrant_app/utils/colors_utility.dart';
+=======
+import 'package:restrant_app/utils/images_utility.dart';
+>>>>>>> master
 import 'package:restrant_app/widgets/app_confirmation_dialog.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -16,13 +20,22 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
+=======
+    final theme = Theme.of(context);
+>>>>>>> master
     final userData = PrefService.userData;
     final userName = userData['userName'] ?? 'Guest';
     final userEmail = userData['userEmail'] ?? 'No email';
     final userImage = userData['userImage'];
 
+<<<<<<< HEAD
+=======
+    final Color titleColor = theme.colorScheme.primary;
+
+>>>>>>> master
     return Drawer(
-      backgroundColor: ColorsUtility.onboardingDescriptionColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,12 +44,19 @@ class AppDrawer extends StatelessWidget {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(16),
+<<<<<<< HEAD
+=======
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary.withAlpha(26),
+              ),
+>>>>>>> master
               child: Row(
                 children: [
                   CircleAvatar(
                     radius: 30,
                     backgroundImage: userImage != null && userImage.isNotEmpty
                         ? CachedNetworkImageProvider(userImage)
+<<<<<<< HEAD
                         : const NetworkImage(
                                 'https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png')
                             as ImageProvider,
@@ -69,6 +89,42 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
 
+=======
+                        : AssetImage(ImagesUtility.profileImage),
+
+                    // const NetworkImage(
+                    //         'https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png')
+                    //     as ImageProvider,
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${S.of(context).hello}, ${userName.toUpperCase()}",
+                          style: TextStyle(
+                            color: titleColor,
+                            fontSize: 18,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                        ),
+                        Text(
+                          userEmail,
+                          style: TextStyle(
+                            color: titleColor,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+>>>>>>> master
             // items
             Expanded(
               child: ListView(
@@ -79,41 +135,61 @@ class AppDrawer extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: ColorsUtility.takeAwayColor,
+                      color: titleColor,
                     ),
                   ),
                   const SizedBox(height: 20),
                   ListTile(
+<<<<<<< HEAD
                     leading: const Icon(Icons.fastfood,
                         color: ColorsUtility.takeAwayColor),
                     title: Text(S.of(context).yourOrders,
                         style: TextStyle(color: ColorsUtility.takeAwayColor)),
+=======
+                    leading: Icon(Icons.fastfood, color: titleColor),
+                    title: Text(S.of(context).yourOrders,
+                        style: TextStyle(color: titleColor)),
+>>>>>>> master
                     onTap: () => Navigator.pushNamed(
                       context,
                       OrdersScreen.id,
                     ),
                   ),
                   ListTile(
+<<<<<<< HEAD
                     leading: const Icon(Icons.favorite_sharp,
                         color: ColorsUtility.takeAwayColor),
                     title: Text(S.of(context).yourFavorites,
                         style: TextStyle(color: ColorsUtility.takeAwayColor)),
+=======
+                    leading: Icon(Icons.favorite_sharp, color: titleColor),
+                    title: Text(S.of(context).yourFavorites,
+                        style: TextStyle(color: titleColor)),
+>>>>>>> master
                     onTap: () => Navigator.pushNamed(
                       context,
                       FavoritesScreen.id,
                     ),
                   ),
                   ListTile(
+<<<<<<< HEAD
                     leading: const Icon(Icons.track_changes_outlined,
                         color: ColorsUtility.takeAwayColor),
                     title: Text(S.of(context).trackYourOrders,
                         style: TextStyle(color: ColorsUtility.takeAwayColor)),
+=======
+                    leading:
+                        Icon(Icons.track_changes_outlined, color: titleColor),
+                    title: Text(S.of(context).trackYourOrders,
+                        style: TextStyle(color: titleColor)),
+>>>>>>> master
                     onTap: () => Navigator.pushNamed(
                       context,
                       TrackOrdersScreen.id,
                     ),
                   ),
                   ListTile(
+<<<<<<< HEAD
                     leading: const Icon(Icons.info_outline,
                         color: ColorsUtility.takeAwayColor),
                     title: Text(S.of(context).aboutHelp,
@@ -125,17 +201,35 @@ class AppDrawer extends StatelessWidget {
                         color: ColorsUtility.takeAwayColor),
                     title: Text(S.of(context).settings,
                         style: TextStyle(color: ColorsUtility.takeAwayColor)),
+=======
+                    leading: Icon(Icons.info_outline, color: titleColor),
+                    title: Text(S.of(context).aboutHelp,
+                        style: TextStyle(color: titleColor)),
+                    onTap: () => Navigator.pop(context),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.settings_outlined, color: titleColor),
+                    title: Text(S.of(context).settings,
+                        style: TextStyle(color: titleColor)),
+>>>>>>> master
                     onTap: () => Navigator.pushNamed(
                       context,
                       SettignsScreen.id,
                     ),
                   ),
                   ListTile(
+<<<<<<< HEAD
                     leading: const Icon(Icons.logout_outlined,
                         color: ColorsUtility.takeAwayColor),
                     title: Text(
                       S.of(context).logout,
                       style: TextStyle(color: ColorsUtility.takeAwayColor),
+=======
+                    leading: Icon(Icons.logout_outlined, color: titleColor),
+                    title: Text(
+                      S.of(context).logout,
+                      style: TextStyle(color: titleColor),
+>>>>>>> master
                     ),
                     onTap: () {
                       _showLogoutConfirmation(context);

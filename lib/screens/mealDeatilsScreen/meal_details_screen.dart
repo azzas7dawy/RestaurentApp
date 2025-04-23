@@ -70,14 +70,33 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
     });
   }
 
+<<<<<<< HEAD
   @override
   Widget build(BuildContext context) {
     final meal = widget.meal;
 
+=======
+  // bool isArabic() {
+  //   return Localizations.localeOf(navigatorKey.currentContext!).languageCode == 'ar';
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final meal = widget.meal;
+
+    final isDark = theme.brightness == Brightness.dark;
+
+    final Color appBarTextColor = isDark
+        ? ColorsUtility.takeAwayColor
+        : ColorsUtility.progressIndictorColor;
+
+>>>>>>> master
     return Scaffold(
       appBar: AppBar(
         title: Text(
           isArabic() ? meal['title_ar'] : meal['title'] ?? 'No Title',
+<<<<<<< HEAD
           style: const TextStyle(
             color: ColorsUtility.takeAwayColor,
           ),
@@ -85,6 +104,18 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
         iconTheme: const IconThemeData(
           color: ColorsUtility.takeAwayColor,
         ),
+=======
+          style: TextStyle(
+            color: appBarTextColor,
+            fontSize: theme.textTheme.titleLarge?.fontSize,
+          ),
+        ),
+        iconTheme: IconThemeData(
+          color: appBarTextColor,
+        ),
+        backgroundColor: theme.scaffoldBackgroundColor,
+        centerTitle: true,
+>>>>>>> master
         actions: [
           BlocBuilder<FavoritesCubit, FavoritesState>(
             builder: (context, state) {
@@ -92,8 +123,15 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                   ? state.favorites.any((fav) => fav['title'] == meal['title'])
                   : false;
               return IconButton(
+<<<<<<< HEAD
                 icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border,
                     color: ColorsUtility.progressIndictorColor),
+=======
+                icon: Icon(
+                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: isFavorite ? Colors.red : theme.colorScheme.primary,
+                ),
+>>>>>>> master
                 onPressed: () {
                   if (isFavorite) {
                     context
@@ -103,7 +141,11 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                       context,
                       text:
                           '${isArabic() ? meal['title_ar'] : meal['title']} ${S.of(context).removedFromFavorites}',
+<<<<<<< HEAD
                       backgroundColor: ColorsUtility.successSnackbarColor,
+=======
+                      backgroundColor: Colors.red,
+>>>>>>> master
                     );
                   } else {
                     context.read<FavoritesCubit>().addToFavorites(meal);
@@ -111,7 +153,11 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                       context,
                       text:
                           '${isArabic() ? meal['title_ar'] : meal['title']} ${S.of(context).addedToFavorites}',
+<<<<<<< HEAD
                       backgroundColor: ColorsUtility.successSnackbarColor,
+=======
+                      backgroundColor: theme.colorScheme.primary,
+>>>>>>> master
                     );
                   }
                 },
@@ -120,6 +166,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
           ),
         ],
       ),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -130,6 +177,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
               height: 250,
               width: double.infinity,
               fit: BoxFit.cover,
+<<<<<<< HEAD
               placeholder: (context, url) => const Center(
                 child: CircularProgressIndicator(
                   color: ColorsUtility.progressIndictorColor,
@@ -164,12 +212,26 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
               style: const TextStyle(
                 fontSize: 16,
                 color: ColorsUtility.textFieldLabelColor,
+=======
+              placeholder: (context, url) => Center(
+                child: CircularProgressIndicator(
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+              errorWidget: (context, url, error) => Center(
+                child: Icon(
+                  Icons.fastfood,
+                  size: 40,
+                  color: theme.colorScheme.primary,
+                ),
+>>>>>>> master
               ),
             ),
             const SizedBox(height: 16),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+<<<<<<< HEAD
                 Row(
                   children: [
                     Text(
@@ -214,6 +276,83 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                     ),
                   ),
                 ]
+=======
+                Chip(
+                  label: Text(
+                    isArabic() ? meal['category_ar'] : meal['category'] ?? '',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
+                  backgroundColor: theme.scaffoldBackgroundColor,
+                  side: BorderSide(
+                    color: theme.colorScheme.primary,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+>>>>>>> master
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              isArabic() ? meal['desc_ar'] : meal['description'],
+              style: TextStyle(
+                fontSize: 16,
+                color: theme.textTheme.bodyMedium?.color,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      S.of(context).rating,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    RatingBar.builder(
+                      initialRating: userRating ?? defaultMealRating ?? 0,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemSize: 24.0,
+                      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: ColorsUtility.takeAwayColor,
+                      ),
+                      onRatingUpdate: (rating) {
+                        _saveUserRating(rating);
+                        appSnackbar(
+                          context,
+                          text: '${S.of(context).youRatedThisMeal} $rating ',
+                          backgroundColor: ColorsUtility.successSnackbarColor,
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                if (userRating != null) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    '${S.of(context).youRated} ${userRating!.toStringAsFixed(1)}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
+                ]
               ],
             ),
             const SizedBox(height: 16),
@@ -222,10 +361,14 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
               children: [
                 Text(
                   '${meal['price']} ${S.of(context).egp}',
+<<<<<<< HEAD
                   style: const TextStyle(
+=======
+                  style: TextStyle(
+>>>>>>> master
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: ColorsUtility.progressIndictorColor,
+                    color: theme.colorScheme.primary,
                   ),
                 ),
                 Text(

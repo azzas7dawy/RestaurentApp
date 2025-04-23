@@ -43,6 +43,10 @@ class OrdersScreen extends StatelessWidget {
               );
             },
           ),
+<<<<<<< HEAD
+=======
+          centerTitle: true,
+>>>>>>> master
         ),
         body: BlocConsumer<OrdersCubit, OrdersState>(
           listener: (context, state) {

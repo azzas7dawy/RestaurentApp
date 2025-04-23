@@ -17,6 +17,10 @@ class TrackOrdersScreen extends StatelessWidget {
     final currentUserId = FirebaseAuth.instance.currentUser?.uid ?? '';
     return Scaffold(
       appBar: AppBar(
+<<<<<<< HEAD
+=======
+        centerTitle: true,
+>>>>>>> master
         title: const Text(
           'Track Yours Orders',
           style: TextStyle(

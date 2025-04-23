@@ -6,7 +6,7 @@ class AppElevatedBtn extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.text,
-    this.child, 
+    this.child,
     this.isLoading = false,
   });
 
@@ -17,16 +17,9 @@ class AppElevatedBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: ColorsUtility.elevatedBtnColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        side: BorderSide.none,
-        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
-        minimumSize: const Size(300, 60),
-      ),
+      style: theme.elevatedButtonTheme.style,
       onPressed: onPressed,
       child: Text(
         text,

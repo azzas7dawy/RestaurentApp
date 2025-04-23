@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'dart:async';
 
-import 'package:restrant_app/utils/colors_utility.dart';
-
 class OnboardingData extends StatefulWidget {
   final String title;
   final String description;
@@ -48,6 +46,9 @@ class _OnboardingDataState extends State<OnboardingData> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -111,9 +112,9 @@ class _OnboardingDataState extends State<OnboardingData> {
             alignment: AlignmentDirectional.centerStart,
             child: Text(
               widget.title,
-              style: const TextStyle(
+              style: textTheme.headlineSmall?.copyWith(
                 fontSize: 24,
-                color: ColorsUtility.onboardingColor,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -124,8 +125,7 @@ class _OnboardingDataState extends State<OnboardingData> {
             alignment: AlignmentDirectional.centerStart,
             child: Text(
               widget.description,
-              style: const TextStyle(
-                color: ColorsUtility.onboardingDescriptionColor,
+              style: textTheme.bodyMedium?.copyWith(
                 fontSize: 14,
               ),
             ),
@@ -140,17 +140,20 @@ class _OnboardingDataState extends State<OnboardingData> {
                 onPressed: widget.onSkipPressed,
                 child: Text(
                   S.of(context).skipButton,
+<<<<<<< HEAD
                   style: TextStyle(
                     color: ColorsUtility.onboardingColor,
+=======
+                  style: textTheme.bodyLarge?.copyWith(
+>>>>>>> master
                     fontSize: 16,
                   ),
                 ),
               ),
               IconButton(
                 onPressed: widget.onForwardPressed,
-                icon: const Icon(
+                icon: Icon(
                   Icons.arrow_forward_ios_outlined,
-                  color: ColorsUtility.onboardingColor,
                   size: 30,
                 ),
               ),

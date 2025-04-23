@@ -8,7 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/services/pref_service.dart';
+<<<<<<< HEAD
 import 'package:restrant_app/utils/colors_utility.dart';
+=======
+>>>>>>> master
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
 
@@ -145,7 +148,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         appSnackbar(
           context,
           text: 'Failed to load user data: ${e.toString()}',
+<<<<<<< HEAD
           backgroundColor: ColorsUtility.errorSnackbarColor,
+=======
+          backgroundColor: Theme.of(context).colorScheme.error,
+>>>>>>> master
         );
       }
 
@@ -193,7 +200,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         appSnackbar(
           context,
           text: 'Failed to pick image: ${e.toString()}',
+<<<<<<< HEAD
           backgroundColor: ColorsUtility.errorSnackbarColor,
+=======
+          backgroundColor: Theme.of(context).colorScheme.error,
+>>>>>>> master
         );
       }
     }
@@ -212,7 +223,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             appSnackbar(
               context,
               text: 'Failed to load profile image',
+<<<<<<< HEAD
               backgroundColor: ColorsUtility.errorSnackbarColor,
+=======
+              backgroundColor: Theme.of(context).colorScheme.error,
+>>>>>>> master
             );
           }
         },
@@ -226,7 +241,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             appSnackbar(
               context,
               text: 'Failed to load Google profile image',
+<<<<<<< HEAD
               backgroundColor: ColorsUtility.errorSnackbarColor,
+=======
+              backgroundColor: Theme.of(context).colorScheme.error,
+>>>>>>> master
             );
           }
         },
@@ -235,6 +254,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return null;
   }
 
+<<<<<<< HEAD
   // void _showDeleteAccountDialog(BuildContext parentContext) {
   //   showDialog(
   //     context: parentContext,
@@ -260,6 +280,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ? const Center(
               child: CircularProgressIndicator(
                 color: ColorsUtility.progressIndictorColor,
+=======
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Scaffold(
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                color: colorScheme.primary,
+>>>>>>> master
               ),
             )
           : BlocListener<AuthCubit, AuthState>(
@@ -291,7 +323,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     appSnackbar(
                       context,
                       text: state.error,
+<<<<<<< HEAD
                       backgroundColor: ColorsUtility.errorSnackbarColor,
+=======
+                      backgroundColor: colorScheme.error,
+>>>>>>> master
                     );
                   }
                 }
@@ -302,11 +338,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   key: _formKey,
                   child: Column(
                     children: [
+<<<<<<< HEAD
                       const SizedBox(
                         height: 50,
                       ),
                       Card(
                         color: ColorsUtility.elevatedBtnColor,
+=======
+                      const SizedBox(height: 50),
+                      Card(
+                        color: theme.cardColor,
+>>>>>>> master
                         elevation: 4,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -321,8 +363,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   IconButton(
                                     icon: Icon(
                                       _isEditing ? Icons.close : Icons.edit,
+<<<<<<< HEAD
                                       color:
                                           ColorsUtility.progressIndictorColor,
+=======
+                                      color: colorScheme.primary,
+>>>>>>> master
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -340,11 +386,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       radius: 50,
                                       backgroundImage: _getBackgroundImage(),
                                       child: _getBackgroundImage() == null
+<<<<<<< HEAD
                                           ? const Icon(
                                               Icons.person,
                                               size: 50,
                                               color: ColorsUtility
                                                   .mainBackgroundColor,
+=======
+                                          ? Icon(
+                                              Icons.person,
+                                              size: 50,
+                                              color: colorScheme.onSurface,
+>>>>>>> master
                                             )
                                           : null,
                                     ),
@@ -354,6 +407,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         right: 0,
                                         child: Container(
                                           padding: const EdgeInsets.all(8),
+<<<<<<< HEAD
                                           decoration: const BoxDecoration(
                                             color: ColorsUtility
                                                 .mainBackgroundColor,
@@ -364,6 +418,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             size: 20,
                                             color: ColorsUtility
                                                 .progressIndictorColor,
+=======
+                                          decoration: BoxDecoration(
+                                            color:
+                                                theme.scaffoldBackgroundColor,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Icon(
+                                            Icons.camera_alt,
+                                            size: 20,
+                                            color: colorScheme.primary,
+>>>>>>> master
                                           ),
                                         ),
                                       ),
@@ -372,12 +437,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               const SizedBox(height: 20),
                               TextFormField(
+<<<<<<< HEAD
                                 style: const TextStyle(
                                   color: ColorsUtility.progressIndictorColor,
+=======
+                                style: TextStyle(
+                                  color: theme.textTheme.bodyLarge?.color,
+>>>>>>> master
                                 ),
                                 controller: _nameController,
                                 decoration: InputDecoration(
                                   border: _isEditing
+<<<<<<< HEAD
                                       ? const UnderlineInputBorder(
                                           borderSide: BorderSide(
                                               color: ColorsUtility
@@ -407,6 +478,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           Icons.edit,
                                           color: ColorsUtility
                                               .progressIndictorColor,
+=======
+                                      ? UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: theme.dividerColor),
+                                        )
+                                      : InputBorder.none,
+                                  enabledBorder: _isEditing
+                                      ? UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: theme.dividerColor),
+                                        )
+                                      : InputBorder.none,
+                                  focusedBorder: _isEditing
+                                      ? UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: colorScheme.primary),
+                                        )
+                                      : InputBorder.none,
+                                  prefixIcon: Icon(
+                                    Icons.person,
+                                    color: theme.iconTheme.color,
+                                  ),
+                                  suffixIcon: _isEditing
+                                      ? Icon(
+                                          Icons.edit,
+                                          color: colorScheme.primary,
+>>>>>>> master
                                         )
                                       : null,
                                 ),
@@ -421,29 +519,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               const SizedBox(height: 16),
                               TextFormField(
+<<<<<<< HEAD
                                 style: const TextStyle(
                                   color: ColorsUtility.progressIndictorColor,
                                 ),
                                 controller: _emailController,
                                 decoration: const InputDecoration(
+=======
+                                style: TextStyle(
+                                  color: theme.textTheme.bodyLarge?.color,
+                                ),
+                                controller: _emailController,
+                                decoration: InputDecoration(
+>>>>>>> master
                                   border: InputBorder.none,
                                   enabledBorder: InputBorder.none,
                                   focusedBorder: InputBorder.none,
                                   prefixIcon: Icon(
                                     Icons.email,
+<<<<<<< HEAD
                                     color: ColorsUtility.progressIndictorColor,
+=======
+                                    color: theme.iconTheme.color,
+>>>>>>> master
                                   ),
                                 ),
                                 readOnly: true,
                               ),
                               const SizedBox(height: 16),
                               TextFormField(
+<<<<<<< HEAD
                                 style: const TextStyle(
                                   color: ColorsUtility.progressIndictorColor,
+=======
+                                style: TextStyle(
+                                  color: theme.textTheme.bodyLarge?.color,
+>>>>>>> master
                                 ),
                                 controller: _phoneController,
                                 decoration: InputDecoration(
                                   border: _isEditing
+<<<<<<< HEAD
                                       ? const UnderlineInputBorder(
                                           borderSide: BorderSide(
                                               color: ColorsUtility
@@ -473,6 +589,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           Icons.edit,
                                           color: ColorsUtility
                                               .progressIndictorColor,
+=======
+                                      ? UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: theme.dividerColor),
+                                        )
+                                      : InputBorder.none,
+                                  enabledBorder: _isEditing
+                                      ? UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: theme.dividerColor),
+                                        )
+                                      : InputBorder.none,
+                                  focusedBorder: _isEditing
+                                      ? UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: colorScheme.primary),
+                                        )
+                                      : InputBorder.none,
+                                  prefixIcon: Icon(
+                                    Icons.phone,
+                                    color: theme.iconTheme.color,
+                                  ),
+                                  suffixIcon: _isEditing
+                                      ? Icon(
+                                          Icons.edit,
+                                          color: colorScheme.primary,
+>>>>>>> master
                                         )
                                       : null,
                                 ),
@@ -510,8 +653,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     appSnackbar(
                                       context,
                                       text: 'Please fill all required fields',
+<<<<<<< HEAD
                                       backgroundColor:
                                           ColorsUtility.errorSnackbarColor,
+=======
+                                      backgroundColor: colorScheme.error,
+>>>>>>> master
                                     );
                                   }
                                 },
@@ -525,7 +672,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: double.infinity,
                         child: OutlinedButton(
                           onPressed: () async {
+<<<<<<< HEAD
                             // _showDeleteAccountDialog(context);
+=======
+>>>>>>> master
                             await context.read<AuthCubit>().deleteAccount(
                                   context,
                                 );
@@ -535,6 +685,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
+<<<<<<< HEAD
                             side: const BorderSide(
                               color: ColorsUtility.errorSnackbarColor,
                             ),
@@ -543,6 +694,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             'Delete Account',
                             style: TextStyle(
                               color: ColorsUtility.errorSnackbarColor,
+=======
+                            side: BorderSide(
+                              color: colorScheme.error,
+                            ),
+                          ),
+                          child: Text(
+                            'Delete Account',
+                            style: TextStyle(
+                              color: colorScheme.error,
+>>>>>>> master
                               fontSize: 16,
                             ),
                           ),

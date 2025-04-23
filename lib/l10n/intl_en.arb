@@ -188,7 +188,14 @@
     "discount": "Discount",   
     "total": "Total",
     "confirmLogout": "Are you sure you want to log out?",
+<<<<<<< HEAD
     "yes": "Yes"
+=======
+    "yes": "Yes",
+    "theme": "Theme",
+    "completeProfile": "Complete your profile"
+    
+>>>>>>> master
 
     
 }

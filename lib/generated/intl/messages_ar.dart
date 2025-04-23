@@ -65,6 +65,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "completeDetails": MessageLookupByLibrary.simpleMessage(
       "يرجى تقديم التفاصيل التالية: ",
     ),
+<<<<<<< HEAD
+=======
+    "completeProfile": MessageLookupByLibrary.simpleMessage("اكمل ملفك الشخصي"),
+>>>>>>> master
     "confirmLogout": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد أنك تريد تسجيل الخروج؟",
     ),
@@ -257,6 +261,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "tableReservedMessage": MessageLookupByLibrary.simpleMessage(
       "تم حجز الطاولة بنجاح. سنقوم بالتواصل معك قريبًا لتأكيد الحجز.",
     ),
+<<<<<<< HEAD
+=======
+    "theme": MessageLookupByLibrary.simpleMessage("المظهر"),
+>>>>>>> master
     "total": MessageLookupByLibrary.simpleMessage("الإجمالي"),
     "totalAmount": MessageLookupByLibrary.simpleMessage("الإجمالي:"),
     "totalPrice": MessageLookupByLibrary.simpleMessage("إجمالي السعر:"),

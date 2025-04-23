@@ -7,6 +7,10 @@ import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
+<<<<<<< HEAD
+=======
+// import 'package:restrant_app/utils/colors_utility.dart';
+>>>>>>> master
 import 'package:restrant_app/widgets/app_snackbar.dart';
 
 class SpecialPlatesScreen extends StatelessWidget {
@@ -14,10 +18,21 @@ class SpecialPlatesScreen extends StatelessWidget {
   final List<Map<String, dynamic>> items;
   static const String id = 'SpecialPlatesScreen';
 
+  // bool isArabic() {
+  //   return Localizations.localeOf(navigatorKey.currentContext!).languageCode == 'ar';
+  // }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final Color appBarTextColor = isDark
+        ? ColorsUtility.takeAwayColor
+        : ColorsUtility.progressIndictorColor;
     return Scaffold(
       appBar: AppBar(
+<<<<<<< HEAD
         title: Text(
           S.of(context).specialPlates,
           style: TextStyle(
@@ -26,8 +41,22 @@ class SpecialPlatesScreen extends StatelessWidget {
         ),
         iconTheme: const IconThemeData(
           color: ColorsUtility.takeAwayColor,
+=======
+        backgroundColor: theme.scaffoldBackgroundColor,
+        title: Text(
+          S.of(context).specialPlates,
+          style: TextStyle(
+            color: appBarTextColor,
+            fontSize: theme.textTheme.titleLarge?.fontSize,
+          ),
         ),
+        iconTheme: IconThemeData(
+          color: appBarTextColor,
+>>>>>>> master
+        ),
+        centerTitle: true,
       ),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: items.length,
@@ -46,11 +75,10 @@ class SpecialPlatesScreen extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: 8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: ColorsUtility.elevatedBtnColor,
+                color: theme.scaffoldBackgroundColor,
                 boxShadow: [
                   BoxShadow(
-                    color: ColorsUtility.mainBackgroundColor
-                        .withAlpha((0.2 * 255).round()),
+                    color: theme.shadowColor.withAlpha((0.2 * 255).round()),
                     spreadRadius: 2,
                     blurRadius: 5,
                     offset: const Offset(0, 3),
@@ -68,6 +96,7 @@ class SpecialPlatesScreen extends StatelessWidget {
                       height: 180,
                       width: double.infinity,
                       fit: BoxFit.cover,
+<<<<<<< HEAD
                       placeholder: (context, url) => const Center(
                         child: CircularProgressIndicator(
                           color: ColorsUtility.progressIndictorColor,
@@ -78,6 +107,18 @@ class SpecialPlatesScreen extends StatelessWidget {
                           Icons.fastfood,
                           size: 40,
                           color: ColorsUtility.progressIndictorColor,
+=======
+                      placeholder: (context, url) => Center(
+                        child: CircularProgressIndicator(
+                          color: theme.colorScheme.primary,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Center(
+                        child: Icon(
+                          Icons.fastfood,
+                          size: 40,
+                          color: theme.colorScheme.primary,
+>>>>>>> master
                         ),
                       ),
                     ),
@@ -88,7 +129,11 @@ class SpecialPlatesScreen extends StatelessWidget {
                       isArabic()
                           ? item['title_ar']
                           : item['title'] ?? 'No Title',
+<<<<<<< HEAD
                       style: const TextStyle(
+=======
+                      style: TextStyle(
+>>>>>>> master
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: ColorsUtility.takeAwayColor,
@@ -105,9 +150,9 @@ class SpecialPlatesScreen extends StatelessWidget {
                           : item['description'] ?? 'No Description',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
-                        color: ColorsUtility.textFieldLabelColor,
+                        color: theme.textTheme.bodyMedium?.color,
                       ),
                     ),
                   ),
@@ -119,8 +164,13 @@ class SpecialPlatesScreen extends StatelessWidget {
                       children: [
                         Text(
                           '${item['price']} ${S.of(context).egp}',
+<<<<<<< HEAD
                           style: const TextStyle(
                             color: ColorsUtility.progressIndictorColor,
+=======
+                          style: TextStyle(
+                            color: theme.colorScheme.primary,
+>>>>>>> master
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -134,11 +184,19 @@ class SpecialPlatesScreen extends StatelessWidget {
                                     : false;
                                 return IconButton(
                                   icon: Icon(
+<<<<<<< HEAD
                                       isFavorite
                                           ? Icons.favorite
                                           : Icons.favorite_border,
                                       color:
                                           ColorsUtility.progressIndictorColor),
+=======
+                                    isFavorite
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    color: theme.colorScheme.primary,
+                                  ),
+>>>>>>> master
                                   onPressed: () {
                                     if (isFavorite) {
                                       context
@@ -171,8 +229,13 @@ class SpecialPlatesScreen extends StatelessWidget {
                               icon: Icon(
                                 Icons.add_circle_outline,
                                 color: item['is_available'] ?? true
+<<<<<<< HEAD
                                     ? ColorsUtility.progressIndictorColor
                                     : ColorsUtility.textFieldLabelColor,
+=======
+                                    ? theme.colorScheme.primary
+                                    : theme.disabledColor,
+>>>>>>> master
                               ),
                               onPressed: () {
                                 if (item['is_available'] ?? true) {
