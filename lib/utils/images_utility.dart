@@ -21,4 +21,6 @@ class ImagesUtility {
   static const String reserveTableImage =
       'assets/images/istockphoto-1018141890-612x612.jpg';
   static const String reserveTableImage2 = 'assets/images/category1.png';
+  static const String profileImage =
+      'assets/images/pngtree-profile-line-black-icon-png-image_691051.jpg';
 }
