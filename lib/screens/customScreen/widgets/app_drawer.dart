@@ -8,6 +8,7 @@ import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/screens/settingsScreen/settings_screen.dart';
 import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
 import 'package:restrant_app/services/pref_service.dart';
+import 'package:restrant_app/utils/images_utility.dart';
 import 'package:restrant_app/widgets/app_confirmation_dialog.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -21,7 +22,6 @@ class AppDrawer extends StatelessWidget {
     final userEmail = userData['userEmail'] ?? 'No email';
     final userImage = userData['userImage'];
 
-    // استخراج لون النصوص من الـ theme
     final Color titleColor = theme.colorScheme.primary;
 
     return Drawer(
@@ -35,7 +35,7 @@ class AppDrawer extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: theme.colorScheme.primary.withOpacity(0.1),
+                color: theme.colorScheme.primary.withAlpha(26),
               ),
               child: Row(
                 children: [
@@ -43,9 +43,11 @@ class AppDrawer extends StatelessWidget {
                     radius: 30,
                     backgroundImage: userImage != null && userImage.isNotEmpty
                         ? CachedNetworkImageProvider(userImage)
-                        : const NetworkImage(
-                                'https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png')
-                            as ImageProvider,
+                        : AssetImage(ImagesUtility.profileImage),
+
+                    // const NetworkImage(
+                    //         'https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png')
+                    //     as ImageProvider,
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -55,7 +57,7 @@ class AppDrawer extends StatelessWidget {
                         Text(
                           "${S.of(context).hello}, ${userName.toUpperCase()}",
                           style: TextStyle(
-                            color: titleColor, // استخدام اللون من الـ theme
+                            color: titleColor,
                             fontSize: 18,
                           ),
                           overflow: TextOverflow.ellipsis,
@@ -64,7 +66,7 @@ class AppDrawer extends StatelessWidget {
                         Text(
                           userEmail,
                           style: TextStyle(
-                            color: titleColor, // استخدام اللون من الـ theme
+                            color: titleColor,
                             fontSize: 14,
                           ),
                         ),
@@ -85,69 +87,58 @@ class AppDrawer extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: titleColor, // استخدام اللون من الـ theme
+                      color: titleColor,
                     ),
                   ),
                   const SizedBox(height: 20),
                   ListTile(
-                    leading: Icon(Icons.fastfood,
-                        color: titleColor), // استخدام اللون من الـ theme
+                    leading: Icon(Icons.fastfood, color: titleColor),
                     title: Text(S.of(context).yourOrders,
-                        style: TextStyle(
-                            color: titleColor)), // استخدام اللون من الـ theme
+                        style: TextStyle(color: titleColor)),
                     onTap: () => Navigator.pushNamed(
                       context,
                       OrdersScreen.id,
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.favorite_sharp,
-                        color: titleColor), // استخدام اللون من الـ theme
+                    leading: Icon(Icons.favorite_sharp, color: titleColor),
                     title: Text(S.of(context).yourFavorites,
-                        style: TextStyle(
-                            color: titleColor)), // استخدام اللون من الـ theme
+                        style: TextStyle(color: titleColor)),
                     onTap: () => Navigator.pushNamed(
                       context,
                       FavoritesScreen.id,
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.track_changes_outlined,
-                        color: titleColor), // استخدام اللون من الـ theme
+                    leading:
+                        Icon(Icons.track_changes_outlined, color: titleColor),
                     title: Text(S.of(context).trackYourOrders,
-                        style: TextStyle(
-                            color: titleColor)), // استخدام اللون من الـ theme
+                        style: TextStyle(color: titleColor)),
                     onTap: () => Navigator.pushNamed(
                       context,
                       TrackOrdersScreen.id,
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.info_outline,
-                        color: titleColor), // استخدام اللون من الـ theme
+                    leading: Icon(Icons.info_outline, color: titleColor),
                     title: Text(S.of(context).aboutHelp,
-                        style: TextStyle(
-                            color: titleColor)), // استخدام اللون من الـ theme
+                        style: TextStyle(color: titleColor)),
                     onTap: () => Navigator.pop(context),
                   ),
                   ListTile(
-                    leading: Icon(Icons.settings_outlined,
-                        color: titleColor), // استخدام اللون من الـ theme
+                    leading: Icon(Icons.settings_outlined, color: titleColor),
                     title: Text(S.of(context).settings,
-                        style: TextStyle(
-                            color: titleColor)), // استخدام اللون من الـ theme
+                        style: TextStyle(color: titleColor)),
                     onTap: () => Navigator.pushNamed(
                       context,
                       SettignsScreen.id,
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.logout_outlined,
-                        color: titleColor), // استخدام اللون من الـ theme
+                    leading: Icon(Icons.logout_outlined, color: titleColor),
                     title: Text(
                       S.of(context).logout,
-                      style: TextStyle(
-                          color: titleColor), // استخدام اللون من الـ theme
+                      style: TextStyle(color: titleColor),
                     ),
                     onTap: () {
                       _showLogoutConfirmation(context);
