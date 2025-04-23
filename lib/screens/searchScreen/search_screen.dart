@@ -57,6 +57,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
     return results;
   }
+
   Future<void> _performSearch(String query) async {
     if (query.isEmpty) {
       setState(() {
@@ -171,13 +172,13 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.search_off,
-              size: 80, color: ColorsUtility.lightOnboardingDescriptionColor),
+            Icon(Icons.search_off,
+                size: 80, color: ColorsUtility.lightOnboardingDescriptionColor),
             const SizedBox(height: 20),
             Text(
               "No meals found",
               style: theme.textTheme.bodyLarge?.copyWith(
+                fontSize: 18,
                 color: ColorsUtility.lightOnboardingDescriptionColor,
               ),
             ),

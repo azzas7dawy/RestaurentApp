@@ -162,19 +162,24 @@ class MessageLookup extends MessageLookupByLibrary {
     "payMethod": MessageLookupByLibrary.simpleMessage(
       "يرجى اختيار طريقة الدفع",
     ),
+    "payWithCard": MessageLookupByLibrary.simpleMessage("Pay with Card"),
+    "paymentFailed": MessageLookupByLibrary.simpleMessage("فشل الدفع"),
     "paymentMethod": MessageLookupByLibrary.simpleMessage("طريقة الدفع"),
+    "paymobSubtitle": MessageLookupByLibrary.simpleMessage(
+      "ادفع بأمان مع باي موب",
+    ),
+    "paymobTxt": MessageLookupByLibrary.simpleMessage("باي موب"),
     "paypal": MessageLookupByLibrary.simpleMessage("باي بال"),
     "paypalBtn": MessageLookupByLibrary.simpleMessage("المتابعة إلى باي بال"),
-    "paypalSubtitle": MessageLookupByLibrary.simpleMessage(
-      "ادفع بأمان مع باي بال",
-    ),
     "paypalTitle": MessageLookupByLibrary.simpleMessage(
       "سيتم إعادة توجيهك إلى باي بال لإكمال الدفع بأمان",
     ),
-    "paypalTxt": MessageLookupByLibrary.simpleMessage("باي بال"),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
     "pleaseLogin": MessageLookupByLibrary.simpleMessage("يرجى تسجيل الدخول"),
+    "proceedWithPaymob": MessageLookupByLibrary.simpleMessage(
+      "المتابعة الى باي موب",
+    ),
     "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
     "rating": MessageLookupByLibrary.simpleMessage("التقييم: "),
     "readyToOrder": MessageLookupByLibrary.simpleMessage("جاهز للطلب؟"),

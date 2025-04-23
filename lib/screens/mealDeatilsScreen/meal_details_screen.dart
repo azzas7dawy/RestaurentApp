@@ -42,6 +42,8 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
         await FirebaseFirestore.instance.collection('users2').doc(userId).get();
     final ratings = userDoc.data()?['ratings'] as Map<String, dynamic>?;
 
+    if (!mounted) return;
+
     if (ratings != null && ratings.containsKey(widget.meal['documentId'])) {
       setState(() {
         userRating = (ratings[widget.meal['documentId']] as num).toDouble();
@@ -49,6 +51,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
     }
 
     if (userRating == null && widget.meal['rate'] != null) {
+      if (!mounted) return;
       setState(() {
         defaultMealRating = (widget.meal['rate'] as num).toDouble();
       });
@@ -65,14 +68,11 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
       }
     }, SetOptions(merge: true));
 
+    if (!mounted) return;
     setState(() {
       userRating = rating;
     });
   }
-
-  // bool isArabic() {
-  //   return Localizations.localeOf(navigatorKey.currentContext!).languageCode == 'ar';
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -161,8 +161,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
               children: [
                 Chip(
                   label: Text(

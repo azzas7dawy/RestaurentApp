@@ -74,14 +74,15 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
       return Container(
         height: 130,
         width: double.infinity,
-
-        color: Colors.grey[300],
-        child: const Icon(
+        color: theme.dividerColor,
+        child: Icon(
           Icons.fastfood,
+          size: 40,
           color: theme.colorScheme.primary,
         ),
       );
     }
+
     return CachedNetworkImage(
       imageUrl: imageUrl,
       height: 130,

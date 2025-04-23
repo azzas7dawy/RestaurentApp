@@ -183,20 +183,25 @@ class MessageLookup extends MessageLookupByLibrary {
     "payMethod": MessageLookupByLibrary.simpleMessage(
       "Please choose a payment method",
     ),
+    "payWithCard": MessageLookupByLibrary.simpleMessage("Pay with Card"),
+    "paymentFailed": MessageLookupByLibrary.simpleMessage("Payment failed"),
     "paymentMethod": MessageLookupByLibrary.simpleMessage("Payment Method"),
+    "paymobSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Pay securely with Paymob",
+    ),
+    "paymobTxt": MessageLookupByLibrary.simpleMessage("Paymob"),
     "paypal": MessageLookupByLibrary.simpleMessage("PayPal Checkout"),
     "paypalBtn": MessageLookupByLibrary.simpleMessage("Proceed to PayPal"),
-    "paypalSubtitle": MessageLookupByLibrary.simpleMessage(
-      "Pay securely with PayPal",
-    ),
     "paypalTitle": MessageLookupByLibrary.simpleMessage(
       "You will be redirected to PayPal to complete your payment securely",
     ),
-    "paypalTxt": MessageLookupByLibrary.simpleMessage("PayPal"),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("Phone Number"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
     "pleaseLogin": MessageLookupByLibrary.simpleMessage(
       "Please login to your account",
+    ),
+    "proceedWithPaymob": MessageLookupByLibrary.simpleMessage(
+      "Proceed with Paymob",
     ),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "rating": MessageLookupByLibrary.simpleMessage("Rating: "),
