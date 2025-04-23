@@ -14,22 +14,11 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  // final List<String> searchSuggestions = [
-  //   "Pizza",
-  //   "Burger",
-  //   "Pasta",
-  //   "Sushi",
-  //   "Salad",
-  //   "Steak",
-  //   "Sandwich",
-  // ];
-
   final TextEditingController _searchController = TextEditingController();
   List<Map<String, dynamic>> _searchResults = [];
   bool _isSearching = false;
   bool _hasSearched = false;
 
-// fetcg data from fs
   Future<List<Map<String, dynamic>>> _fetchMealsOnly(String query) async {
     if (query.isEmpty) return [];
 
@@ -68,9 +57,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
     return results;
   }
-// =================================================================================================
 
-// search query
   Future<void> _performSearch(String query) async {
     if (query.isEmpty) {
       setState(() {
@@ -101,63 +88,17 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      //  backgroundColor: Colors.black,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.black,
-      //   leading: IconButton(
-      //     icon: Icon(Icons.arrow_back, color: Colors.white),
-      //     onPressed: () => Navigator.pop(context),
-      //   ),
-      //   title: Text("Search"),
-      // ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              _buildSearchField(),
+              _buildSearchField(theme),
               const SizedBox(height: 16),
-              Expanded(
-                child: _buildSearchResults(),
-              ),
-
-              // SizedBox(height: 20),
-
-              // // ⏳ "Repeat last order" & "Help me choose"
-              // Row(
-              //   children: [
-              //     Icon(Icons.refresh, color: Colors.white),
-              //     SizedBox(width: 10),
-              //     Text("Repeat last order",
-              //         style: TextStyle(color: Colors.white)),
-              //   ],
-              // ),
-              // SizedBox(height: 10),
-              // Row(
-              //   children: [
-              //     Icon(Icons.help_outline, color: Colors.white),
-              //     SizedBox(width: 10),
-              //     Text("Help me choose", style: TextStyle(color: Colors.white)),
-              //   ],
-              // ),
-
-              // SizedBox(height: 20),
-
-              // 🖼️ نتائج البحث أو اقتراحات أخرى (وهمية حالياً)
-              // Expanded(
-              //   child: ListView(
-              //     children: searchSuggestions.map((item) {
-              //       return ListTile(
-              //         title: Text(item, style: TextStyle(color: Colors.white)),
-              //         leading: Icon(Icons.fastfood, color: Colors.white),
-              //         onTap: () {
-              //           print("Selected: $item");
-              //         },
-              //       );
-              //     }).toList(),
-              //   ),
-              // ),
+              Expanded(child: _buildSearchResults(theme)),
             ],
           ),
         ),
@@ -165,66 +106,19 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-// meal img
-  Widget _buildMealImage(String imageUrl) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
-      child: imageUrl.isEmpty
-          ? Container(
-              width: 70,
-              height: 70,
-              color: ColorsUtility.elevatedBtnColor,
-              child: const Icon(
-                Icons.fastfood,
-                color: ColorsUtility.mainBackgroundColor,
-              ),
-            )
-          : CachedNetworkImage(
-              imageUrl: imageUrl,
-              width: 70,
-              height: 70,
-              fit: BoxFit.cover,
-              placeholder: (context, url) {
-                return Container(
-                  color: ColorsUtility.elevatedBtnColor,
-                  child: const Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: ColorsUtility.progressIndictorColor,
-                    ),
-                  ),
-                );
-              },
-              errorWidget: (context, url, error) {
-                return Container(
-                  color: ColorsUtility.onboardingDescriptionColor,
-                  child: const Icon(
-                    Icons.fastfood,
-                    color: ColorsUtility.mainBackgroundColor,
-                  ),
-                );
-              },
-            ),
-    );
-  }
-
-// ==================================================================================================
-// search
-  Widget _buildSearchField() {
+  Widget _buildSearchField(ThemeData theme) {
     return TextField(
       controller: _searchController,
-      style: const TextStyle(color: ColorsUtility.textFieldLabelColor),
+      style: theme.textTheme.bodyMedium,
       decoration: InputDecoration(
         filled: true,
-        fillColor: ColorsUtility.textFieldFillColor,
+        fillColor: theme.inputDecorationTheme.fillColor,
         hintText: 'Search for meals...',
-        hintStyle: const TextStyle(color: ColorsUtility.textFieldLabelColor),
-        prefixIcon:
-            const Icon(Icons.search, color: ColorsUtility.textFieldLabelColor),
+        hintStyle: theme.inputDecorationTheme.hintStyle,
+        prefixIcon: Icon(Icons.search, color: theme.iconTheme.color),
         suffixIcon: _searchController.text.isNotEmpty
             ? IconButton(
-                icon: const Icon(Icons.clear,
-                    color: ColorsUtility.textFieldLabelColor),
+                icon: Icon(Icons.clear, color: theme.iconTheme.color),
                 onPressed: () {
                   _searchController.clear();
                   _performSearch('');
@@ -243,14 +137,12 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-// ==================================================================================================
-// search results
-  Widget _buildSearchResults() {
+  Widget _buildSearchResults(ThemeData theme) {
     if (_isSearching) {
-      return const Center(
+      return Center(
         child: CircularProgressIndicator(
           strokeWidth: 2,
-          color: ColorsUtility.progressIndictorColor,
+          color: theme.colorScheme.primary,
         ),
       );
     }
@@ -260,17 +152,14 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.search,
-              size: 80,
-              color: ColorsUtility.textFieldLabelColor,
-            ),
+            Icon(Icons.search,
+                size: 80, color: ColorsUtility.lightOnboardingDescriptionColor),
             const SizedBox(height: 20),
             Text(
               "Search for meals by name",
-              style: TextStyle(
-                color: ColorsUtility.textFieldLabelColor,
+              style: theme.textTheme.bodyLarge?.copyWith(
                 fontSize: 18,
+                color: ColorsUtility.lightOnboardingDescriptionColor,
               ),
             ),
           ],
@@ -283,25 +172,22 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.search_off,
-              size: 80,
-              color: ColorsUtility.textFieldLabelColor,
-            ),
+            Icon(Icons.search_off,
+                size: 80, color: ColorsUtility.lightOnboardingDescriptionColor),
             const SizedBox(height: 20),
             Text(
               "No meals found",
-              style: TextStyle(
-                color: ColorsUtility.textFieldLabelColor,
+              style: theme.textTheme.bodyLarge?.copyWith(
                 fontSize: 18,
+                color: ColorsUtility.lightOnboardingDescriptionColor,
               ),
             ),
             const SizedBox(height: 10),
             Text(
               "Try different meal names",
-              style: TextStyle(
-                color: ColorsUtility.textFieldLabelColor,
+              style: theme.textTheme.bodyMedium?.copyWith(
                 fontSize: 14,
+                color: ColorsUtility.lightOnboardingDescriptionColor,
               ),
             ),
           ],
@@ -315,19 +201,20 @@ class _SearchScreenState extends State<SearchScreen> {
       separatorBuilder: (_, __) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final meal = _searchResults[index];
+
         return Container(
           decoration: BoxDecoration(
-            color: ColorsUtility.elevatedBtnColor,
+            color: theme.scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(15),
           ),
           child: ListTile(
             contentPadding: const EdgeInsets.all(12),
-            leading: _buildMealImage(meal['image']),
+            leading: _buildMealImage(meal['image'], theme),
             title: Text(
               meal['title'],
-              style: const TextStyle(
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
                 color: ColorsUtility.takeAwayColor,
-                fontWeight: FontWeight.w500,
               ),
             ),
             subtitle: Padding(
@@ -337,35 +224,25 @@ class _SearchScreenState extends State<SearchScreen> {
                 children: [
                   Text(
                     meal['category'],
-                    style: TextStyle(
-                      color: ColorsUtility.textFieldLabelColor,
-                      fontSize: 13,
-                    ),
+                    style: theme.textTheme.bodySmall,
                   ),
                   const SizedBox(height: 4),
                   Row(
                     children: [
                       Text(
                         '\$${meal['price'].toStringAsFixed(2)}',
-                        style: const TextStyle(
-                          color: ColorsUtility.progressIndictorColor,
+                        style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          color: ColorsUtility.progressIndictorColor,
                         ),
                       ),
                       if (meal['rate'] > 0) ...[
                         const SizedBox(width: 16),
-                        const Icon(
-                          Icons.star,
-                          color: ColorsUtility.takeAwayColor,
-                        ),
+                        Icon(Icons.star, color: theme.colorScheme.primary),
                         const SizedBox(width: 4),
                         Text(
                           meal['rate'].toStringAsFixed(1),
-                          style: TextStyle(
-                            color: ColorsUtility.textFieldLabelColor,
-                            fontSize: 14,
-                          ),
+                          style: theme.textTheme.bodySmall,
                         ),
                       ],
                     ],
@@ -375,10 +252,8 @@ class _SearchScreenState extends State<SearchScreen> {
                       padding: const EdgeInsets.only(top: 6),
                       child: Text(
                         meal['description'],
-                        style: TextStyle(
-                          color: ColorsUtility.textFieldLabelColor,
-                          fontSize: 12,
-                        ),
+                        style:
+                            theme.textTheme.bodySmall?.copyWith(fontSize: 12),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -386,10 +261,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
             ),
-            trailing: Icon(
-              Icons.chevron_right,
-              color: ColorsUtility.textFieldLabelColor,
-            ),
+            trailing: Icon(Icons.chevron_right, color: theme.iconTheme.color),
             onTap: () {
               Navigator.pushNamed(
                 context,
@@ -400,6 +272,38 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildMealImage(String imageUrl, ThemeData theme) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: imageUrl.isEmpty
+          ? Container(
+              width: 70,
+              height: 70,
+              color: theme.scaffoldBackgroundColor,
+              child: Icon(Icons.fastfood, color: theme.scaffoldBackgroundColor),
+            )
+          : CachedNetworkImage(
+              imageUrl: imageUrl,
+              width: 70,
+              height: 70,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => Container(
+                color: theme.cardColor,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+              ),
+              errorWidget: (context, url, error) => Container(
+                color: theme.disabledColor,
+                child: Icon(Icons.fastfood, color: theme.cardColor),
+              ),
+            ),
     );
   }
 }

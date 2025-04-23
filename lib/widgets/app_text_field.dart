@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:restrant_app/utils/colors_utility.dart';
 
 class AppTextField extends StatelessWidget {
   const AppTextField({
@@ -21,33 +20,40 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final inputTheme = theme.inputDecorationTheme;
+
+    final borderRadius = BorderRadius.circular(30);
+    final borderStyle = BorderSide.none;
+
+    final outlineBorder = OutlineInputBorder(
+      borderRadius: borderRadius,
+      borderSide: borderStyle,
+    );
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: TextFormField(
-        validator: validator,
+        controller: controller,
         keyboardType: keyboardType,
         obscureText: obscureText,
-        controller: controller,
-        cursorColor: ColorsUtility.textFieldLabelColor,
-        style: const TextStyle(
-          color: ColorsUtility.textFieldLabelColor,
-          fontSize: 14,
-        ),
+        validator: validator,
+        cursorColor: inputTheme.labelStyle?.color ?? theme.primaryColor,
+        style: theme.textTheme.bodyMedium?.copyWith(fontSize: 14),
         decoration: InputDecoration(
-          suffixIcon: suffixIcon,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide.none,
-          ),
-          fillColor: ColorsUtility.textFieldFillColor,
-          filled: true,
           labelText: label,
-          labelStyle: const TextStyle(
-            color: ColorsUtility.textFieldLabelColor,
-            fontSize: 14,
-          ),
+          labelStyle: inputTheme.labelStyle?.copyWith(fontSize: 14),
           floatingLabelBehavior: FloatingLabelBehavior.never,
+          suffixIcon: suffixIcon,
+          filled: inputTheme.filled,
+          fillColor: inputTheme.fillColor ?? theme.cardColor,
           contentPadding: const EdgeInsets.all(20),
+          border: outlineBorder,
+          enabledBorder: outlineBorder,
+          focusedBorder: outlineBorder,
+          disabledBorder: outlineBorder,
+          errorBorder: outlineBorder,
+          focusedErrorBorder: outlineBorder,
         ),
       ),
     );

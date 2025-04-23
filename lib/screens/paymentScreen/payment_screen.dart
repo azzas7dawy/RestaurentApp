@@ -202,6 +202,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               Row(
                 children: [
                   Expanded(
+                    flex: 3,
                     child: TextField(
                       style: const TextStyle(
                           color: ColorsUtility.textFieldLabelColor),
@@ -240,22 +241,28 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           icon: const Icon(Icons.close),
                           color: ColorsUtility.takeAwayColor,
                         )
-                      : ElevatedButton(
-                          onPressed: () => _applyCoupon(totalPrice),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorsUtility.takeAwayColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                      : Expanded(
+                          flex: 1,
+                          child: SizedBox(
+                            height: 45,
+                            child: ElevatedButton(
+                              onPressed: () => _applyCoupon(totalPrice),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorsUtility.takeAwayColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                  horizontal: 16,
+                                ),
+                              ),
+                              child: Text(
+                                S.of(context).apply,
+                                style: TextStyle(
+                                    color: ColorsUtility.onboardingColor),
+                              ),
                             ),
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                              horizontal: 16,
-                            ),
-                          ),
-                          child: Text(
-                            S.of(context).apply,
-                            style:
-                                TextStyle(color: ColorsUtility.onboardingColor),
                           ),
                         ),
                 ],

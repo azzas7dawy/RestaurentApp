@@ -65,6 +65,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "completeDetails": MessageLookupByLibrary.simpleMessage(
       "Please provide the following details: ",
     ),
+    "completeProfile": MessageLookupByLibrary.simpleMessage(
+      "Complete your profile",
+    ),
     "confirmLogout": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to log out?",
     ),
@@ -280,6 +283,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tableReservedMessage": MessageLookupByLibrary.simpleMessage(
       "NOTE: Reservation is only for 1 hour",
     ),
+    "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "threeLetterName": MessageLookupByLibrary.simpleMessage(
       "Name must be at least 3 characters long",
     ),

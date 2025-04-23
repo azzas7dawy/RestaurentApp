@@ -15,19 +15,26 @@ class CategoryItemsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final Color appBarTextColor = isDark
+        ? ColorsUtility.takeAwayColor
+        : ColorsUtility.progressIndictorColor;
     return Scaffold(
       appBar: AppBar(
         title: Text(
           _formatCategoryName(categoryDoc.id),
-          style: const TextStyle(
-            color: ColorsUtility.takeAwayColor,
-            fontWeight: FontWeight.bold,
+          style: TextStyle(
+            color: appBarTextColor,
+            fontSize: theme.textTheme.titleLarge?.fontSize,
           ),
         ),
-        iconTheme: const IconThemeData(
-          color: ColorsUtility.takeAwayColor,
+        iconTheme: IconThemeData(
+          color: appBarTextColor,
         ),
         centerTitle: true,
+        backgroundColor: theme.scaffoldBackgroundColor,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: categoryDoc.reference.collection('items').snapshots(),
@@ -40,11 +47,11 @@ class CategoryItemsScreen extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(
+            return Center(
               child: Text(
                 'No items available in this category',
                 style: TextStyle(
-                  color: ColorsUtility.progressIndictorColor,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             );
@@ -82,8 +89,10 @@ class CategoryItemsScreen extends StatelessWidget {
             ? state.favorites.any((fav) => fav['title'] == item['title'])
             : false;
 
+        final theme = Theme.of(context);
+
         return Card(
-          color: ColorsUtility.elevatedBtnColor,
+          color: theme.scaffoldBackgroundColor,
           elevation: 3,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

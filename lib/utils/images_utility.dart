@@ -20,4 +20,5 @@ class ImagesUtility {
       'assets/images/pexels-sylwester-ficek-154797634-14611857.jpg';
   static const String reserveTableImage =
       'assets/images/istockphoto-1018141890-612x612.jpg';
+  static const String reserveTableImage2 = 'assets/images/category1.png';
 }

@@ -177,7 +177,9 @@
     "createAccount": "إنشاء حساب",
     "fillForm": "يرجى ملء النموذج",
     "sendButton": "إرسال رابط إعادة التعيين",
-    "completeDetails": "يرجى تقديم التفاصيل التالية: "
+    "completeDetails": "يرجى تقديم التفاصيل التالية: ",
+    "theme": "المظهر",
+    "completeProfile": "اكمل ملفك الشخصي"
 
     
 }

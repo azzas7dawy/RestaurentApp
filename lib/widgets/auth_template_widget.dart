@@ -41,6 +41,13 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
+    final Color inkwellColor = theme.brightness == Brightness.dark
+        ? ColorsUtility.inkwellTextColor
+        : ColorsUtility.progressIndictorColor;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -54,17 +61,16 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       title,
-                      style: const TextStyle(
+                      style: textTheme.headlineMedium?.copyWith(
                         fontSize: 32,
-                        color: ColorsUtility.onboardingColor,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                   Text(
                     subTitle,
-                    style: const TextStyle(
+                    style: textTheme.bodyMedium?.copyWith(
                       fontSize: 14,
-                      color: ColorsUtility.textFieldLabelColor,
                     ),
                   ),
                   SizedBox(height: isLogin ? 100 : 50),
@@ -85,12 +91,12 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
                               }
                             },
                       child: widget.isLoading
-                          ? const SizedBox(
+                          ? SizedBox(
                               width: 20,
                               height: 20,
                               child: CircularProgressIndicator(
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                    ColorsUtility.progressIndictorColor),
+                                    theme.colorScheme.primary),
                               ),
                             )
                           : null,
@@ -113,12 +119,12 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             if (isLoading)
-                              const SizedBox(
+                              SizedBox(
                                 width: 20,
                                 height: 20,
                                 child: CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                    ColorsUtility.progressIndictorColor,
+                                    theme.colorScheme.primary,
                                   ),
                                 ),
                               )
@@ -133,8 +139,7 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
                                 isLogin
                                     ? S.of(context).loginGoogle
                                     : S.of(context).sigUpGoogle,
-                                style: const TextStyle(
-                                  color: ColorsUtility.onboardingColor,
+                                style: textTheme.bodyMedium?.copyWith(
                                   fontSize: 14,
                                 ),
                               ),
@@ -153,10 +158,9 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
                         isLogin
                             ? S.of(context).donotHaveAccount
                             : S.of(context).alreadyHaveAccount,
-                        style: const TextStyle(
-                          color: ColorsUtility.onboardingColor,
-                        ),
+                        style: textTheme.bodyMedium,
                       ),
+                      const SizedBox(width: 5),
                       if (!widget.isLoading)
                         InkWell(
                           onTap: () {
@@ -170,9 +174,9 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
                           },
                           child: Text(
                             isLogin ? S.of(context).sigUp : S.of(context).login,
-                            style: const TextStyle(
-                              color: ColorsUtility.inkwellTextColor,
-                              fontWeight: FontWeight.w700,
+                            style: textTheme.bodyMedium?.copyWith(
+                              color: inkwellColor,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),

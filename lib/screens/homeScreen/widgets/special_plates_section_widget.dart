@@ -51,15 +51,16 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
   }
 
   Widget _buildShimmerLoading(BuildContext context, double cardWidth) {
+    final theme = Theme.of(context);
     return SizedBox(
       height: 130,
       width: cardWidth,
       child: Shimmer.fromColors(
-        baseColor: ColorsUtility.elevatedBtnColor,
-        highlightColor: ColorsUtility.textFieldFillColor,
+        baseColor: theme.cardColor,
+        highlightColor: theme.highlightColor,
         child: Container(
           decoration: BoxDecoration(
-            color: ColorsUtility.elevatedBtnColor,
+            color: theme.cardColor,
             borderRadius: BorderRadius.circular(15),
           ),
         ),
@@ -67,16 +68,17 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildImageWidget(String imageUrl) {
+  Widget _buildImageWidget(String imageUrl, BuildContext context) {
+    final theme = Theme.of(context);
     if (imageUrl.isEmpty) {
       return Container(
         height: 130,
         width: double.infinity,
-        color: Colors.grey[300],
-        child: const Icon(
+        color: theme.dividerColor,
+        child: Icon(
           Icons.fastfood,
           size: 40,
-          color: ColorsUtility.progressIndictorColor,
+          color: theme.colorScheme.primary,
         ),
       );
     }
@@ -87,21 +89,26 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
       width: double.infinity,
       fit: BoxFit.cover,
       placeholder: (context, url) => Container(
-        color: Colors.grey[300],
+        color: theme.dividerColor,
       ),
       errorWidget: (context, url, error) => Container(
-        color: Colors.grey[300],
-        child: const Icon(
+        color: theme.dividerColor,
+        child: Icon(
           Icons.fastfood,
           size: 40,
-          color: ColorsUtility.progressIndictorColor,
+          color: theme.colorScheme.primary,
         ),
       ),
     );
   }
 
+  // bool isArabic() {
+  //   return Localizations.localeOf(navigatorKey.currentContext!).languageCode == 'ar';
+  // }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final screenWidth = MediaQuery.sizeOf(context).width;
     final screenHeight = MediaQuery.sizeOf(context).height;
     final cardWidth = screenWidth * 0.4;
@@ -126,32 +133,32 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                       _buildShimmerLoading(context, cardWidth),
                       const SizedBox(height: 8),
                       Shimmer.fromColors(
-                        baseColor: ColorsUtility.elevatedBtnColor,
-                        highlightColor: ColorsUtility.textFieldFillColor,
+                        baseColor: theme.cardColor,
+                        highlightColor: theme.highlightColor,
                         child: Container(
                           height: 16,
                           width: cardWidth * 0.6,
-                          color: ColorsUtility.elevatedBtnColor,
+                          color: theme.cardColor,
                         ),
                       ),
                       const SizedBox(height: 8),
                       Shimmer.fromColors(
-                        baseColor: ColorsUtility.elevatedBtnColor,
-                        highlightColor: ColorsUtility.textFieldFillColor,
+                        baseColor: theme.cardColor,
+                        highlightColor: theme.highlightColor,
                         child: Container(
                           height: 14,
                           width: cardWidth * 0.8,
-                          color: ColorsUtility.elevatedBtnColor,
+                          color: theme.cardColor,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Shimmer.fromColors(
-                        baseColor: ColorsUtility.mainBackgroundColor,
-                        highlightColor: ColorsUtility.textFieldFillColor,
+                        baseColor: theme.cardColor,
+                        highlightColor: theme.highlightColor,
                         child: Container(
                           height: 14,
                           width: cardWidth * 0.5,
-                          color: ColorsUtility.elevatedBtnColor,
+                          color: theme.cardColor,
                         ),
                       ),
                     ],
@@ -167,7 +174,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
           return Center(
             child: Text(
               S.of(context).somethingWentWrong,
-              style: TextStyle(color: ColorsUtility.takeAwayColor),
+              style: TextStyle(color: theme.colorScheme.error),
             ),
           );
         }
@@ -178,7 +185,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
           return Center(
             child: Text(
               S.of(context).noSpecialPlates,
-              style: TextStyle(color: ColorsUtility.takeAwayColor),
+              style: TextStyle(color: theme.colorScheme.secondary),
             ),
           );
         }
@@ -207,13 +214,11 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(horizontal: 8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          color: ColorsUtility.elevatedBtnColor,
+                          color: theme.scaffoldBackgroundColor,
                           boxShadow: [
                             BoxShadow(
-                              color:
-                                  ColorsUtility.mainBackgroundColor.withAlpha(
-                                (0.2 * 255).round(),
-                              ),
+                              color: theme.shadowColor
+                                  .withAlpha((0.2 * 255).round()),
                               spreadRadius: 2,
                               blurRadius: 5,
                               offset: const Offset(0, 3),
@@ -255,10 +260,10 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            color: ColorsUtility.elevatedBtnColor,
+                            color: theme.scaffoldBackgroundColor,
                             boxShadow: [
                               BoxShadow(
-                                color: ColorsUtility.mainBackgroundColor
+                                color: theme.shadowColor
                                     .withAlpha((0.2 * 255).round()),
                                 spreadRadius: 2,
                                 blurRadius: 5,
@@ -273,7 +278,8 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                 borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(15),
                                 ),
-                                child: _buildImageWidget(item['image'] ?? ''),
+                                child: _buildImageWidget(
+                                    item['image'] ?? '', context),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -281,7 +287,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                   isArabic()
                                       ? item['title_ar']
                                       : item['title'] ?? 'No Title',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: ColorsUtility.takeAwayColor,
@@ -299,9 +305,9 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                       : item['description'] ?? 'No Description',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 14,
-                                    color: ColorsUtility.textFieldLabelColor,
+                                    color: theme.textTheme.bodyMedium?.color,
                                   ),
                                 ),
                               ),
@@ -314,9 +320,8 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                   children: [
                                     Text(
                                       '${item['price'] ?? '0'} ${S.of(context).egp}',
-                                      style: const TextStyle(
-                                        color:
-                                            ColorsUtility.progressIndictorColor,
+                                      style: TextStyle(
+                                        color: theme.colorScheme.primary,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -324,11 +329,11 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                       children: [
                                         IconButton(
                                           icon: Icon(
-                                              isFavorite
-                                                  ? Icons.favorite
-                                                  : Icons.favorite_border,
-                                              color: ColorsUtility
-                                                  .progressIndictorColor),
+                                            isFavorite
+                                                ? Icons.favorite
+                                                : Icons.favorite_border,
+                                            color: theme.colorScheme.primary,
+                                          ),
                                           onPressed: () {
                                             if (isFavorite) {
                                               context
@@ -360,10 +365,8 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                           icon: Icon(
                                             Icons.add_circle_outline,
                                             color: item['is_available'] ?? true
-                                                ? ColorsUtility
-                                                    .progressIndictorColor
-                                                : ColorsUtility
-                                                    .textFieldLabelColor,
+                                                ? theme.colorScheme.primary
+                                                : theme.disabledColor,
                                           ),
                                           onPressed: () async {
                                             if (item['is_available'] ?? true) {
@@ -401,8 +404,8 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                                 context,
                                                 text:
                                                     '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).notAvailable}',
-                                                backgroundColor: ColorsUtility
-                                                    .errorSnackbarColor,
+                                                backgroundColor:
+                                                    theme.colorScheme.error,
                                               );
                                             }
                                           },

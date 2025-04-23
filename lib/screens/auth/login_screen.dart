@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/auth/forgot_password_screen.dart';
-import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
+// import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/widgets/app_text_field.dart';
 import 'package:restrant_app/widgets/auth_template_widget.dart';
 
@@ -38,6 +38,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // final theme = Theme.of(context);
+
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {},
       child: AuthTemplateWidget(
@@ -79,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       icon: Icon(
                         isVisible ? Icons.visibility_off : Icons.visibility,
-                        color: ColorsUtility.onboardingDescriptionColor,
+                        color: ColorsUtility.textFieldLabelColor,
                       ),
                     ),
                     obscureText: isVisible,
@@ -99,8 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text(
                         S.of(context).forgotPassword,
                         style: TextStyle(
-                          color: ColorsUtility.takeAwayColor,
-                          decoration: TextDecoration.underline,
+                          color: ColorsUtility.progressIndictorColor,
+                          decoration: TextDecoration.none,
                         ),
                       ),
                     ),
@@ -128,5 +130,9 @@ class _LoginScreenState extends State<LoginScreen> {
       return S.of(context).validationErrorPasswordLength;
     }
     return null;
+  }
+
+  bool isArabic() {
+    return Localizations.localeOf(context).languageCode == 'ar';
   }
 }

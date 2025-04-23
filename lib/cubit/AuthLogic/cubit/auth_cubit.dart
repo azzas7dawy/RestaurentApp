@@ -655,7 +655,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<Locale> getSavedLocale() async {
     final prefs = await SharedPreferences.getInstance();
-    final languageCode = prefs.getString('languageCode') ?? 'ar';
+    final languageCode = prefs.getString('languageCode') ?? 'en';
     return Locale(languageCode);
   }
 }

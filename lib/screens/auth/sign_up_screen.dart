@@ -46,17 +46,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // final theme = Theme.of(context);
+
     return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
-        // if (state is SignupFailed) {
-        //   ScaffoldMessenger.of(context).showSnackBar(
-        //     SnackBar(
-        //       content: Text(state.error),
-        //       backgroundColor: ColorsUtility.errorSnackbarColor,
-        //     ),
-        //   );
-        // }
-      },
+      listener: (context, state) {},
       child: AuthTemplateWidget(
         isLoading: context.select<AuthCubit, bool>(
           (cubit) => cubit.state is SignupLoading,
@@ -82,7 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 20),
                 AppTextField(
-                  label: S.of(context).enterPhone,
+                  label: S.of(context).phoneNumber,
                   controller: _phoneController,
                   validator: _phoneValidator,
                   keyboardType: TextInputType.phone,
@@ -199,11 +192,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     required bool isVisible,
     required VoidCallback toggleVisibility,
   }) {
+    // final theme = Theme.of(context);
     return IconButton(
       onPressed: toggleVisibility,
       icon: Icon(
         isVisible ? Icons.visibility : Icons.visibility_off,
-        color: ColorsUtility.onboardingDescriptionColor,
+        color: ColorsUtility.textFieldLabelColor,
       ),
     );
   }
