@@ -1,0 +1,80 @@
+import 'package:flutter/material.dart';
+import '../utils/colors_utility.dart';
+
+final ThemeData lightTheme = ThemeData(
+  fontFamily: 'Raleway',
+  brightness: Brightness.light,
+  scaffoldBackgroundColor: ColorsUtility.lightMainBackgroundColor,
+  primaryColor: ColorsUtility.lightProgressIndictorColor,
+  colorScheme: ColorScheme.light(
+    primary: ColorsUtility.takeAwayColor,
+    secondary: ColorsUtility.lightTakeAwayColor,
+    error: ColorsUtility.errorSnackbarColor,
+  ),
+  textTheme: const TextTheme(
+    displayLarge: TextStyle(color: Colors.black),
+    displayMedium: TextStyle(color: Colors.black),
+    displaySmall: TextStyle(color: Colors.black),
+    headlineLarge: TextStyle(color: Colors.black),
+    headlineMedium: TextStyle(color: Colors.black),
+    headlineSmall: TextStyle(color: Colors.black),
+    titleLarge: TextStyle(color: Colors.black),
+    titleMedium: TextStyle(color: Colors.black),
+    titleSmall: TextStyle(color: Colors.black),
+    bodyLarge: TextStyle(color: Colors.black),
+    bodyMedium: TextStyle(color: Colors.black),
+    bodySmall: TextStyle(color: Colors.black),
+    labelLarge: TextStyle(color: Colors.black),
+    labelMedium: TextStyle(color: Colors.black),
+    labelSmall: TextStyle(color: Colors.black),
+  ),
+  primaryTextTheme: const TextTheme(
+    displayLarge: TextStyle(color: Colors.black),
+    displayMedium: TextStyle(color: Colors.black),
+    displaySmall: TextStyle(color: Colors.black),
+    headlineLarge: TextStyle(color: Colors.black),
+    headlineMedium: TextStyle(color: Colors.black),
+    headlineSmall: TextStyle(color: Colors.black),
+    titleLarge: TextStyle(color: Colors.black),
+    titleMedium: TextStyle(color: Colors.black),
+    titleSmall: TextStyle(color: Colors.black),
+    bodyLarge: TextStyle(color: Colors.black),
+    bodyMedium: TextStyle(color: Colors.black),
+    bodySmall: TextStyle(color: Colors.black),
+    labelLarge: TextStyle(color: Colors.black),
+    labelMedium: TextStyle(color: Colors.black),
+    labelSmall: TextStyle(color: Colors.black),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: ColorsUtility.progressIndictorColor,
+      foregroundColor: ColorsUtility.textFieldFillColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      side: BorderSide.none,
+      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
+      minimumSize: const Size(300, 60),
+    ),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    fillColor: ColorsUtility.lightTextFieldFillColor,
+    filled: true,
+    labelStyle: const TextStyle(color: ColorsUtility.lightTextFieldLabelColor),
+    hintStyle: const TextStyle(color: Colors.black54),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(8),
+      borderSide: BorderSide.none,
+    ),
+  ),
+  // snackBarTheme: const SnackBarThemeData(
+  //   backgroundColor: ColorsUtility.successSnackbarColor,
+  //   contentTextStyle: TextStyle(color: ColorsUtility.textFieldLabelColor),
+  // ),
+  appBarTheme: const AppBarTheme(
+    titleTextStyle: TextStyle(color: Colors.black, fontSize: 20),
+    toolbarTextStyle: TextStyle(color: Colors.black),
+  ),
+  iconTheme: const IconThemeData(color: Colors.black54),
+  cardColor: Colors.white,
+);

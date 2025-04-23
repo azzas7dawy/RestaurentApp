@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_data.dart';
 import 'package:restrant_app/services/pref_service.dart';
@@ -25,7 +24,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   void initState() {
     super.initState();
-
     onboardingData = [];
   }
 
@@ -93,6 +91,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: PageView.builder(
         controller: _pageController,
         itemCount: onboardingData.length,
