@@ -22,5 +22,5 @@ class ImagesUtility {
       'assets/images/istockphoto-1018141890-612x612.jpg';
   static const String reserveTableImage2 = 'assets/images/category1.png';
   static const String profileImage =
-      'assets/images/pngtree-profile-line-black-icon-png-image_691051.jpg';
+      'assets/images/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.webp';
 }

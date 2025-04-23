@@ -159,8 +159,8 @@
     "paymentMethod": "طريقة الدفع",
     "favPayMethod": "اختر طريقة الدفع المفضلة لديك",
     "cashTxt": "ادفع عند استلام طلبك",
-    "paypalTxt": "باي بال",
-    "paypalSubtitle": "ادفع بأمان مع باي بال",
+    "paymobTxt": "باي موب",
+    "paymobSubtitle": "ادفع بأمان مع باي موب",
     "continueBtn": "استمر",
     "applyCoupon": "تطبيق القسيمة",
     "enterCouponCode": "أدخل كود القسيمة",
@@ -179,7 +179,10 @@
     "sendButton": "إرسال رابط إعادة التعيين",
     "completeDetails": "يرجى تقديم التفاصيل التالية: ",
     "theme": "المظهر",
-    "completeProfile": "اكمل ملفك الشخصي"
+    "completeProfile": "اكمل ملفك الشخصي",
+    "payWithCard": "Pay with Card",
+    "paymentFailed": "فشل الدفع",
+    "proceedWithPaymob": "المتابعة الى باي موب"
 
     
 }

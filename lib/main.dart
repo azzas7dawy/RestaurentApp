@@ -38,10 +38,17 @@ import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/themes/dark_theme.dart';
 import 'package:restrant_app/themes/light_theme.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_web/webview_flutter_web.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PrefService.init();
+
+  if (kIsWeb) {
+    WebViewPlatform.instance = WebWebViewPlatform();
+  }
+
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -50,6 +57,7 @@ Future<void> main() async {
     log('failed to initialize firebase : $e');
   }
   await dotenv.load(fileName: ".env");
+
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
