@@ -152,9 +152,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       _buildPaymentMethodCard(
                         context,
                         icon: Icons.payment,
-                        title: S.of(context).paypalTxt,
-                        subtitle: S.of(context).paypalSubtitle,
-                        value: "paypal",
+                        title: S.of(context).paymobTxt,
+                        subtitle: S.of(context).paymobSubtitle,
+                        value: "paymob",
                       ),
                       const SizedBox(height: 24),
                       _buildCouponSection(context, totalPrice),

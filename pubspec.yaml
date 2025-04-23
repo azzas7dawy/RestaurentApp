@@ -46,7 +46,7 @@ dependencies:
   animated_text_kit: ^4.2.3
   flutter_rating_bar: ^4.0.1
   flutter_dotenv: ^5.2.1
-  flutter_paypal_checkout: ^1.0.1
+  # flutter_paypal_checkout: ^1.0.1
   intl: ^0.19.0
   cached_network_image: ^3.3.1
   shimmer: ^3.0.0
@@ -55,7 +55,10 @@ dependencies:
   flutter_inappwebview: 5.8.0
   flutter_localizations:
         sdk: flutter
-  # paymob_payment: ^0.0.1+1
+  paymob_payment: ^0.0.1+1
+  webview_flutter_web: ^0.2.2
+  webview_flutter_platform_interface: ^2.11.0
+  webview_flutter: ^4.2.2
 
 dev_dependencies:
   flutter_test:

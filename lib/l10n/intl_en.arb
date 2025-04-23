@@ -176,8 +176,8 @@
     "paymentMethod": "Payment Method",
     "favPayMethod": "Select your preferred payment method",
     "cashTxt": "Pay when you receive your order",
-    "paypalTxt": "PayPal",
-    "paypalSubtitle": "Pay securely with PayPal",
+    "paymobTxt": "Paymob",
+    "paymobSubtitle": "Pay securely with Paymob",
     "continueBtn": "Continue",
     "applyCoupon": "Apply Coupon",
     "enterCouponCode": "Enter coupon code",
@@ -190,8 +190,13 @@
     "confirmLogout": "Are you sure you want to log out?",
     "yes": "Yes",
     "theme": "Theme",
-    "completeProfile": "Complete your profile"
+    "completeProfile": "Complete your profile",
+    "payWithCard": "Pay with Card",
+    "paymentFailed": "Payment failed",
+    "proceedWithPaymob": "Proceed with Paymob"
     
+
+
 
     
 }

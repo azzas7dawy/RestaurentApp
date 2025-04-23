@@ -1300,16 +1300,16 @@ class S {
     );
   }
 
-  /// `PayPal`
-  String get paypalTxt {
-    return Intl.message('PayPal', name: 'paypalTxt', desc: '', args: []);
+  /// `Paymob`
+  String get paymobTxt {
+    return Intl.message('Paymob', name: 'paymobTxt', desc: '', args: []);
   }
 
-  /// `Pay securely with PayPal`
-  String get paypalSubtitle {
+  /// `Pay securely with Paymob`
+  String get paymobSubtitle {
     return Intl.message(
-      'Pay securely with PayPal',
-      name: 'paypalSubtitle',
+      'Pay securely with Paymob',
+      name: 'paymobSubtitle',
       desc: '',
       args: [],
     );
@@ -1400,6 +1400,36 @@ class S {
     return Intl.message(
       'Complete your profile',
       name: 'completeProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay with Card`
+  String get payWithCard {
+    return Intl.message(
+      'Pay with Card',
+      name: 'payWithCard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment failed`
+  String get paymentFailed {
+    return Intl.message(
+      'Payment failed',
+      name: 'paymentFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Proceed with Paymob`
+  String get proceedWithPaymob {
+    return Intl.message(
+      'Proceed with Paymob',
+      name: 'proceedWithPaymob',
       desc: '',
       args: [],
     );

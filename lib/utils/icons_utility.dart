@@ -8,4 +8,6 @@ class IconsUtility {
   static const String cashOnDeliveryIcon = 'assets/icons/cash-on-delivery.svg';
   static const String paypalIcon = 'assets/icons/icons8-paypal.svg';
   static const String searchIcon = 'assets/icons/icons8-search.svg';
+  static const String creditCardIcon =
+      'assets/icons/credit-card-pay-svgrepo-com.svg';
 }
