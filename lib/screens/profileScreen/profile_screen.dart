@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
+
+import 'package:restrant_app/screens/realtim_chat/chatScreen.dart';
 import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
@@ -521,6 +523,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             const SizedBox(height: 16),
                           ],
                         ),
+                      const SizedBox(height: 24),
+                      GestureDetector(
+                        onTap: () => Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => ChatScreen(otherUserEmail: FirebaseAuth.instance.currentUser?.email ?? '',
+       
+    ),
+  ),
+),
+
+                        // Navigator.pushNamed(   context,
+                        //   ChatScreen.id,
+                        //   arguments: {
+                        //     'isFromProfile': true,
+                        //     // 'userId': FirebaseAuth.instance.currentUser?.uid,
+                        //   },
+                        // ),
+                        child: Text("go to chat screen", style: TextStyle(color: ColorsUtility.messageSenderColor),)),
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton(

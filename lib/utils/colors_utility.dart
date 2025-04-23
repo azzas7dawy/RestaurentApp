@@ -19,4 +19,7 @@ class ColorsUtility {
   static const processingStatusColor = Colors.blue;
   static const onTheWayStatusColor = Colors.purple;
   static const failedStatusColor = Colors.redAccent;
+  static const messageSenderColor = Color(0xFF4A919E);
+  static const messageReceiverColor = Color(0xFF343A40);
+  //0xFF2A2E32
 }

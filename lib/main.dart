@@ -7,7 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+// ignore: depend_on_referenced_packages
+// import "package:flutter_dotenv/flutter_dotenv.dart";
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
@@ -25,6 +26,9 @@ import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/screens/paymentScreen/complete_payment_screen.dart';
 import 'package:restrant_app/screens/paymentScreen/payment_screen.dart';
+
+import 'package:restrant_app/screens/realtim_chat/chatScreen.dart';
+import 'package:restrant_app/screens/realtim_chat/switchchat.dart';
 import 'package:restrant_app/screens/reserveTableScreen/reserve_table_screen.dart';
 import 'package:restrant_app/screens/specialPlatesScreen/special_plates_screen.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
@@ -42,7 +46,7 @@ Future<void> main() async {
   } catch (e) {
     log('failed to initialize firebase : $e');
   }
-  await dotenv.load(fileName: ".env");
+  // await dotenv.load(fileName: ".env");
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
@@ -173,11 +177,18 @@ class MyApp extends StatelessWidget {
                 categoryDoc: data,
               ),
             );
+             case ChatScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => ChatScreen(otherUserEmail:data),
+                
+              
+            );
           default:
             return MaterialPageRoute(builder: (context) => const SplashPage());
         }
       },
       initialRoute: SplashPage.id,
+      // initialRoute: ChatScreen.id,
     );
   }
 }
