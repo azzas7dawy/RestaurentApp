@@ -7,6 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restrant_app/adminDashbord/admin/admin_dashboard.dart';
+import 'package:restrant_app/adminDashbord/admin_page.dart';
 import 'package:restrant_app/adminDashbord/admin_panel.dart';
 
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -175,9 +177,9 @@ class MyApp extends StatelessWidget {
                 categoryDoc: data,
               ),
             );
-           case AdminPanel.id:
+           case AdminDashboard.id:
             return MaterialPageRoute(
-              builder: (context) => AdminPanel(
+              builder: (context) => AdminDashboard(
              
               ),
             );
@@ -186,7 +188,7 @@ class MyApp extends StatelessWidget {
         }
       },
       // initialRoute: SplashPage.id,
-      initialRoute: AdminPanel.id,
+      initialRoute: AdminDashboard.id,
     );
   }
 }
