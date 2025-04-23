@@ -49,7 +49,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     // final theme = Theme.of(context);
 
     return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is SignupFailed) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.error),
+              backgroundColor: ColorsUtility.errorSnackbarColor,
+            ),
+          );
+        }
+      },
       child: AuthTemplateWidget(
         isLoading: context.select<AuthCubit, bool>(
           (cubit) => cubit.state is SignupLoading,
