@@ -23,16 +23,6 @@ class ForgotPasswordScreen extends StatelessWidget {
         : ColorsUtility.progressIndictorColor;
     return Scaffold(
       appBar: AppBar(
-<<<<<<< HEAD
-        title: Text(
-          S.of(context).resetPassword,
-          style: TextStyle(color: ColorsUtility.takeAwayColor),
-        ),
-        iconTheme: const IconThemeData(
-          color: ColorsUtility.takeAwayColor,
-        ),
-      ),
-=======
         backgroundColor: theme.scaffoldBackgroundColor,
         title: Text(
           S.of(context).resetPassword,
@@ -46,7 +36,6 @@ class ForgotPasswordScreen extends StatelessWidget {
         ),
       ),
       backgroundColor: theme.scaffoldBackgroundColor,
->>>>>>> master
       body: SafeArea(
         child: Form(
           key: _formKey,

@@ -22,8 +22,6 @@ class ColorsUtility {
   static const failedStatusColor = Colors.redAccent;
 
   // light mode
-<<<<<<< HEAD
-=======
 
   static const lightMainBackgroundColor = Color(0xFFF2F5F7);
 
@@ -54,5 +52,4 @@ class ColorsUtility {
   static const lightProcessingStatusColor = Color(0xFF28B1B8);
   static const lightOnTheWayStatusColor = Color(0xFF1E8E96);
   static const lightFailedStatusColor = Color(0xFFEB6A5A);
->>>>>>> master
 }

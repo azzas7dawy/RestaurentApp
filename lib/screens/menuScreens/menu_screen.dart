@@ -43,10 +43,6 @@ class MenuScreen extends StatelessWidget {
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 children: [
-<<<<<<< HEAD
-                  // Header image
-=======
->>>>>>> master
                   Positioned.fill(
                     child: CachedNetworkImage(
                       imageUrl:
@@ -100,20 +96,12 @@ class MenuScreen extends StatelessWidget {
                 }
 
                 if (!menuSnapshot.hasData || menuSnapshot.data!.docs.isEmpty) {
-<<<<<<< HEAD
-                  return const SliverFillRemaining(
-=======
                   return SliverFillRemaining(
->>>>>>> master
                     child: Center(
                         child: Text(
                       'No menus available currently',
                       style: TextStyle(
-<<<<<<< HEAD
-                        color: ColorsUtility.progressIndictorColor,
-=======
                         color: Theme.of(context).colorScheme.primary,
->>>>>>> master
                       ),
                     )),
                   );
@@ -124,20 +112,12 @@ class MenuScreen extends StatelessWidget {
                     .toList();
 
                 if (filteredDocs.isEmpty) {
-<<<<<<< HEAD
-                  return const SliverFillRemaining(
-=======
                   return SliverFillRemaining(
->>>>>>> master
                     child: Center(
                       child: Text(
                         'No matching categories found',
                         style: TextStyle(
-<<<<<<< HEAD
-                          color: ColorsUtility.progressIndictorColor,
-=======
                           color: Theme.of(context).colorScheme.primary,
->>>>>>> master
                         ),
                       ),
                     ),
@@ -174,21 +154,12 @@ class MenuScreen extends StatelessWidget {
         int itemCount = snapshot.hasData ? snapshot.data! : 0;
 
         return Card(
-<<<<<<< HEAD
-          color: ColorsUtility.elevatedBtnColor,
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-            side: const BorderSide(
-              color: ColorsUtility.mainBackgroundColor,
-=======
           color: Theme.of(context).scaffoldBackgroundColor,
           elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
             side: BorderSide(
               color: Theme.of(context).scaffoldBackgroundColor,
->>>>>>> master
             ),
           ),
           clipBehavior: Clip.antiAlias,

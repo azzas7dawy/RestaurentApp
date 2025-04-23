@@ -7,10 +7,7 @@ import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
-<<<<<<< HEAD
-=======
 // import 'package:restrant_app/utils/colors_utility.dart';
->>>>>>> master
 import 'package:restrant_app/widgets/app_snackbar.dart';
 
 class SpecialPlatesScreen extends StatelessWidget {
@@ -32,16 +29,6 @@ class SpecialPlatesScreen extends StatelessWidget {
         : ColorsUtility.progressIndictorColor;
     return Scaffold(
       appBar: AppBar(
-<<<<<<< HEAD
-        title: Text(
-          S.of(context).specialPlates,
-          style: TextStyle(
-            color: ColorsUtility.takeAwayColor,
-          ),
-        ),
-        iconTheme: const IconThemeData(
-          color: ColorsUtility.takeAwayColor,
-=======
         backgroundColor: theme.scaffoldBackgroundColor,
         title: Text(
           S.of(context).specialPlates,
@@ -52,7 +39,6 @@ class SpecialPlatesScreen extends StatelessWidget {
         ),
         iconTheme: IconThemeData(
           color: appBarTextColor,
->>>>>>> master
         ),
         centerTitle: true,
       ),
@@ -96,18 +82,6 @@ class SpecialPlatesScreen extends StatelessWidget {
                       height: 180,
                       width: double.infinity,
                       fit: BoxFit.cover,
-<<<<<<< HEAD
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(
-                          color: ColorsUtility.progressIndictorColor,
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => const Center(
-                        child: Icon(
-                          Icons.fastfood,
-                          size: 40,
-                          color: ColorsUtility.progressIndictorColor,
-=======
                       placeholder: (context, url) => Center(
                         child: CircularProgressIndicator(
                           color: theme.colorScheme.primary,
@@ -118,7 +92,6 @@ class SpecialPlatesScreen extends StatelessWidget {
                           Icons.fastfood,
                           size: 40,
                           color: theme.colorScheme.primary,
->>>>>>> master
                         ),
                       ),
                     ),
@@ -129,11 +102,7 @@ class SpecialPlatesScreen extends StatelessWidget {
                       isArabic()
                           ? item['title_ar']
                           : item['title'] ?? 'No Title',
-<<<<<<< HEAD
-                      style: const TextStyle(
-=======
                       style: TextStyle(
->>>>>>> master
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: ColorsUtility.takeAwayColor,
@@ -164,13 +133,8 @@ class SpecialPlatesScreen extends StatelessWidget {
                       children: [
                         Text(
                           '${item['price']} ${S.of(context).egp}',
-<<<<<<< HEAD
-                          style: const TextStyle(
-                            color: ColorsUtility.progressIndictorColor,
-=======
                           style: TextStyle(
                             color: theme.colorScheme.primary,
->>>>>>> master
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -184,19 +148,11 @@ class SpecialPlatesScreen extends StatelessWidget {
                                     : false;
                                 return IconButton(
                                   icon: Icon(
-<<<<<<< HEAD
-                                      isFavorite
-                                          ? Icons.favorite
-                                          : Icons.favorite_border,
-                                      color:
-                                          ColorsUtility.progressIndictorColor),
-=======
                                     isFavorite
                                         ? Icons.favorite
                                         : Icons.favorite_border,
                                     color: theme.colorScheme.primary,
                                   ),
->>>>>>> master
                                   onPressed: () {
                                     if (isFavorite) {
                                       context
@@ -229,13 +185,8 @@ class SpecialPlatesScreen extends StatelessWidget {
                               icon: Icon(
                                 Icons.add_circle_outline,
                                 color: item['is_available'] ?? true
-<<<<<<< HEAD
-                                    ? ColorsUtility.progressIndictorColor
-                                    : ColorsUtility.textFieldLabelColor,
-=======
                                     ? theme.colorScheme.primary
                                     : theme.disabledColor,
->>>>>>> master
                               ),
                               onPressed: () {
                                 if (item['is_available'] ?? true) {

@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_data.dart';
 import 'package:restrant_app/services/pref_service.dart';
@@ -28,14 +24,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   void initState() {
     super.initState();
-<<<<<<< HEAD
-
-=======
->>>>>>> master
-    onboardingData = [];
-  }
-
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 

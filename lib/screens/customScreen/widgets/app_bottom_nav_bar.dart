@@ -34,11 +34,6 @@ class AppBottomNavBar extends StatelessWidget {
             IconsUtility.homeIcon,
             width: 20,
             height: 20,
-<<<<<<< HEAD
-          ),
-          title: Text(S.of(context).home),
-          selectedColor: ColorsUtility.takeAwayColor,
-=======
             colorFilter: ColorFilter.mode(
               currentIndex == 0 ? selectedColor : unselectedColor,
               BlendMode.srcIn,
@@ -52,18 +47,12 @@ class AppBottomNavBar extends StatelessWidget {
           ),
           selectedColor: selectedColor,
           unselectedColor: unselectedColor,
->>>>>>> master
         ),
         SalomonBottomBarItem(
           icon: SvgPicture.asset(
             IconsUtility.orderFoodIcon,
             width: 20,
             height: 20,
-<<<<<<< HEAD
-          ),
-          title: Text(S.of(context).menu),
-          selectedColor: ColorsUtility.takeAwayColor,
-=======
             colorFilter: ColorFilter.mode(
               currentIndex == 1 ? selectedColor : unselectedColor,
               BlendMode.srcIn,
@@ -77,18 +66,12 @@ class AppBottomNavBar extends StatelessWidget {
           ),
           selectedColor: selectedColor,
           unselectedColor: unselectedColor,
->>>>>>> master
         ),
         SalomonBottomBarItem(
           icon: SvgPicture.asset(
             IconsUtility.searchIcon,
             width: 20,
             height: 20,
-<<<<<<< HEAD
-          ),
-          title: Text(S.of(context).search),
-          selectedColor: ColorsUtility.takeAwayColor,
-=======
             colorFilter: ColorFilter.mode(
               currentIndex == 2 ? selectedColor : unselectedColor,
               BlendMode.srcIn,
@@ -102,24 +85,12 @@ class AppBottomNavBar extends StatelessWidget {
           ),
           selectedColor: selectedColor,
           unselectedColor: unselectedColor,
->>>>>>> master
         ),
         SalomonBottomBarItem(
           icon: SvgPicture.asset(
             IconsUtility.reserveTableIcon,
             width: 20,
             height: 20,
-<<<<<<< HEAD
-          ),
-          title: Text(S.of(context).reserveTable),
-          selectedColor: ColorsUtility.takeAwayColor,
-        ),
-        SalomonBottomBarItem(
-          icon:
-              SvgPicture.asset(IconsUtility.profileIcon, width: 20, height: 20),
-          title: Text(S.of(context).profile),
-          selectedColor: ColorsUtility.takeAwayColor,
-=======
             colorFilter: ColorFilter.mode(
               currentIndex == 3 ? selectedColor : unselectedColor,
               BlendMode.srcIn,
@@ -152,7 +123,6 @@ class AppBottomNavBar extends StatelessWidget {
           ),
           selectedColor: selectedColor,
           unselectedColor: unselectedColor,
->>>>>>> master
         ),
       ],
     );

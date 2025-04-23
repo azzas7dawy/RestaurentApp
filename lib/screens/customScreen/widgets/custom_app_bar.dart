@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:restrant_app/generated/l10n.dart';
-<<<<<<< HEAD
-import 'package:restrant_app/utils/colors_utility.dart';
-=======
->>>>>>> master
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -19,23 +15,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       automaticallyImplyLeading: false,
-<<<<<<< HEAD
-=======
       backgroundColor: theme.scaffoldBackgroundColor,
       elevation: 0,
->>>>>>> master
       title: Align(
         alignment: isArabic() ? Alignment.centerRight : Alignment.centerLeft,
         child: Text(
           S.of(context).splashTitle,
-<<<<<<< HEAD
-          style: TextStyle(color: ColorsUtility.takeAwayColor),
-=======
           style: theme.textTheme.titleLarge?.copyWith(
             color: titleColor,
             fontWeight: FontWeight.bold,
           ),
->>>>>>> master
         ),
       ),
       actions: [

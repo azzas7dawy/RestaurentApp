@@ -3,11 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_paypal_checkout/flutter_paypal_checkout.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:restrant_app/generated/l10n.dart';
-<<<<<<< HEAD
-import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
-=======
 import 'package:restrant_app/screens/paymentScreen/payment_screen.dart';
->>>>>>> master
 import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/utils/icons_utility.dart';
@@ -47,10 +43,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-<<<<<<< HEAD
-=======
         centerTitle: true,
->>>>>>> master
         title: Text(
           widget.paymentMethod == 'cash'
               ? S.of(context).cashOnDelivery
@@ -66,12 +59,8 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-<<<<<<< HEAD
-            Navigator.pushReplacementNamed(context, OrdersScreen.id);
-=======
             Navigator.pushReplacementNamed(context, PaymentScreen.id,
                 arguments: widget.totalAmount);
->>>>>>> master
           },
         ),
       ),

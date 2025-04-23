@@ -15,30 +15,16 @@ class CategoryItemsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-=======
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
     final Color appBarTextColor = isDark
         ? ColorsUtility.takeAwayColor
         : ColorsUtility.progressIndictorColor;
->>>>>>> master
     return Scaffold(
       appBar: AppBar(
         title: Text(
           _formatCategoryName(categoryDoc.id),
-<<<<<<< HEAD
-          style: const TextStyle(
-            color: ColorsUtility.takeAwayColor,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        iconTheme: const IconThemeData(
-          color: ColorsUtility.takeAwayColor,
-        ),
-        centerTitle: true,
-=======
           style: TextStyle(
             color: appBarTextColor,
             fontSize: theme.textTheme.titleLarge?.fontSize,
@@ -49,7 +35,6 @@ class CategoryItemsScreen extends StatelessWidget {
         ),
         centerTitle: true,
         backgroundColor: theme.scaffoldBackgroundColor,
->>>>>>> master
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: categoryDoc.reference.collection('items').snapshots(),
@@ -62,19 +47,11 @@ class CategoryItemsScreen extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-<<<<<<< HEAD
-            return const Center(
-              child: Text(
-                'No items available in this category',
-                style: TextStyle(
-                  color: ColorsUtility.progressIndictorColor,
-=======
             return Center(
               child: Text(
                 'No items available in this category',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
->>>>>>> master
                 ),
               ),
             );
@@ -112,15 +89,10 @@ class CategoryItemsScreen extends StatelessWidget {
             ? state.favorites.any((fav) => fav['title'] == item['title'])
             : false;
 
-<<<<<<< HEAD
-        return Card(
-          color: ColorsUtility.elevatedBtnColor,
-=======
         final theme = Theme.of(context);
 
         return Card(
           color: theme.scaffoldBackgroundColor,
->>>>>>> master
           elevation: 3,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

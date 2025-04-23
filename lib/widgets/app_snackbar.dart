@@ -9,12 +9,8 @@ void appSnackbar(
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       backgroundColor: backgroundColor,
-<<<<<<< HEAD
-      content: Text(text),
-=======
       content: Text(text,
           style: TextStyle(color: ColorsUtility.lightMainBackgroundColor)),
->>>>>>> master
       duration: const Duration(seconds: 2),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(

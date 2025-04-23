@@ -140,12 +140,7 @@ class _OnboardingDataState extends State<OnboardingData> {
                 onPressed: widget.onSkipPressed,
                 child: Text(
                   S.of(context).skipButton,
-<<<<<<< HEAD
-                  style: TextStyle(
-                    color: ColorsUtility.onboardingColor,
-=======
                   style: textTheme.bodyLarge?.copyWith(
->>>>>>> master
                     fontSize: 16,
                   ),
                 ),

@@ -36,10 +36,7 @@ class FavoritesScreen extends StatelessWidget {
             );
           },
         ),
-<<<<<<< HEAD
-=======
         centerTitle: true,
->>>>>>> master
       ),
       body: BlocBuilder<FavoritesCubit, FavoritesState>(
         builder: (context, state) {

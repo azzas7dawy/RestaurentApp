@@ -3,10 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/auth/forgot_password_screen.dart';
-<<<<<<< HEAD
-import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
-=======
->>>>>>> master
 import 'package:restrant_app/utils/colors_utility.dart';
 // import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/widgets/app_text_field.dart';

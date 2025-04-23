@@ -139,12 +139,7 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
                                 isLogin
                                     ? S.of(context).loginGoogle
                                     : S.of(context).sigUpGoogle,
-<<<<<<< HEAD
-                                style: const TextStyle(
-                                  color: ColorsUtility.onboardingColor,
-=======
                                 style: textTheme.bodyMedium?.copyWith(
->>>>>>> master
                                   fontSize: 14,
                                 ),
                               ),
@@ -163,13 +158,7 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
                         isLogin
                             ? S.of(context).donotHaveAccount
                             : S.of(context).alreadyHaveAccount,
-<<<<<<< HEAD
-                        style: const TextStyle(
-                          color: ColorsUtility.onboardingColor,
-                        ),
-=======
                         style: textTheme.bodyMedium,
->>>>>>> master
                       ),
                       const SizedBox(width: 5),
                       if (!widget.isLoading)
@@ -185,15 +174,9 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
                           },
                           child: Text(
                             isLogin ? S.of(context).sigUp : S.of(context).login,
-<<<<<<< HEAD
-                            style: const TextStyle(
-                              color: ColorsUtility.inkwellTextColor,
-                              fontWeight: FontWeight.w700,
-=======
                             style: textTheme.bodyMedium?.copyWith(
                               color: inkwellColor,
                               fontWeight: FontWeight.bold,
->>>>>>> master
                             ),
                           ),
                         ),

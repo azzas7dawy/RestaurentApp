@@ -8,11 +8,7 @@ class ReservationPage extends StatefulWidget {
   static const String id = 'ReservationPage';
 
   @override
-<<<<<<< HEAD
-  _ReservationPageState createState() => _ReservationPageState();
-=======
   State<ReservationPage> createState() => _ReservationPageState();
->>>>>>> master
 }
 
 class _ReservationPageState extends State<ReservationPage> {

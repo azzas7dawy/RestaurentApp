@@ -84,11 +84,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 20),
                 AppTextField(
-<<<<<<< HEAD
-                  label: S.of(context).enterPhone,
-=======
                   label: S.of(context).phoneNumber,
->>>>>>> master
                   controller: _phoneController,
                   validator: _phoneValidator,
                   keyboardType: TextInputType.phone,

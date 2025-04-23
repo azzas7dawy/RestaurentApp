@@ -11,15 +11,6 @@ class ReserveTableScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
-      body: Center(
-        child: Text(
-          'TABLE',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-=======
       // backgroundColor: ColorsUtility.mainBackgroundColor,
       body: Stack(
         children: [
@@ -113,7 +104,6 @@ class ReserveTableScreen extends StatelessWidget {
             ),
           ),
         ],
->>>>>>> master
       ),
     );
   }
