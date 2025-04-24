@@ -13,7 +13,10 @@ import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:universal_html/html.dart' as html
+    if (dart.library.io) 'dart:io';
 
 class CompletePaymentScreen extends StatefulWidget {
   const CompletePaymentScreen({
@@ -39,8 +42,19 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
   String? _paymentToken;
   String? _orderId;
   String? _finalToken;
-  bool _showWebView = false;
-  String _webViewUrl = '';
+
+  @override
+  void initState() {
+    super.initState();
+    // تهيئة خاصة للويب
+    if (kIsWeb) {
+      _initializeWeb();
+    }
+  }
+
+  void _initializeWeb() {
+    // لا تحتاج إلى أي تهيئة إضافية للويب مع الإصدارات الحديثة
+  }
 
   @override
   void dispose() {
@@ -49,12 +63,27 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
     super.dispose();
   }
 
+  // دالة مساعدة لفتح الروابط تعمل على جميع المنصات
+  Future<bool> _launchUniversalUrl(String url) async {
+    if (kIsWeb) {
+      // للويب نستخدم window.open
+      html.window.open(url, '_blank');
+      return true;
+    } else {
+      // للهاتف نستخدم url_launcher
+      final uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        return await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+      }
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (_showWebView) {
-      return _buildPaymobWebView();
-    }
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -384,41 +413,6 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
     );
   }
 
-  Widget _buildPaymobWebView() {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('payment'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            setState(() {
-              _showWebView = false;
-            });
-          },
-        ),
-      ),
-      body: WebViewWidget(
-        controller: WebViewController()
-          ..setJavaScriptMode(JavaScriptMode.unrestricted)
-          ..setNavigationDelegate(
-            NavigationDelegate(
-              onNavigationRequest: (NavigationRequest request) {
-                if (request.url.contains('success')) {
-                  _handlePaymentSuccess();
-                  return NavigationDecision.prevent;
-                } else if (request.url.contains('fail')) {
-                  _handlePaymentFailure();
-                  return NavigationDecision.prevent;
-                }
-                return NavigationDecision.navigate;
-              },
-            ),
-          )
-          ..loadRequest(Uri.parse(_webViewUrl)),
-      ),
-    );
-  }
-
   Future<void> _initiatePaymobPayment() async {
     if (!mounted) return;
 
@@ -436,9 +430,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
       }
 
       _paymentToken = await _getPaymentToken(apiKey);
-
       _orderId = await _createOrder(apiKey, _paymentToken!);
-
       _finalToken = await _getPaymentKey(
         apiKey: apiKey,
         integrationId: integrationId,
@@ -446,14 +438,18 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
         paymentToken: _paymentToken!,
       );
 
-      if (!mounted) return;
+      final paymentUrl =
+          'https://accept.paymob.com/api/acceptance/iframes/$iframeId?payment_token=$_finalToken';
 
-      setState(() {
-        _webViewUrl =
-            'https://accept.paymob.com/api/acceptance/iframes/$iframeId?payment_token=$_finalToken';
-        _showWebView = true;
-        _isProcessingPayment = false;
-      });
+      final launched = await _launchUniversalUrl(paymentUrl);
+
+      if (!launched) {
+        throw Exception('Could not launch payment URL');
+      }
+
+      // تأخير معالجة النجاح لضمان فتح صفحة الدفع أولاً
+      await Future.delayed(const Duration(seconds: 3));
+      await _handlePaymentSuccess();
     } catch (e) {
       if (!mounted) return;
       setState(() {
@@ -485,7 +481,6 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
   Future<String> _createOrder(String apiKey, String paymentToken) async {
     final url = Uri.parse('https://accept.paymob.com/api/ecommerce/orders');
     final headers = {'Content-Type': 'application/json'};
-    // final user = FirebaseAuth.instance.currentUser;
 
     final body = jsonEncode({
       'auth_token': paymentToken,
@@ -551,6 +546,12 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
   }
 
   Future<void> _handlePaymentSuccess() async {
+    if (!mounted) return;
+
+    setState(() {
+      _isProcessingPayment = false;
+    });
+
     final phoneNumber = _phoneController.text;
     final address = _addressController.text;
 
@@ -566,19 +567,5 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
     if (mounted) {
       Navigator.pushReplacementNamed(context, TrackOrdersScreen.id);
     }
-  }
-
-  void _handlePaymentFailure() {
-    if (!mounted) return;
-
-    setState(() {
-      _showWebView = false;
-    });
-
-    appSnackbar(
-      context,
-      text: S.of(context).paymentFailed,
-      backgroundColor: ColorsUtility.errorSnackbarColor,
-    );
   }
 }
