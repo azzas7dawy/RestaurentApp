@@ -182,7 +182,36 @@
     "completeProfile": "اكمل ملفك الشخصي",
     "payWithCard": "Pay with Card",
     "paymentFailed": "فشل الدفع",
-    "proceedWithPaymob": "المتابعة الى باي موب"
+    "proceedWithPaymob": "المتابعة الى باي موب",
+    "noOrdersYet": "لا توجد طلبات حتى الآن",
+    "yourOrdersWillAppearHere": "ستظهر طلباتك هنا",
+    "pending": "قيد الانتظار",
+    "order": "طلب",
+    "total2" : "الإجمالي: ",
+    "cancelOrder": "إلغاء الطلب",
+    "cancelOrderMessage": "هل أنت متأكد أنك تريد إلغاء هذا الطلب؟",
+    "no": "لا",
+    "orderCancelled": "تم إلغاء الطلب وحذفه",
+    "orderCancelFailed": "فشل إلغاء الطلب:",
+    "cancelled": "تم الإلغاء",
+    "failed": "فشل",
+    "processing": "قيد التنفيذ",
+    "onTheWay": "في الطريق",
+    "delivered": "تم التوصيل",
+    "orderDetails": "تفاصيل الطلب",
+    "status": "الحالة:",
+    "orderId": "رقم الطلب:",
+    "orderedOn": "تم الطلب في",
+    "customer": "العميل:",
+    "unknown": "غير معروف",
+    "items": "الوجبات:",
+    "noTitle": "لا يوجد عنوان",
+    "deliveryInfo": "معلومات التوصيل:",
+    "phone": "الهاتف",
+    "address": "العنوان",
+    "item": "وجبة",
+    "cash": "نقدًا"
+
 
     
 }

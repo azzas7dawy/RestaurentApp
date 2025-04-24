@@ -5,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/generated/l10n.dart';
-import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/screens/specialPlatesScreen/special_plates_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -14,6 +13,10 @@ import 'package:shimmer/shimmer.dart';
 
 class SpecialPlatesSectionWidget extends StatelessWidget {
   const SpecialPlatesSectionWidget({super.key});
+
+  bool isArabic(BuildContext context) {
+    return Localizations.localeOf(context).languageCode == 'ar';
+  }
 
   Future<List<Map<String, dynamic>>> fetchSpecialPlates() async {
     try {
@@ -102,10 +105,6 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
     );
   }
 
-  // bool isArabic() {
-  //   return Localizations.localeOf(navigatorKey.currentContext!).languageCode == 'ar';
-  // }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -113,6 +112,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
     final screenHeight = MediaQuery.sizeOf(context).height;
     final cardWidth = screenWidth * 0.4;
     final cardHeight = screenHeight * 0.32;
+    final isDarkTheme = theme.brightness == Brightness.dark;
 
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: fetchSpecialPlates(),
@@ -214,7 +214,9 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(horizontal: 8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          color: theme.scaffoldBackgroundColor,
+                          color: isDarkTheme
+                              ? ColorsUtility.elevatedBtnColor
+                              : ColorsUtility.lightTextFieldFillColor,
                           boxShadow: [
                             BoxShadow(
                               color: theme.shadowColor
@@ -260,7 +262,9 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            color: theme.scaffoldBackgroundColor,
+                            color: isDarkTheme
+                                ? ColorsUtility.elevatedBtnColor
+                                : ColorsUtility.lightTextFieldFillColor,
                             boxShadow: [
                               BoxShadow(
                                 color: theme.shadowColor
@@ -284,8 +288,10 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  isArabic()
-                                      ? item['title_ar']
+                                  isArabic(context)
+                                      ? item['title_ar'] ??
+                                          item['title'] ??
+                                          'No Title'
                                       : item['title'] ?? 'No Title',
                                   style: TextStyle(
                                     fontSize: 16,
@@ -300,8 +306,10 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Text(
-                                  isArabic()
-                                      ? item['desc_ar']
+                                  isArabic(context)
+                                      ? item['desc_ar'] ??
+                                          item['description'] ??
+                                          'No Description'
                                       : item['description'] ?? 'No Description',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
@@ -343,7 +351,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                               appSnackbar(
                                                 context,
                                                 text:
-                                                    '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).removedFromFavorites}',
+                                                    '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).removedFromFavorites}',
                                                 backgroundColor: ColorsUtility
                                                     .successSnackbarColor,
                                               );
@@ -354,7 +362,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                               appSnackbar(
                                                 context,
                                                 text:
-                                                    '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).addedToFavorites}',
+                                                    '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).addedToFavorites}',
                                                 backgroundColor: ColorsUtility
                                                     .successSnackbarColor,
                                               );
@@ -374,18 +382,21 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                                 ...item,
                                                 'documentId':
                                                     item['documentId'],
-                                                'title': isArabic()
-                                                    ? item['title_ar']
-                                                    : item['title'] ??
-                                                        'No Title',
+                                                'title':
+                                                    item['title'] ?? 'No Title',
+                                                'title_ar': item['title_ar'] ??
+                                                    item['title'] ??
+                                                    'No Title',
                                                 'price': item['price'],
                                                 'image': item['image'],
-                                                'description': isArabic()
-                                                    ? item['desc_ar']
-                                                    : item['description'],
-                                                'category': isArabic()
-                                                    ? item['category_ar']
-                                                    : item['category'],
+                                                'description':
+                                                    item['description'],
+                                                'desc_ar': item['desc_ar'] ??
+                                                    item['description'],
+                                                'category': item['category'],
+                                                'category_ar':
+                                                    item['category_ar'] ??
+                                                        item['category'],
                                               };
                                               await context
                                                   .read<OrdersCubit>()
@@ -394,7 +405,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                                 appSnackbar(
                                                   context,
                                                   text:
-                                                      '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).addedToOrders}',
+                                                      '${isArabic(context) ? mealToAdd['title_ar'] : mealToAdd['title']} ${S.of(context).addedToOrders}',
                                                   backgroundColor: ColorsUtility
                                                       .successSnackbarColor,
                                                 );
@@ -403,7 +414,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                               appSnackbar(
                                                 context,
                                                 text:
-                                                    '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).notAvailable}',
+                                                    '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).notAvailable}',
                                                 backgroundColor:
                                                     theme.colorScheme.error,
                                               );
