@@ -10,8 +10,10 @@ import 'package:restrant_app/utils/icons_utility.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
-import 'package:paymob_payment/paymob_payment.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class CompletePaymentScreen extends StatefulWidget {
   const CompletePaymentScreen({
@@ -34,16 +36,16 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
   final TextEditingController _addressController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isProcessingPayment = false;
+  String? _paymentToken;
+  String? _orderId;
+  String? _finalToken;
+  bool _showWebView = false;
+  String _webViewUrl = '';
 
   @override
   void initState() {
     super.initState();
-    // Load environment variables when the widget initializes
-    _loadEnvVariables();
-  }
-
-  Future<void> _loadEnvVariables() async {
-    await dotenv.load(fileName: ".env");
+    // Initialize any required setup
   }
 
   @override
@@ -55,6 +57,10 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_showWebView) {
+      return _buildPaymobWebView();
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -223,7 +229,6 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
                 final address = _addressController.text;
 
                 final ordersCubit = context.read<OrdersCubit>();
-
                 ordersCubit.setDeliveryInfo(
                     phone: phoneNumber, address: address);
 
@@ -385,6 +390,42 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
     );
   }
 
+  Widget _buildPaymobWebView() {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('payment'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            setState(() {
+              _showWebView = false;
+            });
+          },
+        ),
+      ),
+      body: WebViewWidget(
+        controller: WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onNavigationRequest: (NavigationRequest request) {
+                // Handle payment success/failure by checking the URL
+                if (request.url.contains('success')) {
+                  _handlePaymentSuccess();
+                  return NavigationDecision.prevent;
+                } else if (request.url.contains('fail')) {
+                  _handlePaymentFailure();
+                  return NavigationDecision.prevent;
+                }
+                return NavigationDecision.navigate;
+              },
+            ),
+          )
+          ..loadRequest(Uri.parse(_webViewUrl)),
+      ),
+    );
+  }
+
   Future<void> _initiatePaymobPayment() async {
     if (!mounted) return;
 
@@ -401,68 +442,150 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
         throw Exception('Paymob configuration is missing');
       }
 
-      // Initialize Paymob
-      await PaymobPayment.instance.initialize(
+      _paymentToken = await _getPaymentToken(apiKey);
+
+      _orderId = await _createOrder(apiKey, _paymentToken!);
+
+      _finalToken = await _getPaymentKey(
         apiKey: apiKey,
-        integrationID: int.parse(integrationId),
-        iFrameID: int.parse(iframeId),
-      );
-
-      final billingData = PaymobBillingData(
-        firstName: FirebaseAuth.instance.currentUser?.displayName ?? "Guest",
-        lastName: "User",
-        email: FirebaseAuth.instance.currentUser?.email ?? '',
-        phoneNumber: _phoneController.text,
-        street: _addressController.text,
+        integrationId: integrationId,
+        orderId: _orderId!,
+        paymentToken: _paymentToken!,
       );
 
       if (!mounted) return;
 
-      final paymentResponse = await PaymobPayment.instance.pay(
-        context: context,
-        amountInCents: (widget.totalAmount * 100).toStringAsFixed(0),
-        currency: 'EGP',
-        billingData: billingData,
-      );
-
-      if (!mounted) return;
-
-      if (paymentResponse != null && paymentResponse.success) {
-        final phoneNumber = _phoneController.text;
-        final address = _addressController.text;
-
-        final ordersCubit = context.read<OrdersCubit>();
-        ordersCubit.setDeliveryInfo(phone: phoneNumber, address: address);
-        await ordersCubit.submitOrder(
-          discountAmount: widget.discountAmount,
-          isPaid: true,
-          paymentMethod: 'card',
-          totalAmount: widget.totalAmount,
-        );
-
-        if (mounted) {
-          Navigator.pushReplacementNamed(context, TrackOrdersScreen.id);
-        }
-      } else {
-        appSnackbar(
-          context,
-          text: S.of(context).paymentFailed,
-          backgroundColor: ColorsUtility.errorSnackbarColor,
-        );
-      }
+      setState(() {
+        _webViewUrl =
+            'https://accept.paymob.com/api/acceptance/iframes/$iframeId?payment_token=$_finalToken';
+        _showWebView = true;
+        _isProcessingPayment = false;
+      });
     } catch (e) {
       if (!mounted) return;
+      setState(() {
+        _isProcessingPayment = false;
+      });
       appSnackbar(
         context,
         text: 'Payment Error: ${e.toString()}',
         backgroundColor: ColorsUtility.errorSnackbarColor,
       );
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isProcessingPayment = false;
-        });
-      }
     }
+  }
+
+  Future<String> _getPaymentToken(String apiKey) async {
+    final url = Uri.parse('https://accept.paymob.com/api/auth/tokens');
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode({'api_key': apiKey});
+
+    final response = await http.post(url, headers: headers, body: body);
+    final responseData = jsonDecode(response.body);
+
+    if (response.statusCode == 201) {
+      return responseData['token'];
+    } else {
+      throw Exception('Failed to get payment token: ${responseData['detail']}');
+    }
+  }
+
+  Future<String> _createOrder(String apiKey, String paymentToken) async {
+    final url = Uri.parse('https://accept.paymob.com/api/ecommerce/orders');
+    final headers = {'Content-Type': 'application/json'};
+    // final user = FirebaseAuth.instance.currentUser;
+
+    final body = jsonEncode({
+      'auth_token': paymentToken,
+      'delivery_needed': false,
+      'amount_cents': (widget.totalAmount * 100).toStringAsFixed(0),
+      'currency': 'EGP',
+      'items': [],
+    });
+
+    final response = await http.post(url, headers: headers, body: body);
+    final responseData = jsonDecode(response.body);
+
+    if (response.statusCode == 201) {
+      return responseData['id'].toString();
+    } else {
+      throw Exception('Failed to create order: ${response.body}');
+    }
+  }
+
+  Future<String> _getPaymentKey({
+    required String apiKey,
+    required String integrationId,
+    required String orderId,
+    required String paymentToken,
+  }) async {
+    final url =
+        Uri.parse('https://accept.paymob.com/api/acceptance/payment_keys');
+    final headers = {'Content-Type': 'application/json'};
+    final user = FirebaseAuth.instance.currentUser;
+
+    final body = jsonEncode({
+      'auth_token': paymentToken,
+      'amount_cents': (widget.totalAmount * 100).round(),
+      'expiration': 3600,
+      'order_id': orderId,
+      'billing_data': {
+        'first_name': user?.displayName?.split(' ').first ?? 'Guest',
+        'last_name': user?.displayName?.split(' ').last ?? 'User',
+        'email': user?.email ?? 'guest@example.com',
+        'phone_number': _phoneController.text,
+        'street': _addressController.text,
+        'building': 'NA',
+        'floor': 'NA',
+        'apartment': 'NA',
+        'city': 'Cairo',
+        'state': 'Cairo',
+        'country': 'EG',
+        'postal_code': '0000',
+      },
+      'currency': 'EGP',
+      'integration_id': int.parse(integrationId),
+    });
+
+    final response = await http.post(url, headers: headers, body: body);
+    final responseData = jsonDecode(response.body);
+
+    if (response.statusCode == 201) {
+      return responseData['token'];
+    } else {
+      print('Payment key error response: ${response.body}');
+      throw Exception('Failed to get payment key: ${response.body}');
+    }
+  }
+
+  Future<void> _handlePaymentSuccess() async {
+    final phoneNumber = _phoneController.text;
+    final address = _addressController.text;
+
+    final ordersCubit = context.read<OrdersCubit>();
+    ordersCubit.setDeliveryInfo(phone: phoneNumber, address: address);
+    await ordersCubit.submitOrder(
+      discountAmount: widget.discountAmount,
+      isPaid: true,
+      paymentMethod: 'card',
+      totalAmount: widget.totalAmount,
+    );
+
+    if (mounted) {
+      Navigator.pushReplacementNamed(context, TrackOrdersScreen.id);
+    }
+  }
+
+  void _handlePaymentFailure() {
+    if (!mounted) return;
+
+    setState(() {
+      _showWebView = false;
+    });
+
+    appSnackbar(
+      context,
+      text: S.of(context).paymentFailed,
+      backgroundColor: ColorsUtility.errorSnackbarColor,
+    );
   }
 }
