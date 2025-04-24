@@ -5,7 +5,6 @@ import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/screens/homeScreen/home_screen.dart';
 import 'package:restrant_app/screens/menuScreens/menu_screen.dart';
 import 'package:restrant_app/screens/profileScreen/profile_screen.dart';
-import 'package:restrant_app/screens/reserveTableScreen/reservation_page.dart';
 import 'package:restrant_app/screens/reserveTableScreen/reserve_table_screen.dart';
 import 'package:restrant_app/screens/searchScreen/search_screen.dart';
 
