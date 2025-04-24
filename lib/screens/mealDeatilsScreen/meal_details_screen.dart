@@ -7,7 +7,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/generated/l10n.dart';
-import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
+// import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
@@ -28,6 +28,10 @@ class MealDetailsScreen extends StatefulWidget {
 class _MealDetailsScreenState extends State<MealDetailsScreen> {
   double? userRating;
   double? defaultMealRating;
+
+  bool isArabic(BuildContext context) {
+    return Localizations.localeOf(context).languageCode == 'ar';
+  }
 
   @override
   void initState() {
@@ -88,7 +92,9 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          isArabic() ? meal['title_ar'] : meal['title'] ?? 'No Title',
+          isArabic(context)
+              ? meal['title_ar'] ?? meal['title'] ?? 'No Title'
+              : meal['title'] ?? 'No Title',
           style: TextStyle(
             color: appBarTextColor,
             fontSize: theme.textTheme.titleLarge?.fontSize,
@@ -118,7 +124,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                     appSnackbar(
                       context,
                       text:
-                          '${isArabic() ? meal['title_ar'] : meal['title']} ${S.of(context).removedFromFavorites}',
+                          '${isArabic(context) ? meal['title_ar'] ?? meal['title'] : meal['title']} ${S.of(context).removedFromFavorites}',
                       backgroundColor: Colors.red,
                     );
                   } else {
@@ -126,7 +132,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                     appSnackbar(
                       context,
                       text:
-                          '${isArabic() ? meal['title_ar'] : meal['title']} ${S.of(context).addedToFavorites}',
+                          '${isArabic(context) ? meal['title_ar'] ?? meal['title'] : meal['title']} ${S.of(context).addedToFavorites}',
                       backgroundColor: theme.colorScheme.primary,
                     );
                   }
@@ -165,7 +171,9 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
               children: [
                 Chip(
                   label: Text(
-                    isArabic() ? meal['category_ar'] : meal['category'] ?? '',
+                    isArabic(context)
+                        ? meal['category_ar'] ?? meal['category'] ?? ''
+                        : meal['category'] ?? '',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -184,7 +192,9 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              isArabic() ? meal['desc_ar'] : meal['description'],
+              isArabic(context)
+                  ? meal['desc_ar'] ?? meal['description']
+                  : meal['description'] ?? '',
               style: TextStyle(
                 fontSize: 16,
                 color: theme.textTheme.bodyMedium?.color,
@@ -274,24 +284,24 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                         final mealToAdd = {
                           ...meal,
                           'documentId': meal['documentId'],
-                          'title': isArabic()
-                              ? meal['title_ar']
-                              : meal['title'] ?? 'No Title',
+                          'title': meal['title'] ?? S.of(context).noTitle,
+                          'title_ar': meal['title_ar'] ??
+                              meal['title'] ??
+                              S.of(context).noTitle,
                           'price': meal['price'],
                           'image': meal['image'],
-                          'description': isArabic()
-                              ? meal['desc_ar']
-                              : meal['description'],
-                          'category': isArabic()
-                              ? meal['category_ar']
-                              : meal['category'],
+                          'description': meal['description'],
+                          'desc_ar': meal['desc_ar'] ?? meal['description'],
+                          'category': meal['category'],
+                          'category_ar':
+                              meal['category_ar'] ?? meal['category'],
                         };
                         await context.read<OrdersCubit>().addMeal(mealToAdd);
                         if (context.mounted) {
                           appSnackbar(
                             context,
                             text:
-                                '${isArabic() ? meal['title_ar'] : meal['title']} ${S.of(context).addedToOrders}',
+                                '${isArabic(context) ? mealToAdd['title_ar'] : mealToAdd['title']} ${S.of(context).addedToOrders}',
                             backgroundColor: ColorsUtility.successSnackbarColor,
                           );
                         }

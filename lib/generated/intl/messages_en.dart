@@ -31,6 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Added to favorites",
     ),
     "addedToOrders": MessageLookupByLibrary.simpleMessage("added to orders"),
+    "address": MessageLookupByLibrary.simpleMessage("Address"),
     "allSpecialPlates": MessageLookupByLibrary.simpleMessage(
       "All Special Plates",
     ),
@@ -55,6 +56,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "cNameTwo": MessageLookupByLibrary.simpleMessage("M Grill - Paragon Group"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "cancelOrder": MessageLookupByLibrary.simpleMessage("Cancel Order"),
+    "cancelOrderMessage": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to cancel this order?",
+    ),
+    "cancelled": MessageLookupByLibrary.simpleMessage("cancelled"),
+    "cash": MessageLookupByLibrary.simpleMessage("Cash"),
     "cashOnDelivery": MessageLookupByLibrary.simpleMessage("Cash on Delivery"),
     "cashTxt": MessageLookupByLibrary.simpleMessage(
       "Pay when you receive your order",
@@ -79,7 +86,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "createAccount": MessageLookupByLibrary.simpleMessage(
       "Create a new account",
     ),
+    "customer": MessageLookupByLibrary.simpleMessage("Customer:"),
+    "delivered": MessageLookupByLibrary.simpleMessage("Delivered"),
     "deliveryAddress": MessageLookupByLibrary.simpleMessage("Delivery Address"),
+    "deliveryInfo": MessageLookupByLibrary.simpleMessage(
+      "Delivery Information:",
+    ),
     "discount": MessageLookupByLibrary.simpleMessage("Discount"),
     "donotHaveAccount": MessageLookupByLibrary.simpleMessage(
       "Don\'t have an account?",
@@ -105,6 +117,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterPhone": MessageLookupByLibrary.simpleMessage(
       "Please enter your phone number",
     ),
+    "failed": MessageLookupByLibrary.simpleMessage("failed"),
     "favPayMethod": MessageLookupByLibrary.simpleMessage(
       "Select your preferred payment method",
     ),
@@ -129,6 +142,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidCoupon": MessageLookupByLibrary.simpleMessage(
       "Invalid coupon code",
     ),
+    "item": MessageLookupByLibrary.simpleMessage("item"),
+    "items": MessageLookupByLibrary.simpleMessage("Items:"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "loginButton": MessageLookupByLibrary.simpleMessage("Login"),
@@ -143,12 +158,15 @@ class MessageLookup extends MessageLookupByLibrary {
       "Name must be at least 2 characters long",
     ),
     "nextButton": MessageLookupByLibrary.simpleMessage("NEXT"),
+    "no": MessageLookupByLibrary.simpleMessage("No"),
     "noFav": MessageLookupByLibrary.simpleMessage("No favorites yet"),
     "noMealsAdded": MessageLookupByLibrary.simpleMessage("No meals added here"),
     "noOrders": MessageLookupByLibrary.simpleMessage("No orders yet"),
+    "noOrdersYet": MessageLookupByLibrary.simpleMessage("No orders yet"),
     "noSpecialPlates": MessageLookupByLibrary.simpleMessage(
       "No special plates found",
     ),
+    "noTitle": MessageLookupByLibrary.simpleMessage("No title"),
     "notAvailable": MessageLookupByLibrary.simpleMessage(
       "is not available for now",
     ),
@@ -156,6 +174,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "note": MessageLookupByLibrary.simpleMessage(
       "Reservation is only for 1 hour",
     ),
+    "onTheWay": MessageLookupByLibrary.simpleMessage("On the way"),
     "onboardingDescriptionOne": MessageLookupByLibrary.simpleMessage(
       "You can order weekly meals, and we\'ll bring them straight to your door.",
     ),
@@ -174,10 +193,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "onboardingTitleTwo": MessageLookupByLibrary.simpleMessage(
       "Reserve a table",
     ),
+    "order": MessageLookupByLibrary.simpleMessage("Order"),
+    "orderCancelFailed": MessageLookupByLibrary.simpleMessage(
+      "Failed to cancel order:",
+    ),
+    "orderCancelled": MessageLookupByLibrary.simpleMessage(
+      "Order has been cancelled and deleted",
+    ),
+    "orderDetails": MessageLookupByLibrary.simpleMessage("Order Details"),
+    "orderId": MessageLookupByLibrary.simpleMessage("Order ID:"),
     "orderSubmit": MessageLookupByLibrary.simpleMessage(
       "Order submitted successfully",
     ),
     "orderSummary": MessageLookupByLibrary.simpleMessage("Order Summary"),
+    "orderedOn": MessageLookupByLibrary.simpleMessage("Ordered on"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
     "payBtn": MessageLookupByLibrary.simpleMessage("Proceed to Payment"),
     "payMethod": MessageLookupByLibrary.simpleMessage(
@@ -195,6 +224,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "paypalTitle": MessageLookupByLibrary.simpleMessage(
       "You will be redirected to PayPal to complete your payment securely",
     ),
+    "pending": MessageLookupByLibrary.simpleMessage("Pending"),
+    "phone": MessageLookupByLibrary.simpleMessage("Phone"),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("Phone Number"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
     "pleaseLogin": MessageLookupByLibrary.simpleMessage(
@@ -203,6 +234,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "proceedWithPaymob": MessageLookupByLibrary.simpleMessage(
       "Proceed with Paymob",
     ),
+    "processing": MessageLookupByLibrary.simpleMessage("Processing"),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "rating": MessageLookupByLibrary.simpleMessage("Rating: "),
     "readyToOrder": MessageLookupByLibrary.simpleMessage("Ready to order?"),
@@ -274,6 +306,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "specialPlates": MessageLookupByLibrary.simpleMessage("Special Plates"),
     "splashTitle": MessageLookupByLibrary.simpleMessage("PARAGON"),
+    "status": MessageLookupByLibrary.simpleMessage("Status:"),
     "subTitle": MessageLookupByLibrary.simpleMessage(
       "Our delivery agent will collect the payment when your order arrives",
     ),
@@ -293,6 +326,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Name must be at least 3 characters long",
     ),
     "total": MessageLookupByLibrary.simpleMessage("Total"),
+    "total2": MessageLookupByLibrary.simpleMessage("Total: "),
     "totalAmount": MessageLookupByLibrary.simpleMessage("Total Amount:"),
     "totalPrice": MessageLookupByLibrary.simpleMessage("Total Price:"),
     "trackYourOrders": MessageLookupByLibrary.simpleMessage(
@@ -302,6 +336,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "txtp2": MessageLookupByLibrary.simpleMessage(
       "when you receive your order",
     ),
+    "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "validCoupon": MessageLookupByLibrary.simpleMessage(
       "Coupon applied successfully!",
     ),
@@ -334,5 +369,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "yourFavorites": MessageLookupByLibrary.simpleMessage("Your Favorites"),
     "yourOrders": MessageLookupByLibrary.simpleMessage("Your Orders"),
+    "yourOrdersWillAppearHere": MessageLookupByLibrary.simpleMessage(
+      "Your orders will appear here",
+    ),
   };
 }

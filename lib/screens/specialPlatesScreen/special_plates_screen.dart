@@ -22,23 +22,23 @@ class SpecialPlatesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    // final isDark = theme.brightness == Brightness.dark;
 
-    final Color appBarTextColor = isDark
-        ? ColorsUtility.takeAwayColor
-        : ColorsUtility.progressIndictorColor;
+    // final Color appBarTextColor = isDark
+    //     ? ColorsUtility.takeAwayColor
+    //     : ColorsUtility.progressIndictorColor;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: theme.scaffoldBackgroundColor,
         title: Text(
           S.of(context).specialPlates,
           style: TextStyle(
-            color: appBarTextColor,
+            color: ColorsUtility.takeAwayColor,
             fontSize: theme.textTheme.titleLarge?.fontSize,
           ),
         ),
         iconTheme: IconThemeData(
-          color: appBarTextColor,
+          color: ColorsUtility.takeAwayColor,
         ),
         centerTitle: true,
       ),
