@@ -173,8 +173,14 @@ class OrdersScreen extends StatelessWidget {
                                           Row(
                                             children: [
                                               IconButton(
-                                                onPressed: () => cubit
-                                                    .decrementQuantity(index),
+                                                onPressed: () {
+                                                  final newQuantity =
+                                                      quantity - 1;
+                                                  if (newQuantity >= 1) {
+                                                    cubit.updateMealQuantity(
+                                                        index, newQuantity);
+                                                  }
+                                                },
                                                 icon: const Icon(Icons.remove),
                                                 iconSize: 20,
                                                 color: ColorsUtility
@@ -189,8 +195,12 @@ class OrdersScreen extends StatelessWidget {
                                                 ),
                                               ),
                                               IconButton(
-                                                onPressed: () => cubit
-                                                    .incrementQuantity(index),
+                                                onPressed: () {
+                                                  final newQuantity =
+                                                      quantity + 1;
+                                                  cubit.updateMealQuantity(
+                                                      index, newQuantity);
+                                                },
                                                 icon: const Icon(Icons.add),
                                                 iconSize: 20,
                                                 color: ColorsUtility

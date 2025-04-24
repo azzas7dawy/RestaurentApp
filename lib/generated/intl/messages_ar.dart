@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "LOGIN": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "SIGIUP": MessageLookupByLibrary.simpleMessage("انشاء الحساب"),
     "aboutHelp": MessageLookupByLibrary.simpleMessage("حول / مساعدة"),
+    "accepted": MessageLookupByLibrary.simpleMessage("مقبول"),
     "addToOrdersBtn": MessageLookupByLibrary.simpleMessage("إضافة إلى الطلبات"),
     "addedToFavorites": MessageLookupByLibrary.simpleMessage(
       "تمت إضافته إلى المفضلة",
@@ -183,9 +184,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "orderDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الطلب"),
     "orderId": MessageLookupByLibrary.simpleMessage("رقم الطلب:"),
+    "orderPlaced": MessageLookupByLibrary.simpleMessage("تم الطلب"),
+    "orderStatus": MessageLookupByLibrary.simpleMessage("حالة الطلب"),
     "orderSubmit": MessageLookupByLibrary.simpleMessage("تم تقديم الطلب بنجاح"),
     "orderSummary": MessageLookupByLibrary.simpleMessage("ملخص الطلب"),
     "orderedOn": MessageLookupByLibrary.simpleMessage("تم الطلب في"),
+    "outForDelivery": MessageLookupByLibrary.simpleMessage("في الطريق"),
     "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "payBtn": MessageLookupByLibrary.simpleMessage("المتابعة إلى الدفع"),
     "payMethod": MessageLookupByLibrary.simpleMessage(
@@ -211,10 +215,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "proceedWithPaymob": MessageLookupByLibrary.simpleMessage(
       "المتابعة الى باي موب",
     ),
-    "processing": MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
+    "processing": MessageLookupByLibrary.simpleMessage("قيد التحضير"),
     "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
     "rating": MessageLookupByLibrary.simpleMessage("التقييم: "),
     "readyToOrder": MessageLookupByLibrary.simpleMessage("جاهز للطلب؟"),
+    "rejected": MessageLookupByLibrary.simpleMessage("مرفوض"),
     "remove": MessageLookupByLibrary.simpleMessage("حذف"),
     "removeMeal": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد أنك تريد حذف هذه الوجبة؟",
@@ -301,6 +306,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "total2": MessageLookupByLibrary.simpleMessage("الإجمالي: "),
     "totalAmount": MessageLookupByLibrary.simpleMessage("الإجمالي:"),
     "totalPrice": MessageLookupByLibrary.simpleMessage("إجمالي السعر:"),
+    "trackStatus": MessageLookupByLibrary.simpleMessage("حالة التوصيل"),
     "trackYourOrders": MessageLookupByLibrary.simpleMessage("تتبع طلبك"),
     "txtp1": MessageLookupByLibrary.simpleMessage("ستدفع"),
     "txtp2": MessageLookupByLibrary.simpleMessage("عند الاستلام"),

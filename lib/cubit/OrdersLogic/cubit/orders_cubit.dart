@@ -64,16 +64,10 @@ class OrdersCubit extends Cubit<OrdersState> {
     emit(OrdersLoaded(meals: List.from(meals)));
   }
 
-  void incrementQuantity(int index) {
-    meals[index]['quantity'] = (meals[index]['quantity'] ?? 1) + 1;
-    _updateCartInFirestore();
-    emit(OrdersLoaded(meals: List.from(meals)));
-  }
-
-  void decrementQuantity(int index) {
-    if (meals[index]['quantity'] > 1) {
-      meals[index]['quantity'] = meals[index]['quantity'] - 1;
-      _updateCartInFirestore();
+  Future<void> updateMealQuantity(int index, int newQuantity) async {
+    if (index >= 0 && index < meals.length) {
+      meals[index]['quantity'] = newQuantity;
+      await _updateCartInFirestore();
       emit(OrdersLoaded(meals: List.from(meals)));
     }
   }
@@ -157,6 +151,7 @@ class OrdersCubit extends Cubit<OrdersState> {
         'deliveryAddress': _deliveryAddress,
         'timestamp': FieldValue.serverTimestamp(),
         'status': 'pending',
+        'trackingStatus': 'order_placed',
       });
 
       await _clearCart();
@@ -176,41 +171,6 @@ class OrdersCubit extends Cubit<OrdersState> {
           errorMessage: 'Failed to delete order: ${e.toString()}'));
     }
   }
-
-  // Future<void> addMeal(Map<String, dynamic> meal) async {
-  //   while (_isLoadingCart) {
-  //     await Future.delayed(const Duration(milliseconds: 100));
-  //   }
-
-  //   // emit(OrdersLoading());
-
-  //   final documentId =
-  //       meal['documentId'] ?? meal['title'] ?? UniqueKey().toString();
-
-  //   final doc = await firestore.collection('users2').doc(userId).get();
-  //   if (doc.exists && doc.data()?['cartItems'] != null) {
-  //     meals = List<Map<String, dynamic>>.from(doc.data()?['cartItems'] ?? []);
-  //   } else {
-  //     meals = [];
-  //   }
-
-  //   final existingIndex =
-  //       meals.indexWhere((m) => m['documentId'] == documentId);
-
-  //   if (existingIndex != -1) {
-  //     meals[existingIndex]['quantity'] =
-  //         (meals[existingIndex]['quantity'] ?? 1) + 1;
-  //   } else {
-  //     meals.add({
-  //       ...meal,
-  //       'documentId': documentId,
-  //       'quantity': 1,
-  //     });
-  //   }
-
-  //   await _updateCartInFirestore();
-  //   emit(OrdersLoaded(meals: List.from(meals)));
-  // }
 
   Future<void> addMeal(Map<String, dynamic> meal) async {
     while (_isLoadingCart) {

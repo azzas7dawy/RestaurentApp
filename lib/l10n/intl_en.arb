@@ -221,7 +221,13 @@
     "phone": "Phone",
     "address": "Address",
     "item": "item",
-    "cash": "Cash"
+    "cash": "Cash",
+    "orderStatus": "Order Status",
+    "trackStatus": "Delivery Status",
+    "orderPlaced": "Order Placed",
+    "outForDelivery": "Out for Delivery",
+    "accepted": "Accepted",
+    "rejected": "Rejected"
 
     
 
