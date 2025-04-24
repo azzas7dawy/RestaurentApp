@@ -43,12 +43,6 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
   String _webViewUrl = '';
 
   @override
-  void initState() {
-    super.initState();
-    // Initialize any required setup
-  }
-
-  @override
   void dispose() {
     _phoneController.dispose();
     _addressController.dispose();
@@ -409,7 +403,6 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
           ..setNavigationDelegate(
             NavigationDelegate(
               onNavigationRequest: (NavigationRequest request) {
-                // Handle payment success/failure by checking the URL
                 if (request.url.contains('success')) {
                   _handlePaymentSuccess();
                   return NavigationDecision.prevent;
