@@ -1300,16 +1300,16 @@ class S {
     );
   }
 
-  /// `PayPal`
-  String get paypalTxt {
-    return Intl.message('PayPal', name: 'paypalTxt', desc: '', args: []);
+  /// `Paymob`
+  String get paymobTxt {
+    return Intl.message('Paymob', name: 'paymobTxt', desc: '', args: []);
   }
 
-  /// `Pay securely with PayPal`
-  String get paypalSubtitle {
+  /// `Pay securely with Paymob`
+  String get paymobSubtitle {
     return Intl.message(
-      'Pay securely with PayPal',
-      name: 'paypalSubtitle',
+      'Pay securely with Paymob',
+      name: 'paymobSubtitle',
       desc: '',
       args: [],
     );
@@ -1388,6 +1388,231 @@ class S {
   /// `Yes`
   String get yes {
     return Intl.message('Yes', name: 'yes', desc: '', args: []);
+  }
+
+  /// `Theme`
+  String get theme {
+    return Intl.message('Theme', name: 'theme', desc: '', args: []);
+  }
+
+  /// `Complete your profile`
+  String get completeProfile {
+    return Intl.message(
+      'Complete your profile',
+      name: 'completeProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay with Card`
+  String get payWithCard {
+    return Intl.message(
+      'Pay with Card',
+      name: 'payWithCard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment failed`
+  String get paymentFailed {
+    return Intl.message(
+      'Payment failed',
+      name: 'paymentFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Proceed with Paymob`
+  String get proceedWithPaymob {
+    return Intl.message(
+      'Proceed with Paymob',
+      name: 'proceedWithPaymob',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No orders yet`
+  String get noOrdersYet {
+    return Intl.message(
+      'No orders yet',
+      name: 'noOrdersYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your orders will appear here`
+  String get yourOrdersWillAppearHere {
+    return Intl.message(
+      'Your orders will appear here',
+      name: 'yourOrdersWillAppearHere',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending`
+  String get pending {
+    return Intl.message('Pending', name: 'pending', desc: '', args: []);
+  }
+
+  /// `Order`
+  String get order {
+    return Intl.message('Order', name: 'order', desc: '', args: []);
+  }
+
+  /// `Total: `
+  String get total2 {
+    return Intl.message('Total: ', name: 'total2', desc: '', args: []);
+  }
+
+  /// `Cancel Order`
+  String get cancelOrder {
+    return Intl.message(
+      'Cancel Order',
+      name: 'cancelOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to cancel this order?`
+  String get cancelOrderMessage {
+    return Intl.message(
+      'Are you sure you want to cancel this order?',
+      name: 'cancelOrderMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get no {
+    return Intl.message('No', name: 'no', desc: '', args: []);
+  }
+
+  /// `Order has been cancelled and deleted`
+  String get orderCancelled {
+    return Intl.message(
+      'Order has been cancelled and deleted',
+      name: 'orderCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to cancel order:`
+  String get orderCancelFailed {
+    return Intl.message(
+      'Failed to cancel order:',
+      name: 'orderCancelFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `cancelled`
+  String get cancelled {
+    return Intl.message('cancelled', name: 'cancelled', desc: '', args: []);
+  }
+
+  /// `failed`
+  String get failed {
+    return Intl.message('failed', name: 'failed', desc: '', args: []);
+  }
+
+  /// `Processing`
+  String get processing {
+    return Intl.message('Processing', name: 'processing', desc: '', args: []);
+  }
+
+  /// `On the way`
+  String get onTheWay {
+    return Intl.message('On the way', name: 'onTheWay', desc: '', args: []);
+  }
+
+  /// `Delivered`
+  String get delivered {
+    return Intl.message('Delivered', name: 'delivered', desc: '', args: []);
+  }
+
+  /// `Order Details`
+  String get orderDetails {
+    return Intl.message(
+      'Order Details',
+      name: 'orderDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Status:`
+  String get status {
+    return Intl.message('Status:', name: 'status', desc: '', args: []);
+  }
+
+  /// `Order ID:`
+  String get orderId {
+    return Intl.message('Order ID:', name: 'orderId', desc: '', args: []);
+  }
+
+  /// `Ordered on`
+  String get orderedOn {
+    return Intl.message('Ordered on', name: 'orderedOn', desc: '', args: []);
+  }
+
+  /// `Customer:`
+  String get customer {
+    return Intl.message('Customer:', name: 'customer', desc: '', args: []);
+  }
+
+  /// `Unknown`
+  String get unknown {
+    return Intl.message('Unknown', name: 'unknown', desc: '', args: []);
+  }
+
+  /// `Items:`
+  String get items {
+    return Intl.message('Items:', name: 'items', desc: '', args: []);
+  }
+
+  /// `No title`
+  String get noTitle {
+    return Intl.message('No title', name: 'noTitle', desc: '', args: []);
+  }
+
+  /// `Delivery Information:`
+  String get deliveryInfo {
+    return Intl.message(
+      'Delivery Information:',
+      name: 'deliveryInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone`
+  String get phone {
+    return Intl.message('Phone', name: 'phone', desc: '', args: []);
+  }
+
+  /// `Address`
+  String get address {
+    return Intl.message('Address', name: 'address', desc: '', args: []);
+  }
+
+  /// `item`
+  String get item {
+    return Intl.message('item', name: 'item', desc: '', args: []);
+  }
+
+  /// `Cash`
+  String get cash {
+    return Intl.message('Cash', name: 'cash', desc: '', args: []);
   }
 }
 

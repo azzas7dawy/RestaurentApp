@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/customScreen/custom_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:intl/intl.dart';
@@ -12,21 +13,50 @@ class TrackOrdersScreen extends StatelessWidget {
   const TrackOrdersScreen({super.key});
   static const String id = 'TrackOrdersScreen';
 
+  bool _isArabic(BuildContext context) {
+    return Localizations.localeOf(context).languageCode == 'ar';
+  }
+
+  String _translatePaymentMethod(String method, BuildContext context) {
+    switch (method.toLowerCase()) {
+      case 'cash':
+        return S.of(context).cash;
+      case 'credit':
+        return S.of(context).paymobTxt;
+      default:
+        return method;
+    }
+  }
+
+  String _getItemTitle(Map<String, dynamic> item, BuildContext context) {
+    final isArabic = _isArabic(context);
+    if (isArabic) {
+      return item['title_ar'] ?? item['title'] ?? '';
+    } else {
+      return item['title'] ?? '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentUserId = FirebaseAuth.instance.currentUser?.uid ?? '';
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Track Yours Orders',
+        centerTitle: true,
+        title: Text(
+          S.of(context).trackYourOrders,
           style: TextStyle(
             fontSize: 20,
             color: ColorsUtility.takeAwayColor,
           ),
         ),
-        iconTheme: const IconThemeData(
+        iconTheme: IconThemeData(
           color: ColorsUtility.takeAwayColor,
         ),
+        backgroundColor: theme.scaffoldBackgroundColor,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -37,12 +67,13 @@ class TrackOrdersScreen extends StatelessWidget {
           },
         ),
       ),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: BlocBuilder<OrdersCubit, OrdersState>(
         builder: (context, state) {
           if (state is OrdersLoading) {
-            return const Center(
+            return Center(
               child: CircularProgressIndicator(
-                color: ColorsUtility.takeAwayColor,
+                color: theme.colorScheme.primary,
               ),
             );
           }
@@ -58,7 +89,7 @@ class TrackOrdersScreen extends StatelessWidget {
                 return Center(
                   child: Text(
                     'Error: ${snapshot.error}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: ColorsUtility.errorSnackbarColor,
                     ),
                   ),
@@ -66,9 +97,9 @@ class TrackOrdersScreen extends StatelessWidget {
               }
 
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
+                return Center(
                   child: CircularProgressIndicator(
-                    color: ColorsUtility.takeAwayColor,
+                    color: theme.colorScheme.primary,
                   ),
                 );
               }
@@ -85,8 +116,8 @@ class TrackOrdersScreen extends StatelessWidget {
                             ColorsUtility.progressIndictorColor.withAlpha(128),
                       ),
                       const SizedBox(height: 16),
-                      const Text(
-                        'No orders yet',
+                      Text(
+                        S.of(context).noOrdersYet,
                         style: TextStyle(
                           fontSize: 18,
                           color: ColorsUtility.takeAwayColor,
@@ -94,11 +125,13 @@ class TrackOrdersScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Your orders will appear here',
+                        S.of(context).yourOrdersWillAppearHere,
                         style: TextStyle(
                           fontSize: 14,
-                          color: ColorsUtility.progressIndictorColor
-                              .withAlpha(179),
+                          color: isDarkTheme
+                              ? ColorsUtility.textFieldLabelColor.withAlpha(128)
+                              : ColorsUtility.progressIndictorColor
+                                  .withAlpha(179),
                         ),
                       ),
                     ],
@@ -115,7 +148,7 @@ class TrackOrdersScreen extends StatelessWidget {
                   final items =
                       List<Map<String, dynamic>>.from(data['orderItems'] ?? []);
                   final total = data['total'] ?? 0.0;
-                  final status = data['status'] ?? 'pending';
+                  final status = data['status'] ?? S.of(context).pending;
                   final timestamp =
                       data['timestamp']?.toDate() ?? DateTime.now();
                   final paymentMethod = data['paymentMethod'] ?? 'cash';
@@ -124,7 +157,7 @@ class TrackOrdersScreen extends StatelessWidget {
 
                   return GestureDetector(
                     onTap: () {
-                      _showOrderDetailsDialog(
+                      _showOrderDetailsBottomSheet(
                         context,
                         orderId: order.id,
                         items: items,
@@ -132,12 +165,14 @@ class TrackOrdersScreen extends StatelessWidget {
                         status: status,
                         timestamp: timestamp,
                         paymentMethod: paymentMethod,
-                        deliveryAddress: deliveryAddress ?? 'Unknown',
-                        phoneNumber: phoneNumber ?? 'Unknown',
+                        deliveryAddress: deliveryAddress,
+                        phoneNumber: phoneNumber,
                       );
                     },
                     child: Card(
-                      color: ColorsUtility.elevatedBtnColor,
+                      color: isDarkTheme
+                          ? ColorsUtility.elevatedBtnColor
+                          : ColorsUtility.lightMainBackgroundColor,
                       margin: const EdgeInsets.only(bottom: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -152,11 +187,11 @@ class TrackOrdersScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Order #${order.id.substring(0, 8).toUpperCase()}',
-                                  style: const TextStyle(
+                                  '${S.of(context).order} #${order.id.substring(0, 8).toUpperCase()}',
+                                  style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    color: ColorsUtility.takeAwayColor,
+                                    color: theme.colorScheme.primary,
                                   ),
                                 ),
                                 Container(
@@ -190,12 +225,13 @@ class TrackOrdersScreen extends StatelessWidget {
                                 Text(
                                   DateFormat('MMM dd, yyyy - hh:mm a')
                                       .format(timestamp),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 14,
-                                    color: ColorsUtility.progressIndictorColor,
+                                    color: ColorsUtility
+                                        .lightOnboardingDescriptionColor,
                                   ),
                                 ),
-                                if (status == 'pending') ...[
+                                if (status.toLowerCase() == 'pending') ...[
                                   IconButton(
                                     onPressed: () {
                                       _showCancelConfirmationDialog(
@@ -211,23 +247,25 @@ class TrackOrdersScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 12),
                             Text(
-                              '${items.length} item${items.length > 1 ? 's' : ''}',
-                              style: const TextStyle(
+                              '${items.fold(0, (sum, item) => sum + (item['quantity'] as int))} ${S.of(context).item}${items.length > 1 && !_isArabic(context) ? 's' : ''}',
+                              style: TextStyle(
                                 fontSize: 14,
-                                color: ColorsUtility.textFieldLabelColor,
+                                color: isDarkTheme
+                                    ? ColorsUtility.textFieldLabelColor
+                                    : ColorsUtility.lightTextFieldLabelColor,
                               ),
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Total: ${total.toStringAsFixed(2)} EGP',
-                              style: const TextStyle(
+                              '${S.of(context).total2} ${total.toStringAsFixed(2)} ${S.of(context).egp}',
+                              style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: ColorsUtility.takeAwayColor,
+                                color: theme.colorScheme.primary,
                               ),
                             ),
                             const SizedBox(height: 8),
-                            _buildStatusIndicator(status),
+                            _buildStatusIndicator(status, context),
                           ],
                         ),
                       ),
@@ -242,45 +280,50 @@ class TrackOrdersScreen extends StatelessWidget {
     );
   }
 
-// ======================================================================================================
-
   void _showCancelConfirmationDialog(BuildContext context, String orderId) {
-    final scaffoldContext = context;
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
 
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          backgroundColor: ColorsUtility.elevatedBtnColor,
-          title: const Text(
-            'Cancel Order',
+          backgroundColor: isDarkTheme
+              ? ColorsUtility.elevatedBtnColor
+              : ColorsUtility.lightMainBackgroundColor,
+          title: Text(
+            S.of(context).cancelOrder,
             style: TextStyle(
-              color: ColorsUtility.takeAwayColor,
+              color: theme.colorScheme.primary,
             ),
           ),
-          content: const Text(
-            'Are you sure you want to cancel this order?',
+          content: Text(
+            S.of(context).cancelOrderMessage,
             style: TextStyle(
-              color: ColorsUtility.progressIndictorColor,
+              color: isDarkTheme
+                  ? ColorsUtility.onboardingColor
+                  : ColorsUtility.lightTextFieldLabelColor,
             ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text(
-                'No',
+              child: Text(
+                S.of(context).no,
                 style: TextStyle(
-                  color: ColorsUtility.progressIndictorColor,
+                  color: isDarkTheme
+                      ? ColorsUtility.onboardingColor
+                      : ColorsUtility.lightTextFieldLabelColor,
                 ),
               ),
             ),
             TextButton(
               onPressed: () async {
                 Navigator.of(dialogContext).pop();
-                await _deleteOrder(scaffoldContext, orderId);
+                await _deleteOrder(context, orderId);
               },
-              child: const Text(
-                'Yes',
+              child: Text(
+                S.of(context).yes,
                 style: TextStyle(
                   color: ColorsUtility.failedStatusColor,
                 ),
@@ -292,8 +335,6 @@ class TrackOrdersScreen extends StatelessWidget {
     );
   }
 
-// ======================================================================================================
-
   Future<void> _deleteOrder(BuildContext context, String orderId) async {
     try {
       final ordersCubit = context.read<OrdersCubit>();
@@ -301,7 +342,7 @@ class TrackOrdersScreen extends StatelessWidget {
       if (context.mounted) {
         appSnackbar(
           context,
-          text: 'Order has been cancelled and deleted',
+          text: S.of(context).orderCancelled,
           backgroundColor: ColorsUtility.successSnackbarColor,
         );
       }
@@ -309,18 +350,21 @@ class TrackOrdersScreen extends StatelessWidget {
       if (context.mounted) {
         appSnackbar(
           context,
-          text: 'Failed to cancel order: $e',
+          text: '${S.of(context).orderCancelFailed} $e',
           backgroundColor: ColorsUtility.errorSnackbarColor,
         );
       }
     }
   }
 
-// ======================================================================================================
+  Widget _buildStatusIndicator(String status, BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
 
-  Widget _buildStatusIndicator(String status) {
-    const activeColor = ColorsUtility.takeAwayColor;
-    const inactiveColor = ColorsUtility.progressIndictorColor;
+    final activeColor = theme.colorScheme.primary;
+    final inactiveColor = isDarkTheme
+        ? ColorsUtility.takeAwayColor
+        : ColorsUtility.progressIndictorColor;
     const lineHeight = 2.0;
 
     return Column(
@@ -329,26 +373,34 @@ class TrackOrdersScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _buildStatusStep(
-              'Pending',
+              S.of(context).pending,
               isActive: status != 'cancelled' && status != 'failed',
               isCompleted: status != 'pending',
+              activeColor: activeColor,
+              inactiveColor: inactiveColor,
             ),
             _buildStatusStep(
-              'Processing',
+              S.of(context).processing,
               isActive: status == 'processing' ||
                   status == 'on_the_way' ||
                   status == 'delivered',
               isCompleted: status == 'on_the_way' || status == 'delivered',
+              activeColor: activeColor,
+              inactiveColor: inactiveColor,
             ),
             _buildStatusStep(
-              'On the way',
+              S.of(context).onTheWay,
               isActive: status == 'on_the_way' || status == 'delivered',
               isCompleted: status == 'delivered',
+              activeColor: activeColor,
+              inactiveColor: inactiveColor,
             ),
             _buildStatusStep(
-              'Delivered',
+              S.of(context).delivered,
               isActive: status == 'delivered',
               isCompleted: false,
+              activeColor: activeColor,
+              inactiveColor: inactiveColor,
             ),
           ],
         ),
@@ -411,10 +463,11 @@ class TrackOrdersScreen extends StatelessWidget {
     );
   }
 
-// ======================================================================================================
-
   Widget _buildStatusStep(String label,
-      {required bool isActive, required bool isCompleted}) {
+      {required bool isActive,
+      required bool isCompleted,
+      required Color activeColor,
+      required Color inactiveColor}) {
     return Column(
       children: [
         Container(
@@ -422,23 +475,21 @@ class TrackOrdersScreen extends StatelessWidget {
           height: 24,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: isActive
-                ? ColorsUtility.takeAwayColor
-                : ColorsUtility.progressIndictorColor.withAlpha(51),
+            color: isActive ? activeColor : inactiveColor.withAlpha(51),
             border: Border.all(
               color: isCompleted
-                  ? ColorsUtility.takeAwayColor
+                  ? activeColor
                   : isActive
-                      ? ColorsUtility.takeAwayColor
-                      : ColorsUtility.progressIndictorColor,
+                      ? activeColor
+                      : inactiveColor,
               width: isCompleted ? 0 : 2,
             ),
           ),
           child: isCompleted
-              ? const Icon(
+              ? Icon(
                   Icons.check,
                   size: 16,
-                  color: ColorsUtility.textFieldLabelColor,
+                  color: ColorsUtility.lightMainBackgroundColor,
                 )
               : null,
         ),
@@ -447,16 +498,12 @@ class TrackOrdersScreen extends StatelessWidget {
           label,
           style: TextStyle(
             fontSize: 10,
-            color: isActive
-                ? ColorsUtility.takeAwayColor
-                : ColorsUtility.progressIndictorColor,
+            color: isActive ? activeColor : inactiveColor,
           ),
         ),
       ],
     );
   }
-
-// ======================================================================================================
 
   Color _getStatusColor(String status) {
     switch (status) {
@@ -481,16 +528,12 @@ class TrackOrdersScreen extends StatelessWidget {
     }
   }
 
-// ======================================================================================================
-
   String _capitalizeFirstLetter(String text) {
     if (text.isEmpty) return text;
     return text[0].toUpperCase() + text.substring(1).replaceAll('_', ' ');
   }
 
-// ======================================================================================================
-
-  void _showOrderDetailsDialog(
+  void _showOrderDetailsBottomSheet(
     BuildContext context, {
     required String orderId,
     required List<Map<String, dynamic>> items,
@@ -501,269 +544,319 @@ class TrackOrdersScreen extends StatelessWidget {
     required String deliveryAddress,
     required String phoneNumber,
   }) {
-    final scaffoldContext = context;
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
 
-    showDialog(
+    showModalBottomSheet(
       context: context,
-      builder: (context) {
-        return Dialog(
-          backgroundColor: ColorsUtility.elevatedBtnColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: isDarkTheme
+                ? ColorsUtility.elevatedBtnColor
+                : ColorsUtility.lightMainBackgroundColor,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
           ),
-          insetPadding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.only(
+            bottom: 20,
+            left: 16,
+            right: 16,
+            top: 16,
+          ),
           child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Order Details',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: ColorsUtility.takeAwayColor,
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () => Navigator.pop(context),
-                        color: ColorsUtility.takeAwayColor,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.all(12),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
                     decoration: BoxDecoration(
-                      color: _getStatusColor(status).withAlpha(26),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
+                      color: isDarkTheme
+                          ? ColorsUtility.progressIndictorColor.withAlpha(102)
+                          : ColorsUtility.takeAwayColor.withAlpha(102),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      S.of(context).orderDetails,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () => Navigator.pop(context),
+                      color: theme.colorScheme.primary,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: _getStatusColor(status).withAlpha(26),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: _getStatusColor(status),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        _getStatusIcon(status),
                         color: _getStatusColor(status),
                       ),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          _getStatusIcon(status),
+                      const SizedBox(width: 8),
+                      Text(
+                        '${S.of(context).status} ${_capitalizeFirstLetter(status)}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                           color: _getStatusColor(status),
                         ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Status: ${_capitalizeFirstLetter(status)}',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: _getStatusColor(status),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Order ID: #${orderId.substring(0, 8).toUpperCase()}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: ColorsUtility.progressIndictorColor,
-                        ),
                       ),
-                      if (status == 'pending') ...[
-                        IconButton(
-                          onPressed: () {
-                            Navigator.of(context, rootNavigator: true).pop();
-                            _showCancelConfirmationDialog(
-                                scaffoldContext, orderId);
-                          },
-                          icon: const Icon(
-                            Icons.delete,
-                            color: ColorsUtility.errorSnackbarColor,
-                          ),
-                        ),
-                      ],
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Ordered on ${DateFormat('MMM dd, yyyy - hh:mm a').format(timestamp)}',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: ColorsUtility.progressIndictorColor,
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${S.of(context).orderId} #${orderId.substring(0, 8).toUpperCase()}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: isDarkTheme
+                            ? ColorsUtility.progressIndictorColor
+                            : ColorsUtility.textFieldFillColor,
+                      ),
                     ),
+                    if (status.toLowerCase() == 'pending') ...[
+                      IconButton(
+                        onPressed: () {
+                          Navigator.of(context, rootNavigator: true).pop();
+                          _showCancelConfirmationDialog(context, orderId);
+                        },
+                        icon: const Icon(
+                          Icons.delete,
+                          color: ColorsUtility.errorSnackbarColor,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '${S.of(context).orderedOn} ${DateFormat('MMM dd, yyyy - hh:mm a').format(timestamp)}',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: isDarkTheme
+                        ? ColorsUtility.progressIndictorColor
+                        : ColorsUtility.cateringColor,
                   ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Customer:',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: ColorsUtility.textFieldLabelColor,
-                    ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  S.of(context).customer,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkTheme
+                        ? ColorsUtility.textFieldLabelColor
+                        : ColorsUtility.lightTextFieldLabelColor,
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    FirebaseAuth.instance.currentUser?.displayName ?? 'Unknown',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: ColorsUtility.progressIndictorColor,
-                    ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  FirebaseAuth.instance.currentUser?.displayName ??
+                      S.of(context).unknown,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: isDarkTheme
+                        ? ColorsUtility.progressIndictorColor
+                        : ColorsUtility.mainBackgroundColor,
                   ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Items:',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: ColorsUtility.textFieldLabelColor,
-                    ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  S.of(context).items,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkTheme
+                        ? ColorsUtility.textFieldLabelColor
+                        : ColorsUtility.lightTextFieldLabelColor,
                   ),
-                  const SizedBox(height: 8),
-                  ...items.map((item) => Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                '${item['quantity']} x ${item['title']}',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: ColorsUtility.textFieldLabelColor,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              '${(item['price'] * item['quantity']).toStringAsFixed(2)} EGP',
-                              style: const TextStyle(
+                ),
+                const SizedBox(height: 8),
+                ...items.map((item) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '${item['quantity']} x ${_getItemTitle(item, context)}',
+                              style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: ColorsUtility.takeAwayColor,
+                                color: isDarkTheme
+                                    ? ColorsUtility.textFieldLabelColor
+                                    : ColorsUtility.lightTextFieldLabelColor,
                               ),
                             ),
-                          ],
-                        ),
-                      )),
-                  const Divider(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Subtotal:',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: ColorsUtility.progressIndictorColor,
-                        ),
+                          ),
+                          Text(
+                            '${(item['price'] * item['quantity']).toStringAsFixed(2)} ${S.of(context).egp}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: isDarkTheme
+                                  ? ColorsUtility.takeAwayColor
+                                  : ColorsUtility.progressIndictorColor,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        '${total.toStringAsFixed(2)} EGP',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: ColorsUtility.textFieldLabelColor,
-                        ),
+                    )),
+                const Divider(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${S.of(context).subtotal}:',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: isDarkTheme
+                            ? ColorsUtility.progressIndictorColor
+                            : ColorsUtility.lightTextFieldLabelColor,
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Delivery Fee:',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: ColorsUtility.progressIndictorColor,
-                        ),
-                      ),
-                      Text(
-                        '0.00 EGP',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: ColorsUtility.textFieldLabelColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Total:',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: ColorsUtility.textFieldLabelColor,
-                        ),
-                      ),
-                      Text(
-                        '${total.toStringAsFixed(2)} EGP',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: ColorsUtility.takeAwayColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Payment Method:',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: ColorsUtility.textFieldLabelColor,
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    _capitalizeFirstLetter(paymentMethod),
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: ColorsUtility.progressIndictorColor,
+                    Text(
+                      '${total.toStringAsFixed(2)} ${S.of(context).egp}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: isDarkTheme
+                            ? ColorsUtility.textFieldLabelColor
+                            : ColorsUtility.progressIndictorColor,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Delivery Information:',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: ColorsUtility.textFieldLabelColor,
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${S.of(context).fees}:',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: isDarkTheme
+                            ? ColorsUtility.progressIndictorColor
+                            : ColorsUtility.lightTextFieldLabelColor,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Phone: $phoneNumber',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: ColorsUtility.progressIndictorColor,
+                    Text(
+                      '0.00 ${S.of(context).egp}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: isDarkTheme
+                            ? ColorsUtility.textFieldLabelColor
+                            : ColorsUtility.progressIndictorColor,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Address: $deliveryAddress',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: ColorsUtility.progressIndictorColor,
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      S.of(context).total2,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkTheme
+                            ? ColorsUtility.textFieldLabelColor
+                            : ColorsUtility.lightTextFieldLabelColor,
+                      ),
                     ),
+                    Text(
+                      '${total.toStringAsFixed(2)} ${S.of(context).egp}',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkTheme
+                            ? ColorsUtility.takeAwayColor
+                            : ColorsUtility.progressIndictorColor,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  '${S.of(context).paymentMethod}:',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkTheme
+                        ? ColorsUtility.textFieldLabelColor
+                        : ColorsUtility.lightTextFieldLabelColor,
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  _translatePaymentMethod(paymentMethod, context),
+                  style: TextStyle(
+                      fontSize: 14, color: ColorsUtility.progressIndictorColor),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  S.of(context).deliveryInfo,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkTheme
+                        ? ColorsUtility.textFieldLabelColor
+                        : ColorsUtility.lightTextFieldLabelColor,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '${S.of(context).phone}: $phoneNumber',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: ColorsUtility.progressIndictorColor,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '${S.of(context).address}: $deliveryAddress',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: ColorsUtility.progressIndictorColor,
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
             ),
           ),
         );
       },
     );
   }
-
-// ======================================================================================================
 
   IconData _getStatusIcon(String status) {
     switch (status) {

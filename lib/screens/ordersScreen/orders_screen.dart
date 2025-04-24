@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/customScreen/custom_screen.dart';
-import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/screens/paymentScreen/payment_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_confirmation_dialog.dart';
@@ -16,9 +15,15 @@ class OrdersScreen extends StatelessWidget {
   const OrdersScreen({super.key});
   static const String id = 'OrdersScreen';
 
+  bool isArabic(BuildContext context) {
+    return Localizations.localeOf(context).languageCode == 'ar';
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentUserId = FirebaseAuth.instance.currentUser?.uid ?? '';
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
 
     return BlocProvider(
       create: (context) => OrdersCubit(
@@ -43,7 +48,10 @@ class OrdersScreen extends StatelessWidget {
               );
             },
           ),
+          centerTitle: true,
+          backgroundColor: theme.scaffoldBackgroundColor,
         ),
+        backgroundColor: theme.scaffoldBackgroundColor,
         body: BlocConsumer<OrdersCubit, OrdersState>(
           listener: (context, state) {
             if (state is OrdersSubmissionSuccess) {
@@ -117,7 +125,9 @@ class OrdersScreen extends StatelessWidget {
                                 horizontal: 16,
                                 vertical: 8,
                               ),
-                              color: ColorsUtility.elevatedBtnColor,
+                              color: isDarkTheme
+                                  ? ColorsUtility.elevatedBtnColor
+                                  : ColorsUtility.lightTextFieldFillColor,
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Row(
@@ -139,8 +149,10 @@ class OrdersScreen extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            isArabic()
-                                                ? meal['title_ar']
+                                            isArabic(context)
+                                                ? meal['title_ar'] ??
+                                                    meal['title'] ??
+                                                    'No Title'
                                                 : meal['title'] ?? 'No Title',
                                             style: const TextStyle(
                                               fontSize: 16,

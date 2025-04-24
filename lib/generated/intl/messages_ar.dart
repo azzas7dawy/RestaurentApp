@@ -33,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "addedToOrders": MessageLookupByLibrary.simpleMessage(
       "تمت إضافته إلى الطلبات",
     ),
+    "address": MessageLookupByLibrary.simpleMessage("العنوان"),
     "allSpecialPlates": MessageLookupByLibrary.simpleMessage(
       "جميع الأطباق الخاصة",
     ),
@@ -57,6 +58,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "باراجون - مجموعة باراجون",
     ),
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+    "cancelOrder": MessageLookupByLibrary.simpleMessage("إلغاء الطلب"),
+    "cancelOrderMessage": MessageLookupByLibrary.simpleMessage(
+      "هل أنت متأكد أنك تريد إلغاء هذا الطلب؟",
+    ),
+    "cancelled": MessageLookupByLibrary.simpleMessage("تم الإلغاء"),
+    "cash": MessageLookupByLibrary.simpleMessage("نقدًا"),
     "cashOnDelivery": MessageLookupByLibrary.simpleMessage("دفع عند الاستلام"),
     "cashTxt": MessageLookupByLibrary.simpleMessage("ادفع عند استلام طلبك"),
     "cityOne": MessageLookupByLibrary.simpleMessage("سيراليون"),
@@ -65,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "completeDetails": MessageLookupByLibrary.simpleMessage(
       "يرجى تقديم التفاصيل التالية: ",
     ),
+    "completeProfile": MessageLookupByLibrary.simpleMessage("اكمل ملفك الشخصي"),
     "confirmLogout": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد أنك تريد تسجيل الخروج؟",
     ),
@@ -76,7 +84,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "continueBtn": MessageLookupByLibrary.simpleMessage("استمر"),
     "continueButton": MessageLookupByLibrary.simpleMessage("استمر"),
     "createAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
+    "customer": MessageLookupByLibrary.simpleMessage("العميل:"),
+    "delivered": MessageLookupByLibrary.simpleMessage("تم التوصيل"),
     "deliveryAddress": MessageLookupByLibrary.simpleMessage("عنوان التوصيل"),
+    "deliveryInfo": MessageLookupByLibrary.simpleMessage("معلومات التوصيل:"),
     "discount": MessageLookupByLibrary.simpleMessage("خصم"),
     "donotHaveAccount": MessageLookupByLibrary.simpleMessage("لا تملك حساب؟"),
     "egp": MessageLookupByLibrary.simpleMessage("ج.م"),
@@ -91,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterCoupon": MessageLookupByLibrary.simpleMessage("برجاء إدخال القسيمة"),
     "enterCouponCode": MessageLookupByLibrary.simpleMessage("أدخل كود القسيمة"),
     "enterPhone": MessageLookupByLibrary.simpleMessage("يرجى إدخال رقم هاتفك"),
+    "failed": MessageLookupByLibrary.simpleMessage("فشل"),
     "favPayMethod": MessageLookupByLibrary.simpleMessage(
       "اختر طريقة الدفع المفضلة لديك",
     ),
@@ -109,6 +121,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "hi": MessageLookupByLibrary.simpleMessage("مرحبا"),
     "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
     "invalidCoupon": MessageLookupByLibrary.simpleMessage("القسيمة غير صالحة"),
+    "item": MessageLookupByLibrary.simpleMessage("وجبة"),
+    "items": MessageLookupByLibrary.simpleMessage("الوجبات:"),
     "language": MessageLookupByLibrary.simpleMessage("اللغة"),
     "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "loginButton": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
@@ -125,19 +139,25 @@ class MessageLookup extends MessageLookupByLibrary {
       "يجب أن يكون الاسم على الأقل 2 حرف",
     ),
     "nextButton": MessageLookupByLibrary.simpleMessage("التالي"),
+    "no": MessageLookupByLibrary.simpleMessage("لا"),
     "noFav": MessageLookupByLibrary.simpleMessage("لا توجد مفضلات"),
     "noMealsAdded": MessageLookupByLibrary.simpleMessage(
       "لا توجد وجبات مضافة هنا",
     ),
     "noOrders": MessageLookupByLibrary.simpleMessage("لا توجد طلبات"),
+    "noOrdersYet": MessageLookupByLibrary.simpleMessage(
+      "لا توجد طلبات حتى الآن",
+    ),
     "noSpecialPlates": MessageLookupByLibrary.simpleMessage(
       "لا توجد أطباق خاصة",
     ),
+    "noTitle": MessageLookupByLibrary.simpleMessage("لا يوجد عنوان"),
     "notAvailable": MessageLookupByLibrary.simpleMessage("غير متاح حاليًا"),
     "notAvailableTxt": MessageLookupByLibrary.simpleMessage("غير متاح"),
     "note": MessageLookupByLibrary.simpleMessage(
       "يرجى ملاحظة: الحجز لمدة ساعة واحدة فقط",
     ),
+    "onTheWay": MessageLookupByLibrary.simpleMessage("في الطريق"),
     "onboardingDescriptionOne": MessageLookupByLibrary.simpleMessage(
       "يمكنك طلب وجبات الأسبوعية ونقلها بطريقة سريعة إلى باب منزلك.",
     ),
@@ -154,26 +174,44 @@ class MessageLookup extends MessageLookupByLibrary {
       "اطلب خدمات الطعام",
     ),
     "onboardingTitleTwo": MessageLookupByLibrary.simpleMessage("احجز طاولة"),
+    "order": MessageLookupByLibrary.simpleMessage("طلب"),
+    "orderCancelFailed": MessageLookupByLibrary.simpleMessage(
+      "فشل إلغاء الطلب:",
+    ),
+    "orderCancelled": MessageLookupByLibrary.simpleMessage(
+      "تم إلغاء الطلب وحذفه",
+    ),
+    "orderDetails": MessageLookupByLibrary.simpleMessage("تفاصيل الطلب"),
+    "orderId": MessageLookupByLibrary.simpleMessage("رقم الطلب:"),
     "orderSubmit": MessageLookupByLibrary.simpleMessage("تم تقديم الطلب بنجاح"),
     "orderSummary": MessageLookupByLibrary.simpleMessage("ملخص الطلب"),
+    "orderedOn": MessageLookupByLibrary.simpleMessage("تم الطلب في"),
     "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "payBtn": MessageLookupByLibrary.simpleMessage("المتابعة إلى الدفع"),
     "payMethod": MessageLookupByLibrary.simpleMessage(
       "يرجى اختيار طريقة الدفع",
     ),
+    "payWithCard": MessageLookupByLibrary.simpleMessage("Pay with Card"),
+    "paymentFailed": MessageLookupByLibrary.simpleMessage("فشل الدفع"),
     "paymentMethod": MessageLookupByLibrary.simpleMessage("طريقة الدفع"),
+    "paymobSubtitle": MessageLookupByLibrary.simpleMessage(
+      "ادفع بأمان مع باي موب",
+    ),
+    "paymobTxt": MessageLookupByLibrary.simpleMessage("باي موب"),
     "paypal": MessageLookupByLibrary.simpleMessage("باي بال"),
     "paypalBtn": MessageLookupByLibrary.simpleMessage("المتابعة إلى باي بال"),
-    "paypalSubtitle": MessageLookupByLibrary.simpleMessage(
-      "ادفع بأمان مع باي بال",
-    ),
     "paypalTitle": MessageLookupByLibrary.simpleMessage(
       "سيتم إعادة توجيهك إلى باي بال لإكمال الدفع بأمان",
     ),
-    "paypalTxt": MessageLookupByLibrary.simpleMessage("باي بال"),
+    "pending": MessageLookupByLibrary.simpleMessage("قيد الانتظار"),
+    "phone": MessageLookupByLibrary.simpleMessage("الهاتف"),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
     "pleaseLogin": MessageLookupByLibrary.simpleMessage("يرجى تسجيل الدخول"),
+    "proceedWithPaymob": MessageLookupByLibrary.simpleMessage(
+      "المتابعة الى باي موب",
+    ),
+    "processing": MessageLookupByLibrary.simpleMessage("قيد التنفيذ"),
     "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
     "rating": MessageLookupByLibrary.simpleMessage("التقييم: "),
     "readyToOrder": MessageLookupByLibrary.simpleMessage("جاهز للطلب؟"),
@@ -245,6 +283,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "somethingWentWrong": MessageLookupByLibrary.simpleMessage("حدث خطأ ما"),
     "specialPlates": MessageLookupByLibrary.simpleMessage("الأطباق الخاصة"),
     "splashTitle": MessageLookupByLibrary.simpleMessage("باراجون"),
+    "status": MessageLookupByLibrary.simpleMessage("الحالة:"),
     "subTitle": MessageLookupByLibrary.simpleMessage(
       "سيقوم مندوب التوصيل بتحصيل الدفع عند وصول طلبك.",
     ),
@@ -257,12 +296,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "tableReservedMessage": MessageLookupByLibrary.simpleMessage(
       "تم حجز الطاولة بنجاح. سنقوم بالتواصل معك قريبًا لتأكيد الحجز.",
     ),
+    "theme": MessageLookupByLibrary.simpleMessage("المظهر"),
     "total": MessageLookupByLibrary.simpleMessage("الإجمالي"),
+    "total2": MessageLookupByLibrary.simpleMessage("الإجمالي: "),
     "totalAmount": MessageLookupByLibrary.simpleMessage("الإجمالي:"),
     "totalPrice": MessageLookupByLibrary.simpleMessage("إجمالي السعر:"),
     "trackYourOrders": MessageLookupByLibrary.simpleMessage("تتبع طلبك"),
     "txtp1": MessageLookupByLibrary.simpleMessage("ستدفع"),
     "txtp2": MessageLookupByLibrary.simpleMessage("عند الاستلام"),
+    "unknown": MessageLookupByLibrary.simpleMessage("غير معروف"),
     "validCoupon": MessageLookupByLibrary.simpleMessage(
       "تم تطبيق القسيمة بنجاح!",
     ),
@@ -292,5 +334,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "yourFavorites": MessageLookupByLibrary.simpleMessage("المفضلة"),
     "yourOrders": MessageLookupByLibrary.simpleMessage("طلبك"),
+    "yourOrdersWillAppearHere": MessageLookupByLibrary.simpleMessage(
+      "ستظهر طلباتك هنا",
+    ),
   };
 }

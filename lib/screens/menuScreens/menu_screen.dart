@@ -43,7 +43,6 @@ class MenuScreen extends StatelessWidget {
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 children: [
-                  // Header image
                   Positioned.fill(
                     child: CachedNetworkImage(
                       imageUrl:
@@ -97,12 +96,12 @@ class MenuScreen extends StatelessWidget {
                 }
 
                 if (!menuSnapshot.hasData || menuSnapshot.data!.docs.isEmpty) {
-                  return const SliverFillRemaining(
+                  return SliverFillRemaining(
                     child: Center(
                         child: Text(
                       'No menus available currently',
                       style: TextStyle(
-                        color: ColorsUtility.progressIndictorColor,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     )),
                   );
@@ -113,12 +112,12 @@ class MenuScreen extends StatelessWidget {
                     .toList();
 
                 if (filteredDocs.isEmpty) {
-                  return const SliverFillRemaining(
+                  return SliverFillRemaining(
                     child: Center(
                       child: Text(
                         'No matching categories found',
                         style: TextStyle(
-                          color: ColorsUtility.progressIndictorColor,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                     ),
@@ -155,12 +154,12 @@ class MenuScreen extends StatelessWidget {
         int itemCount = snapshot.hasData ? snapshot.data! : 0;
 
         return Card(
-          color: ColorsUtility.elevatedBtnColor,
+          color: Theme.of(context).scaffoldBackgroundColor,
           elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
-            side: const BorderSide(
-              color: ColorsUtility.mainBackgroundColor,
+            side: BorderSide(
+              color: Theme.of(context).scaffoldBackgroundColor,
             ),
           ),
           clipBehavior: Clip.antiAlias,

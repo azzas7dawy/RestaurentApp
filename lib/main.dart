@@ -12,6 +12,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
+import 'package:restrant_app/cubit/ThemeLogic/cubit/theme_cubit.dart';
+import 'package:restrant_app/cubit/ThemeLogic/cubit/theme_state.dart';
 import 'package:restrant_app/firebase_options.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/auth/complete_user_data.dart';
@@ -34,11 +36,20 @@ import 'package:restrant_app/screens/splash/splash_screen.dart';
 import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
 import 'package:restrant_app/screens/settingsScreen/settings_screen.dart';
 import 'package:restrant_app/services/pref_service.dart';
+import 'package:restrant_app/themes/dark_theme.dart';
+import 'package:restrant_app/themes/light_theme.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_web/webview_flutter_web.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PrefService.init();
+
+  if (kIsWeb) {
+    WebViewPlatform.instance = WebWebViewPlatform();
+  }
+
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -47,6 +58,7 @@ Future<void> main() async {
     log('failed to initialize firebase : $e');
   }
   await dotenv.load(fileName: ".env");
+
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
@@ -66,6 +78,9 @@ Future<void> main() async {
               firestore: FirebaseFirestore.instance,
               userId: FirebaseAuth.instance.currentUser?.uid ?? '',
             ),
+          ),
+          BlocProvider(
+            create: (context) => ThemeCubit(),
           ),
         ],
         child: const MyApp(),

@@ -140,6 +140,7 @@ class OrdersCubit extends Cubit<OrdersState> {
       final List<Map<String, dynamic>> orderItems = meals.map((meal) {
         return {
           'title': meal['title']?.toString() ?? 'Unknown Item',
+          'title_ar': meal['title_ar']?.toString() ?? 'Unknown Item',
           'quantity': meal['quantity'] ?? 1,
           'price': meal['price']?.toDouble() ?? 0.0,
         };
@@ -176,12 +177,45 @@ class OrdersCubit extends Cubit<OrdersState> {
     }
   }
 
+  // Future<void> addMeal(Map<String, dynamic> meal) async {
+  //   while (_isLoadingCart) {
+  //     await Future.delayed(const Duration(milliseconds: 100));
+  //   }
+
+  //   // emit(OrdersLoading());
+
+  //   final documentId =
+  //       meal['documentId'] ?? meal['title'] ?? UniqueKey().toString();
+
+  //   final doc = await firestore.collection('users2').doc(userId).get();
+  //   if (doc.exists && doc.data()?['cartItems'] != null) {
+  //     meals = List<Map<String, dynamic>>.from(doc.data()?['cartItems'] ?? []);
+  //   } else {
+  //     meals = [];
+  //   }
+
+  //   final existingIndex =
+  //       meals.indexWhere((m) => m['documentId'] == documentId);
+
+  //   if (existingIndex != -1) {
+  //     meals[existingIndex]['quantity'] =
+  //         (meals[existingIndex]['quantity'] ?? 1) + 1;
+  //   } else {
+  //     meals.add({
+  //       ...meal,
+  //       'documentId': documentId,
+  //       'quantity': 1,
+  //     });
+  //   }
+
+  //   await _updateCartInFirestore();
+  //   emit(OrdersLoaded(meals: List.from(meals)));
+  // }
+
   Future<void> addMeal(Map<String, dynamic> meal) async {
     while (_isLoadingCart) {
       await Future.delayed(const Duration(milliseconds: 100));
     }
-
-    // emit(OrdersLoading());
 
     final documentId =
         meal['documentId'] ?? meal['title'] ?? UniqueKey().toString();
@@ -201,7 +235,10 @@ class OrdersCubit extends Cubit<OrdersState> {
           (meals[existingIndex]['quantity'] ?? 1) + 1;
     } else {
       meals.add({
-        ...meal,
+        'title': meal['title'] ?? 'Unknown',
+        'title_ar': meal['title_ar'],
+        'price': meal['price'] ?? 0.0,
+        'image': meal['image'] ?? '',
         'documentId': documentId,
         'quantity': 1,
       });

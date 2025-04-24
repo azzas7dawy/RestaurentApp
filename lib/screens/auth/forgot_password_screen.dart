@@ -15,16 +15,27 @@ class ForgotPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final Color appBarTextColor = isDark
+        ? ColorsUtility.takeAwayColor
+        : ColorsUtility.progressIndictorColor;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: theme.scaffoldBackgroundColor,
         title: Text(
           S.of(context).resetPassword,
-          style: TextStyle(color: ColorsUtility.takeAwayColor),
+          style: TextStyle(
+            color: appBarTextColor,
+            fontSize: theme.textTheme.titleLarge?.fontSize,
+          ),
         ),
-        iconTheme: const IconThemeData(
-          color: ColorsUtility.takeAwayColor,
+        iconTheme: IconThemeData(
+          color: appBarTextColor,
         ),
       ),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Form(
           key: _formKey,

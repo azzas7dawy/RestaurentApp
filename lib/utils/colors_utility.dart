@@ -22,4 +22,34 @@ class ColorsUtility {
   static const failedStatusColor = Colors.redAccent;
 
   // light mode
+
+  static const lightMainBackgroundColor = Color(0xFFF2F5F7);
+
+  static const lightProgressIndictorColor = Color(0xFF28B1B8);
+
+  static const lightOnboardingColor = Color(0xFFF9FCFD);
+
+  static const lightOnboardingDescriptionColor = Color(0xFF6C7A82);
+
+  static const lightOrderFoodColor = Color(0xFF9EDFE2);
+
+  static const lightCateringColor = Color(0xFFA6CFC1);
+
+  static const lightReserveTableColor = Color(0xFFFF9A8B);
+
+  static const lightTakeAwayColor = Color(0xFFFFDF9A);
+
+  static const lightCalenderColor = Color(0xFFEB6A5A);
+
+  static const lightTextFieldFillColor = Color(0xFFE9EEF0);
+
+  static const lightTextFieldLabelColor = Color(0xFF4F5C63);
+
+  static const lightElevatedBtnColor = Color(0xFF1E8E96);
+
+  static const lightInkwellTextColor = Color(0xFF1E8E96);
+
+  static const lightProcessingStatusColor = Color(0xFF28B1B8);
+  static const lightOnTheWayStatusColor = Color(0xFF1E8E96);
+  static const lightFailedStatusColor = Color(0xFFEB6A5A);
 }

@@ -177,8 +177,8 @@
     "paymentMethod": "Payment Method",
     "favPayMethod": "Select your preferred payment method",
     "cashTxt": "Pay when you receive your order",
-    "paypalTxt": "PayPal",
-    "paypalSubtitle": "Pay securely with PayPal",
+    "paymobTxt": "Paymob",
+    "paymobSubtitle": "Pay securely with Paymob",
     "continueBtn": "Continue",
     "applyCoupon": "Apply Coupon",
     "enterCouponCode": "Enter coupon code",
@@ -189,7 +189,44 @@
     "discount": "Discount",   
     "total": "Total",
     "confirmLogout": "Are you sure you want to log out?",
-    "yes": "Yes"
+    "yes": "Yes",
+    "theme": "Theme",
+    "completeProfile": "Complete your profile",
+    "payWithCard": "Pay with Card",
+    "paymentFailed": "Payment failed",
+    "proceedWithPaymob": "Proceed with Paymob",
+    "noOrdersYet": "No orders yet",
+    "yourOrdersWillAppearHere": "Your orders will appear here",
+    "pending": "Pending",
+    "order": "Order",
+    "total2" : "Total: ",
+    "cancelOrder": "Cancel Order",
+    "cancelOrderMessage": "Are you sure you want to cancel this order?",
+    "no": "No",
+    "orderCancelled": "Order has been cancelled and deleted",
+    "orderCancelFailed": "Failed to cancel order:",
+    "cancelled": "cancelled",
+    "failed": "failed",
+    "processing": "Processing",
+    "onTheWay": "On the way",
+    "delivered": "Delivered",
+    "orderDetails": "Order Details",
+    "status": "Status:",
+    "orderId": "Order ID:",
+    "orderedOn": "Ordered on",
+    "customer": "Customer:",
+    "unknown": "Unknown",
+    "items": "Items:",
+    "noTitle": "No title",
+    "deliveryInfo": "Delivery Information:",
+    "phone": "Phone",
+    "address": "Address",
+    "item": "item",
+    "cash": "Cash"
+
+    
+
+
 
     
 }

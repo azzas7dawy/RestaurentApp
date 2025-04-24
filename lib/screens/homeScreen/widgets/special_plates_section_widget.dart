@@ -5,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/generated/l10n.dart';
-import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/screens/specialPlatesScreen/special_plates_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
@@ -14,6 +13,10 @@ import 'package:shimmer/shimmer.dart';
 
 class SpecialPlatesSectionWidget extends StatelessWidget {
   const SpecialPlatesSectionWidget({super.key});
+
+  bool isArabic(BuildContext context) {
+    return Localizations.localeOf(context).languageCode == 'ar';
+  }
 
   Future<List<Map<String, dynamic>>> fetchSpecialPlates() async {
     try {
@@ -51,15 +54,16 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
   }
 
   Widget _buildShimmerLoading(BuildContext context, double cardWidth) {
+    final theme = Theme.of(context);
     return SizedBox(
       height: 130,
       width: cardWidth,
       child: Shimmer.fromColors(
-        baseColor: ColorsUtility.elevatedBtnColor,
-        highlightColor: ColorsUtility.textFieldFillColor,
+        baseColor: theme.cardColor,
+        highlightColor: theme.highlightColor,
         child: Container(
           decoration: BoxDecoration(
-            color: ColorsUtility.elevatedBtnColor,
+            color: theme.cardColor,
             borderRadius: BorderRadius.circular(15),
           ),
         ),
@@ -67,16 +71,17 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildImageWidget(String imageUrl) {
+  Widget _buildImageWidget(String imageUrl, BuildContext context) {
+    final theme = Theme.of(context);
     if (imageUrl.isEmpty) {
       return Container(
         height: 130,
         width: double.infinity,
-        color: Colors.grey[300],
-        child: const Icon(
+        color: theme.dividerColor,
+        child: Icon(
           Icons.fastfood,
           size: 40,
-          color: ColorsUtility.progressIndictorColor,
+          color: theme.colorScheme.primary,
         ),
       );
     }
@@ -87,14 +92,14 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
       width: double.infinity,
       fit: BoxFit.cover,
       placeholder: (context, url) => Container(
-        color: Colors.grey[300],
+        color: theme.dividerColor,
       ),
       errorWidget: (context, url, error) => Container(
-        color: Colors.grey[300],
-        child: const Icon(
+        color: theme.dividerColor,
+        child: Icon(
           Icons.fastfood,
           size: 40,
-          color: ColorsUtility.progressIndictorColor,
+          color: theme.colorScheme.primary,
         ),
       ),
     );
@@ -102,10 +107,12 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final screenWidth = MediaQuery.sizeOf(context).width;
     final screenHeight = MediaQuery.sizeOf(context).height;
     final cardWidth = screenWidth * 0.4;
     final cardHeight = screenHeight * 0.32;
+    final isDarkTheme = theme.brightness == Brightness.dark;
 
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: fetchSpecialPlates(),
@@ -126,32 +133,32 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                       _buildShimmerLoading(context, cardWidth),
                       const SizedBox(height: 8),
                       Shimmer.fromColors(
-                        baseColor: ColorsUtility.elevatedBtnColor,
-                        highlightColor: ColorsUtility.textFieldFillColor,
+                        baseColor: theme.cardColor,
+                        highlightColor: theme.highlightColor,
                         child: Container(
                           height: 16,
                           width: cardWidth * 0.6,
-                          color: ColorsUtility.elevatedBtnColor,
+                          color: theme.cardColor,
                         ),
                       ),
                       const SizedBox(height: 8),
                       Shimmer.fromColors(
-                        baseColor: ColorsUtility.elevatedBtnColor,
-                        highlightColor: ColorsUtility.textFieldFillColor,
+                        baseColor: theme.cardColor,
+                        highlightColor: theme.highlightColor,
                         child: Container(
                           height: 14,
                           width: cardWidth * 0.8,
-                          color: ColorsUtility.elevatedBtnColor,
+                          color: theme.cardColor,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Shimmer.fromColors(
-                        baseColor: ColorsUtility.mainBackgroundColor,
-                        highlightColor: ColorsUtility.textFieldFillColor,
+                        baseColor: theme.cardColor,
+                        highlightColor: theme.highlightColor,
                         child: Container(
                           height: 14,
                           width: cardWidth * 0.5,
-                          color: ColorsUtility.elevatedBtnColor,
+                          color: theme.cardColor,
                         ),
                       ),
                     ],
@@ -167,7 +174,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
           return Center(
             child: Text(
               S.of(context).somethingWentWrong,
-              style: TextStyle(color: ColorsUtility.takeAwayColor),
+              style: TextStyle(color: theme.colorScheme.error),
             ),
           );
         }
@@ -178,7 +185,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
           return Center(
             child: Text(
               S.of(context).noSpecialPlates,
-              style: TextStyle(color: ColorsUtility.takeAwayColor),
+              style: TextStyle(color: theme.colorScheme.secondary),
             ),
           );
         }
@@ -207,13 +214,13 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(horizontal: 8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          color: ColorsUtility.elevatedBtnColor,
+                          color: isDarkTheme
+                              ? ColorsUtility.elevatedBtnColor
+                              : ColorsUtility.lightTextFieldFillColor,
                           boxShadow: [
                             BoxShadow(
-                              color:
-                                  ColorsUtility.mainBackgroundColor.withAlpha(
-                                (0.2 * 255).round(),
-                              ),
+                              color: theme.shadowColor
+                                  .withAlpha((0.2 * 255).round()),
                               spreadRadius: 2,
                               blurRadius: 5,
                               offset: const Offset(0, 3),
@@ -255,10 +262,12 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            color: ColorsUtility.elevatedBtnColor,
+                            color: isDarkTheme
+                                ? ColorsUtility.elevatedBtnColor
+                                : ColorsUtility.lightTextFieldFillColor,
                             boxShadow: [
                               BoxShadow(
-                                color: ColorsUtility.mainBackgroundColor
+                                color: theme.shadowColor
                                     .withAlpha((0.2 * 255).round()),
                                 spreadRadius: 2,
                                 blurRadius: 5,
@@ -273,15 +282,18 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                 borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(15),
                                 ),
-                                child: _buildImageWidget(item['image'] ?? ''),
+                                child: _buildImageWidget(
+                                    item['image'] ?? '', context),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  isArabic()
-                                      ? item['title_ar']
+                                  isArabic(context)
+                                      ? item['title_ar'] ??
+                                          item['title'] ??
+                                          'No Title'
                                       : item['title'] ?? 'No Title',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: ColorsUtility.takeAwayColor,
@@ -294,14 +306,16 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Text(
-                                  isArabic()
-                                      ? item['desc_ar']
+                                  isArabic(context)
+                                      ? item['desc_ar'] ??
+                                          item['description'] ??
+                                          'No Description'
                                       : item['description'] ?? 'No Description',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 14,
-                                    color: ColorsUtility.textFieldLabelColor,
+                                    color: theme.textTheme.bodyMedium?.color,
                                   ),
                                 ),
                               ),
@@ -314,9 +328,8 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                   children: [
                                     Text(
                                       '${item['price'] ?? '0'} ${S.of(context).egp}',
-                                      style: const TextStyle(
-                                        color:
-                                            ColorsUtility.progressIndictorColor,
+                                      style: TextStyle(
+                                        color: theme.colorScheme.primary,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -324,11 +337,11 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                       children: [
                                         IconButton(
                                           icon: Icon(
-                                              isFavorite
-                                                  ? Icons.favorite
-                                                  : Icons.favorite_border,
-                                              color: ColorsUtility
-                                                  .progressIndictorColor),
+                                            isFavorite
+                                                ? Icons.favorite
+                                                : Icons.favorite_border,
+                                            color: theme.colorScheme.primary,
+                                          ),
                                           onPressed: () {
                                             if (isFavorite) {
                                               context
@@ -338,7 +351,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                               appSnackbar(
                                                 context,
                                                 text:
-                                                    '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).removedFromFavorites}',
+                                                    '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).removedFromFavorites}',
                                                 backgroundColor: ColorsUtility
                                                     .successSnackbarColor,
                                               );
@@ -349,7 +362,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                               appSnackbar(
                                                 context,
                                                 text:
-                                                    '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).addedToFavorites}',
+                                                    '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).addedToFavorites}',
                                                 backgroundColor: ColorsUtility
                                                     .successSnackbarColor,
                                               );
@@ -360,10 +373,8 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                           icon: Icon(
                                             Icons.add_circle_outline,
                                             color: item['is_available'] ?? true
-                                                ? ColorsUtility
-                                                    .progressIndictorColor
-                                                : ColorsUtility
-                                                    .textFieldLabelColor,
+                                                ? theme.colorScheme.primary
+                                                : theme.disabledColor,
                                           ),
                                           onPressed: () async {
                                             if (item['is_available'] ?? true) {
@@ -371,18 +382,21 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                                 ...item,
                                                 'documentId':
                                                     item['documentId'],
-                                                'title': isArabic()
-                                                    ? item['title_ar']
-                                                    : item['title'] ??
-                                                        'No Title',
+                                                'title':
+                                                    item['title'] ?? 'No Title',
+                                                'title_ar': item['title_ar'] ??
+                                                    item['title'] ??
+                                                    'No Title',
                                                 'price': item['price'],
                                                 'image': item['image'],
-                                                'description': isArabic()
-                                                    ? item['desc_ar']
-                                                    : item['description'],
-                                                'category': isArabic()
-                                                    ? item['category_ar']
-                                                    : item['category'],
+                                                'description':
+                                                    item['description'],
+                                                'desc_ar': item['desc_ar'] ??
+                                                    item['description'],
+                                                'category': item['category'],
+                                                'category_ar':
+                                                    item['category_ar'] ??
+                                                        item['category'],
                                               };
                                               await context
                                                   .read<OrdersCubit>()
@@ -391,7 +405,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                                 appSnackbar(
                                                   context,
                                                   text:
-                                                      '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).addedToOrders}',
+                                                      '${isArabic(context) ? mealToAdd['title_ar'] : mealToAdd['title']} ${S.of(context).addedToOrders}',
                                                   backgroundColor: ColorsUtility
                                                       .successSnackbarColor,
                                                 );
@@ -400,9 +414,9 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                               appSnackbar(
                                                 context,
                                                 text:
-                                                    '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).notAvailable}',
-                                                backgroundColor: ColorsUtility
-                                                    .errorSnackbarColor,
+                                                    '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).notAvailable}',
+                                                backgroundColor:
+                                                    theme.colorScheme.error,
                                               );
                                             }
                                           },
