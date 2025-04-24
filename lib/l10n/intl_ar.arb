@@ -55,6 +55,8 @@
     "successReser": "نجاح",
     "tableReserved": "تم حجز الطاولة بنجاح",
     "tableReservedMessage": "تم حجز الطاولة بنجاح. سنقوم بالتواصل معك قريبًا لتأكيد الحجز.",
+    "tableReservedError": "حدث خطأ أثناء الحجز. يرجى المحاولة مرة أخرى.",
+    "onehour":"يرجى ملاحظة: الحجز لمدة ساعة واحدة فقط",
 
 
     "fillAllFields": "يرجى ملء جميع الحقول.",
@@ -210,8 +212,17 @@
     "phone": "الهاتف",
     "address": "العنوان",
     "item": "وجبة",
-    "cash": "نقدًا"
+    "cash": "نقدًا",
 
 
-    
+
+    "failedLoadData":"فشل تحميل بيانات المستخدم : ",
+    "failedPickImage":"فشل اختيار الصورة",
+    "failedLoadImage":"فشل تحميل صورة الملف الشخصي",
+    "failedLoadGoogleImage": "فشل تحميل صورة الملف الشخصي من جوجل",
+    "pleaseEnterName": "يرجى إدخال اسمك",
+    "pleaseEnterValidName": "يرجى إدخال اسم صحيح",
+  
+
+    "deletAccount": "حذف الحساب"   
 }

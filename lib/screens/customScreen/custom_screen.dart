@@ -23,7 +23,7 @@ class _HomePageState extends State<CustomScreen> {
     const HomeScreen(),
     const MenuScreen(),
     SearchScreen(),
-    const ReserveTableScreen(),
+    const ReservationsplashScreen(),
     const ProfileScreen(),
   ];
 

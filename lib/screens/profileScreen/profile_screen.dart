@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
@@ -143,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (mounted) {
         appSnackbar(
           context,
-          text: 'Failed to load user data: ${e.toString()}',
+          text: '${S.of(context).failed} ${e.toString()}',
           backgroundColor: Theme.of(context).colorScheme.error,
         );
       }
@@ -389,7 +390,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 validator: (String? value) {
                                   if (_isEditing &&
                                       (value == null || value.isEmpty)) {
-                                    return 'Please enter your name';
+                                    return S.of(context).validationErrorFullName;
                                   }
                                   return null;
                                 },
@@ -451,7 +452,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 validator: (String? value) {
                                   if (_isEditing &&
                                       (value == null || value.isEmpty)) {
-                                    return 'Please enter your phone number';
+                                    return S.of(context).enterPhone;
                                   }
                                   return null;
                                 },
@@ -480,12 +481,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   } else {
                                     appSnackbar(
                                       context,
-                                      text: 'Please fill all required fields',
+                                      text: S.of(context).fillAllFields,
                                       backgroundColor: colorScheme.error,
                                     );
                                   }
                                 },
-                                text: 'Save Changes',
+                                text: S.of(context).saveButton,
                               ),
                             ),
                             const SizedBox(height: 16),
@@ -509,7 +510,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           child: Text(
-                            'Delete Account',
+                            S.of(context).remove,
                             style: TextStyle(
                               color: colorScheme.error,
                               fontSize: 16,

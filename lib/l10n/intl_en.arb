@@ -7,7 +7,20 @@
     "onboardingTitleTwo": "Reserve a table",
     "onboardingDescriptionTwo": "Tired of having to wait? Make a table reservation right away.",
     "onboardingTitleThree": "Place catering Orders",
+    
     "onboardingDescriptionThree": "Place catering orders with us.",
+
+    
+
+
+    "failedLoadData":"Failed to load user data : ",
+    "failedPickImage":"Failed to pick image",
+    "failedLoadImage":"Failed to load profile image",
+    "failedLoadGoogleImage": "Failed to load Google profile image",
+    "pleaseEnterName": "Please enter your name",
+    "pleaseEnterValidName": "Please enter a valid name",
+  
+   
 
 
     "emailOrPhone": "Email/Phone number",
@@ -95,6 +108,7 @@
     "nextButton":"NEXT",
     "selectYourTable":" Select a Table",
     "selectseats":"seats",
+    "onehour":"note: Reservation is only for 1 hour",
 
 
     "note": "Reservation is only for 1 hour",
@@ -221,11 +235,7 @@
     "phone": "Phone",
     "address": "Address",
     "item": "item",
-    "cash": "Cash"
+    "cash": "Cash",
 
-    
-
-
-
-    
+    "deletAccount":"delete account "  
 }

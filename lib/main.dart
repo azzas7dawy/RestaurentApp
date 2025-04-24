@@ -167,9 +167,10 @@ class MyApp extends StatelessWidget {
                           return MaterialPageRoute(
                             builder: (context) => const OrdersScreen(),
                           );
-                        case ReserveTableScreen.id:
+                        case ReservationsplashScreen.id:
                           return MaterialPageRoute(
-                            builder: (context) => const ReserveTableScreen(),
+                            builder: (context) =>
+                                const ReservationsplashScreen(),
                           );
                         case FavoritesScreen.id:
                           return MaterialPageRoute(
