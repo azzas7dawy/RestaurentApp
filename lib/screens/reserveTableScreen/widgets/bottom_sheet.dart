@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:restrant_app/generated/l10n.dart';
+import 'package:restrant_app/screens/reserveTableScreen/success_reserved_page.dart';
 
 class ReservationDetailsForm extends StatefulWidget {
   final int selectedTable;
@@ -20,6 +21,7 @@ class _ReservationDetailsFormState extends State<ReservationDetailsForm> {
 
   void _submitForm() async {
     if (nameController.text.isEmpty ||
+       
         dateController.text.isEmpty ||
         timeController.text.isEmpty) {
       setState(() {
@@ -101,7 +103,11 @@ class _ReservationDetailsFormState extends State<ReservationDetailsForm> {
           ],
           SizedBox(height: 20),
           ElevatedButton(
-            onPressed: _submitForm,
+            onPressed:(){
+                _submitForm;
+                 showReservationSuccess(context);
+            }
+           ,
             child: Text(S.of(context).reserve,
                 style: TextStyle(color: Colors.black)),
           ),

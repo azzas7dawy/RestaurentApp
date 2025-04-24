@@ -35,7 +35,7 @@ class ReservationSuccessSheet extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40),
-              Text(
+               Text(
                 S.of(context).successReser,
                 style: TextStyle(
                   color: Colors.white,
@@ -44,16 +44,16 @@ class ReservationSuccessSheet extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              Text(
-                S.of(context).tableReserved,
+               Text(
+                S.of(context).tableReservedMessage,
                 style: TextStyle(
                   color: Colors.white70,
                   fontSize: 16,
                 ),
               ),
               const SizedBox(height: 30),
-              Text(
-                S.of(context).tableReservedMessage,
+               Text(
+                S.of(context).note,
                 style: TextStyle(
                   color: Colors.white60,
                   fontSize: 12,
@@ -84,7 +84,6 @@ class ReservationSuccessSheet extends StatelessWidget {
                 child: Icon(Icons.star, color: Colors.orange, size: 16),
               ),
 
-              // ✅ Main Circle with check
               Container(
                 height: 100,
                 width: 100,
