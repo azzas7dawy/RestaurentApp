@@ -10,13 +10,8 @@ import 'package:restrant_app/utils/icons_utility.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
+import 'package:paymob_payment/paymob_payment.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:universal_html/html.dart' as html
-    if (dart.library.io) 'dart:io';
 
 class CompletePaymentScreen extends StatefulWidget {
   const CompletePaymentScreen({
@@ -39,21 +34,16 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
   final TextEditingController _addressController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isProcessingPayment = false;
-  String? _paymentToken;
-  String? _orderId;
-  String? _finalToken;
 
   @override
   void initState() {
     super.initState();
-    // تهيئة خاصة للويب
-    if (kIsWeb) {
-      _initializeWeb();
-    }
+    // Load environment variables when the widget initializes
+    _loadEnvVariables();
   }
 
-  void _initializeWeb() {
-    // لا تحتاج إلى أي تهيئة إضافية للويب مع الإصدارات الحديثة
+  Future<void> _loadEnvVariables() async {
+    await dotenv.load(fileName: ".env");
   }
 
   @override
@@ -61,25 +51,6 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
     _phoneController.dispose();
     _addressController.dispose();
     super.dispose();
-  }
-
-  // دالة مساعدة لفتح الروابط تعمل على جميع المنصات
-  Future<bool> _launchUniversalUrl(String url) async {
-    if (kIsWeb) {
-      // للويب نستخدم window.open
-      html.window.open(url, '_blank');
-      return true;
-    } else {
-      // للهاتف نستخدم url_launcher
-      final uri = Uri.parse(url);
-      if (await canLaunchUrl(uri)) {
-        return await launchUrl(
-          uri,
-          mode: LaunchMode.externalApplication,
-        );
-      }
-      return false;
-    }
   }
 
   @override
@@ -252,6 +223,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
                 final address = _addressController.text;
 
                 final ordersCubit = context.read<OrdersCubit>();
+
                 ordersCubit.setDeliveryInfo(
                     phone: phoneNumber, address: address);
 
@@ -429,143 +401,82 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
         throw Exception('Paymob configuration is missing');
       }
 
-      _paymentToken = await _getPaymentToken(apiKey);
-      _orderId = await _createOrder(apiKey, _paymentToken!);
-      _finalToken = await _getPaymentKey(
+      // Initialize Paymob
+      await PaymobPayment.instance.initialize(
         apiKey: apiKey,
-        integrationId: integrationId,
-        orderId: _orderId!,
-        paymentToken: _paymentToken!,
+        integrationID: int.parse(integrationId),
+        iFrameID: int.parse(iframeId),
       );
 
-      final paymentUrl =
-          'https://accept.paymob.com/api/acceptance/iframes/$iframeId?payment_token=$_finalToken';
+      String firstName = 'Guest';
+      String lastName = 'User';
 
-      final launched = await _launchUniversalUrl(paymentUrl);
-
-      if (!launched) {
-        throw Exception('Could not launch payment URL');
+      final fullName = FirebaseAuth.instance.currentUser?.displayName;
+      if (fullName != null && fullName.trim().isNotEmpty) {
+        final parts = fullName.trim().split(' ');
+        if (parts.length > 1) {
+          firstName = parts.first;
+          lastName = parts.sublist(1).join(' ');
+        } else {
+          firstName = fullName;
+        }
       }
 
-      // تأخير معالجة النجاح لضمان فتح صفحة الدفع أولاً
-      await Future.delayed(const Duration(seconds: 3));
-      await _handlePaymentSuccess();
+      final billingData = PaymobBillingData(
+        firstName: firstName,
+        lastName: lastName,
+        email: FirebaseAuth.instance.currentUser?.email ?? '',
+        phoneNumber: _phoneController.text,
+        street: _addressController.text,
+      );
+
+      if (!mounted) return;
+
+      final paymentResponse = await PaymobPayment.instance.pay(
+        context: context,
+        amountInCents: (widget.totalAmount * 100).toStringAsFixed(0),
+        currency: 'EGP',
+        billingData: billingData,
+      );
+
+      if (!mounted) return;
+
+      if (paymentResponse != null && paymentResponse.success) {
+        final phoneNumber = _phoneController.text;
+        final address = _addressController.text;
+
+        final ordersCubit = context.read<OrdersCubit>();
+        ordersCubit.setDeliveryInfo(phone: phoneNumber, address: address);
+        await ordersCubit.submitOrder(
+          discountAmount: widget.discountAmount,
+          isPaid: true,
+          paymentMethod: 'card',
+          totalAmount: widget.totalAmount,
+        );
+
+        if (mounted) {
+          Navigator.pushReplacementNamed(context, TrackOrdersScreen.id);
+        }
+      } else {
+        appSnackbar(
+          context,
+          text: S.of(context).paymentFailed,
+          backgroundColor: ColorsUtility.errorSnackbarColor,
+        );
+      }
     } catch (e) {
       if (!mounted) return;
-      setState(() {
-        _isProcessingPayment = false;
-      });
       appSnackbar(
         context,
         text: 'Payment Error: ${e.toString()}',
         backgroundColor: ColorsUtility.errorSnackbarColor,
       );
-    }
-  }
-
-  Future<String> _getPaymentToken(String apiKey) async {
-    final url = Uri.parse('https://accept.paymob.com/api/auth/tokens');
-    final headers = {'Content-Type': 'application/json'};
-    final body = jsonEncode({'api_key': apiKey});
-
-    final response = await http.post(url, headers: headers, body: body);
-    final responseData = jsonDecode(response.body);
-
-    if (response.statusCode == 201) {
-      return responseData['token'];
-    } else {
-      throw Exception('Failed to get payment token: ${responseData['detail']}');
-    }
-  }
-
-  Future<String> _createOrder(String apiKey, String paymentToken) async {
-    final url = Uri.parse('https://accept.paymob.com/api/ecommerce/orders');
-    final headers = {'Content-Type': 'application/json'};
-
-    final body = jsonEncode({
-      'auth_token': paymentToken,
-      'delivery_needed': false,
-      'amount_cents': (widget.totalAmount * 100).toStringAsFixed(0),
-      'currency': 'EGP',
-      'items': [],
-    });
-
-    final response = await http.post(url, headers: headers, body: body);
-    final responseData = jsonDecode(response.body);
-
-    if (response.statusCode == 201) {
-      return responseData['id'].toString();
-    } else {
-      throw Exception('Failed to create order: ${response.body}');
-    }
-  }
-
-  Future<String> _getPaymentKey({
-    required String apiKey,
-    required String integrationId,
-    required String orderId,
-    required String paymentToken,
-  }) async {
-    final url =
-        Uri.parse('https://accept.paymob.com/api/acceptance/payment_keys');
-    final headers = {'Content-Type': 'application/json'};
-    final user = FirebaseAuth.instance.currentUser;
-
-    final body = jsonEncode({
-      'auth_token': paymentToken,
-      'amount_cents': (widget.totalAmount * 100).round(),
-      'expiration': 3600,
-      'order_id': orderId,
-      'billing_data': {
-        'first_name': user?.displayName?.split(' ').first ?? 'Guest',
-        'last_name': user?.displayName?.split(' ').last ?? 'User',
-        'email': user?.email ?? 'guest@example.com',
-        'phone_number': _phoneController.text,
-        'street': _addressController.text,
-        'building': 'NA',
-        'floor': 'NA',
-        'apartment': 'NA',
-        'city': 'Cairo',
-        'state': 'Cairo',
-        'country': 'EG',
-        'postal_code': '0000',
-      },
-      'currency': 'EGP',
-      'integration_id': int.parse(integrationId),
-    });
-
-    final response = await http.post(url, headers: headers, body: body);
-    final responseData = jsonDecode(response.body);
-
-    if (response.statusCode == 201) {
-      return responseData['token'];
-    } else {
-      print('Payment key error response: ${response.body}');
-      throw Exception('Failed to get payment key: ${response.body}');
-    }
-  }
-
-  Future<void> _handlePaymentSuccess() async {
-    if (!mounted) return;
-
-    setState(() {
-      _isProcessingPayment = false;
-    });
-
-    final phoneNumber = _phoneController.text;
-    final address = _addressController.text;
-
-    final ordersCubit = context.read<OrdersCubit>();
-    ordersCubit.setDeliveryInfo(phone: phoneNumber, address: address);
-    await ordersCubit.submitOrder(
-      discountAmount: widget.discountAmount,
-      isPaid: true,
-      paymentMethod: 'card',
-      totalAmount: widget.totalAmount,
-    );
-
-    if (mounted) {
-      Navigator.pushReplacementNamed(context, TrackOrdersScreen.id);
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isProcessingPayment = false;
+        });
+      }
     }
   }
 }
