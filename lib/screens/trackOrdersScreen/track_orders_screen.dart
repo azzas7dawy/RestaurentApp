@@ -148,7 +148,11 @@ class TrackOrdersScreen extends StatelessWidget {
                   final items =
                       List<Map<String, dynamic>>.from(data['orderItems'] ?? []);
                   final total = data['total'] ?? 0.0;
-                  final status = data['status'] ?? S.of(context).pending;
+                  final orderStatus = data['status'] ?? 'pending';
+                  final orderStatusAr = data['status_ar'] ?? orderStatus;
+                  final trackStatus = data['trackingStatus'] ?? 'order_placed';
+                  final trackStatusAr =
+                      data['tracking_status_ar'] ?? trackStatus;
                   final timestamp =
                       data['timestamp']?.toDate() ?? DateTime.now();
                   final paymentMethod = data['paymentMethod'] ?? 'cash';
@@ -162,7 +166,10 @@ class TrackOrdersScreen extends StatelessWidget {
                         orderId: order.id,
                         items: items,
                         total: total,
-                        status: status,
+                        orderStatus: orderStatus,
+                        orderStatusAr: orderStatusAr,
+                        trackStatus: trackStatus,
+                        trackStatusAr: trackStatusAr,
                         timestamp: timestamp,
                         paymentMethod: paymentMethod,
                         deliveryAddress: deliveryAddress,
@@ -200,17 +207,19 @@ class TrackOrdersScreen extends StatelessWidget {
                                     vertical: 6,
                                   ),
                                   decoration: BoxDecoration(
-                                    color:
-                                        _getStatusColor(status).withAlpha(51),
+                                    color: _getOrderStatusColor(orderStatus)
+                                        .withAlpha(51),
                                     borderRadius: BorderRadius.circular(20),
                                     border: Border.all(
-                                      color: _getStatusColor(status),
+                                      color: _getOrderStatusColor(orderStatus),
                                     ),
                                   ),
                                   child: Text(
-                                    _capitalizeFirstLetter(status),
+                                    _isArabic(context)
+                                        ? orderStatusAr
+                                        : _capitalizeFirstLetter(orderStatus),
                                     style: TextStyle(
-                                      color: _getStatusColor(status),
+                                      color: _getOrderStatusColor(orderStatus),
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
                                     ),
@@ -231,7 +240,7 @@ class TrackOrdersScreen extends StatelessWidget {
                                         .lightOnboardingDescriptionColor,
                                   ),
                                 ),
-                                if (status.toLowerCase() == 'pending') ...[
+                                if (orderStatus.toLowerCase() == 'pending') ...[
                                   IconButton(
                                     onPressed: () {
                                       _showCancelConfirmationDialog(
@@ -265,7 +274,8 @@ class TrackOrdersScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            _buildStatusIndicator(status, context),
+                            _buildTrackStatusIndicator(
+                                trackStatus, trackStatusAr, context),
                           ],
                         ),
                       ),
@@ -357,172 +367,66 @@ class TrackOrdersScreen extends StatelessWidget {
     }
   }
 
-  Widget _buildStatusIndicator(String status, BuildContext context) {
-    final theme = Theme.of(context);
-    final isDarkTheme = theme.brightness == Brightness.dark;
-
-    final activeColor = theme.colorScheme.primary;
-    final inactiveColor = isDarkTheme
-        ? ColorsUtility.takeAwayColor
-        : ColorsUtility.progressIndictorColor;
-    const lineHeight = 2.0;
-
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _buildStatusStep(
-              S.of(context).pending,
-              isActive: status != 'cancelled' && status != 'failed',
-              isCompleted: status != 'pending',
-              activeColor: activeColor,
-              inactiveColor: inactiveColor,
-            ),
-            _buildStatusStep(
-              S.of(context).processing,
-              isActive: status == 'processing' ||
-                  status == 'on_the_way' ||
-                  status == 'delivered',
-              isCompleted: status == 'on_the_way' || status == 'delivered',
-              activeColor: activeColor,
-              inactiveColor: inactiveColor,
-            ),
-            _buildStatusStep(
-              S.of(context).onTheWay,
-              isActive: status == 'on_the_way' || status == 'delivered',
-              isCompleted: status == 'delivered',
-              activeColor: activeColor,
-              inactiveColor: inactiveColor,
-            ),
-            _buildStatusStep(
-              S.of(context).delivered,
-              isActive: status == 'delivered',
-              isCompleted: false,
-              activeColor: activeColor,
-              inactiveColor: inactiveColor,
-            ),
-          ],
+  Widget _buildTrackStatusIndicator(
+      String trackStatus, String trackStatusAr, BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: _getTrackStatusColor(trackStatus).withAlpha(26),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: _getTrackStatusColor(trackStatus),
         ),
-        const SizedBox(height: 4),
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                height: lineHeight,
-                color: status != 'pending' &&
-                        status != 'cancelled' &&
-                        status != 'failed'
-                    ? activeColor
-                    : inactiveColor,
+      ),
+      child: Row(
+        children: [
+          Icon(
+            _getTrackStatusIcon(trackStatus),
+            color: _getTrackStatusColor(trackStatus),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              '${S.of(context).trackStatus} ${_isArabic(context) ? trackStatusAr : _capitalizeFirstLetter(trackStatus)}',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: _getTrackStatusColor(trackStatus),
               ),
             ),
-            Container(
-              width: 8,
-              height: lineHeight,
-              color: (status == 'processing' ||
-                          status == 'on_the_way' ||
-                          status == 'delivered') &&
-                      status != 'cancelled' &&
-                      status != 'failed'
-                  ? activeColor
-                  : inactiveColor,
-            ),
-            Expanded(
-              child: Container(
-                height: lineHeight,
-                color: (status == 'on_the_way' || status == 'delivered') &&
-                        status != 'cancelled' &&
-                        status != 'failed'
-                    ? activeColor
-                    : inactiveColor,
-              ),
-            ),
-            Container(
-              width: 8,
-              height: lineHeight,
-              color: status == 'delivered' &&
-                      status != 'cancelled' &&
-                      status != 'failed'
-                  ? activeColor
-                  : inactiveColor,
-            ),
-            Expanded(
-              child: Container(
-                height: lineHeight,
-                color: status == 'delivered' &&
-                        status != 'cancelled' &&
-                        status != 'failed'
-                    ? activeColor
-                    : inactiveColor,
-              ),
-            ),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildStatusStep(String label,
-      {required bool isActive,
-      required bool isCompleted,
-      required Color activeColor,
-      required Color inactiveColor}) {
-    return Column(
-      children: [
-        Container(
-          width: 24,
-          height: 24,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: isActive ? activeColor : inactiveColor.withAlpha(51),
-            border: Border.all(
-              color: isCompleted
-                  ? activeColor
-                  : isActive
-                      ? activeColor
-                      : inactiveColor,
-              width: isCompleted ? 0 : 2,
-            ),
-          ),
-          child: isCompleted
-              ? Icon(
-                  Icons.check,
-                  size: 16,
-                  color: ColorsUtility.lightMainBackgroundColor,
-                )
-              : null,
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 10,
-            color: isActive ? activeColor : inactiveColor,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Color _getStatusColor(String status) {
-    switch (status) {
+  Color _getOrderStatusColor(String status) {
+    switch (status.toLowerCase()) {
       case 'pending':
         return ColorsUtility.progressIndictorColor;
       case 'accepted':
         return ColorsUtility.successSnackbarColor;
       case 'rejected':
         return ColorsUtility.errorSnackbarColor;
-      case 'processing':
-        return ColorsUtility.processingStatusColor;
-      case 'on_the_way':
-        return ColorsUtility.onTheWayStatusColor;
-      case 'delivered':
-        return ColorsUtility.successSnackbarColor;
       case 'cancelled':
         return ColorsUtility.errorSnackbarColor;
       case 'failed':
         return ColorsUtility.failedStatusColor;
+      default:
+        return ColorsUtility.takeAwayColor;
+    }
+  }
+
+  Color _getTrackStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'order_placed':
+        return ColorsUtility.progressIndictorColor;
+      case 'processing':
+        return ColorsUtility.processingStatusColor;
+      case 'out_for_delivery':
+        return ColorsUtility.onTheWayStatusColor;
+      case 'delivered':
+        return ColorsUtility.successSnackbarColor;
       default:
         return ColorsUtility.takeAwayColor;
     }
@@ -538,7 +442,10 @@ class TrackOrdersScreen extends StatelessWidget {
     required String orderId,
     required List<Map<String, dynamic>> items,
     required double total,
-    required String status,
+    required String orderStatus,
+    required String orderStatusAr,
+    required String trackStatus,
+    required String trackStatusAr,
     required DateTime timestamp,
     required String paymentMethod,
     required String deliveryAddress,
@@ -608,25 +515,53 @@ class TrackOrdersScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: _getStatusColor(status).withAlpha(26),
+                    color: _getOrderStatusColor(orderStatus).withAlpha(26),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: _getStatusColor(status),
+                      color: _getOrderStatusColor(orderStatus),
                     ),
                   ),
                   child: Row(
                     children: [
                       Icon(
-                        _getStatusIcon(status),
-                        color: _getStatusColor(status),
+                        _getOrderStatusIcon(orderStatus),
+                        color: _getOrderStatusColor(orderStatus),
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '${S.of(context).status} ${_capitalizeFirstLetter(status)}',
+                        '${S.of(context).orderStatus} ${_isArabic(context) ? orderStatusAr : _capitalizeFirstLetter(orderStatus)}',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: _getStatusColor(status),
+                          color: _getOrderStatusColor(orderStatus),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: _getTrackStatusColor(trackStatus).withAlpha(26),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: _getTrackStatusColor(trackStatus),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        _getTrackStatusIcon(trackStatus),
+                        color: _getTrackStatusColor(trackStatus),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        '${S.of(context).trackStatus} ${_isArabic(context) ? trackStatusAr : _capitalizeFirstLetter(trackStatus)}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: _getTrackStatusColor(trackStatus),
                         ),
                       ),
                     ],
@@ -645,7 +580,7 @@ class TrackOrdersScreen extends StatelessWidget {
                             : ColorsUtility.textFieldFillColor,
                       ),
                     ),
-                    if (status.toLowerCase() == 'pending') ...[
+                    if (orderStatus.toLowerCase() == 'pending') ...[
                       IconButton(
                         onPressed: () {
                           Navigator.of(context, rootNavigator: true).pop();
@@ -858,20 +793,33 @@ class TrackOrdersScreen extends StatelessWidget {
     );
   }
 
-  IconData _getStatusIcon(String status) {
-    switch (status) {
+  IconData _getOrderStatusIcon(String status) {
+    switch (status.toLowerCase()) {
       case 'pending':
         return Icons.access_time;
-      case 'processing':
-        return Icons.restaurant;
-      case 'on_the_way':
-        return Icons.delivery_dining;
-      case 'delivered':
+      case 'accepted':
         return Icons.check_circle;
+      case 'rejected':
+        return Icons.cancel;
       case 'cancelled':
         return Icons.cancel;
       case 'failed':
         return Icons.error;
+      default:
+        return Icons.receipt;
+    }
+  }
+
+  IconData _getTrackStatusIcon(String status) {
+    switch (status.toLowerCase()) {
+      case 'order_placed':
+        return Icons.shopping_bag;
+      case 'processing':
+        return Icons.restaurant;
+      case 'out_for_delivery':
+        return Icons.delivery_dining;
+      case 'delivered':
+        return Icons.check_circle;
       default:
         return Icons.receipt;
     }

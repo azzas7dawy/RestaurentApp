@@ -56,7 +56,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
   Widget _buildShimmerLoading(BuildContext context, double cardWidth) {
     final theme = Theme.of(context);
     return SizedBox(
-      height: 130,
+      height: 120,
       width: cardWidth,
       child: Shimmer.fromColors(
         baseColor: theme.cardColor,
@@ -75,7 +75,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
     final theme = Theme.of(context);
     if (imageUrl.isEmpty) {
       return Container(
-        height: 130,
+        height: 120,
         width: double.infinity,
         color: theme.dividerColor,
         child: Icon(
@@ -88,7 +88,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
 
     return CachedNetworkImage(
       imageUrl: imageUrl,
-      height: 130,
+      height: 120,
       width: double.infinity,
       fit: BoxFit.cover,
       placeholder: (context, url) => Container(
@@ -111,7 +111,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final screenHeight = MediaQuery.sizeOf(context).height;
     final cardWidth = screenWidth * 0.4;
-    final cardHeight = screenHeight * 0.32;
+    final cardHeight = screenHeight * 0.28; // Reduced to prevent overflow
     final isDarkTheme = theme.brightness == Brightness.dark;
 
     return FutureBuilder<List<Map<String, dynamic>>>(
@@ -285,145 +285,176 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                 child: _buildImageWidget(
                                     item['image'] ?? '', context),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  isArabic(context)
-                                      ? item['title_ar'] ??
-                                          item['title'] ??
-                                          'No Title'
-                                      : item['title'] ?? 'No Title',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: ColorsUtility.takeAwayColor,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Text(
-                                  isArabic(context)
-                                      ? item['desc_ar'] ??
-                                          item['description'] ??
-                                          'No Description'
-                                      : item['description'] ?? 'No Description',
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: theme.textTheme.bodyMedium?.color,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8.0, vertical: 4.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      '${item['price'] ?? '0'} ${S.of(context).egp}',
-                                      style: TextStyle(
-                                        color: theme.colorScheme.primary,
-                                        fontWeight: FontWeight.bold,
+                              Flexible(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(6.0),
+                                        child: Text(
+                                          isArabic(context)
+                                              ? item['title_ar'] ??
+                                                  item['title'] ??
+                                                  'No Title'
+                                              : item['title'] ?? 'No Title',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: ColorsUtility.takeAwayColor,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                          icon: Icon(
-                                            isFavorite
-                                                ? Icons.favorite
-                                                : Icons.favorite_border,
-                                            color: theme.colorScheme.primary,
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6.0),
+                                        child: Text(
+                                          isArabic(context)
+                                              ? item['desc_ar'] ??
+                                                  item['description'] ??
+                                                  'No Description'
+                                              : item['description'] ??
+                                                  'No Description',
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: theme
+                                                .textTheme.bodyMedium?.color,
                                           ),
-                                          onPressed: () {
-                                            if (isFavorite) {
-                                              context
-                                                  .read<FavoritesCubit>()
-                                                  .removeFromFavorites(
-                                                      item['title']);
-                                              appSnackbar(
-                                                context,
-                                                text:
-                                                    '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).removedFromFavorites}',
-                                                backgroundColor: ColorsUtility
-                                                    .successSnackbarColor,
-                                              );
-                                            } else {
-                                              context
-                                                  .read<FavoritesCubit>()
-                                                  .addToFavorites(item);
-                                              appSnackbar(
-                                                context,
-                                                text:
-                                                    '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).addedToFavorites}',
-                                                backgroundColor: ColorsUtility
-                                                    .successSnackbarColor,
-                                              );
-                                            }
-                                          },
                                         ),
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.add_circle_outline,
-                                            color: item['is_available'] ?? true
-                                                ? theme.colorScheme.primary
-                                                : theme.disabledColor,
-                                          ),
-                                          onPressed: () async {
-                                            if (item['is_available'] ?? true) {
-                                              final mealToAdd = {
-                                                ...item,
-                                                'documentId':
-                                                    item['documentId'],
-                                                'title':
-                                                    item['title'] ?? 'No Title',
-                                                'title_ar': item['title_ar'] ??
-                                                    item['title'] ??
-                                                    'No Title',
-                                                'price': item['price'],
-                                                'image': item['image'],
-                                                'description':
-                                                    item['description'],
-                                                'desc_ar': item['desc_ar'] ??
-                                                    item['description'],
-                                                'category': item['category'],
-                                                'category_ar':
-                                                    item['category_ar'] ??
-                                                        item['category'],
-                                              };
-                                              await context
-                                                  .read<OrdersCubit>()
-                                                  .addMeal(mealToAdd);
-                                              if (context.mounted) {
-                                                appSnackbar(
-                                                  context,
-                                                  text:
-                                                      '${isArabic(context) ? mealToAdd['title_ar'] : mealToAdd['title']} ${S.of(context).addedToOrders}',
-                                                  backgroundColor: ColorsUtility
-                                                      .successSnackbarColor,
-                                                );
-                                              }
-                                            } else {
-                                              appSnackbar(
-                                                context,
-                                                text:
-                                                    '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).notAvailable}',
-                                                backgroundColor:
-                                                    theme.colorScheme.error,
-                                              );
-                                            }
-                                          },
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6.0, vertical: 2.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '${item['price'] ?? '0'} ${S.of(context).egp}',
+                                              style: TextStyle(
+                                                color:
+                                                    theme.colorScheme.primary,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                            Row(
+                                              children: [
+                                                IconButton(
+                                                  icon: Icon(
+                                                    isFavorite
+                                                        ? Icons.favorite
+                                                        : Icons.favorite_border,
+                                                    color: theme
+                                                        .colorScheme.primary,
+                                                    size: 20,
+                                                  ),
+                                                  onPressed: () {
+                                                    if (isFavorite) {
+                                                      context
+                                                          .read<
+                                                              FavoritesCubit>()
+                                                          .removeFromFavorites(
+                                                              item['title']);
+                                                      appSnackbar(
+                                                        context,
+                                                        text:
+                                                            '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).removedFromFavorites}',
+                                                        backgroundColor:
+                                                            ColorsUtility
+                                                                .successSnackbarColor,
+                                                      );
+                                                    } else {
+                                                      context
+                                                          .read<
+                                                              FavoritesCubit>()
+                                                          .addToFavorites(item);
+                                                      appSnackbar(
+                                                        context,
+                                                        text:
+                                                            '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).addedToFavorites}',
+                                                        backgroundColor:
+                                                            ColorsUtility
+                                                                .successSnackbarColor,
+                                                      );
+                                                    }
+                                                  },
+                                                ),
+                                                IconButton(
+                                                  icon: Icon(
+                                                    Icons.add_circle_outline,
+                                                    color:
+                                                        item['is_available'] ??
+                                                                true
+                                                            ? theme.colorScheme
+                                                                .primary
+                                                            : theme
+                                                                .disabledColor,
+                                                    size: 20,
+                                                  ),
+                                                  onPressed: () async {
+                                                    if (item['is_available'] ??
+                                                        true) {
+                                                      final mealToAdd = {
+                                                        ...item,
+                                                        'documentId':
+                                                            item['documentId'],
+                                                        'title':
+                                                            item['title'] ??
+                                                                'No Title',
+                                                        'title_ar':
+                                                            item['title_ar'] ??
+                                                                item['title'] ??
+                                                                'No Title',
+                                                        'price': item['price'],
+                                                        'image': item['image'],
+                                                        'description':
+                                                            item['description'],
+                                                        'desc_ar': item[
+                                                                'desc_ar'] ??
+                                                            item['description'],
+                                                        'category':
+                                                            item['category'],
+                                                        'category_ar': item[
+                                                                'category_ar'] ??
+                                                            item['category'],
+                                                      };
+                                                      await context
+                                                          .read<OrdersCubit>()
+                                                          .addMeal(mealToAdd);
+                                                      if (context.mounted) {
+                                                        appSnackbar(
+                                                          context,
+                                                          text:
+                                                              '${isArabic(context) ? mealToAdd['title_ar'] : mealToAdd['title']} ${S.of(context).addedToOrders}',
+                                                          backgroundColor:
+                                                              ColorsUtility
+                                                                  .successSnackbarColor,
+                                                        );
+                                                      }
+                                                    } else {
+                                                      appSnackbar(
+                                                        context,
+                                                        text:
+                                                            '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).notAvailable}',
+                                                        backgroundColor: theme
+                                                            .colorScheme.error,
+                                                      );
+                                                    }
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],

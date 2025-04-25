@@ -1,4 +1,5 @@
 {
+    
     "splashTitle": "باراجون",
     "skipButton": "تخطي",
     "continueButton": "استمر",
@@ -55,8 +56,6 @@
     "successReser": "نجاح",
     "tableReserved": "تم حجز الطاولة بنجاح",
     "tableReservedMessage": "تم حجز الطاولة بنجاح. سنقوم بالتواصل معك قريبًا لتأكيد الحجز.",
-    "tableReservedError": "حدث خطأ أثناء الحجز. يرجى المحاولة مرة أخرى.",
-    "onehour":"يرجى ملاحظة: الحجز لمدة ساعة واحدة فقط",
 
 
     "fillAllFields": "يرجى ملء جميع الحقول.",
@@ -187,7 +186,6 @@
     "proceedWithPaymob": "المتابعة الى باي موب",
     "noOrdersYet": "لا توجد طلبات حتى الآن",
     "yourOrdersWillAppearHere": "ستظهر طلباتك هنا",
-    "pending": "قيد الانتظار",
     "order": "طلب",
     "total2" : "الإجمالي: ",
     "cancelOrder": "إلغاء الطلب",
@@ -197,9 +195,7 @@
     "orderCancelFailed": "فشل إلغاء الطلب:",
     "cancelled": "تم الإلغاء",
     "failed": "فشل",
-    "processing": "قيد التنفيذ",
     "onTheWay": "في الطريق",
-    "delivered": "تم التوصيل",
     "orderDetails": "تفاصيل الطلب",
     "status": "الحالة:",
     "orderId": "رقم الطلب:",
@@ -213,6 +209,15 @@
     "address": "العنوان",
     "item": "وجبة",
     "cash": "نقدًا",
+    "orderStatus": "حالة الطلب",
+    "trackStatus": "حالة التوصيل",
+    "orderPlaced": "تم الطلب",
+    "processing": "قيد التحضير",
+    "outForDelivery": "في الطريق",
+    "delivered": "تم التوصيل",
+    "pending": "قيد الانتظار",
+    "accepted": "مقبول",
+    "rejected": "مرفوض",
 
 
 

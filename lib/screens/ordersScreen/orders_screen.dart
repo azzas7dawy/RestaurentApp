@@ -171,41 +171,111 @@ class OrdersScreen extends StatelessWidget {
                                           ),
                                           const SizedBox(height: 8),
                                           Row(
-                                            children: [
-                                              IconButton(
-                                                onPressed: () => cubit
-                                                    .decrementQuantity(index),
-                                                icon: const Icon(Icons.remove),
-                                                iconSize: 20,
-                                                color: ColorsUtility
-                                                    .progressIndictorColor,
-                                              ),
-                                              Text(
-                                                '$quantity',
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  color: ColorsUtility
-                                                      .progressIndictorColor,
-                                                ),
-                                              ),
-                                              IconButton(
-                                                onPressed: () => cubit
-                                                    .incrementQuantity(index),
-                                                icon: const Icon(Icons.add),
-                                                iconSize: 20,
-                                                color: ColorsUtility
-                                                    .progressIndictorColor,
-                                              ),
-                                              const Spacer(),
-                                              IconButton(
-                                                onPressed: () =>
-                                                    _showDeleteConfirmationDialog(
-                                                        context, index),
-                                                icon: const Icon(Icons.delete),
-                                                color: ColorsUtility
-                                                    .errorSnackbarColor,
-                                              ),
-                                            ],
+                                            children: isArabic(context)
+                                                ? [
+                                                    IconButton(
+                                                      onPressed: () =>
+                                                          _showDeleteConfirmationDialog(
+                                                              context, index),
+                                                      icon: const Icon(
+                                                          Icons.delete),
+                                                      color: ColorsUtility
+                                                          .errorSnackbarColor,
+                                                    ),
+                                                    const Spacer(),
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        final newQuantity =
+                                                            quantity + 1;
+                                                        cubit
+                                                            .updateMealQuantity(
+                                                                index,
+                                                                newQuantity);
+                                                      },
+                                                      icon:
+                                                          const Icon(Icons.add),
+                                                      iconSize: 20,
+                                                      color: ColorsUtility
+                                                          .progressIndictorColor,
+                                                    ),
+                                                    Text(
+                                                      '$quantity',
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                        color: ColorsUtility
+                                                            .progressIndictorColor,
+                                                      ),
+                                                    ),
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        final newQuantity =
+                                                            quantity - 1;
+                                                        if (newQuantity >= 1) {
+                                                          cubit
+                                                              .updateMealQuantity(
+                                                                  index,
+                                                                  newQuantity);
+                                                        }
+                                                      },
+                                                      icon: const Icon(
+                                                          Icons.remove),
+                                                      iconSize: 20,
+                                                      color: ColorsUtility
+                                                          .progressIndictorColor,
+                                                    ),
+                                                  ]
+                                                : [
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        final newQuantity =
+                                                            quantity - 1;
+                                                        if (newQuantity >= 1) {
+                                                          cubit
+                                                              .updateMealQuantity(
+                                                                  index,
+                                                                  newQuantity);
+                                                        }
+                                                      },
+                                                      icon: const Icon(
+                                                          Icons.remove),
+                                                      iconSize: 20,
+                                                      color: ColorsUtility
+                                                          .progressIndictorColor,
+                                                    ),
+                                                    Text(
+                                                      '$quantity',
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                        color: ColorsUtility
+                                                            .progressIndictorColor,
+                                                      ),
+                                                    ),
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        final newQuantity =
+                                                            quantity + 1;
+                                                        cubit
+                                                            .updateMealQuantity(
+                                                                index,
+                                                                newQuantity);
+                                                      },
+                                                      icon:
+                                                          const Icon(Icons.add),
+                                                      iconSize: 20,
+                                                      color: ColorsUtility
+                                                          .progressIndictorColor,
+                                                    ),
+                                                    const Spacer(),
+                                                    IconButton(
+                                                      onPressed: () =>
+                                                          _showDeleteConfirmationDialog(
+                                                              context, index),
+                                                      icon: const Icon(
+                                                          Icons.delete),
+                                                      color: ColorsUtility
+                                                          .errorSnackbarColor,
+                                                    ),
+                                                  ],
                                           ),
                                         ],
                                       ),

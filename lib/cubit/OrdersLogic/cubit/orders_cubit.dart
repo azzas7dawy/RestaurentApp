@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,6 +17,21 @@ class OrdersCubit extends Cubit<OrdersState> {
   String? _customerName;
   bool _isLoadingCart = false;
 
+  final Map<String, String> _statusToArabic = {
+    'pending': 'معلق',
+    'accepted': 'مقبول',
+    'rejected': 'مرفوض',
+    'cancelled': 'ملغى',
+    'failed': 'فشل',
+  };
+
+  final Map<String, String> _trackingStatusToArabic = {
+    'order_placed': 'تم تقديم الطلب',
+    'processing': 'قيد التجهيز',
+    'out_for_delivery': 'في الطريق',
+    'delivered': 'تم التسليم',
+  };
+
   OrdersCubit({
     required this.firestore,
     required this.userId,
@@ -31,6 +48,7 @@ class OrdersCubit extends Cubit<OrdersState> {
       }
     } catch (e) {
       _customerName = 'Unknown';
+      log('Failed to load customer name: $e');
     }
   }
 
@@ -44,15 +62,21 @@ class OrdersCubit extends Cubit<OrdersState> {
         meals = List<Map<String, dynamic>>.from(doc.data()?['cartItems'] ?? [])
             .map((meal) => {
                   ...meal,
-                  'quantity': meal['quantity'] ?? 1,
+                  'quantity': meal['quantity'] is int
+                      ? meal['quantity']
+                      : meal['quantity'] != null
+                          ? int.parse(meal['quantity'].toString())
+                          : 1,
                 })
             .toList();
+        log('Loaded cart items: $meals');
       } else {
         meals = [];
       }
       emit(OrdersLoaded(meals: List.from(meals)));
     } catch (e) {
       emit(OrdersError(errorMessage: 'Failed to load cart: ${e.toString()}'));
+      log('Failed to load cart: $e');
     } finally {
       _isLoadingCart = false;
     }
@@ -64,24 +88,24 @@ class OrdersCubit extends Cubit<OrdersState> {
     emit(OrdersLoaded(meals: List.from(meals)));
   }
 
-  void incrementQuantity(int index) {
-    meals[index]['quantity'] = (meals[index]['quantity'] ?? 1) + 1;
-    _updateCartInFirestore();
-    emit(OrdersLoaded(meals: List.from(meals)));
-  }
-
-  void decrementQuantity(int index) {
-    if (meals[index]['quantity'] > 1) {
-      meals[index]['quantity'] = meals[index]['quantity'] - 1;
-      _updateCartInFirestore();
+  Future<void> updateMealQuantity(int index, int newQuantity) async {
+    if (index >= 0 && index < meals.length && newQuantity >= 1) {
+      meals[index]['quantity'] = newQuantity;
+      log('Updated meal at index $index with quantity: $newQuantity');
+      await _updateCartInFirestore();
       emit(OrdersLoaded(meals: List.from(meals)));
+    } else {
+      log('Invalid index or quantity: index=$index, newQuantity=$newQuantity');
     }
   }
 
   void removeMeal(int index) async {
-    meals.removeAt(index);
-    await _updateCartInFirestore();
-    emit(OrdersLoaded(meals: List.from(meals)));
+    if (index >= 0 && index < meals.length) {
+      meals.removeAt(index);
+      log('Removed meal at index $index');
+      await _updateCartInFirestore();
+      emit(OrdersLoaded(meals: List.from(meals)));
+    }
   }
 
   double calculateTotal() {
@@ -98,10 +122,26 @@ class OrdersCubit extends Cubit<OrdersState> {
 
   Future<void> _updateCartInFirestore() async {
     try {
+      final cartItems = meals.map((meal) {
+        return {
+          'title': meal['title'],
+          'title_ar': meal['title_ar'],
+          'price': meal['price'],
+          'image': meal['image'],
+          'documentId': meal['documentId'],
+          'quantity': meal['quantity'] is int
+              ? meal['quantity']
+              : meal['quantity'] != null
+                  ? int.parse(meal['quantity'].toString())
+                  : 1,
+        };
+      }).toList();
+      log('Saving cart to Firestore: $cartItems');
       await firestore.collection('users2').doc(userId).set({
-        'cartItems': meals,
+        'cartItems': cartItems,
       }, SetOptions(merge: true));
     } catch (e) {
+      log('Failed to update cart: $e');
       emit(OrdersError(errorMessage: 'Failed to update cart: ${e.toString()}'));
     }
   }
@@ -112,7 +152,9 @@ class OrdersCubit extends Cubit<OrdersState> {
         'cartItems': [],
       });
       meals.clear();
+      log('Cleared cart');
     } catch (e) {
+      log('Failed to clear cart: $e');
       emit(OrdersError(errorMessage: 'Failed to clear cart: ${e.toString()}'));
     }
   }
@@ -120,6 +162,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   void setDeliveryInfo({required String phone, required String address}) {
     _phoneNumber = phone;
     _deliveryAddress = address;
+    log('Set delivery info: phone=$phone, address=$address');
   }
 
   Future<void> submitOrder({
@@ -130,6 +173,9 @@ class OrdersCubit extends Cubit<OrdersState> {
   }) async {
     emit(OrdersLoading());
     try {
+      await _loadCartFromFirestore();
+      log('Meals after reload for order submission: $meals');
+
       if (_phoneNumber == null || _deliveryAddress == null) {
         throw Exception('Phone number and delivery address are required');
       }
@@ -138,17 +184,28 @@ class OrdersCubit extends Cubit<OrdersState> {
       }
 
       final List<Map<String, dynamic>> orderItems = meals.map((meal) {
-        return {
+        final quantity = meal['quantity'] ?? 1;
+        final price = meal['price'] is num
+            ? meal['price'].toDouble()
+            : double.parse(meal['price'].toString());
+        final item = {
           'title': meal['title']?.toString() ?? 'Unknown Item',
           'title_ar': meal['title_ar']?.toString() ?? 'Unknown Item',
-          'quantity': meal['quantity'] ?? 1,
-          'price': meal['price']?.toDouble() ?? 0.0,
+          'quantity': quantity,
+          'price': price,
         };
+        log('Order item: $item');
+        return item;
       }).toList();
 
+      final String status = 'pending';
+      final String trackingStatus = 'order_placed';
+
+      log('Submitting order with items: $orderItems');
       await firestore.collection('orders').add({
         'userId': userId,
         'customer': _customerName ?? 'Unknown',
+        'items': orderItems,
         'orderItems': orderItems,
         'total': totalAmount,
         'discountApplied': discountAmount,
@@ -156,13 +213,18 @@ class OrdersCubit extends Cubit<OrdersState> {
         'phoneNumber': _phoneNumber,
         'deliveryAddress': _deliveryAddress,
         'timestamp': FieldValue.serverTimestamp(),
-        'status': 'pending',
+        'status': status,
+        'status_ar': _statusToArabic[status] ?? status,
+        'trackingStatus': trackingStatus,
+        'tracking_status_ar':
+            _trackingStatusToArabic[trackingStatus] ?? trackingStatus,
       });
 
       await _clearCart();
       emit(OrdersLoaded(meals: List.from(meals)));
       emit(OrdersSubmissionSuccess());
     } catch (e) {
+      log('Failed to submit order: $e');
       emit(OrdersSubmissionError(errorMessage: e.toString()));
     }
   }
@@ -170,47 +232,14 @@ class OrdersCubit extends Cubit<OrdersState> {
   Future<void> deleteOrder(String orderId) async {
     try {
       await firestore.collection('orders').doc(orderId).delete();
+      log('Deleted order: $orderId');
       emit(OrdersSubmissionSuccess());
     } catch (e) {
+      log('Failed to delete order: $e');
       emit(OrdersSubmissionError(
           errorMessage: 'Failed to delete order: ${e.toString()}'));
     }
   }
-
-  // Future<void> addMeal(Map<String, dynamic> meal) async {
-  //   while (_isLoadingCart) {
-  //     await Future.delayed(const Duration(milliseconds: 100));
-  //   }
-
-  //   // emit(OrdersLoading());
-
-  //   final documentId =
-  //       meal['documentId'] ?? meal['title'] ?? UniqueKey().toString();
-
-  //   final doc = await firestore.collection('users2').doc(userId).get();
-  //   if (doc.exists && doc.data()?['cartItems'] != null) {
-  //     meals = List<Map<String, dynamic>>.from(doc.data()?['cartItems'] ?? []);
-  //   } else {
-  //     meals = [];
-  //   }
-
-  //   final existingIndex =
-  //       meals.indexWhere((m) => m['documentId'] == documentId);
-
-  //   if (existingIndex != -1) {
-  //     meals[existingIndex]['quantity'] =
-  //         (meals[existingIndex]['quantity'] ?? 1) + 1;
-  //   } else {
-  //     meals.add({
-  //       ...meal,
-  //       'documentId': documentId,
-  //       'quantity': 1,
-  //     });
-  //   }
-
-  //   await _updateCartInFirestore();
-  //   emit(OrdersLoaded(meals: List.from(meals)));
-  // }
 
   Future<void> addMeal(Map<String, dynamic> meal) async {
     while (_isLoadingCart) {
@@ -233,15 +262,18 @@ class OrdersCubit extends Cubit<OrdersState> {
     if (existingIndex != -1) {
       meals[existingIndex]['quantity'] =
           (meals[existingIndex]['quantity'] ?? 1) + 1;
+      log('Incremented quantity for existing meal: ${meals[existingIndex]}');
     } else {
-      meals.add({
+      final newMeal = {
         'title': meal['title'] ?? 'Unknown',
         'title_ar': meal['title_ar'],
         'price': meal['price'] ?? 0.0,
         'image': meal['image'] ?? '',
         'documentId': documentId,
         'quantity': 1,
-      });
+      };
+      meals.add(newMeal);
+      log('Added new meal: $newMeal');
     }
 
     await _updateCartInFirestore();
