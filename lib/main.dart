@@ -29,6 +29,7 @@ import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/screens/paymentScreen/complete_payment_screen.dart';
 import 'package:restrant_app/screens/paymentScreen/payment_screen.dart';
+import 'package:restrant_app/screens/reserveTableScreen/final_reservation.dart';
 import 'package:restrant_app/screens/reserveTableScreen/reserve_table_screen.dart';
 import 'package:restrant_app/screens/specialPlatesScreen/special_plates_screen.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
@@ -167,10 +168,10 @@ class MyApp extends StatelessWidget {
                           return MaterialPageRoute(
                             builder: (context) => const OrdersScreen(),
                           );
-                        case ReservationsplashScreen.id:
+                        case TableSelectionPage.id:
                           return MaterialPageRoute(
                             builder: (context) =>
-                                const ReservationsplashScreen(),
+                                const TableSelectionPage(),
                           );
                         case FavoritesScreen.id:
                           return MaterialPageRoute(

@@ -85,6 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "continueButton": MessageLookupByLibrary.simpleMessage("استمر"),
     "createAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
     "customer": MessageLookupByLibrary.simpleMessage("العميل:"),
+    "deletAccount": MessageLookupByLibrary.simpleMessage("حذف الحساب"),
     "delivered": MessageLookupByLibrary.simpleMessage("تم التوصيل"),
     "deliveryAddress": MessageLookupByLibrary.simpleMessage("عنوان التوصيل"),
     "deliveryInfo": MessageLookupByLibrary.simpleMessage("معلومات التوصيل:"),
@@ -103,6 +104,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterCouponCode": MessageLookupByLibrary.simpleMessage("أدخل كود القسيمة"),
     "enterPhone": MessageLookupByLibrary.simpleMessage("يرجى إدخال رقم هاتفك"),
     "failed": MessageLookupByLibrary.simpleMessage("فشل"),
+    "failedLoadData": MessageLookupByLibrary.simpleMessage(
+      "فشل تحميل بيانات المستخدم : ",
+    ),
+    "failedLoadGoogleImage": MessageLookupByLibrary.simpleMessage(
+      "فشل تحميل صورة الملف الشخصي من جوجل",
+    ),
+    "failedLoadImage": MessageLookupByLibrary.simpleMessage(
+      "فشل تحميل صورة الملف الشخصي",
+    ),
+    "failedPickImage": MessageLookupByLibrary.simpleMessage(
+      "فشل اختيار الصورة",
+    ),
     "favPayMethod": MessageLookupByLibrary.simpleMessage(
       "اختر طريقة الدفع المفضلة لديك",
     ),
@@ -174,6 +187,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "اطلب خدمات الطعام",
     ),
     "onboardingTitleTwo": MessageLookupByLibrary.simpleMessage("احجز طاولة"),
+    "onehour": MessageLookupByLibrary.simpleMessage(
+      "يرجى ملاحظة: الحجز لمدة ساعة واحدة فقط",
+    ),
     "order": MessageLookupByLibrary.simpleMessage("طلب"),
     "orderCancelFailed": MessageLookupByLibrary.simpleMessage(
       "فشل إلغاء الطلب:",
@@ -207,6 +223,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "phone": MessageLookupByLibrary.simpleMessage("الهاتف"),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+    "pleaseEnterName": MessageLookupByLibrary.simpleMessage("يرجى إدخال اسمك"),
+    "pleaseEnterValidName": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال اسم صحيح",
+    ),
     "pleaseLogin": MessageLookupByLibrary.simpleMessage("يرجى تسجيل الدخول"),
     "proceedWithPaymob": MessageLookupByLibrary.simpleMessage(
       "المتابعة الى باي موب",
@@ -227,6 +247,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "reserNow": MessageLookupByLibrary.simpleMessage(
       "احجز طاولة في باراجون الآن",
+    ),
+    "reservationAlreadyExists": MessageLookupByLibrary.simpleMessage(
+      "⚠️ هذا المقعد محجوز بالفعل في هذا الموعد، اختر وقتًا آخر",
     ),
     "reserve": MessageLookupByLibrary.simpleMessage("احجز"),
     "reserveCardDescription": MessageLookupByLibrary.simpleMessage(
@@ -282,7 +305,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "somethingWentWrong": MessageLookupByLibrary.simpleMessage("حدث خطأ ما"),
     "specialPlates": MessageLookupByLibrary.simpleMessage("الأطباق الخاصة"),
-    "splashTitle": MessageLookupByLibrary.simpleMessage("باراجون"),
+    "splashTitle": MessageLookupByLibrary.simpleMessage("تِكة ونكهة"),
     "status": MessageLookupByLibrary.simpleMessage("الحالة:"),
     "subTitle": MessageLookupByLibrary.simpleMessage(
       "سيقوم مندوب التوصيل بتحصيل الدفع عند وصول طلبك.",
@@ -290,6 +313,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "subtotal": MessageLookupByLibrary.simpleMessage("المجموع"),
     "successMessage": MessageLookupByLibrary.simpleMessage("تم الحجز بنجاح!"),
     "successReser": MessageLookupByLibrary.simpleMessage("نجاح"),
+    "tableAlreadyReserved": MessageLookupByLibrary.simpleMessage(
+      "هذا المقعد محجوز بالفعل في هذا المعاد",
+    ),
     "tableReserved": MessageLookupByLibrary.simpleMessage(
       "تم حجز الطاولة بنجاح",
     ),

@@ -87,6 +87,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Create a new account",
     ),
     "customer": MessageLookupByLibrary.simpleMessage("Customer:"),
+    "deletAccount": MessageLookupByLibrary.simpleMessage("delete account "),
     "delivered": MessageLookupByLibrary.simpleMessage("Delivered"),
     "deliveryAddress": MessageLookupByLibrary.simpleMessage("Delivery Address"),
     "deliveryInfo": MessageLookupByLibrary.simpleMessage(
@@ -118,6 +119,18 @@ class MessageLookup extends MessageLookupByLibrary {
       "Please enter your phone number",
     ),
     "failed": MessageLookupByLibrary.simpleMessage("failed"),
+    "failedLoadData": MessageLookupByLibrary.simpleMessage(
+      "Failed to load user data : ",
+    ),
+    "failedLoadGoogleImage": MessageLookupByLibrary.simpleMessage(
+      "Failed to load Google profile image",
+    ),
+    "failedLoadImage": MessageLookupByLibrary.simpleMessage(
+      "Failed to load profile image",
+    ),
+    "failedPickImage": MessageLookupByLibrary.simpleMessage(
+      "Failed to pick image",
+    ),
     "favPayMethod": MessageLookupByLibrary.simpleMessage(
       "Select your preferred payment method",
     ),
@@ -193,6 +206,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "onboardingTitleTwo": MessageLookupByLibrary.simpleMessage(
       "Reserve a table",
     ),
+    "onehour": MessageLookupByLibrary.simpleMessage(
+      "note: Reservation is only for 1 hour",
+    ),
     "order": MessageLookupByLibrary.simpleMessage("Order"),
     "orderCancelFailed": MessageLookupByLibrary.simpleMessage(
       "Failed to cancel order:",
@@ -228,6 +244,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "phone": MessageLookupByLibrary.simpleMessage("Phone"),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("Phone Number"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
+    "pleaseEnterName": MessageLookupByLibrary.simpleMessage(
+      "Please enter your name",
+    ),
+    "pleaseEnterValidName": MessageLookupByLibrary.simpleMessage(
+      "Please enter a valid name",
+    ),
     "pleaseLogin": MessageLookupByLibrary.simpleMessage(
       "Please login to your account",
     ),
@@ -250,6 +272,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "reserNow": MessageLookupByLibrary.simpleMessage(
       "Reserve a table at Paragon right now",
+    ),
+    "reservationAlreadyExists": MessageLookupByLibrary.simpleMessage(
+      "Reservation already exists for this date and time",
     ),
     "reserve": MessageLookupByLibrary.simpleMessage("Reserve"),
     "reserveCardDescription": MessageLookupByLibrary.simpleMessage(
@@ -305,7 +330,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Something went wrong",
     ),
     "specialPlates": MessageLookupByLibrary.simpleMessage("Special Plates"),
-    "splashTitle": MessageLookupByLibrary.simpleMessage("PARAGON"),
+    "splashTitle": MessageLookupByLibrary.simpleMessage("Tasty Bites"),
     "status": MessageLookupByLibrary.simpleMessage("Status:"),
     "subTitle": MessageLookupByLibrary.simpleMessage(
       "Our delivery agent will collect the payment when your order arrives",
@@ -315,6 +340,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Reservation successful!",
     ),
     "successReser": MessageLookupByLibrary.simpleMessage("Success"),
+    "tableAlreadyReserved": MessageLookupByLibrary.simpleMessage(
+      "Table already reserved",
+    ),
     "tableReserved": MessageLookupByLibrary.simpleMessage(
       "Your table is reserved",
     ),

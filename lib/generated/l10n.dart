@@ -55,9 +55,9 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `PARAGON`
+  /// `Tasty Bites`
   String get splashTitle {
-    return Intl.message('PARAGON', name: 'splashTitle', desc: '', args: []);
+    return Intl.message('Tasty Bites', name: 'splashTitle', desc: '', args: []);
   }
 
   /// `Skip`
@@ -125,6 +125,66 @@ class S {
     return Intl.message(
       'Place catering orders with us.',
       name: 'onboardingDescriptionThree',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load user data : `
+  String get failedLoadData {
+    return Intl.message(
+      'Failed to load user data : ',
+      name: 'failedLoadData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to pick image`
+  String get failedPickImage {
+    return Intl.message(
+      'Failed to pick image',
+      name: 'failedPickImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load profile image`
+  String get failedLoadImage {
+    return Intl.message(
+      'Failed to load profile image',
+      name: 'failedLoadImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load Google profile image`
+  String get failedLoadGoogleImage {
+    return Intl.message(
+      'Failed to load Google profile image',
+      name: 'failedLoadGoogleImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your name`
+  String get pleaseEnterName {
+    return Intl.message(
+      'Please enter your name',
+      name: 'pleaseEnterName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid name`
+  String get pleaseEnterValidName {
+    return Intl.message(
+      'Please enter a valid name',
+      name: 'pleaseEnterValidName',
       desc: '',
       args: [],
     );
@@ -480,6 +540,16 @@ class S {
     return Intl.message('Cancel', name: 'CancelButton', desc: '', args: []);
   }
 
+  /// `Table already reserved`
+  String get tableAlreadyReserved {
+    return Intl.message(
+      'Table already reserved',
+      name: 'tableAlreadyReserved',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Table Reservation`
   String get reserveationTable {
     return Intl.message(
@@ -540,6 +610,16 @@ class S {
     return Intl.message(
       'NOTE: Reservation is only for 1 hour',
       name: 'tableReservedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reservation already exists for this date and time`
+  String get reservationAlreadyExists {
+    return Intl.message(
+      'Reservation already exists for this date and time',
+      name: 'reservationAlreadyExists',
       desc: '',
       args: [],
     );
@@ -718,6 +798,16 @@ class S {
   /// `seats`
   String get selectseats {
     return Intl.message('seats', name: 'selectseats', desc: '', args: []);
+  }
+
+  /// `note: Reservation is only for 1 hour`
+  String get onehour {
+    return Intl.message(
+      'note: Reservation is only for 1 hour',
+      name: 'onehour',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Reservation is only for 1 hour`
@@ -1613,6 +1703,16 @@ class S {
   /// `Cash`
   String get cash {
     return Intl.message('Cash', name: 'cash', desc: '', args: []);
+  }
+
+  /// `delete account `
+  String get deletAccount {
+    return Intl.message(
+      'delete account ',
+      name: 'deletAccount',
+      desc: '',
+      args: [],
+    );
   }
 }
 

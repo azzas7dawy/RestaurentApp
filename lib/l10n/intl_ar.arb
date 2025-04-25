@@ -1,5 +1,5 @@
 {
-    "splashTitle": "باراجون",
+    "splashTitle": "تِكة ونكهة",
     "skipButton": "تخطي",
     "continueButton": "استمر",
     "onboardingTitleOne": "خطط لوجبتك الأسبوعية",
@@ -215,13 +215,14 @@
     "cash": "نقدًا",
 
 
-
+    "tableAlreadyReserved": "هذا المقعد محجوز بالفعل في هذا المعاد",
     "failedLoadData":"فشل تحميل بيانات المستخدم : ",
     "failedPickImage":"فشل اختيار الصورة",
     "failedLoadImage":"فشل تحميل صورة الملف الشخصي",
     "failedLoadGoogleImage": "فشل تحميل صورة الملف الشخصي من جوجل",
     "pleaseEnterName": "يرجى إدخال اسمك",
     "pleaseEnterValidName": "يرجى إدخال اسم صحيح",
+    "reservationAlreadyExists":  "⚠️ هذا المقعد محجوز بالفعل في هذا الموعد، اختر وقتًا آخر",
   
 
     "deletAccount": "حذف الحساب"   

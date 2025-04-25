@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:restrant_app/generated/l10n.dart';
-import 'package:restrant_app/screens/reserveTableScreen/success_reserved_page.dart';
 import 'package:restrant_app/screens/reserveTableScreen/widgets/bottom_sheet.dart';
 import 'package:restrant_app/screens/reserveTableScreen/widgets/table_selection_widget.dart';
 

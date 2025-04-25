@@ -1,5 +1,5 @@
 {
-    "splashTitle": "PARAGON",
+    "splashTitle": "Tasty Bites",
     "skipButton": "Skip",
     "continueButton": "Continue",
     "onboardingTitleOne": "Plan your weekly menu",
@@ -75,7 +75,7 @@
     "CancelButton": "Cancel",
 
 
-
+    "tableAlreadyReserved": "Table already reserved",
     "reserveationTable": "Table Reservation",
     "selectTable": "Select a table",
     "reserveTable": "Reserve Table",
@@ -83,6 +83,7 @@
     "successReser": "Success",
     "tableReserved": "Your table is reserved",
     "tableReservedMessage": "NOTE: Reservation is only for 1 hour",
+    "reservationAlreadyExists": "Reservation already exists for this date and time",
 
 
     "fillAllFields": "Please fill out all fields.",
