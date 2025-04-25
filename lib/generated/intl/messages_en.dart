@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "LOGIN": MessageLookupByLibrary.simpleMessage("LOGIN"),
     "SIGIUP": MessageLookupByLibrary.simpleMessage("SIGN UP"),
     "aboutHelp": MessageLookupByLibrary.simpleMessage("About / Help"),
+    "accepted": MessageLookupByLibrary.simpleMessage("Accepted"),
     "addToOrdersBtn": MessageLookupByLibrary.simpleMessage("Add to Orders"),
     "addedToFavorites": MessageLookupByLibrary.simpleMessage(
       "Added to favorites",
@@ -87,6 +88,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Create a new account",
     ),
     "customer": MessageLookupByLibrary.simpleMessage("Customer:"),
+    "deletAccount": MessageLookupByLibrary.simpleMessage("delete account "),
     "delivered": MessageLookupByLibrary.simpleMessage("Delivered"),
     "deliveryAddress": MessageLookupByLibrary.simpleMessage("Delivery Address"),
     "deliveryInfo": MessageLookupByLibrary.simpleMessage(
@@ -202,11 +204,14 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "orderDetails": MessageLookupByLibrary.simpleMessage("Order Details"),
     "orderId": MessageLookupByLibrary.simpleMessage("Order ID:"),
+    "orderPlaced": MessageLookupByLibrary.simpleMessage("Order Placed"),
+    "orderStatus": MessageLookupByLibrary.simpleMessage("Order Status"),
     "orderSubmit": MessageLookupByLibrary.simpleMessage(
       "Order submitted successfully",
     ),
     "orderSummary": MessageLookupByLibrary.simpleMessage("Order Summary"),
     "orderedOn": MessageLookupByLibrary.simpleMessage("Ordered on"),
+    "outForDelivery": MessageLookupByLibrary.simpleMessage("Out for Delivery"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
     "payBtn": MessageLookupByLibrary.simpleMessage("Proceed to Payment"),
     "payMethod": MessageLookupByLibrary.simpleMessage(
@@ -238,6 +243,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "rating": MessageLookupByLibrary.simpleMessage("Rating: "),
     "readyToOrder": MessageLookupByLibrary.simpleMessage("Ready to order?"),
+    "rejected": MessageLookupByLibrary.simpleMessage("Rejected"),
     "remove": MessageLookupByLibrary.simpleMessage("Remove"),
     "removeMeal": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to remove this meal?",
@@ -329,6 +335,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "total2": MessageLookupByLibrary.simpleMessage("Total: "),
     "totalAmount": MessageLookupByLibrary.simpleMessage("Total Amount:"),
     "totalPrice": MessageLookupByLibrary.simpleMessage("Total Price:"),
+    "trackStatus": MessageLookupByLibrary.simpleMessage("Delivery Status"),
     "trackYourOrders": MessageLookupByLibrary.simpleMessage(
       "Track your orders",
     ),
