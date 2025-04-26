@@ -52,4 +52,6 @@ class ColorsUtility {
   static const lightProcessingStatusColor = Color(0xFF28B1B8);
   static const lightOnTheWayStatusColor = Color(0xFF1E8E96);
   static const lightFailedStatusColor = Color(0xFFEB6A5A);
+  static const messageSenderColor = Color(0xFF4A919E);
+  static const messageReceiverColor = Color(0xFF343A40);
 }

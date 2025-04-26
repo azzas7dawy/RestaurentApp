@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
+import 'package:restrant_app/screens/adminDashbord/admin/admin_dashboard.dart';
 import 'package:restrant_app/screens/auth/complete_user_data.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/screens/customScreen/custom_screen.dart';
@@ -25,6 +26,8 @@ class AuthCubit extends Cubit<AuthState> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  static const String _adminEmail = 'admin@gmail.com';
+  static const String _adminPassword = 'aaaAAA111!!!';
 
   Future<void> signUp({
     required String name,
@@ -113,6 +116,26 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     emit(LoginLoading());
     try {
+      if (emailOrPhone == _adminEmail && password == _adminPassword) {
+        await PrefService.setLoggedIn(true);
+        await PrefService.saveUserData(
+          userId: 'admin',
+          name: 'Admin',
+          email: _adminEmail,
+          phone: '',
+        );
+
+        emit(LoginSuccess());
+        if (context.mounted) {
+          appSnackbar(
+            context,
+            text: 'Admin login successful!',
+            backgroundColor: ColorsUtility.successSnackbarColor,
+          );
+          Navigator.pushReplacementNamed(context, DashboardHomeScreen.id);
+        }
+        return;
+      }
       final isEmail = emailOrPhone.contains('@');
       String emailToUse = emailOrPhone;
 

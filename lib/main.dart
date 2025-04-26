@@ -16,6 +16,12 @@ import 'package:restrant_app/cubit/ThemeLogic/cubit/theme_cubit.dart';
 import 'package:restrant_app/cubit/ThemeLogic/cubit/theme_state.dart';
 import 'package:restrant_app/firebase_options.dart';
 import 'package:restrant_app/generated/l10n.dart';
+import 'package:restrant_app/screens/adminDashbord/admin/MenuScreen%20.dart';
+import 'package:restrant_app/screens/adminDashbord/admin/admin_dashboard.dart';
+import 'package:restrant_app/screens/adminDashbord/admin/admin_orders_screen.dart';
+import 'package:restrant_app/screens/adminDashbord/admin/orders_screen.dart';
+import 'package:restrant_app/screens/adminDashbord/admin/statistics_screen.dart';
+import 'package:restrant_app/screens/adminDashbord/chat.dart';
 import 'package:restrant_app/screens/auth/complete_user_data.dart';
 import 'package:restrant_app/screens/auth/forgot_password_screen.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
@@ -197,6 +203,31 @@ class MyApp extends StatelessWidget {
                         case SettignsScreen.id:
                           return MaterialPageRoute(
                             builder: (context) => const SettignsScreen(),
+                          );
+                        case OrdersScreenn.id:
+                          return MaterialPageRoute(
+                            builder: (context) => const OrdersScreenn(),
+                          );
+                        case AdminMenuScreen.id:
+                          return MaterialPageRoute(
+                            builder: (context) => const AdminMenuScreen(),
+                          );
+                        case AdminOrdersScreen.id:
+                          return MaterialPageRoute(
+                            builder: (context) => const AdminOrdersScreen(),
+                          );
+                        case StatisticsScreen.id:
+                          return MaterialPageRoute(
+                            builder: (context) => const StatisticsScreen(),
+                          );
+                        case DashboardHomeScreen.id:
+                          return MaterialPageRoute(
+                            builder: (context) => DashboardHomeScreen(),
+                          );
+                        case ChatScreen.id:
+                          return MaterialPageRoute(
+                            builder: (context) =>
+                                ChatScreen(otherUserEmail: data),
                           );
                         default:
                           return MaterialPageRoute(
