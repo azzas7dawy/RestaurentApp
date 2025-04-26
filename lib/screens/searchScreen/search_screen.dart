@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 
@@ -19,6 +20,22 @@ class _SearchScreenState extends State<SearchScreen> {
   bool _isSearching = false;
   bool _hasSearched = false;
 
+  dynamic _getLocalizedValue(Map<String, dynamic> data, String field) {
+    final locale = Localizations.localeOf(context);
+
+    if (field == 'description') {
+      if (locale.languageCode == 'ar' && data['desc_ar'] != null) {
+        return data['desc_ar'];
+      }
+      return data['description'] ?? data['desc'] ?? '';
+    }
+
+    if (locale.languageCode == 'ar' && data['${field}_ar'] != null) {
+      return data['${field}_ar'];
+    }
+    return data[field] ?? '';
+  }
+
   Future<List<Map<String, dynamic>>> _fetchMealsOnly(String query) async {
     if (query.isEmpty) return [];
 
@@ -29,21 +46,39 @@ class _SearchScreenState extends State<SearchScreen> {
       final menuSnapshot = await firestore.collection('menu').get();
 
       for (final menuDoc in menuSnapshot.docs) {
+        final categoryData = menuDoc.data();
+        final categoryName = categoryData['category'] ?? menuDoc.id;
+        final categoryNameAr = categoryData['category_ar'] ?? categoryName;
+
         final itemsSnapshot = await menuDoc.reference.collection('items').get();
         for (final itemDoc in itemsSnapshot.docs) {
           final itemData = itemDoc.data();
-          if (itemData['title']
-                  ?.toString()
-                  .toLowerCase()
-                  .contains(query.toLowerCase()) ??
-              false) {
+
+          final title = itemData['title']?.toString().toLowerCase() ?? '';
+          final titleAr = itemData['title_ar']?.toString().toLowerCase() ?? '';
+          final name = itemData['name']?.toString().toLowerCase() ?? '';
+          final nameAr = itemData['name_ar']?.toString().toLowerCase() ?? '';
+
+          final queryLower = query.toLowerCase();
+
+          if (title.contains(queryLower) ||
+              titleAr.contains(queryLower) ||
+              name.contains(queryLower) ||
+              nameAr.contains(queryLower)) {
+            final currentLocale = Localizations.localeOf(context);
+            final displayCategory = currentLocale.languageCode == 'ar'
+                ? categoryNameAr
+                : categoryName;
+
             results.add({
               'id': itemDoc.id,
-              'title': itemData['title'],
-              'category': menuDoc.id,
+              'title': _getLocalizedValue(itemData, 'title') ??
+                  _getLocalizedValue(itemData, 'name') ??
+                  '',
+              'category': displayCategory,
               'image': itemData['image'] ?? '',
               'price': itemData['price'] ?? 0.0,
-              'description': itemData['description'] ?? '',
+              'description': _getLocalizedValue(itemData, 'description'),
               'rate': itemData['rate']?.toDouble() ?? 0.0,
               'is_available': itemData['is_available'] ?? true,
               'documentId': itemDoc.id,
@@ -89,6 +124,8 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final locale = Localizations.localeOf(context);
+    final isArabic = locale.languageCode == 'ar';
 
     return Scaffold(
       body: SafeArea(
@@ -96,7 +133,7 @@ class _SearchScreenState extends State<SearchScreen> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              _buildSearchField(theme),
+              _buildSearchField(theme, isArabic),
               const SizedBox(height: 16),
               Expanded(child: _buildSearchResults(theme)),
             ],
@@ -106,14 +143,15 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _buildSearchField(ThemeData theme) {
+  Widget _buildSearchField(ThemeData theme, bool isArabic) {
     return TextField(
       controller: _searchController,
       style: theme.textTheme.bodyMedium,
+      textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
       decoration: InputDecoration(
         filled: true,
         fillColor: theme.inputDecorationTheme.fillColor,
-        hintText: 'Search for meals...',
+        hintText: isArabic ? 'ابحث عن وجبات...' : 'Search for meals...',
         hintStyle: theme.inputDecorationTheme.hintStyle,
         prefixIcon: Icon(Icons.search, color: theme.iconTheme.color),
         suffixIcon: _searchController.text.isNotEmpty
@@ -156,7 +194,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 size: 80, color: ColorsUtility.lightOnboardingDescriptionColor),
             const SizedBox(height: 20),
             Text(
-              "Search for meals by name",
+              S.of(context).searchMeals,
               style: theme.textTheme.bodyLarge?.copyWith(
                 fontSize: 18,
                 color: ColorsUtility.lightOnboardingDescriptionColor,
@@ -176,7 +214,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 size: 80, color: ColorsUtility.lightOnboardingDescriptionColor),
             const SizedBox(height: 20),
             Text(
-              "No meals found",
+              S.of(context).noMealsFound,
               style: theme.textTheme.bodyLarge?.copyWith(
                 fontSize: 18,
                 color: ColorsUtility.lightOnboardingDescriptionColor,
@@ -184,7 +222,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             const SizedBox(height: 10),
             Text(
-              "Try different meal names",
+              S.of(context).tryDifferentMealsName,
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontSize: 14,
                 color: ColorsUtility.lightOnboardingDescriptionColor,
@@ -223,7 +261,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    meal['category'],
+                    meal['category'].toString(),
                     style: theme.textTheme.bodySmall,
                   ),
                   const SizedBox(height: 4),

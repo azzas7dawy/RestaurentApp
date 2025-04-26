@@ -14,25 +14,29 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   }) : super(FavoritesInitial()) {
     _loadFavorites();
   }
-// =======================================================================================
+
   Future<void> _loadFavorites() async {
     emit(FavoritesLoading());
     try {
-      final doc = await firestore.collection('users2').doc(userId).get();
-      if (doc.exists && doc.data()?['favorites'] != null) {
-        final favorites =
-            List<Map<String, dynamic>>.from(doc.data()?['favorites'] ?? []);
-        emit(FavoritesLoaded(favorites: favorites));
+      final DocumentSnapshot doc =
+          await firestore.collection('users2').doc(userId).get();
+      if (doc.exists) {
+        final Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+        if (data != null && data['favorites'] != null) {
+          final List<Map<String, dynamic>> favorites =
+              List<Map<String, dynamic>>.from(data['favorites'] as List);
+          emit(FavoritesLoaded(favorites: favorites));
+        } else {
+          emit(FavoritesLoaded(favorites: []));
+        }
       } else {
         emit(FavoritesLoaded(favorites: []));
       }
-    } catch (e) {
+    } catch (error) {
       emit(FavoritesError(
-          errorMessage: 'Failed to load favorites: ${e.toString()}'));
+          errorMessage: 'Failed to load favorites: ${error.toString()}'));
     }
   }
-
-// =======================================================================================
 
   Future<void> _updateFavoritesInFirestore(
       List<Map<String, dynamic>> favorites) async {
@@ -40,56 +44,46 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       await firestore.collection('users2').doc(userId).update({
         'favorites': favorites,
       });
-    } catch (e) {
+    } catch (error) {
       emit(FavoritesError(
-          errorMessage: 'Failed to update favorites: ${e.toString()}'));
+          errorMessage: 'Failed to update favorites: ${error.toString()}'));
     }
   }
 
-// =======================================================================================
-
   Future<void> addToFavorites(Map<String, dynamic> meal) async {
     try {
-      final state = this.state;
-      if (state is FavoritesLoaded) {
-        final favorites = List<Map<String, dynamic>>.from(state.favorites);
+      final FavoritesState currentState = state;
+      if (currentState is FavoritesLoaded) {
+        final List<Map<String, dynamic>> favorites =
+            List<Map<String, dynamic>>.from(currentState.favorites);
 
-        if (!favorites.any((fav) => fav['title'] == meal['title'])) {
+        if (!favorites.any((Map<String, dynamic> favorite) =>
+            favorite['documentId'] == meal['documentId'])) {
           favorites.add(meal);
           await _updateFavoritesInFirestore(favorites);
           emit(FavoritesLoaded(favorites: favorites));
         }
       }
-    } catch (e) {
+    } catch (error) {
       emit(FavoritesError(
-          errorMessage: 'Failed to add favorite: ${e.toString()}'));
+          errorMessage: 'Failed to add favorite: ${error.toString()}'));
     }
   }
 
-// =======================================================================================
-
-  Future<void> removeFromFavorites(String mealTitle) async {
+  Future<void> removeFromFavorites(String documentId) async {
     try {
-      final state = this.state;
-      if (state is FavoritesLoaded) {
-        final favorites = List<Map<String, dynamic>>.from(state.favorites)
-          ..removeWhere((fav) => fav['title'] == mealTitle);
+      final FavoritesState currentState = this.state;
+      if (currentState is FavoritesLoaded) {
+        final List<Map<String, dynamic>> favorites =
+            List<Map<String, dynamic>>.from(currentState.favorites)
+              ..removeWhere((Map<String, dynamic> favorite) =>
+                  favorite['documentId'] == documentId);
         await _updateFavoritesInFirestore(favorites);
         emit(FavoritesLoaded(favorites: favorites));
       }
-    } catch (e) {
+    } catch (error) {
       emit(FavoritesError(
-          errorMessage: 'Failed to remove favorite: ${e.toString()}'));
+          errorMessage: 'Failed to remove favorite: ${error.toString()}'));
     }
   }
-
-// =======================================================================================
-
-  // bool isFavorite(String mealTitle) {
-  //   final state = this.state;
-  //   if (state is FavoritesLoaded) {
-  //     return state.favorites.any((fav) => fav['title'] == mealTitle);
-  //   }
-  //   return false;
-  // }
 }

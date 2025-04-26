@@ -7,6 +7,7 @@ import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
+import 'package:restrant_app/generated/l10n.dart';
 
 class CategoryItemsScreen extends StatelessWidget {
   const CategoryItemsScreen({super.key, required this.categoryDoc});
@@ -15,30 +16,31 @@ class CategoryItemsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final ThemeData theme = Theme.of(context);
+    // final bool isDark = theme.brightness == Brightness.dark;
 
-    final Color appBarTextColor = isDark
-        ? ColorsUtility.takeAwayColor
-        : ColorsUtility.progressIndictorColor;
+    // final Color appBarTextColor = isDark
+    //     ? ColorsUtility.takeAwayColor
+    //     : ColorsUtility.progressIndictorColor;
     return Scaffold(
       appBar: AppBar(
         title: Text(
           _formatCategoryName(categoryDoc.id),
           style: TextStyle(
-            color: appBarTextColor,
+            color: ColorsUtility.takeAwayColor,
             fontSize: theme.textTheme.titleLarge?.fontSize,
           ),
         ),
         iconTheme: IconThemeData(
-          color: appBarTextColor,
+          color: ColorsUtility.takeAwayColor,
         ),
         centerTitle: true,
         backgroundColor: theme.scaffoldBackgroundColor,
       ),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: StreamBuilder<QuerySnapshot>(
         stream: categoryDoc.reference.collection('items').snapshots(),
-        builder: (context, snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
                 child: CircularProgressIndicator(
@@ -49,7 +51,7 @@ class CategoryItemsScreen extends StatelessWidget {
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
             return Center(
               child: Text(
-                'No items available in this category',
+                S.of(context).noItemInCat,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                 ),
@@ -57,7 +59,7 @@ class CategoryItemsScreen extends StatelessWidget {
             );
           }
 
-          var items = snapshot.data!.docs;
+          final List<QueryDocumentSnapshot> items = snapshot.data!.docs;
 
           return GridView.builder(
             padding: const EdgeInsets.all(15),
@@ -68,8 +70,8 @@ class CategoryItemsScreen extends StatelessWidget {
               childAspectRatio: 0.8,
             ),
             itemCount: items.length,
-            itemBuilder: (context, index) {
-              var item = items[index];
+            itemBuilder: (BuildContext context, int index) {
+              final QueryDocumentSnapshot item = items[index];
               return _buildItemCard(item, context);
             },
           );
@@ -79,20 +81,73 @@ class CategoryItemsScreen extends StatelessWidget {
   }
 
   Widget _buildItemCard(QueryDocumentSnapshot item, BuildContext context) {
-    final ordersCubit = BlocProvider.of<OrdersCubit>(context);
-    final favoritesCubit = BlocProvider.of<FavoritesCubit>(context);
-    bool isAvailable = item['is_available'] ?? false;
+    final OrdersCubit ordersCubit = BlocProvider.of<OrdersCubit>(context);
+    final FavoritesCubit favoritesCubit =
+        BlocProvider.of<FavoritesCubit>(context);
+    final bool isArabic = Localizations.localeOf(context).languageCode == 'ar';
+
+    Map<String, dynamic> getItemData(Map<String, dynamic> itemData) {
+      return {
+        'documentId': item.id,
+        'title': itemData['title'] ?? itemData['name'] ?? '',
+        'title_ar': itemData['title_ar'] ??
+            itemData['name_ar'] ??
+            itemData['title'] ??
+            itemData['name'] ??
+            '',
+        'image': itemData['image'] ?? '',
+        'rate': itemData['rate'] ?? 0.0,
+        'price': itemData['price'] ?? 0.0,
+        'description': itemData['description'] ?? itemData['desc'] ?? '',
+        'desc_ar': itemData['desc_ar'] ??
+            itemData['description_ar'] ??
+            itemData['description'] ??
+            itemData['desc'] ??
+            '',
+        'category': itemData['category'] ?? '',
+        'category_ar': itemData['category_ar'] ?? itemData['category'] ?? '',
+        'special': itemData['special'] ?? false,
+      };
+    }
+
+    final Map<String, dynamic> itemData =
+        getItemData(item.data() as Map<String, dynamic>);
+    final String itemName = isArabic
+        ? (itemData['title_ar']?.isNotEmpty == true
+                ? itemData['title_ar']
+                : itemData['title']) ??
+            S.of(context).noTitle
+        : (itemData['title']?.isNotEmpty == true
+                ? itemData['title']
+                : itemData['name']) ??
+            S.of(context).noTitle;
+    final String image = itemData['image'];
+    final String rate = itemData['rate'].toString();
+    final String price = itemData['price'].toString();
+    final String description = isArabic
+        ? (itemData['desc_ar']?.isNotEmpty == true
+                ? itemData['desc_ar']
+                : itemData['description']) ??
+            ''
+        : (itemData['description']?.isNotEmpty == true
+            ? itemData['description']
+            : '');
+    final bool isSpecial = itemData['special'] == true;
 
     return BlocBuilder<FavoritesCubit, FavoritesState>(
-      builder: (context, state) {
-        final isFavorite = state is FavoritesLoaded
-            ? state.favorites.any((fav) => fav['title'] == item['title'])
+      builder: (BuildContext context, FavoritesState state) {
+        final bool isFavorite = state is FavoritesLoaded
+            ? state.favorites.any((Map<String, dynamic> favorite) =>
+                favorite['documentId'] == item.id)
             : false;
 
-        final theme = Theme.of(context);
+        final ThemeData theme = Theme.of(context);
+        final bool isDark = theme.brightness == Brightness.dark;
 
         return Card(
-          color: theme.scaffoldBackgroundColor,
+          color: isDark
+              ? ColorsUtility.elevatedBtnColor
+              : ColorsUtility.lightMainBackgroundColor,
           elevation: 3,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -100,128 +155,106 @@ class CategoryItemsScreen extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(12),
             onTap: () {
-              // if (!isAvailable) return;
               Navigator.pushNamed(
                 context,
                 MealDetailsScreen.id,
-                arguments: item.data() as Map<String, dynamic>,
+                arguments: itemData,
               );
             },
-            child: Opacity(
-              opacity: isAvailable ? 1.0 : 0.6,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: ClipRRect(
-                      borderRadius:
-                          const BorderRadius.vertical(top: Radius.circular(12)),
-                      child: Stack(
-                        children: [
-                          CachedNetworkImage(
-                            imageUrl: item['image'],
-                            height: 120,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            placeholder: (context, url) => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                            errorWidget: (context, url, error) => const Center(
-                                child: Icon(Icons.fastfood, size: 40)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(12)),
+                    child: Stack(
+                      children: [
+                        CachedNetworkImage(
+                          imageUrl: image,
+                          height: 120,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          placeholder: (BuildContext context, String url) =>
+                              const Center(
+                            child: CircularProgressIndicator(),
                           ),
-                          if (item['special'] == true)
-                            Positioned(
-                              top: 8,
-                              right: 8,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: ColorsUtility.takeAwayColor,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: const Text(
-                                  'SPECIAL',
-                                  style: TextStyle(
-                                    color: ColorsUtility.onboardingColor,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          errorWidget: (BuildContext context, String url,
+                                  dynamic error) =>
+                              const Center(
+                                  child: Icon(Icons.fastfood, size: 40)),
+                        ),
+                        if (isSpecial)
+                          Positioned(
+                            top: 8,
+                            right: 8,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: ColorsUtility.takeAwayColor,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                S.of(context).special,
+                                style: TextStyle(
+                                  color: ColorsUtility.onboardingColor,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                          if (!isAvailable)
-                            Positioned(
-                              top: 8,
-                              left: 8,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.red.shade700,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: const Text(
-                                  'NOT AVAILABLE',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
+                          ),
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item['title'],
-                          style: const TextStyle(
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        itemName,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: ColorsUtility.takeAwayColor),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: ColorsUtility.takeAwayColor,
+                            size: 16,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            rate,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: ColorsUtility.progressIndictorColor,
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            '${S.of(context).egp} $price',
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: ColorsUtility.takeAwayColor),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.star,
-                              color: ColorsUtility.takeAwayColor,
-                              size: 16,
+                              color: ColorsUtility.progressIndictorColor,
                             ),
-                            const SizedBox(width: 4),
-                            Text(
-                              item['rate'].toString(),
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: ColorsUtility.progressIndictorColor,
-                              ),
-                            ),
-                            const Spacer(),
-                            Text(
-                              'EGP ${item['price']}',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: ColorsUtility.progressIndictorColor,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
+                      ),
+                      if (description.isNotEmpty) ...[
                         const SizedBox(height: 4),
                         Text(
-                          item['description'],
+                          description,
                           style: const TextStyle(
                             color: ColorsUtility.textFieldLabelColor,
                             fontSize: 12,
@@ -229,80 +262,64 @@ class CategoryItemsScreen extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 4),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                Icons.add_circle_outline,
-                                color: isAvailable
-                                    ? ColorsUtility.progressIndictorColor
-                                    : ColorsUtility.textFieldLabelColor,
-                              ),
-                              onPressed: () async {
-                                if (isAvailable) {
-                                  final mealToAdd = {
-                                    ...item.data() as Map<String, dynamic>,
-                                    'documentId': item.id,
-                                  };
-                                  await ordersCubit.addMeal(mealToAdd);
-                                  if (context.mounted) {
-                                    appSnackbar(
-                                      context,
-                                      text: '${item['title']} added to orders',
-                                      backgroundColor:
-                                          ColorsUtility.successSnackbarColor,
-                                    );
-                                  }
-                                } else {
-                                  appSnackbar(
-                                    context,
-                                    text: '${item['title']} is not available',
-                                    backgroundColor:
-                                        ColorsUtility.errorSnackbarColor,
-                                  );
-                                }
-                              },
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                isFavorite
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                color: ColorsUtility.progressIndictorColor,
-                              ),
-                              onPressed: () {
-                                final itemData =
-                                    item.data() as Map<String, dynamic>;
-                                if (isFavorite) {
-                                  favoritesCubit
-                                      .removeFromFavorites(item['title']);
-                                  appSnackbar(
-                                    context,
-                                    text:
-                                        '${item['title']} removed from favorites',
-                                    backgroundColor:
-                                        ColorsUtility.successSnackbarColor,
-                                  );
-                                } else {
-                                  favoritesCubit.addToFavorites(itemData);
-                                  appSnackbar(
-                                    context,
-                                    text: '${item['title']} added to favorites',
-                                    backgroundColor:
-                                        ColorsUtility.successSnackbarColor,
-                                  );
-                                }
-                              },
-                            ),
-                          ],
-                        ),
                       ],
-                    ),
+                      const SizedBox(height: 4),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.add_circle_outline,
+                              color: ColorsUtility.progressIndictorColor,
+                            ),
+                            onPressed: () async {
+                              await ordersCubit.addMeal(itemData);
+                              if (context.mounted) {
+                                appSnackbar(
+                                  context,
+                                  text:
+                                      '$itemName ${S.of(context).addedToOrders}',
+                                  backgroundColor:
+                                      ColorsUtility.successSnackbarColor,
+                                );
+                              }
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: ColorsUtility.progressIndictorColor,
+                            ),
+                            onPressed: () {
+                              if (isFavorite) {
+                                favoritesCubit.removeFromFavorites(item.id);
+                                appSnackbar(
+                                  context,
+                                  text:
+                                      '$itemName ${S.of(context).removedFromFavorites}',
+                                  backgroundColor:
+                                      ColorsUtility.successSnackbarColor,
+                                );
+                              } else {
+                                favoritesCubit.addToFavorites(itemData);
+                                appSnackbar(
+                                  context,
+                                  text:
+                                      '$itemName ${S.of(context).addedToFavorites}',
+                                  backgroundColor:
+                                      ColorsUtility.successSnackbarColor,
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
@@ -313,7 +330,7 @@ class CategoryItemsScreen extends StatelessWidget {
   String _formatCategoryName(String name) {
     return name
         .split(' ')
-        .map((word) => word[0].toUpperCase() + word.substring(1))
+        .map((String word) => word[0].toUpperCase() + word.substring(1))
         .join(' ');
   }
 }

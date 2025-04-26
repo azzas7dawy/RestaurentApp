@@ -44,6 +44,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "apply": MessageLookupByLibrary.simpleMessage("تطبيق"),
     "applyCoupon": MessageLookupByLibrary.simpleMessage("تطبيق القسيمة"),
     "available": MessageLookupByLibrary.simpleMessage("متاح"),
+    "beef": MessageLookupByLibrary.simpleMessage("لحم بقري ساندويتش"),
     "cAddressOne": MessageLookupByLibrary.simpleMessage(
       " باراجون -كنار - باراجون",
     ),
@@ -67,6 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "cash": MessageLookupByLibrary.simpleMessage("نقدًا"),
     "cashOnDelivery": MessageLookupByLibrary.simpleMessage("دفع عند الاستلام"),
     "cashTxt": MessageLookupByLibrary.simpleMessage("ادفع عند استلام طلبك"),
+    "chicken": MessageLookupByLibrary.simpleMessage("دجاج ساندويتش"),
     "cityOne": MessageLookupByLibrary.simpleMessage("سيراليون"),
     "cityThree": MessageLookupByLibrary.simpleMessage("تيروفانانثابورام"),
     "cityTwo": MessageLookupByLibrary.simpleMessage("كوتشي"),
@@ -90,8 +92,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "delivered": MessageLookupByLibrary.simpleMessage("تم التوصيل"),
     "deliveryAddress": MessageLookupByLibrary.simpleMessage("عنوان التوصيل"),
     "deliveryInfo": MessageLookupByLibrary.simpleMessage("معلومات التوصيل:"),
+    "dessert": MessageLookupByLibrary.simpleMessage("الحلويات"),
     "discount": MessageLookupByLibrary.simpleMessage("خصم"),
     "donotHaveAccount": MessageLookupByLibrary.simpleMessage("لا تملك حساب؟"),
+    "drinks": MessageLookupByLibrary.simpleMessage("المشروبات"),
     "egp": MessageLookupByLibrary.simpleMessage("ج.م"),
     "eitherSigUPOrLogin": MessageLookupByLibrary.simpleMessage(
       " يجب توفير إما تسجيل الدخول أو إنشاء حساب",
@@ -125,6 +129,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidCoupon": MessageLookupByLibrary.simpleMessage("القسيمة غير صالحة"),
     "item": MessageLookupByLibrary.simpleMessage("وجبة"),
     "items": MessageLookupByLibrary.simpleMessage("الوجبات:"),
+    "items2": MessageLookupByLibrary.simpleMessage("وجبات"),
     "language": MessageLookupByLibrary.simpleMessage("اللغة"),
     "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "loginButton": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
@@ -136,16 +141,24 @@ class MessageLookup extends MessageLookupByLibrary {
       "كلمات المرور غير متطابقة",
     ),
     "menu": MessageLookupByLibrary.simpleMessage("القائمة"),
+    "mexican": MessageLookupByLibrary.simpleMessage("المكسيكية"),
     "moreOptions": MessageLookupByLibrary.simpleMessage("خيارات أخرى"),
     "nameLength": MessageLookupByLibrary.simpleMessage(
       "يجب أن يكون الاسم على الأقل 2 حرف",
     ),
     "nextButton": MessageLookupByLibrary.simpleMessage("التالي"),
     "no": MessageLookupByLibrary.simpleMessage("لا"),
+    "noCatAvailable": MessageLookupByLibrary.simpleMessage(
+      "لا توجد فئات متاحة",
+    ),
     "noFav": MessageLookupByLibrary.simpleMessage("لا توجد مفضلات"),
+    "noItemInCat": MessageLookupByLibrary.simpleMessage(
+      "لا توجد وجبات متاحة في هذه الفئة",
+    ),
     "noMealsAdded": MessageLookupByLibrary.simpleMessage(
       "لا توجد وجبات مضافة هنا",
     ),
+    "noMealsFound": MessageLookupByLibrary.simpleMessage("لا توجد وجبات"),
     "noOrders": MessageLookupByLibrary.simpleMessage("لا توجد طلبات"),
     "noOrdersYet": MessageLookupByLibrary.simpleMessage(
       "لا توجد طلبات حتى الآن",
@@ -190,6 +203,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "orderSubmit": MessageLookupByLibrary.simpleMessage("تم تقديم الطلب بنجاح"),
     "orderSummary": MessageLookupByLibrary.simpleMessage("ملخص الطلب"),
     "orderedOn": MessageLookupByLibrary.simpleMessage("تم الطلب في"),
+    "ourMenu": MessageLookupByLibrary.simpleMessage("قائمتنا"),
     "outForDelivery": MessageLookupByLibrary.simpleMessage("في الطريق"),
     "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "payBtn": MessageLookupByLibrary.simpleMessage("المتابعة إلى الدفع"),
@@ -212,6 +226,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "phone": MessageLookupByLibrary.simpleMessage("الهاتف"),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+    "pizza": MessageLookupByLibrary.simpleMessage("بيتزا"),
     "pleaseLogin": MessageLookupByLibrary.simpleMessage("يرجى تسجيل الدخول"),
     "proceedWithPaymob": MessageLookupByLibrary.simpleMessage(
       "المتابعة الى باي موب",
@@ -250,8 +265,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "إعادة تعيين كلمة المرور",
     ),
     "revervationForm": MessageLookupByLibrary.simpleMessage("نموذج الحجز"),
+    "sandwiches": MessageLookupByLibrary.simpleMessage("ساندويتشات"),
     "saveButton": MessageLookupByLibrary.simpleMessage("حفظ"),
     "search": MessageLookupByLibrary.simpleMessage("بحث"),
+    "searchMeals": MessageLookupByLibrary.simpleMessage(
+      "ابحث عن الوجبات حسب الاسم",
+    ),
     "seeMore": MessageLookupByLibrary.simpleMessage("عرض المزيد"),
     "selectNumberOfPeople": MessageLookupByLibrary.simpleMessage(
       "حدد عدد الأشخاص",
@@ -286,7 +305,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sliderTwo": MessageLookupByLibrary.simpleMessage(
       "بيتزا طازجة مخبوزة بعناية مع أشهى الإضافات! استمتع بالنكهة في كل قضمة.",
     ),
+    "softDrinks": MessageLookupByLibrary.simpleMessage("المشروبات الغازية"),
     "somethingWentWrong": MessageLookupByLibrary.simpleMessage("حدث خطأ ما"),
+    "special": MessageLookupByLibrary.simpleMessage("خاص"),
     "specialPlates": MessageLookupByLibrary.simpleMessage("الأطباق الخاصة"),
     "splashTitle": MessageLookupByLibrary.simpleMessage("باراجون"),
     "status": MessageLookupByLibrary.simpleMessage("الحالة:"),
@@ -309,6 +330,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "totalPrice": MessageLookupByLibrary.simpleMessage("إجمالي السعر:"),
     "trackStatus": MessageLookupByLibrary.simpleMessage("حالة التوصيل"),
     "trackYourOrders": MessageLookupByLibrary.simpleMessage("تتبع طلبك"),
+    "tryDifferentMealsName": MessageLookupByLibrary.simpleMessage(
+      "جرب أسماء وجبات مختلفة",
+    ),
     "txtp1": MessageLookupByLibrary.simpleMessage("ستدفع"),
     "txtp2": MessageLookupByLibrary.simpleMessage("عند الاستلام"),
     "unknown": MessageLookupByLibrary.simpleMessage("غير معروف"),

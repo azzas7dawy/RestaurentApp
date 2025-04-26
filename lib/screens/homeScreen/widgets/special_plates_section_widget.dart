@@ -111,7 +111,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final screenHeight = MediaQuery.sizeOf(context).height;
     final cardWidth = screenWidth * 0.4;
-    final cardHeight = screenHeight * 0.28; // Reduced to prevent overflow
+    final cardHeight = screenHeight * 0.28;
     final isDarkTheme = theme.brightness == Brightness.dark;
 
     return FutureBuilder<List<Map<String, dynamic>>>(
@@ -245,8 +245,9 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                   return BlocBuilder<FavoritesCubit, FavoritesState>(
                     builder: (context, state) {
                       final isFavorite = state is FavoritesLoaded
-                          ? state.favorites
-                              .any((fav) => fav['title'] == item['title'])
+                          ? state.favorites.any(
+                              (Map<String, dynamic> favorite) =>
+                                  favorite['documentId'] == item['documentId'])
                           : false;
 
                       return GestureDetector(
@@ -360,7 +361,8 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                                           .read<
                                                               FavoritesCubit>()
                                                           .removeFromFavorites(
-                                                              item['title']);
+                                                              item[
+                                                                  'documentId']);
                                                       appSnackbar(
                                                         context,
                                                         text:
@@ -388,62 +390,46 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                                 IconButton(
                                                   icon: Icon(
                                                     Icons.add_circle_outline,
-                                                    color:
-                                                        item['is_available'] ??
-                                                                true
-                                                            ? theme.colorScheme
-                                                                .primary
-                                                            : theme
-                                                                .disabledColor,
+                                                    color: theme
+                                                        .colorScheme.primary,
                                                     size: 20,
                                                   ),
                                                   onPressed: () async {
-                                                    if (item['is_available'] ??
-                                                        true) {
-                                                      final mealToAdd = {
-                                                        ...item,
-                                                        'documentId':
-                                                            item['documentId'],
-                                                        'title':
-                                                            item['title'] ??
-                                                                'No Title',
-                                                        'title_ar':
-                                                            item['title_ar'] ??
-                                                                item['title'] ??
-                                                                'No Title',
-                                                        'price': item['price'],
-                                                        'image': item['image'],
-                                                        'description':
-                                                            item['description'],
-                                                        'desc_ar': item[
-                                                                'desc_ar'] ??
-                                                            item['description'],
-                                                        'category':
-                                                            item['category'],
-                                                        'category_ar': item[
-                                                                'category_ar'] ??
-                                                            item['category'],
-                                                      };
-                                                      await context
-                                                          .read<OrdersCubit>()
-                                                          .addMeal(mealToAdd);
-                                                      if (context.mounted) {
-                                                        appSnackbar(
-                                                          context,
-                                                          text:
-                                                              '${isArabic(context) ? mealToAdd['title_ar'] : mealToAdd['title']} ${S.of(context).addedToOrders}',
-                                                          backgroundColor:
-                                                              ColorsUtility
-                                                                  .successSnackbarColor,
-                                                        );
-                                                      }
-                                                    } else {
+                                                    final Map<String, dynamic>
+                                                        mealToAdd = {
+                                                      ...item,
+                                                      'documentId':
+                                                          item['documentId'],
+                                                      'title': item['title'] ??
+                                                          'No Title',
+                                                      'title_ar':
+                                                          item['title_ar'] ??
+                                                              item['title'] ??
+                                                              'No Title',
+                                                      'price': item['price'],
+                                                      'image': item['image'],
+                                                      'description':
+                                                          item['description'],
+                                                      'desc_ar': item[
+                                                              'desc_ar'] ??
+                                                          item['description'],
+                                                      'category':
+                                                          item['category'],
+                                                      'category_ar':
+                                                          item['category_ar'] ??
+                                                              item['category'],
+                                                    };
+                                                    await context
+                                                        .read<OrdersCubit>()
+                                                        .addMeal(mealToAdd);
+                                                    if (context.mounted) {
                                                       appSnackbar(
                                                         context,
                                                         text:
-                                                            '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).notAvailable}',
-                                                        backgroundColor: theme
-                                                            .colorScheme.error,
+                                                            '${isArabic(context) ? mealToAdd['title_ar'] : mealToAdd['title']} ${S.of(context).addedToOrders}',
+                                                        backgroundColor:
+                                                            ColorsUtility
+                                                                .successSnackbarColor,
                                                       );
                                                     }
                                                   },

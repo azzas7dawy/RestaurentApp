@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/customScreen/custom_screen.dart';
-import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
@@ -13,6 +13,10 @@ class FavoritesScreen extends StatelessWidget {
   static const String id = 'FavoritesScreen';
 
   const FavoritesScreen({super.key});
+
+  bool isArabic(BuildContext context) {
+    return Localizations.localeOf(context).languageCode == 'ar';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,7 @@ class FavoritesScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: BlocBuilder<FavoritesCubit, FavoritesState>(
-        builder: (context, state) {
+        builder: (BuildContext context, FavoritesState state) {
           if (state is FavoritesLoading) {
             return const Center(
               child: CircularProgressIndicator(
@@ -61,7 +65,7 @@ class FavoritesScreen extends StatelessWidget {
           }
 
           if (state is FavoritesLoaded) {
-            final favorites = state.favorites;
+            final List<Map<String, dynamic>> favorites = state.favorites;
 
             if (favorites.isEmpty) {
               return Center(
@@ -98,8 +102,16 @@ class FavoritesScreen extends StatelessWidget {
             return ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               itemCount: favorites.length,
-              itemBuilder: (context, index) {
-                final item = favorites[index];
+              itemBuilder: (BuildContext context, int index) {
+                final Map<String, dynamic> item = favorites[index];
+                final String itemTitle = isArabic(context)
+                    ? item['title_ar'] ?? item['title'] ?? S.of(context).noTitle
+                    : item['title'] ?? item['name'] ?? S.of(context).noTitle;
+                final String itemDescription = isArabic(context)
+                    ? item['desc_ar'] ?? item['description'] ?? ''
+                    : item['description'] ?? '';
+                final String itemImage = item['image'] ?? '';
+
                 return GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(
@@ -122,11 +134,28 @@ class FavoritesScreen extends StatelessWidget {
                             borderRadius: const BorderRadius.horizontal(
                               left: Radius.circular(16),
                             ),
-                            child: Image.network(
-                              item['image'],
+                            child: CachedNetworkImage(
+                              imageUrl: itemImage,
                               width: 120,
                               height: 150,
                               fit: BoxFit.cover,
+                              placeholder: (BuildContext context, String url) =>
+                                  Container(
+                                color: ColorsUtility.mainBackgroundColor,
+                                child: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ),
+                              errorWidget: (BuildContext context, String url,
+                                      dynamic error) =>
+                                  Container(
+                                color: ColorsUtility.mainBackgroundColor,
+                                child: const Icon(
+                                  Icons.fastfood,
+                                  size: 40,
+                                  color: ColorsUtility.onboardingColor,
+                                ),
+                              ),
                             ),
                           ),
                           Expanded(
@@ -141,9 +170,7 @@ class FavoritesScreen extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          isArabic()
-                                              ? item['title_ar']
-                                              : item['title'] ?? 'No Title',
+                                          itemTitle,
                                           style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -155,11 +182,15 @@ class FavoritesScreen extends StatelessWidget {
                                       ),
                                       BlocBuilder<FavoritesCubit,
                                           FavoritesState>(
-                                        builder: (context, state) {
-                                          final isFavorite = state
+                                        builder: (BuildContext context,
+                                            FavoritesState state) {
+                                          final bool isFavorite = state
                                                   is FavoritesLoaded
-                                              ? state.favorites.any((fav) =>
-                                                  fav['title'] == item['title'])
+                                              ? state.favorites.any(
+                                                  (Map<String, dynamic>
+                                                          favorite) =>
+                                                      favorite['documentId'] ==
+                                                      item['documentId'])
                                               : false;
                                           return IconButton(
                                             icon: Icon(
@@ -174,11 +205,11 @@ class FavoritesScreen extends StatelessWidget {
                                                 context
                                                     .read<FavoritesCubit>()
                                                     .removeFromFavorites(
-                                                        item['title']);
+                                                        item['documentId']);
                                                 appSnackbar(
                                                   context,
                                                   text:
-                                                      '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).removedFromFavorites}',
+                                                      '$itemTitle ${S.of(context).removedFromFavorites}',
                                                   backgroundColor: ColorsUtility
                                                       .successSnackbarColor,
                                                 );
@@ -189,7 +220,7 @@ class FavoritesScreen extends StatelessWidget {
                                                 appSnackbar(
                                                   context,
                                                   text:
-                                                      '${item['title']} added to favorites',
+                                                      '$itemTitle ${S.of(context).addedToFavorites}',
                                                   backgroundColor: ColorsUtility
                                                       .successSnackbarColor,
                                                 );
@@ -201,20 +232,17 @@ class FavoritesScreen extends StatelessWidget {
                                     ],
                                   ),
                                   const SizedBox(height: 4),
-                                  Text(
-                                    isArabic()
-                                        ? item['desc_ar']
-                                        : item['description'],
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: ColorsUtility.textFieldLabelColor
-                                          .withAlpha(
-                                        204,
+                                  if (itemDescription.isNotEmpty)
+                                    Text(
+                                      itemDescription,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: ColorsUtility.textFieldLabelColor
+                                            .withAlpha(204),
                                       ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
                                   const SizedBox(height: 8),
                                   Row(
                                     mainAxisAlignment:
@@ -230,35 +258,22 @@ class FavoritesScreen extends StatelessWidget {
                                         ),
                                       ),
                                       IconButton(
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.add_circle_outline_rounded,
-                                          color: item['is_available'] ?? true
-                                              ? ColorsUtility
-                                                  .progressIndictorColor
-                                              : ColorsUtility
-                                                  .textFieldLabelColor,
+                                          color: ColorsUtility
+                                              .progressIndictorColor,
                                         ),
                                         onPressed: () {
-                                          if (item['is_available'] ?? true) {
-                                            context
-                                                .read<OrdersCubit>()
-                                                .addMeal(item);
-                                            appSnackbar(
-                                              context,
-                                              text:
-                                                  '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).addedToOrders}',
-                                              backgroundColor: ColorsUtility
-                                                  .successSnackbarColor,
-                                            );
-                                          } else {
-                                            appSnackbar(
-                                              context,
-                                              text:
-                                                  '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).notAvailable}',
-                                              backgroundColor: ColorsUtility
-                                                  .errorSnackbarColor,
-                                            );
-                                          }
+                                          context
+                                              .read<OrdersCubit>()
+                                              .addMeal(item);
+                                          appSnackbar(
+                                            context,
+                                            text:
+                                                '$itemTitle ${S.of(context).addedToOrders}',
+                                            backgroundColor: ColorsUtility
+                                                .successSnackbarColor,
+                                          );
                                         },
                                       ),
                                     ],
