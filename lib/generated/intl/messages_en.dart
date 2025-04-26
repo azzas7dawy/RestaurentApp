@@ -42,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "apply": MessageLookupByLibrary.simpleMessage("Apply"),
     "applyCoupon": MessageLookupByLibrary.simpleMessage("Apply Coupon"),
     "available": MessageLookupByLibrary.simpleMessage("Available"),
+    "beef": MessageLookupByLibrary.simpleMessage("Beef Sandwich"),
     "cAddressOne": MessageLookupByLibrary.simpleMessage(
       "Kannur road, Near CH over bridge",
     ),
@@ -67,6 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "cashTxt": MessageLookupByLibrary.simpleMessage(
       "Pay when you receive your order",
     ),
+    "chicken": MessageLookupByLibrary.simpleMessage("Chicken Sandwich"),
     "cityOne": MessageLookupByLibrary.simpleMessage("Calicut"),
     "cityThree": MessageLookupByLibrary.simpleMessage("Thiruvananthapuram"),
     "cityTwo": MessageLookupByLibrary.simpleMessage("Kochi"),
@@ -94,10 +96,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "deliveryInfo": MessageLookupByLibrary.simpleMessage(
       "Delivery Information:",
     ),
+    "dessert": MessageLookupByLibrary.simpleMessage("Dessert"),
     "discount": MessageLookupByLibrary.simpleMessage("Discount"),
     "donotHaveAccount": MessageLookupByLibrary.simpleMessage(
       "Don\'t have an account?",
     ),
+    "drinks": MessageLookupByLibrary.simpleMessage("Drinks"),
     "egp": MessageLookupByLibrary.simpleMessage("EGP"),
     "eitherSigUPOrLogin": MessageLookupByLibrary.simpleMessage(
       "Either onLogin or onSignUp should be provided",
@@ -146,6 +150,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "item": MessageLookupByLibrary.simpleMessage("item"),
     "items": MessageLookupByLibrary.simpleMessage("Items:"),
+    "items2": MessageLookupByLibrary.simpleMessage("items"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "loginButton": MessageLookupByLibrary.simpleMessage("Login"),
@@ -155,14 +160,22 @@ class MessageLookup extends MessageLookupByLibrary {
       "Passwords do not match",
     ),
     "menu": MessageLookupByLibrary.simpleMessage("Menu"),
+    "mexican": MessageLookupByLibrary.simpleMessage("Mexican"),
     "moreOptions": MessageLookupByLibrary.simpleMessage("More Options"),
     "nameLength": MessageLookupByLibrary.simpleMessage(
       "Name must be at least 2 characters long",
     ),
     "nextButton": MessageLookupByLibrary.simpleMessage("NEXT"),
     "no": MessageLookupByLibrary.simpleMessage("No"),
+    "noCatAvailable": MessageLookupByLibrary.simpleMessage(
+      "No categories available",
+    ),
     "noFav": MessageLookupByLibrary.simpleMessage("No favorites yet"),
+    "noItemInCat": MessageLookupByLibrary.simpleMessage(
+      "No items available in this category",
+    ),
     "noMealsAdded": MessageLookupByLibrary.simpleMessage("No meals added here"),
+    "noMealsFound": MessageLookupByLibrary.simpleMessage("No meals found"),
     "noOrders": MessageLookupByLibrary.simpleMessage("No orders yet"),
     "noOrdersYet": MessageLookupByLibrary.simpleMessage("No orders yet"),
     "noSpecialPlates": MessageLookupByLibrary.simpleMessage(
@@ -211,6 +224,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "orderSummary": MessageLookupByLibrary.simpleMessage("Order Summary"),
     "orderedOn": MessageLookupByLibrary.simpleMessage("Ordered on"),
+    "ourMenu": MessageLookupByLibrary.simpleMessage("Our Menu"),
     "outForDelivery": MessageLookupByLibrary.simpleMessage("Out for Delivery"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
     "payBtn": MessageLookupByLibrary.simpleMessage("Proceed to Payment"),
@@ -233,6 +247,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "phone": MessageLookupByLibrary.simpleMessage("Phone"),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("Phone Number"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
+    "pizza": MessageLookupByLibrary.simpleMessage("Pizza"),
     "pleaseLogin": MessageLookupByLibrary.simpleMessage(
       "Please login to your account",
     ),
@@ -273,8 +288,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "resetPassword": MessageLookupByLibrary.simpleMessage("Reset password"),
     "revervationForm": MessageLookupByLibrary.simpleMessage("Reservation Form"),
+    "sandwiches": MessageLookupByLibrary.simpleMessage("Sandwiches"),
     "saveButton": MessageLookupByLibrary.simpleMessage("Save"),
     "search": MessageLookupByLibrary.simpleMessage("Search"),
+    "searchMeals": MessageLookupByLibrary.simpleMessage(
+      "Search for meals by name",
+    ),
     "seeMore": MessageLookupByLibrary.simpleMessage("See More"),
     "selectNumberOfPeople": MessageLookupByLibrary.simpleMessage("Persons"),
     "selectTable": MessageLookupByLibrary.simpleMessage("Select a table"),
@@ -307,9 +326,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "sliderTwo": MessageLookupByLibrary.simpleMessage(
       "Freshly Baked Pizzas with Perfect Toppings! Taste the Flavor in Every Bite.",
     ),
+    "softDrinks": MessageLookupByLibrary.simpleMessage("Soft Drinks"),
     "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
       "Something went wrong",
     ),
+    "special": MessageLookupByLibrary.simpleMessage("SPECIAL"),
     "specialPlates": MessageLookupByLibrary.simpleMessage("Special Plates"),
     "splashTitle": MessageLookupByLibrary.simpleMessage("PARAGON"),
     "status": MessageLookupByLibrary.simpleMessage("Status:"),
@@ -338,6 +359,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "trackStatus": MessageLookupByLibrary.simpleMessage("Delivery Status"),
     "trackYourOrders": MessageLookupByLibrary.simpleMessage(
       "Track your orders",
+    ),
+    "tryDifferentMealsName": MessageLookupByLibrary.simpleMessage(
+      "Try different meal names",
     ),
     "txtp1": MessageLookupByLibrary.simpleMessage("You will pay"),
     "txtp2": MessageLookupByLibrary.simpleMessage(

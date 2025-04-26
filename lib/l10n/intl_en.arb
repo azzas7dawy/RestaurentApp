@@ -229,5 +229,21 @@
     "accepted": "Accepted",
     "rejected": "Rejected",
 
-    "deletAccount":"delete account "  
+    "deletAccount":"delete account "  ,
+    "ourMenu": "Our Menu",
+    "noCatAvailable" : "No categories available",
+    "noItemInCat" : "No items available in this category",
+    "special": "SPECIAL",
+    "searchMeals" : "Search for meals by name",
+    "noMealsFound" : "No meals found",
+    "tryDifferentMealsName" : "Try different meal names",
+    "items2": "items",
+    "beef": "Beef Sandwich",
+    "chicken": "Chicken Sandwich",
+    "dessert": "Dessert",
+    "drinks": "Drinks",
+    "softDrinks": "Soft Drinks",
+    "mexican": "Mexican",
+    "pizza": "Pizza",
+    "sandwiches": "Sandwiches"
 }

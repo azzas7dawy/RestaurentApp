@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/customScreen/custom_screen.dart';
@@ -133,14 +134,19 @@ class OrdersScreen extends StatelessWidget {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Image.network(
-                                      meal['image'] ?? '',
+                                    CachedNetworkImage(
+                                      imageUrl: meal['image'] ?? '',
                                       width: 80,
                                       height: 80,
                                       fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) =>
-                                              const Icon(Icons.error),
+                                      placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator(
+                                          color: ColorsUtility
+                                              .progressIndictorColor,
+                                        ),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.fastfood, size: 40),
                                     ),
                                     const SizedBox(width: 16),
                                     Expanded(

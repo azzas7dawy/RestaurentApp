@@ -1674,6 +1674,116 @@ class S {
       args: [],
     );
   }
+
+  /// `Our Menu`
+  String get ourMenu {
+    return Intl.message('Our Menu', name: 'ourMenu', desc: '', args: []);
+  }
+
+  /// `No categories available`
+  String get noCatAvailable {
+    return Intl.message(
+      'No categories available',
+      name: 'noCatAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No items available in this category`
+  String get noItemInCat {
+    return Intl.message(
+      'No items available in this category',
+      name: 'noItemInCat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SPECIAL`
+  String get special {
+    return Intl.message('SPECIAL', name: 'special', desc: '', args: []);
+  }
+
+  /// `Search for meals by name`
+  String get searchMeals {
+    return Intl.message(
+      'Search for meals by name',
+      name: 'searchMeals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No meals found`
+  String get noMealsFound {
+    return Intl.message(
+      'No meals found',
+      name: 'noMealsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try different meal names`
+  String get tryDifferentMealsName {
+    return Intl.message(
+      'Try different meal names',
+      name: 'tryDifferentMealsName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `items`
+  String get items2 {
+    return Intl.message('items', name: 'items2', desc: '', args: []);
+  }
+
+  /// `Beef Sandwich`
+  String get beef {
+    return Intl.message('Beef Sandwich', name: 'beef', desc: '', args: []);
+  }
+
+  /// `Chicken Sandwich`
+  String get chicken {
+    return Intl.message(
+      'Chicken Sandwich',
+      name: 'chicken',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dessert`
+  String get dessert {
+    return Intl.message('Dessert', name: 'dessert', desc: '', args: []);
+  }
+
+  /// `Drinks`
+  String get drinks {
+    return Intl.message('Drinks', name: 'drinks', desc: '', args: []);
+  }
+
+  /// `Soft Drinks`
+  String get softDrinks {
+    return Intl.message('Soft Drinks', name: 'softDrinks', desc: '', args: []);
+  }
+
+  /// `Mexican`
+  String get mexican {
+    return Intl.message('Mexican', name: 'mexican', desc: '', args: []);
+  }
+
+  /// `Pizza`
+  String get pizza {
+    return Intl.message('Pizza', name: 'pizza', desc: '', args: []);
+  }
+
+  /// `Sandwiches`
+  String get sandwiches {
+    return Intl.message('Sandwiches', name: 'sandwiches', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

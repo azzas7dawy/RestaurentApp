@@ -4,10 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/generated/l10n.dart';
-import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
-// import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
 
 class SpecialPlatesScreen extends StatelessWidget {
@@ -15,18 +13,15 @@ class SpecialPlatesScreen extends StatelessWidget {
   final List<Map<String, dynamic>> items;
   static const String id = 'SpecialPlatesScreen';
 
-  // bool isArabic() {
-  //   return Localizations.localeOf(navigatorKey.currentContext!).languageCode == 'ar';
-  // }
+  bool isArabic(BuildContext context) {
+    return Localizations.localeOf(context).languageCode == 'ar';
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    // final isDark = theme.brightness == Brightness.dark;
+    final isDarkTheme = theme.brightness == Brightness.dark;
 
-    // final Color appBarTextColor = isDark
-    //     ? ColorsUtility.takeAwayColor
-    //     : ColorsUtility.progressIndictorColor;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: theme.scaffoldBackgroundColor,
@@ -47,7 +42,7 @@ class SpecialPlatesScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         itemCount: items.length,
         itemBuilder: (context, index) {
-          final item = items[index];
+          final Map<String, dynamic> item = items[index];
           return GestureDetector(
             onTap: () {
               Navigator.pushNamed(
@@ -61,7 +56,9 @@ class SpecialPlatesScreen extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: 8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: theme.scaffoldBackgroundColor,
+                color: isDarkTheme
+                    ? ColorsUtility.elevatedBtnColor
+                    : ColorsUtility.lightTextFieldFillColor,
                 boxShadow: [
                   BoxShadow(
                     color: theme.shadowColor.withAlpha((0.2 * 255).round()),
@@ -99,8 +96,8 @@ class SpecialPlatesScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      isArabic()
-                          ? item['title_ar']
+                      isArabic(context)
+                          ? item['title_ar'] ?? item['title'] ?? 'No Title'
                           : item['title'] ?? 'No Title',
                       style: TextStyle(
                         fontSize: 16,
@@ -114,8 +111,10 @@ class SpecialPlatesScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
-                      isArabic()
-                          ? item['desc_ar']
+                      isArabic(context)
+                          ? item['desc_ar'] ??
+                              item['description'] ??
+                              'No Description'
                           : item['description'] ?? 'No Description',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -142,9 +141,11 @@ class SpecialPlatesScreen extends StatelessWidget {
                           children: [
                             BlocBuilder<FavoritesCubit, FavoritesState>(
                               builder: (context, state) {
-                                final isFavorite = state is FavoritesLoaded
+                                final bool isFavorite = state is FavoritesLoaded
                                     ? state.favorites.any(
-                                        (fav) => fav['title'] == item['title'])
+                                        (Map<String, dynamic> favorite) =>
+                                            favorite['documentId'] ==
+                                            item['documentId'])
                                     : false;
                                 return IconButton(
                                   icon: Icon(
@@ -157,11 +158,12 @@ class SpecialPlatesScreen extends StatelessWidget {
                                     if (isFavorite) {
                                       context
                                           .read<FavoritesCubit>()
-                                          .removeFromFavorites(item['title']);
+                                          .removeFromFavorites(
+                                              item['documentId']);
                                       appSnackbar(
                                         context,
                                         text:
-                                            '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).removedFromFavorites}',
+                                            '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).removedFromFavorites}',
                                         backgroundColor:
                                             ColorsUtility.successSnackbarColor,
                                       );
@@ -172,7 +174,7 @@ class SpecialPlatesScreen extends StatelessWidget {
                                       appSnackbar(
                                         context,
                                         text:
-                                            '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).addedToFavorites}',
+                                            '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).addedToFavorites}',
                                         backgroundColor:
                                             ColorsUtility.successSnackbarColor,
                                       );
@@ -184,29 +186,17 @@ class SpecialPlatesScreen extends StatelessWidget {
                             IconButton(
                               icon: Icon(
                                 Icons.add_circle_outline,
-                                color: item['is_available'] ?? true
-                                    ? theme.colorScheme.primary
-                                    : theme.disabledColor,
+                                color: theme.colorScheme.primary,
                               ),
                               onPressed: () {
-                                if (item['is_available'] ?? true) {
-                                  context.read<OrdersCubit>().addMeal(item);
-                                  appSnackbar(
-                                    context,
-                                    text:
-                                        '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).addedToOrders}',
-                                    backgroundColor:
-                                        ColorsUtility.successSnackbarColor,
-                                  );
-                                } else {
-                                  appSnackbar(
-                                    context,
-                                    text:
-                                        '${isArabic() ? item['title_ar'] : item['title']} ${S.of(context).notAvailable}',
-                                    backgroundColor:
-                                        ColorsUtility.errorSnackbarColor,
-                                  );
-                                }
+                                context.read<OrdersCubit>().addMeal(item);
+                                appSnackbar(
+                                  context,
+                                  text:
+                                      '${isArabic(context) ? item['title_ar'] ?? item['title'] : item['title']} ${S.of(context).addedToOrders}',
+                                  backgroundColor:
+                                      ColorsUtility.successSnackbarColor,
+                                );
                               },
                             ),
                           ],

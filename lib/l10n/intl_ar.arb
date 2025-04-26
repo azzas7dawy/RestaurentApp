@@ -229,5 +229,21 @@
     "pleaseEnterValidName": "يرجى إدخال اسم صحيح",
   
 
-    "deletAccount": "حذف الحساب"   
+    "deletAccount": "حذف الحساب",
+    "ourMenu": "قائمتنا",
+    "noCatAvailable" : "لا توجد فئات متاحة",
+    "noItemInCat" : "لا توجد وجبات متاحة في هذه الفئة",
+    "special": "خاص",
+    "searchMeals" : "ابحث عن الوجبات حسب الاسم",
+    "noMealsFound" : "لا توجد وجبات",
+    "tryDifferentMealsName" : "جرب أسماء وجبات مختلفة",
+    "items2": "وجبات",
+    "beef": "لحم بقري ساندويتش",
+    "chicken": "دجاج ساندويتش",
+    "dessert": "الحلويات",
+    "drinks": "المشروبات",
+    "softDrinks": "المشروبات الغازية",
+    "mexican": "المكسيكية",
+    "pizza": "بيتزا",
+    "sandwiches": "ساندويتشات"
 }
