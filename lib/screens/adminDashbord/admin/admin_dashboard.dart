@@ -110,7 +110,7 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
             ListTile(
               title: const Text("Chat", style: TextStyle(color: Colors.white)),
                  onTap: () => Navigator.push(context, MaterialPageRoute( builder: (context) => ChatScreen(   otherUserEmail:
-                                FirebaseAuth.instance.currentUser?.email ?? '',
+                                FirebaseAuth.instance.currentUser?.email ?? 'admin@gmail.com',
                             ))),
             ),
             ListTile(

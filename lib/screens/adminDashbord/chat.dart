@@ -33,7 +33,7 @@ void initState() {
   if (currentUserEmail == "admin@gmail.com") {
     senderRole = "admin";
   } else {
-    senderRole = "me";
+    senderRole = "${widget.otherUserEmail}";
   }
 
   final chatId = getChatId(currentUserEmail, widget.otherUserEmail);
@@ -94,12 +94,12 @@ void initState() {
                             children: [
                               Text(
                                 message['text'] ?? '',
-                                style: const TextStyle(color: ColorsUtility.onboardingColor),
+                                style: const TextStyle(color: Color.fromARGB(255, 33, 27, 33)),
                               ),
                               const SizedBox(height: 4),
                               Text(
                                 message['sender'] ?? '',
-                                style: const TextStyle(fontSize: 10, color:ColorsUtility.onboardingColor ),
+                                style: const TextStyle(fontSize: 10, color:Color.fromARGB(255, 28, 25, 28) ),
                               ),
                             ],
                           ),
@@ -120,14 +120,16 @@ void initState() {
                 Expanded(
                   child: TextField(
                     controller: _messageController,
-                    decoration: const InputDecoration(
+                    
+                    decoration: InputDecoration(
                       filled: true,
-                      fillColor: ColorsUtility.onboardingColor,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                      fillColor: const Color.fromARGB(255, 41, 29, 41),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                       hintText: 'Type your message...',
-                      border: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(),
-                     
+                      hintStyle: TextStyle(color: ColorsUtility.lightElevatedBtnColor),
+                      border: const OutlineInputBorder(),
+                      focusedBorder: const OutlineInputBorder(),
+                      
                       
                     ),
                   ),
