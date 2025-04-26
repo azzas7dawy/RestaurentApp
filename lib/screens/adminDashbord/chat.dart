@@ -29,7 +29,7 @@ void initState() {
   final user = FirebaseAuth.instance.currentUser;
   currentUserEmail = user?.email ?? '';
 
-  // تحديد الدور
+
   if (currentUserEmail == "admin@gmail.com") {
     senderRole = "admin";
   } else {

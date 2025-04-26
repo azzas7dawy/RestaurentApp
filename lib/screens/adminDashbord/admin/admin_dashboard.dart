@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
@@ -108,7 +109,9 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
             ),
             ListTile(
               title: const Text("Chat", style: TextStyle(color: Colors.white)),
-              onTap: () => Navigator.pushNamed(context, ChatScreen.id),
+                 onTap: () => Navigator.push(context, MaterialPageRoute( builder: (context) => ChatScreen(   otherUserEmail:
+                                FirebaseAuth.instance.currentUser?.email ?? '',
+                            ))),
             ),
             ListTile(
               title: const Text("Dashboard",

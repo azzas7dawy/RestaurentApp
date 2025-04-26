@@ -8,11 +8,10 @@ class AboutSupportPage extends StatelessWidget {
   const AboutSupportPage({super.key});
   static const String id = 'AboutSupportPage';
 
-  // 📍 رابط موقع محافظة المنيا على Google Maps
   final String googleMapsUrl =
       "https://www.google.com/maps/place/Minya,+Menia,+Egypt";
 
-  // 🔗 فتح الخريطة
+ 
   void _openMap() async {
     final Uri url = Uri.parse(googleMapsUrl);
     if (await canLaunchUrl(url)) {
@@ -29,7 +28,7 @@ class AboutSupportPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
-        title: const Text('عن المطعم والدعم',
+        title: const Text('about restaurant',
             style: TextStyle(color: Colors.white)),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -48,7 +47,7 @@ class AboutSupportPage extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const Text(
-              "مطعم Tasty Bites بيقدملك أشهى وأطيب الأكلات بجودة عالية وخدمة ممتازة. بنهتم براحتك وتجربتك، وكل وجبة بنقدمها بحب ❤️",
+              'Tasty Bites Restaurant offers you the most delicious and tasty food with high quality and excellent service. We care about your comfort and experience, and we serve every meal with love ❤️',
               style:
                   TextStyle(color: Colors.white70, fontSize: 15, height: 1.5),
               textAlign: TextAlign.justify,
@@ -92,7 +91,7 @@ class AboutSupportPage extends StatelessWidget {
             const SizedBox(height: 30),
 
             const Text(
-              "📍 موقع المطعم",
+              "📍  Location",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
@@ -111,7 +110,7 @@ class AboutSupportPage extends StatelessWidget {
                   const SizedBox(width: 12),
                   const Expanded(
                     child: Text(
-                      "المطعم في محافظة المنيا. موقع مميز وسهل الوصول ليه.",
+                      "our location in Minya, Egypt",
                       style: TextStyle(color: Colors.white70, fontSize: 14),
                     ),
                   ),
