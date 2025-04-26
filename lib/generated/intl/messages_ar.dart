@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "CancelButton": MessageLookupByLibrary.simpleMessage(" إلغاء"),
     "LOGIN": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "SIGIUP": MessageLookupByLibrary.simpleMessage("انشاء الحساب"),
+    "YourReservationScreen": MessageLookupByLibrary.simpleMessage("حجوزاتك"),
     "aboutHelp": MessageLookupByLibrary.simpleMessage("حول / مساعدة"),
     "accepted": MessageLookupByLibrary.simpleMessage("مقبول"),
     "addToOrdersBtn": MessageLookupByLibrary.simpleMessage("إضافة إلى الطلبات"),
@@ -76,6 +77,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "يرجى تقديم التفاصيل التالية: ",
     ),
     "completeProfile": MessageLookupByLibrary.simpleMessage("اكمل ملفك الشخصي"),
+    "confirmDeleteReservation": MessageLookupByLibrary.simpleMessage(
+      "هل أنت متأكد من حذف هذا الحجز؟",
+    ),
     "confirmLogout": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد أنك تريد تسجيل الخروج؟",
     ),
@@ -88,8 +92,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "continueButton": MessageLookupByLibrary.simpleMessage("استمر"),
     "createAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
     "customer": MessageLookupByLibrary.simpleMessage("العميل:"),
+    "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
     "deletAccount": MessageLookupByLibrary.simpleMessage("حذف الحساب"),
+    "delete": MessageLookupByLibrary.simpleMessage("حذف"),
     "deleteAccount": MessageLookupByLibrary.simpleMessage("حذف الحساب"),
+    "deleteReservation": MessageLookupByLibrary.simpleMessage("حذف الحجز"),
     "delivered": MessageLookupByLibrary.simpleMessage("تم التوصيل"),
     "deliveryAddress": MessageLookupByLibrary.simpleMessage("عنوان التوصيل"),
     "deliveryInfo": MessageLookupByLibrary.simpleMessage("معلومات التوصيل:"),
@@ -164,6 +171,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "noOrdersYet": MessageLookupByLibrary.simpleMessage(
       "لا توجد طلبات حتى الآن",
     ),
+    "noReservation": MessageLookupByLibrary.simpleMessage("لا توجد حجوزات"),
     "noSpecialPlates": MessageLookupByLibrary.simpleMessage(
       "لا توجد أطباق خاصة",
     ),
@@ -224,6 +232,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "سيتم إعادة توجيهك إلى باي بال لإكمال الدفع بأمان",
     ),
     "pending": MessageLookupByLibrary.simpleMessage("قيد الانتظار"),
+    "person": MessageLookupByLibrary.simpleMessage("شخص"),
     "phone": MessageLookupByLibrary.simpleMessage("الهاتف"),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
@@ -250,6 +259,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "reserNow": MessageLookupByLibrary.simpleMessage(
       "احجز طاولة في باراجون الآن",
     ),
+    "reservationName": MessageLookupByLibrary.simpleMessage("اسم الحجز"),
     "reserve": MessageLookupByLibrary.simpleMessage("احجز"),
     "reserveCardDescription": MessageLookupByLibrary.simpleMessage(
       "استمتع بزيارتك دون انتظار... احجز من المنزل!",
@@ -308,6 +318,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "softDrinks": MessageLookupByLibrary.simpleMessage("المشروبات الغازية"),
     "somethingWentWrong": MessageLookupByLibrary.simpleMessage("حدث خطأ ما"),
+    "somethingWrong": MessageLookupByLibrary.simpleMessage("حدث خطأ"),
     "special": MessageLookupByLibrary.simpleMessage("خاص"),
     "specialPlates": MessageLookupByLibrary.simpleMessage("الأطباق الخاصة"),
     "splashTitle": MessageLookupByLibrary.simpleMessage("تيستي بايتس"),
@@ -318,6 +329,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "subtotal": MessageLookupByLibrary.simpleMessage("المجموع"),
     "successMessage": MessageLookupByLibrary.simpleMessage("تم الحجز بنجاح!"),
     "successReser": MessageLookupByLibrary.simpleMessage("نجاح"),
+    "tableNumber": MessageLookupByLibrary.simpleMessage("طاولة رقم"),
     "tableReserved": MessageLookupByLibrary.simpleMessage(
       "تم حجز الطاولة بنجاح",
     ),
@@ -369,5 +381,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "yourOrdersWillAppearHere": MessageLookupByLibrary.simpleMessage(
       "ستظهر طلباتك هنا",
     ),
+    "yourReservation": MessageLookupByLibrary.simpleMessage("حجوزاتك"),
   };
 }

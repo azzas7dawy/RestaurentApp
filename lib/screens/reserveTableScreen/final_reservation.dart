@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/reserveTableScreen/final_form_reservation.dart';
 
-
-
 class TableSelectionPage extends StatefulWidget {
-  const TableSelectionPage({Key? key}) : super(key: key);
+  const TableSelectionPage({super.key});
   static const String id = 'TableSelectionPage';
 
   @override
-  _TableSelectionPageState createState() => _TableSelectionPageState();
+  State<TableSelectionPage> createState() => _TableSelectionPageState();
 }
 
 class _TableSelectionPageState extends State<TableSelectionPage> {
@@ -74,10 +72,10 @@ class _TableSelectionPageState extends State<TableSelectionPage> {
         expand: false,
         builder: (context, scrollController) => Container(
           decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            color: Theme.of(context).cardColor,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: SingleChildScrollView(
             controller: scrollController,
             child: FinalReservationDetailsForm(selectedTable: id),
@@ -90,10 +88,11 @@ class _TableSelectionPageState extends State<TableSelectionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1a1d21),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(S.of(context).selectYourTable),
-        backgroundColor: Colors.black,
+        backgroundColor: Theme.of(context).cardColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -111,8 +110,8 @@ class _TableSelectionPageState extends State<TableSelectionPage> {
               onTap: () => onSelectTable(table['id']),
               child: Card(
                 color: selectedTable == table['id']
-                    ? Colors.red
-                    : Colors.grey[900],
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).cardColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -132,7 +131,9 @@ class _TableSelectionPageState extends State<TableSelectionPage> {
                     const SizedBox(height: 10),
                     Text(
                       '${S.of(context).selectseats} ${table['id']}',
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
                     ),
                   ],
                 ),

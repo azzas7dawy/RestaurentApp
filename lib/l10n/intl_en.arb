@@ -3,7 +3,7 @@
     "skipButton": "Skip",
     "continueButton": "Continue",
     "onboardingTitleOne": "Plan your weekly menu",
-    "onboardingDescriptionOne": "You can order weekly meals, and we'll bring them straight to your door.",
+    "onboardingDescriptionOne": "You can order weekly meals, and well bring them straight to your door.",
     "onboardingTitleTwo": "Reserve a table",
     "onboardingDescriptionTwo": "Tired of having to wait? Make a table reservation right away.",
     "onboardingTitleThree": "Place catering Orders",
@@ -246,5 +246,16 @@
     "mexican": "Mexican",
     "pizza": "Pizza",
     "sandwiches": "Sandwiches",
-    "deleteAccount": "Delete Account"
+    "deleteAccount": "Delete Account",
+    "YourReservationScreen" : "Your Reservation",
+    "yourReservation" : "Your Reservations",
+    "somethingWrong" : "Something went wrong",
+    "noReservation" : "No Reservations Found",
+    "person" : "Person",
+    "reservationName" : "Reservation Name",
+    "date" : "Date",
+    "deleteReservation": "Cancel order",
+    "confirmDeleteReservation": "Are you sure you want to cancel this order?",
+    "delete": "Cancel",
+    "tableNumber": "Table No."
 }

@@ -25,6 +25,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "CancelButton": MessageLookupByLibrary.simpleMessage("Cancel"),
     "LOGIN": MessageLookupByLibrary.simpleMessage("LOGIN"),
     "SIGIUP": MessageLookupByLibrary.simpleMessage("SIGN UP"),
+    "YourReservationScreen": MessageLookupByLibrary.simpleMessage(
+      "Your Reservation",
+    ),
     "aboutHelp": MessageLookupByLibrary.simpleMessage("About / Help"),
     "accepted": MessageLookupByLibrary.simpleMessage("Accepted"),
     "addToOrdersBtn": MessageLookupByLibrary.simpleMessage("Add to Orders"),
@@ -78,6 +81,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "completeProfile": MessageLookupByLibrary.simpleMessage(
       "Complete your profile",
     ),
+    "confirmDeleteReservation": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to cancel this order?",
+    ),
     "confirmLogout": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to log out?",
     ),
@@ -90,8 +96,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Create a new account",
     ),
     "customer": MessageLookupByLibrary.simpleMessage("Customer:"),
+    "date": MessageLookupByLibrary.simpleMessage("Date"),
     "deletAccount": MessageLookupByLibrary.simpleMessage("delete account "),
+    "delete": MessageLookupByLibrary.simpleMessage("Cancel"),
     "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
+    "deleteReservation": MessageLookupByLibrary.simpleMessage("Cancel order"),
     "delivered": MessageLookupByLibrary.simpleMessage("Delivered"),
     "deliveryAddress": MessageLookupByLibrary.simpleMessage("Delivery Address"),
     "deliveryInfo": MessageLookupByLibrary.simpleMessage(
@@ -179,6 +188,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noMealsFound": MessageLookupByLibrary.simpleMessage("No meals found"),
     "noOrders": MessageLookupByLibrary.simpleMessage("No orders yet"),
     "noOrdersYet": MessageLookupByLibrary.simpleMessage("No orders yet"),
+    "noReservation": MessageLookupByLibrary.simpleMessage(
+      "No Reservations Found",
+    ),
     "noSpecialPlates": MessageLookupByLibrary.simpleMessage(
       "No special plates found",
     ),
@@ -192,7 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "onTheWay": MessageLookupByLibrary.simpleMessage("On the way"),
     "onboardingDescriptionOne": MessageLookupByLibrary.simpleMessage(
-      "You can order weekly meals, and we\'ll bring them straight to your door.",
+      "You can order weekly meals, and well bring them straight to your door.",
     ),
     "onboardingDescriptionThree": MessageLookupByLibrary.simpleMessage(
       "Place catering orders with us.",
@@ -245,6 +257,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "You will be redirected to PayPal to complete your payment securely",
     ),
     "pending": MessageLookupByLibrary.simpleMessage("Pending"),
+    "person": MessageLookupByLibrary.simpleMessage("Person"),
     "phone": MessageLookupByLibrary.simpleMessage("Phone"),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("Phone Number"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
@@ -273,6 +286,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "reserNow": MessageLookupByLibrary.simpleMessage(
       "Reserve a table at Paragon right now",
     ),
+    "reservationName": MessageLookupByLibrary.simpleMessage("Reservation Name"),
     "reserve": MessageLookupByLibrary.simpleMessage("Reserve"),
     "reserveCardDescription": MessageLookupByLibrary.simpleMessage(
       "REnjoy your visit without waiting. Reserve from home!",
@@ -331,6 +345,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
       "Something went wrong",
     ),
+    "somethingWrong": MessageLookupByLibrary.simpleMessage(
+      "Something went wrong",
+    ),
     "special": MessageLookupByLibrary.simpleMessage("SPECIAL"),
     "specialPlates": MessageLookupByLibrary.simpleMessage("Special Plates"),
     "splashTitle": MessageLookupByLibrary.simpleMessage("TastyBites"),
@@ -343,6 +360,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Reservation successful!",
     ),
     "successReser": MessageLookupByLibrary.simpleMessage("Success"),
+    "tableNumber": MessageLookupByLibrary.simpleMessage("Table No."),
     "tableReserved": MessageLookupByLibrary.simpleMessage(
       "Your table is reserved",
     ),
@@ -403,6 +421,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "yourOrders": MessageLookupByLibrary.simpleMessage("Your Orders"),
     "yourOrdersWillAppearHere": MessageLookupByLibrary.simpleMessage(
       "Your orders will appear here",
+    ),
+    "yourReservation": MessageLookupByLibrary.simpleMessage(
+      "Your Reservations",
     ),
   };
 }
