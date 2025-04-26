@@ -1,5 +1,5 @@
 {
-   "splashTitle": "PARAGON",
+   "splashTitle": "Tasty Bites",
     "skipButton": "Skip",
     "continueButton": "Continue",
     "onboardingTitleOne": "Plan your weekly menu",
@@ -19,7 +19,9 @@
     "validationErrorPassword": "Please enter a valid password",
     "validationErrorPasswordLength": "Password must be at least 6 characters long",
 
-
+    "tableReserved": "Your table is reserved",
+    "tableReservedMessage": "NOTE: Reservation is only for 1 hour",
+    "reservationAlreadyExists": "Reservation already exists for this date and time",
 
     "fullName": "Full name",
     "email": "Email",
@@ -62,7 +64,7 @@
     "CancelButton": "Cancel",
 
 
-
+     "reserIsAlreadyExists": "Reservation already exists for this date and time",
     "reserveationTable": "Table Reservation",
     "selectTable": "Select a table",
     "reserveTable": "Reserve Table",

@@ -1,6 +1,6 @@
 {
     
-    "splashTitle": "باراجون",
+    "splashTitle": "تِكة ونكهة",
     "skipButton": "تخطي",
     "continueButton": "استمر",
     "onboardingTitleOne": "خطط لوجبتك الأسبوعية",
@@ -19,7 +19,7 @@
      "validationErrorEmail": "يرجى إدخال بريدك الإلكتروني أو رقم هاتفك",
     "validationErrorPassword": "يرجى إدخال كلمة مرور صحيحة",
     "validationErrorPasswordLength": "كلمة المرور يجب أن تكون على الأقل 6 أحرف",
-
+  
 
     "fullName": "الاسم الكامل",
     "email": "البريد الإلكتروني",
@@ -56,7 +56,7 @@
     "successReser": "نجاح",
     "tableReserved": "تم حجز الطاولة بنجاح",
     "tableReservedMessage": "تم حجز الطاولة بنجاح. سنقوم بالتواصل معك قريبًا لتأكيد الحجز.",
-
+"reserIsAlreadyExists": "حجز الطاولة موجود بالفعل",
 
     "fillAllFields": "يرجى ملء جميع الحقول.",
     "successMessage": "تم الحجز بنجاح!",

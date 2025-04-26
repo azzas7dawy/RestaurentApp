@@ -9,6 +9,8 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:restrant_app/aboutUs/about_us.dart';
+import 'package:restrant_app/chat/user_chat.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
@@ -198,12 +200,23 @@ class MyApp extends StatelessWidget {
                           return MaterialPageRoute(
                             builder: (context) => const SettignsScreen(),
                           );
+                           case AboutSupportPage.id:
+                          return MaterialPageRoute(
+                            builder: (context) => const AboutSupportPage(),
+                          );
+                           case ChatScreen.id:
+             return MaterialPageRoute(
+               builder: (context) => ChatScreen(otherUserEmail:data),
+                 
+               
+             );
                         default:
                           return MaterialPageRoute(
                               builder: (context) => const SplashPage());
                       }
                     },
-                    initialRoute: SplashPage.id,
+                    // initialRoute: SplashPage.id,
+                      initialRoute: AboutSupportPage.id,
                   );
                 } else {
                   return const Center(

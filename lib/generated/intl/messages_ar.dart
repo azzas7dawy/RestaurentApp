@@ -246,6 +246,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "removedFromOrders": MessageLookupByLibrary.simpleMessage(
       "تمت إزالته من الطلبات",
     ),
+    "reserIsAlreadyExists": MessageLookupByLibrary.simpleMessage(
+      "حجز الطاولة موجود بالفعل",
+    ),
     "reserNow": MessageLookupByLibrary.simpleMessage(
       "احجز طاولة في باراجون الآن",
     ),
@@ -309,7 +312,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "somethingWentWrong": MessageLookupByLibrary.simpleMessage("حدث خطأ ما"),
     "special": MessageLookupByLibrary.simpleMessage("خاص"),
     "specialPlates": MessageLookupByLibrary.simpleMessage("الأطباق الخاصة"),
-    "splashTitle": MessageLookupByLibrary.simpleMessage("باراجون"),
+    "splashTitle": MessageLookupByLibrary.simpleMessage("تِكة ونكهة"),
     "status": MessageLookupByLibrary.simpleMessage("الحالة:"),
     "subTitle": MessageLookupByLibrary.simpleMessage(
       "سيقوم مندوب التوصيل بتحصيل الدفع عند وصول طلبك.",

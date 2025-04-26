@@ -55,9 +55,9 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `PARAGON`
+  /// `Tasty Bites`
   String get splashTitle {
-    return Intl.message('PARAGON', name: 'splashTitle', desc: '', args: []);
+    return Intl.message('Tasty Bites', name: 'splashTitle', desc: '', args: []);
   }
 
   /// `Skip`
@@ -190,6 +190,36 @@ class S {
     return Intl.message(
       'Password must be at least 6 characters long',
       name: 'validationErrorPasswordLength',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your table is reserved`
+  String get tableReserved {
+    return Intl.message(
+      'Your table is reserved',
+      name: 'tableReserved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `NOTE: Reservation is only for 1 hour`
+  String get tableReservedMessage {
+    return Intl.message(
+      'NOTE: Reservation is only for 1 hour',
+      name: 'tableReservedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reservation already exists for this date and time`
+  String get reservationAlreadyExists {
+    return Intl.message(
+      'Reservation already exists for this date and time',
+      name: 'reservationAlreadyExists',
       desc: '',
       args: [],
     );
@@ -480,6 +510,16 @@ class S {
     return Intl.message('Cancel', name: 'CancelButton', desc: '', args: []);
   }
 
+  /// `Reservation already exists for this date and time`
+  String get reserIsAlreadyExists {
+    return Intl.message(
+      'Reservation already exists for this date and time',
+      name: 'reserIsAlreadyExists',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Table Reservation`
   String get reserveationTable {
     return Intl.message(
@@ -523,26 +563,6 @@ class S {
   /// `Success`
   String get successReser {
     return Intl.message('Success', name: 'successReser', desc: '', args: []);
-  }
-
-  /// `Your table is reserved`
-  String get tableReserved {
-    return Intl.message(
-      'Your table is reserved',
-      name: 'tableReserved',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `NOTE: Reservation is only for 1 hour`
-  String get tableReservedMessage {
-    return Intl.message(
-      'NOTE: Reservation is only for 1 hour',
-      name: 'tableReservedMessage',
-      desc: '',
-      args: [],
-    );
   }
 
   /// `Please fill out all fields.`
