@@ -15,6 +15,8 @@ class SettignsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentLocale = Localizations.localeOf(context);
     final isArabic = currentLocale.languageCode == 'ar';
+    final theme = Theme.of(context);
+    // final isDarkTheme = theme.brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +36,9 @@ class SettignsScreen extends StatelessWidget {
             Navigator.pushReplacementNamed(context, CustomScreen.id);
           },
         ),
+        backgroundColor: theme.scaffoldBackgroundColor,
       ),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

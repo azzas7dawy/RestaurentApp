@@ -89,6 +89,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "createAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
     "customer": MessageLookupByLibrary.simpleMessage("العميل:"),
     "deletAccount": MessageLookupByLibrary.simpleMessage("حذف الحساب"),
+    "deleteAccount": MessageLookupByLibrary.simpleMessage("حذف الحساب"),
     "delivered": MessageLookupByLibrary.simpleMessage("تم التوصيل"),
     "deliveryAddress": MessageLookupByLibrary.simpleMessage("عنوان التوصيل"),
     "deliveryInfo": MessageLookupByLibrary.simpleMessage("معلومات التوصيل:"),
@@ -309,7 +310,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "somethingWentWrong": MessageLookupByLibrary.simpleMessage("حدث خطأ ما"),
     "special": MessageLookupByLibrary.simpleMessage("خاص"),
     "specialPlates": MessageLookupByLibrary.simpleMessage("الأطباق الخاصة"),
-    "splashTitle": MessageLookupByLibrary.simpleMessage("باراجون"),
+    "splashTitle": MessageLookupByLibrary.simpleMessage("تيستي بايتس"),
     "status": MessageLookupByLibrary.simpleMessage("الحالة:"),
     "subTitle": MessageLookupByLibrary.simpleMessage(
       "سيقوم مندوب التوصيل بتحصيل الدفع عند وصول طلبك.",

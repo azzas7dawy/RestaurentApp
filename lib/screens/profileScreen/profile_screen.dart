@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/services/pref_service.dart';
+import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
 
@@ -325,7 +326,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ? Icon(
                                               Icons.person,
                                               size: 50,
-                                              color: colorScheme.onSurface,
+                                              color:
+                                                  ColorsUtility.onboardingColor,
                                             )
                                           : null,
                                     ),
@@ -390,7 +392,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 validator: (String? value) {
                                   if (_isEditing &&
                                       (value == null || value.isEmpty)) {
-                                    return S.of(context).validationErrorFullName;
+                                    return S
+                                        .of(context)
+                                        .validationErrorFullName;
                                   }
                                   return null;
                                 },
@@ -510,7 +514,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           child: Text(
-                            S.of(context).remove,
+                            S.of(context).deleteAccount,
                             style: TextStyle(
                               color: colorScheme.error,
                               fontSize: 16,
