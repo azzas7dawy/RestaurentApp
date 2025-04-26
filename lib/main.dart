@@ -16,6 +16,7 @@ import 'package:restrant_app/cubit/ThemeLogic/cubit/theme_cubit.dart';
 import 'package:restrant_app/cubit/ThemeLogic/cubit/theme_state.dart';
 import 'package:restrant_app/firebase_options.dart';
 import 'package:restrant_app/generated/l10n.dart';
+import 'package:restrant_app/screens/aboutUs/about_us.dart';
 import 'package:restrant_app/screens/adminDashbord/admin/MenuScreen%20.dart';
 import 'package:restrant_app/screens/adminDashbord/admin/admin_dashboard.dart';
 import 'package:restrant_app/screens/adminDashbord/admin/admin_orders_screen.dart';
@@ -229,6 +230,11 @@ class MyApp extends StatelessWidget {
                             builder: (context) =>
                                 ChatScreen(otherUserEmail: data),
                           );
+                        case AboutSupportPage.id:
+                          return MaterialPageRoute(
+                            builder: (context) => AboutSupportPage(),
+                          );
+
                         default:
                           return MaterialPageRoute(
                               builder: (context) => const SplashPage());

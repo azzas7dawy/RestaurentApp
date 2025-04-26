@@ -55,9 +55,9 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `PARAGON`
+  /// `TastyBites`
   String get splashTitle {
-    return Intl.message('PARAGON', name: 'splashTitle', desc: '', args: []);
+    return Intl.message('TastyBites', name: 'splashTitle', desc: '', args: []);
   }
 
   /// `Skip`

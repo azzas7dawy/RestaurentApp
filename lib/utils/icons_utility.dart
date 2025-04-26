@@ -10,4 +10,6 @@ class IconsUtility {
   static const String searchIcon = 'assets/icons/icons8-search.svg';
   static const String creditCardIcon =
       'assets/icons/credit-card-pay-svgrepo-com.svg';
+  static const String logoDarkModeIcon = 'assets/icons/logo dark-mood.svg';
+  static const String logoLightModeIcon = 'assets/icons/logo light-mood.svg';
 }

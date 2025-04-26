@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:restrant_app/cubit/SplashLogic/cubit/splash_cubit.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/screens/customScreen/custom_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:restrant_app/utils/icons_utility.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -14,6 +16,12 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    final isDark = theme.brightness == Brightness.dark;
+
+    final String logoAsset =
+        isDark ? IconsUtility.logoDarkModeIcon : IconsUtility.logoLightModeIcon;
     return BlocProvider(
       create: (context) => SplashCubit()..initialize(),
       child: Scaffold(
@@ -42,13 +50,27 @@ class SplashPage extends StatelessWidget {
                       opacity: fadeValue,
                       child: Transform.scale(
                         scale: scaleValue,
-                        child: Text(
-                          S.of(context).splashTitle,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            color: ColorsUtility.progressIndictorColor,
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              logoAsset,
+                              width: 50,
+                              height: 50,
+                              colorFilter: const ColorFilter.mode(
+                                ColorsUtility.progressIndictorColor,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                            Text(
+                              S.of(context).splashTitle,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: ColorsUtility.progressIndictorColor,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     );

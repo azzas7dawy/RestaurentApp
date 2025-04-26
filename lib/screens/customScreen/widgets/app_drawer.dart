@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/generated/l10n.dart';
+import 'package:restrant_app/screens/aboutUs/about_us.dart';
 import 'package:restrant_app/screens/favoritesScreen/favorites_screen.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/screens/settingsScreen/settings_screen.dart';
@@ -123,7 +124,8 @@ class AppDrawer extends StatelessWidget {
                     leading: Icon(Icons.info_outline, color: titleColor),
                     title: Text(S.of(context).aboutHelp,
                         style: TextStyle(color: titleColor)),
-                    onTap: () => Navigator.pop(context),
+                    onTap: () =>
+                        Navigator.pushNamed(context, AboutSupportPage.id),
                   ),
                   ListTile(
                     leading: Icon(Icons.settings_outlined, color: titleColor),

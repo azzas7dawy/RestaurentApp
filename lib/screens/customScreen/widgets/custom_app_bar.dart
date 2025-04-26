@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:restrant_app/generated/l10n.dart';
+import 'package:restrant_app/utils/icons_utility.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -8,6 +10,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    final isDark = theme.brightness == Brightness.dark;
+
+    final String logoAsset =
+        isDark ? IconsUtility.logoDarkModeIcon : IconsUtility.logoLightModeIcon;
 
     final Color titleColor = theme.colorScheme.primary;
 
@@ -19,11 +26,26 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       title: Align(
         alignment: isArabic() ? Alignment.centerRight : Alignment.centerLeft,
-        child: Text(
-          S.of(context).splashTitle,
-          style: theme.textTheme.titleLarge?.copyWith(
-            color: titleColor,
-            fontWeight: FontWeight.bold,
+        child: Expanded(
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                logoAsset,
+                width: 40,
+                height: 40,
+                colorFilter: ColorFilter.mode(
+                  titleColor,
+                  BlendMode.srcIn,
+                ),
+              ),
+              Text(
+                S.of(context).splashTitle,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: titleColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ),
       ),
