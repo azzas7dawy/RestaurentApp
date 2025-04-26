@@ -26,12 +26,16 @@ class AppConfirmationDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return AlertDialog(
-      backgroundColor: ColorsUtility.elevatedBtnColor,
+      backgroundColor: isDarkTheme
+          ? ColorsUtility.elevatedBtnColor
+          : ColorsUtility.lightMainBackgroundColor,
       title: Text(
         title,
-        style: const TextStyle(
-          color: ColorsUtility.takeAwayColor,
+        style: TextStyle(
+          color: theme.colorScheme.primary,
         ),
       ),
       content: SingleChildScrollView(

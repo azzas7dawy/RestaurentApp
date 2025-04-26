@@ -26,27 +26,25 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       title: Align(
         alignment: isArabic() ? Alignment.centerRight : Alignment.centerLeft,
-        child: Expanded(
-          child: Row(
-            children: [
-              SvgPicture.asset(
-                logoAsset,
-                width: 40,
-                height: 40,
-                colorFilter: ColorFilter.mode(
-                  titleColor,
-                  BlendMode.srcIn,
-                ),
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              logoAsset,
+              width: 40,
+              height: 40,
+              colorFilter: ColorFilter.mode(
+                titleColor,
+                BlendMode.srcIn,
               ),
-              Text(
-                S.of(context).splashTitle,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  color: titleColor,
-                  fontWeight: FontWeight.bold,
-                ),
+            ),
+            Text(
+              S.of(context).splashTitle,
+              style: theme.textTheme.titleLarge?.copyWith(
+                color: titleColor,
+                fontWeight: FontWeight.bold,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       actions: [

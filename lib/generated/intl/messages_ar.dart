@@ -89,6 +89,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "createAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
     "customer": MessageLookupByLibrary.simpleMessage("العميل:"),
     "deletAccount": MessageLookupByLibrary.simpleMessage("حذف الحساب"),
+    "deleteAccount": MessageLookupByLibrary.simpleMessage("حذف الحساب"),
     "delivered": MessageLookupByLibrary.simpleMessage("تم التوصيل"),
     "deliveryAddress": MessageLookupByLibrary.simpleMessage("عنوان التوصيل"),
     "deliveryInfo": MessageLookupByLibrary.simpleMessage("معلومات التوصيل:"),

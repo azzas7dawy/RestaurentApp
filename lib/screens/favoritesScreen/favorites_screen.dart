@@ -20,6 +20,8 @@ class FavoritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -41,7 +43,9 @@ class FavoritesScreen extends StatelessWidget {
           },
         ),
         centerTitle: true,
+        backgroundColor: theme.scaffoldBackgroundColor,
       ),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: BlocBuilder<FavoritesCubit, FavoritesState>(
         builder: (BuildContext context, FavoritesState state) {
           if (state is FavoritesLoading) {
@@ -83,7 +87,7 @@ class FavoritesScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
-                        color: ColorsUtility.takeAwayColor.withAlpha(178),
+                        color: ColorsUtility.takeAwayColor,
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -91,7 +95,7 @@ class FavoritesScreen extends StatelessWidget {
                       S.of(context).favTxt,
                       style: TextStyle(
                         fontSize: 14,
-                        color: ColorsUtility.textFieldLabelColor.withAlpha(128),
+                        color: ColorsUtility.textFieldLabelColor,
                       ),
                     ),
                   ],
@@ -125,7 +129,9 @@ class FavoritesScreen extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        color: ColorsUtility.elevatedBtnColor,
+                        color: isDarkTheme
+                            ? ColorsUtility.elevatedBtnColor
+                            : ColorsUtility.lightTextFieldFillColor,
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,

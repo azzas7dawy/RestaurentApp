@@ -91,6 +91,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "customer": MessageLookupByLibrary.simpleMessage("Customer:"),
     "deletAccount": MessageLookupByLibrary.simpleMessage("delete account "),
+    "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
     "delivered": MessageLookupByLibrary.simpleMessage("Delivered"),
     "deliveryAddress": MessageLookupByLibrary.simpleMessage("Delivery Address"),
     "deliveryInfo": MessageLookupByLibrary.simpleMessage(
