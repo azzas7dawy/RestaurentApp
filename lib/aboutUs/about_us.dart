@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restrant_app/chat/user_chat.dart';
 import 'package:url_launcher/url_launcher.dart';
-// import 'package:url_launcher/url_launcher.dart';
+
 
 class AboutSupportPage extends StatelessWidget {
   const AboutSupportPage({super.key});
@@ -51,7 +51,6 @@ class AboutSupportPage extends StatelessWidget {
 
             const SizedBox(height: 30),
 
-            // 💬 قسم الشات
             GestureDetector(
                   onTap: () => Navigator.push(context,MaterialPageRoute( builder: (context) => ChatScreen(otherUserEmail: FirebaseAuth.instance.currentUser?.email ?? '',)
                   )),
