@@ -123,6 +123,10 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Order #${doc.id}", style: const TextStyle(color: Color(0xFF4A919E), fontSize: 16)),
+                      //  Text("Order #${}", style: const TextStyle(color: Color(0xFF4A919E), fontSize: 16)),
+                      // Text("table number: ${order['tableNumber']}", style: const TextStyle(color: Colors.white70)),
+                      Text("user: ${order ['user']}", style: const TextStyle(color: Colors.white70)),
+                      Text("order: ${order['order']}", style: const TextStyle(color: Colors.white70)),
                       const SizedBox(height: 6),
                       Row(
                         children: [
