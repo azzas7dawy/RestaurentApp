@@ -6,6 +6,7 @@ import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/aboutUs/about_us.dart';
 import 'package:restrant_app/screens/favoritesScreen/favorites_screen.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
+import 'package:restrant_app/screens/reserveTableScreen/my_reservation_screen.dart';
 import 'package:restrant_app/screens/settingsScreen/settings_screen.dart';
 import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
 import 'package:restrant_app/services/pref_service.dart';
@@ -108,6 +109,15 @@ class AppDrawer extends StatelessWidget {
                     onTap: () => Navigator.pushNamed(
                       context,
                       FavoritesScreen.id,
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.reset_tv_rounded, color: titleColor),
+                    title: Text(S.of(context).YourReservationScreen,
+                        style: TextStyle(color: titleColor)),
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      YourReservationScreen.id,
                     ),
                   ),
                   ListTile(

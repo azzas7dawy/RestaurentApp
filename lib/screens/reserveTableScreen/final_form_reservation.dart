@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:restrant_app/generated/l10n.dart';
@@ -7,10 +8,13 @@ import 'package:restrant_app/screens/reserveTableScreen/success_reserved_page.da
 class FinalReservationDetailsForm extends StatefulWidget {
   final int selectedTable;
 
-  FinalReservationDetailsForm({required this.selectedTable});
+  const FinalReservationDetailsForm({
+    Key? key,
+    required this.selectedTable,
+  }) : super(key: key);
 
   @override
-  _FinalReservationDetailsFormState createState() =>
+  State<FinalReservationDetailsForm> createState() =>
       _FinalReservationDetailsFormState();
 }
 
@@ -27,11 +31,11 @@ class _FinalReservationDetailsFormState
   bool showReservationConflict = false;
 
   Future<void> _pickDate(BuildContext context) async {
-    final pickedDate = await showDatePicker(
+    final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (pickedDate != null) {
       setState(() {
@@ -44,7 +48,7 @@ class _FinalReservationDetailsFormState
   }
 
   Future<void> _pickTime(BuildContext context) async {
-    final pickedTime = await showTimePicker(
+    final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
       initialTime: selectedTime ?? TimeOfDay.now(),
     );
@@ -58,6 +62,13 @@ class _FinalReservationDetailsFormState
     }
   }
 
+  String _calculateLeavingTime(String arrivalTime) {
+    final DateFormat timeFormat = DateFormat('hh:mm a');
+    final DateTime arrival = timeFormat.parse(arrivalTime);
+    final DateTime leaving = arrival.add(const Duration(hours: 2));
+    return timeFormat.format(leaving);
+  }
+
   Future<void> _submitForm() async {
     if (nameController.text.isEmpty ||
         selectedDate == null ||
@@ -69,14 +80,23 @@ class _FinalReservationDetailsFormState
       return;
     }
 
-    final formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate!);
-    final formattedTime = selectedTime!.format(context);
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      setState(() {
+        error = S.of(context).pleaseLogin;
+      });
+      return;
+    }
 
-    final query = await FirebaseFirestore.instance
+    final String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate!);
+    final String formattedTime = selectedTime!.format(context);
+    final String formattedLeavingTime = _calculateLeavingTime(formattedTime);
+
+    final QuerySnapshot query = await FirebaseFirestore.instance
         .collection('reservations')
         .where('id', isEqualTo: widget.selectedTable)
         .where('date', isEqualTo: formattedDate)
-        .where('time', isEqualTo: formattedTime)
+        .where('timeArriving', isEqualTo: formattedTime)
         .get();
 
     if (query.docs.isNotEmpty) {
@@ -92,7 +112,10 @@ class _FinalReservationDetailsFormState
       'name': nameController.text,
       'date': formattedDate,
       'numPersons': numPersons,
-      'time': formattedTime,
+      'timeArriving': formattedTime,
+      'timeLeaving': formattedLeavingTime,
+      'userId': user.uid,
+      'createdAt': FieldValue.serverTimestamp(),
     });
 
     Navigator.pop(context);
@@ -101,102 +124,137 @@ class _FinalReservationDetailsFormState
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final ColorScheme colorScheme = theme.colorScheme;
+    final TextTheme textTheme = theme.textTheme;
+
     return Container(
-      padding: EdgeInsets.all(16.0),
-      color: Colors.black,
+      padding: const EdgeInsets.all(16.0),
+      color: theme.cardColor,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               S.of(context).revervationForm,
-              style: TextStyle(color: Colors.white, fontSize: 24),
+              style: textTheme.headlineMedium?.copyWith(
+                color: textTheme.bodyLarge?.color,
+              ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextField(
               controller: nameController,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: textTheme.bodyLarge?.color),
               decoration: InputDecoration(
                 labelText: S.of(context).fullName,
-                labelStyle: TextStyle(color: Colors.white),
+                labelStyle: TextStyle(color: textTheme.bodyLarge?.color),
+                filled: true,
+                fillColor: theme.inputDecorationTheme.fillColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
+                ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             GestureDetector(
               onTap: () => _pickDate(context),
               child: AbsorbPointer(
                 child: TextField(
                   controller: dateController,
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: textTheme.bodyLarge?.color),
                   decoration: InputDecoration(
                     labelText: S.of(context).setectData,
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: textTheme.bodyLarge?.color),
+                    filled: true,
+                    fillColor: theme.inputDecorationTheme.fillColor,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             DropdownButton<int>(
               value: numPersons,
-              dropdownColor: Colors.black,
-              style: TextStyle(color: Colors.white),
-              onChanged: (value) {
+              dropdownColor: theme.cardColor,
+              style: TextStyle(color: textTheme.bodyLarge?.color),
+              onChanged: (int? value) {
                 setState(() {
                   numPersons = value!;
                 });
               },
-              items: [1, 2, 3, 4, 6].map((value) {
+              items: [1, 2, 3, 4, 6].map<DropdownMenuItem<int>>((int value) {
                 return DropdownMenuItem<int>(
                   value: value,
                   child: Text(
                     '$value ${S.of(context).selectNumberOfPeople}',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: textTheme.bodyLarge?.color),
                   ),
                 );
               }).toList(),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             GestureDetector(
               onTap: () => _pickTime(context),
               child: AbsorbPointer(
                 child: TextField(
                   controller: timeController,
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: textTheme.bodyLarge?.color),
                   decoration: InputDecoration(
                     labelText: S.of(context).selectTime,
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: textTheme.bodyLarge?.color),
+                    filled: true,
+                    fillColor: theme.inputDecorationTheme.fillColor,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
                 ),
               ),
             ),
             if (error.isNotEmpty) ...[
-              SizedBox(height: 10),
-              Text(error, style: TextStyle(color: Colors.red)),
+              const SizedBox(height: 10),
+              Text(
+                error,
+                style: TextStyle(color: colorScheme.error),
+              ),
             ],
             if (showReservationConflict) ...[
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.red[800],
+                  color: colorScheme.error.withOpacity(0.8),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
                   S.of(context).tableReserved,
-                  style: TextStyle(color: Colors.white, fontSize: 16),
+                  style: TextStyle(
+                    color: textTheme.bodyLarge?.color,
+                    fontSize: 16,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
             ],
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _submitForm,
-              child: Text(
-                S.of(context).reserve,
-                style: TextStyle(color: Colors.black),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: colorScheme.primary,
+                foregroundColor: colorScheme.onPrimary,
+                minimumSize: const Size(double.infinity, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
               ),
+              child: Text(S.of(context).reserve),
             ),
           ],
         ),
