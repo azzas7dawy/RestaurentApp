@@ -37,6 +37,46 @@ class TrackOrdersScreen extends StatelessWidget {
     }
   }
 
+  String _getTranslatedStatus(String status, BuildContext context) {
+    if (_isArabic(context)) {
+      switch (status.toLowerCase()) {
+        case 'pending':
+          return 'معلق';
+        case 'accepted':
+          return 'مقبول';
+        case 'rejected':
+          return 'مرفوض';
+        case 'cancelled':
+          return 'ملغى';
+        case 'failed':
+          return 'فشل';
+        default:
+          return status;
+      }
+    } else {
+      return _capitalizeFirstLetter(status);
+    }
+  }
+
+  String _getTranslatedTrackingStatus(String status, BuildContext context) {
+    if (_isArabic(context)) {
+      switch (status.toLowerCase()) {
+        case 'order_placed':
+          return 'تم تقديم الطلب';
+        case 'processing':
+          return 'قيد التجهيز';
+        case 'out_for_delivery':
+          return 'في الطريق';
+        case 'delivered':
+          return 'تم التسليم';
+        default:
+          return status;
+      }
+    } else {
+      return _capitalizeFirstLetter(status);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentUserId = FirebaseAuth.instance.currentUser?.uid ?? '';
@@ -149,10 +189,7 @@ class TrackOrdersScreen extends StatelessWidget {
                       List<Map<String, dynamic>>.from(data['orderItems'] ?? []);
                   final total = data['total'] ?? 0.0;
                   final orderStatus = data['status'] ?? 'pending';
-                  final orderStatusAr = data['status_ar'] ?? orderStatus;
                   final trackStatus = data['trackingStatus'] ?? 'order_placed';
-                  final trackStatusAr =
-                      data['tracking_status_ar'] ?? trackStatus;
                   final timestamp =
                       data['timestamp']?.toDate() ?? DateTime.now();
                   final paymentMethod = data['paymentMethod'] ?? 'cash';
@@ -167,9 +204,7 @@ class TrackOrdersScreen extends StatelessWidget {
                         items: items,
                         total: total,
                         orderStatus: orderStatus,
-                        orderStatusAr: orderStatusAr,
                         trackStatus: trackStatus,
-                        trackStatusAr: trackStatusAr,
                         timestamp: timestamp,
                         paymentMethod: paymentMethod,
                         deliveryAddress: deliveryAddress,
@@ -215,9 +250,7 @@ class TrackOrdersScreen extends StatelessWidget {
                                     ),
                                   ),
                                   child: Text(
-                                    _isArabic(context)
-                                        ? orderStatusAr
-                                        : _capitalizeFirstLetter(orderStatus),
+                                    _getTranslatedStatus(orderStatus, context),
                                     style: TextStyle(
                                       color: _getOrderStatusColor(orderStatus),
                                       fontWeight: FontWeight.bold,
@@ -274,8 +307,7 @@ class TrackOrdersScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            _buildTrackStatusIndicator(
-                                trackStatus, trackStatusAr, context),
+                            _buildTrackStatusIndicator(trackStatus, context),
                           ],
                         ),
                       ),
@@ -367,8 +399,7 @@ class TrackOrdersScreen extends StatelessWidget {
     }
   }
 
-  Widget _buildTrackStatusIndicator(
-      String trackStatus, String trackStatusAr, BuildContext context) {
+  Widget _buildTrackStatusIndicator(String trackStatus, BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -387,7 +418,7 @@ class TrackOrdersScreen extends StatelessWidget {
           const SizedBox(width: 8),
           Expanded(
             child: Text(
-              '${S.of(context).trackStatus} ${_isArabic(context) ? trackStatusAr : _capitalizeFirstLetter(trackStatus)}',
+              '${S.of(context).trackStatus} ${_getTranslatedTrackingStatus(trackStatus, context)}',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -443,9 +474,7 @@ class TrackOrdersScreen extends StatelessWidget {
     required List<Map<String, dynamic>> items,
     required double total,
     required String orderStatus,
-    required String orderStatusAr,
     required String trackStatus,
-    required String trackStatusAr,
     required DateTime timestamp,
     required String paymentMethod,
     required String deliveryAddress,
@@ -529,7 +558,7 @@ class TrackOrdersScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '${S.of(context).orderStatus} ${_isArabic(context) ? orderStatusAr : _capitalizeFirstLetter(orderStatus)}',
+                        '${S.of(context).orderStatus} ${_getTranslatedStatus(orderStatus, context)}',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -557,7 +586,7 @@ class TrackOrdersScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '${S.of(context).trackStatus} ${_isArabic(context) ? trackStatusAr : _capitalizeFirstLetter(trackStatus)}',
+                        '${S.of(context).trackStatus} ${_getTranslatedTrackingStatus(trackStatus, context)}',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

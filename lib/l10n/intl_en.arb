@@ -1,5 +1,5 @@
 {
-   "splashTitle": "PARAGON",
+   "splashTitle": "TastyBites",
     "skipButton": "Skip",
     "continueButton": "Continue",
     "onboardingTitleOne": "Plan your weekly menu",
@@ -245,5 +245,6 @@
     "softDrinks": "Soft Drinks",
     "mexican": "Mexican",
     "pizza": "Pizza",
-    "sandwiches": "Sandwiches"
+    "sandwiches": "Sandwiches",
+    "deleteAccount" : "Delete Account"
 }

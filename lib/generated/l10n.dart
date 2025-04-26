@@ -55,9 +55,9 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `PARAGON`
+  /// `TastyBites`
   String get splashTitle {
-    return Intl.message('PARAGON', name: 'splashTitle', desc: '', args: []);
+    return Intl.message('TastyBites', name: 'splashTitle', desc: '', args: []);
   }
 
   /// `Skip`
@@ -1783,6 +1783,16 @@ class S {
   /// `Sandwiches`
   String get sandwiches {
     return Intl.message('Sandwiches', name: 'sandwiches', desc: '', args: []);
+  }
+
+  /// `Delete Account`
+  String get deleteAccount {
+    return Intl.message(
+      'Delete Account',
+      name: 'deleteAccount',
+      desc: '',
+      args: [],
+    );
   }
 }
 

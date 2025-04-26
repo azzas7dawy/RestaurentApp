@@ -91,6 +91,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "customer": MessageLookupByLibrary.simpleMessage("Customer:"),
     "deletAccount": MessageLookupByLibrary.simpleMessage("delete account "),
+    "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
     "delivered": MessageLookupByLibrary.simpleMessage("Delivered"),
     "deliveryAddress": MessageLookupByLibrary.simpleMessage("Delivery Address"),
     "deliveryInfo": MessageLookupByLibrary.simpleMessage(
@@ -332,7 +333,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "special": MessageLookupByLibrary.simpleMessage("SPECIAL"),
     "specialPlates": MessageLookupByLibrary.simpleMessage("Special Plates"),
-    "splashTitle": MessageLookupByLibrary.simpleMessage("PARAGON"),
+    "splashTitle": MessageLookupByLibrary.simpleMessage("TastyBites"),
     "status": MessageLookupByLibrary.simpleMessage("Status:"),
     "subTitle": MessageLookupByLibrary.simpleMessage(
       "Our delivery agent will collect the payment when your order arrives",

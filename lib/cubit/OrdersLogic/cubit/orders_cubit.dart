@@ -17,21 +17,6 @@ class OrdersCubit extends Cubit<OrdersState> {
   String? _customerName;
   bool _isLoadingCart = false;
 
-  final Map<String, String> _statusToArabic = {
-    'pending': 'معلق',
-    'accepted': 'مقبول',
-    'rejected': 'مرفوض',
-    'cancelled': 'ملغى',
-    'failed': 'فشل',
-  };
-
-  final Map<String, String> _trackingStatusToArabic = {
-    'order_placed': 'تم تقديم الطلب',
-    'processing': 'قيد التجهيز',
-    'out_for_delivery': 'في الطريق',
-    'delivered': 'تم التسليم',
-  };
-
   OrdersCubit({
     required this.firestore,
     required this.userId,
@@ -214,10 +199,7 @@ class OrdersCubit extends Cubit<OrdersState> {
         'deliveryAddress': _deliveryAddress,
         'timestamp': FieldValue.serverTimestamp(),
         'status': status,
-        'status_ar': _statusToArabic[status] ?? status,
         'trackingStatus': trackingStatus,
-        'tracking_status_ar':
-            _trackingStatusToArabic[trackingStatus] ?? trackingStatus,
       });
 
       await _clearCart();
