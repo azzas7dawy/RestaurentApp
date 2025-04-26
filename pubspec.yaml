@@ -52,6 +52,9 @@ dependencies:
   salomon_bottom_bar: ^3.3.2
   shared_preferences: ^2.5.2
   shimmer: ^3.0.0
+  fl_chart: ^0.63.0
+  firebase_messaging: 15.2.5
+  firebase_database: ^11.0.0
 
 dev_dependencies:
 

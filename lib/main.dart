@@ -7,9 +7,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restrant_app/adminDashbord/admin/CategoryItemsScreen.dart';
+import 'package:restrant_app/adminDashbord/admin/MenuScreen%20.dart';
 import 'package:restrant_app/adminDashbord/admin/admin_dashboard.dart';
-import 'package:restrant_app/adminDashbord/admin_page.dart';
-import 'package:restrant_app/adminDashbord/admin_panel.dart';
+import 'package:restrant_app/adminDashbord/admin/admin_orders_screen.dart';
+import 'package:restrant_app/adminDashbord/admin/menu_screen.dart';
+import 'package:restrant_app/adminDashbord/admin/orders_screen.dart';
+import 'package:restrant_app/adminDashbord/admin/statistics_screen.dart';
+import 'package:restrant_app/adminDashbord/chat.dart';
+
 
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
@@ -141,9 +147,21 @@ class MyApp extends StatelessWidget {
                 meal: data,
               ),
             );
-          case OrdersScreen.id:
+          case OrdersScreenn.id:
             return MaterialPageRoute(
-              builder: (context) => const OrdersScreen(),
+              builder: (context) => const OrdersScreenn(),
+            );
+                case AdminMenuScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => const AdminMenuScreen(),
+            );   
+             case AdminOrdersScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => const AdminOrdersScreen(),
+            );  
+              case StatisticsScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => const StatisticsScreen(),
             );
           case ReserveTableScreen.id:
             return MaterialPageRoute(
@@ -171,24 +189,35 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => const TrackOrdersScreen(),
             );
-          case CategoryItemsScreen.id:
+          case MenuScreen.id:
             return MaterialPageRoute(
-              builder: (context) => CategoryItemsScreen(
-                categoryDoc: data,
+              builder: (context) => MenuScreen(
+                
+              ),
+            );        case CategoryItemsScreenn.id:
+            return MaterialPageRoute(
+              builder: (context) => CategoryItemsScreenn(categoryId: '',
+                
               ),
             );
-           case AdminDashboard.id:
+           case DashboardHomeScreen.id:
             return MaterialPageRoute(
-              builder: (context) => AdminDashboard(
+              builder: (context) => DashboardHomeScreen(
              
               ),
+            );
+                case ChatScreen.id:
+            return MaterialPageRoute(
+              builder: (context) => ChatScreen(otherUserEmail:data),
+                
+              
             );
           // default:
           //   return MaterialPageRoute(builder: (context) => const SplashPage());
         }
       },
       // initialRoute: SplashPage.id,
-      initialRoute: AdminDashboard.id,
+      initialRoute: DashboardHomeScreen.id,
     );
   }
 }

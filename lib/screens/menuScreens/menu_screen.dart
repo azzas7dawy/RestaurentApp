@@ -15,7 +15,6 @@ class MenuScreen extends StatelessWidget {
     'drinks',
     'mexican'
   ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,8 +41,7 @@ class MenuScreen extends StatelessWidget {
             expandedHeight: 200,
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
-                children: [
-                  // Header image
+                children: [ 
                   Positioned.fill(
                     child: CachedNetworkImage(
                       imageUrl:

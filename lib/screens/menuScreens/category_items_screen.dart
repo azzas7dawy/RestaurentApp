@@ -9,7 +9,7 @@ import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
 
 class CategoryItemsScreen extends StatelessWidget {
-  const CategoryItemsScreen({super.key, required this.categoryDoc});
+  const CategoryItemsScreen({super.key, required this.categoryDoc, required String categoryId});
   final DocumentSnapshot categoryDoc;
   static const String id = 'CategoryItemsScreen';
 

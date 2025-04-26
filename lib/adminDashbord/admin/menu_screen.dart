@@ -1,4 +1,4 @@
-// Flutter screen for menu management with dynamic sections, image upload, animation, and full CRUD support
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -8,6 +8,7 @@ import 'dart:typed_data';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
+  static const String id = 'menu_screen';
 
   @override
   State<MenuScreen> createState() => _MenuScreenState();
@@ -157,7 +158,18 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Menu Management"),
+        backgroundColor: const Color(0xFF2a2e34),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: _fetchSections,
+          ),
+        ],
+      ),
       backgroundColor: const Color(0xFF1a1d21),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.teal,
