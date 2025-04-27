@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:restrant_app/screens/adminDashbord/admin/detials.dart';
+import 'package:restrant_app/utils/colors_utility.dart';
 
 class CategoryItemsScreenn extends StatefulWidget {
   final String categoryId;
@@ -90,10 +91,10 @@ class _CategoryItemsScreennState extends State<CategoryItemsScreenn> {
                 ),
                 title: Text(
                   itemName,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: ColorsUtility.progressIndictorColor),
                 ),
                 trailing:
-                    const Icon(Icons.arrow_forward_ios, color: Colors.teal),
+                    const Icon(Icons.arrow_forward_ios, color: ColorsUtility.progressIndictorColor),
                 onTap: () {
                   Navigator.push(
                     context,

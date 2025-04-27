@@ -8,6 +8,7 @@ import 'package:restrant_app/screens/adminDashbord/admin/admin_orders_screen.dar
 import 'package:restrant_app/screens/adminDashbord/admin/orders_screen.dart';
 import 'package:restrant_app/screens/adminDashbord/admin/statistics_screen.dart';
 import 'package:restrant_app/screens/adminDashbord/chat.dart';
+import 'package:restrant_app/utils/colors_utility.dart';
 
 class DashboardHomeScreen extends StatefulWidget {
   const DashboardHomeScreen({super.key});
@@ -82,40 +83,40 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
             const SizedBox(height: 20),
             const Text("Admin Dashboard",
                 style: TextStyle(
-                    color: Colors.white,
+                    color:ColorsUtility.progressIndictorColor,
                     fontSize: 20,
                     fontWeight: FontWeight.bold)),
             const Divider(color: Colors.grey),
             ListTile(
               title:
-                  const Text("Orders", style: TextStyle(color: Colors.white)),
+                  const Text("Orders", style: TextStyle(color: ColorsUtility.progressIndictorColor)),
               onTap: () {
                 Navigator.pushNamed(context, OrdersScreenn.id);
               },
             ),
             ListTile(
-              title: const Text("Menu", style: TextStyle(color: Colors.white)),
+              title: const Text("Menu", style: TextStyle(color:ColorsUtility.progressIndictorColor)),
               onTap: () => Navigator.pushNamed(context, AdminMenuScreen.id),
             ),
             ListTile(
               title: const Text("Admin Orders",
-                  style: TextStyle(color: Colors.white)),
+                  style: TextStyle(color:ColorsUtility.progressIndictorColor)),
               onTap: () => Navigator.pushNamed(context, AdminOrdersScreen.id),
             ),
             ListTile(
               title: const Text("Statisics",
-                  style: TextStyle(color: Colors.white)),
+                  style: TextStyle(color: ColorsUtility.progressIndictorColor)),
               onTap: () => Navigator.pushNamed(context, StatisticsScreen.id),
             ),
             ListTile(
-              title: const Text("Chat", style: TextStyle(color: Colors.white)),
+              title: const Text("Chat", style: TextStyle(color: ColorsUtility.progressIndictorColor)),
                  onTap: () => Navigator.push(context, MaterialPageRoute( builder: (context) => ChatScreen(   otherUserEmail:
                                 FirebaseAuth.instance.currentUser?.email ?? 'admin@gmail.com',
                             ))),
             ),
             ListTile(
               title: const Text("Dashboard",
-                  style: TextStyle(color: Colors.white)),
+                  style: TextStyle(color:ColorsUtility.progressIndictorColor)),
               onTap: () => Navigator.pushReplacementNamed(
                   context, DashboardHomeScreen.id),
             ),
@@ -125,7 +126,7 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
       appBar: AppBar(
         title: const Text("Dashboard",
             style: TextStyle(
-                color: Colors.white,
+                color: ColorsUtility.progressIndictorColor,
                 fontSize: 20,
                 fontWeight: FontWeight.bold)),
         backgroundColor: const Color.fromARGB(255, 33, 75, 81),
@@ -181,10 +182,10 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
                         (index) => FlSpot(index.toDouble(),
                             (weeklyOrders.values.toList()[index]).toDouble())),
                     isCurved: true,
-                    color: Colors.cyan,
+                    color: ColorsUtility.progressIndictorColor,
                     barWidth: 3,
                     belowBarData: BarAreaData(
-                        show: true, color: Colors.cyan.withOpacity(0.3)),
+                        show: true, color: ColorsUtility.progressIndictorColor.withOpacity(0.3)),
                   ),
                 ],
               )),

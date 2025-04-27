@@ -80,10 +80,10 @@ class S {
     );
   }
 
-  /// `You can order weekly meals, and we'll bring them straight to your door.`
+  /// `You can order weekly meals, and well bring them straight to your door.`
   String get onboardingDescriptionOne {
     return Intl.message(
-      'You can order weekly meals, and we\'ll bring them straight to your door.',
+      'You can order weekly meals, and well bring them straight to your door.',
       name: 'onboardingDescriptionOne',
       desc: '',
       args: [],
@@ -1793,6 +1793,96 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Your Reservation`
+  String get YourReservationScreen {
+    return Intl.message(
+      'Your Reservation',
+      name: 'YourReservationScreen',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Reservations`
+  String get yourReservation {
+    return Intl.message(
+      'Your Reservations',
+      name: 'yourReservation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong`
+  String get somethingWrong {
+    return Intl.message(
+      'Something went wrong',
+      name: 'somethingWrong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Reservations Found`
+  String get noReservation {
+    return Intl.message(
+      'No Reservations Found',
+      name: 'noReservation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Person`
+  String get person {
+    return Intl.message('Person', name: 'person', desc: '', args: []);
+  }
+
+  /// `Reservation Name`
+  String get reservationName {
+    return Intl.message(
+      'Reservation Name',
+      name: 'reservationName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date`
+  String get date {
+    return Intl.message('Date', name: 'date', desc: '', args: []);
+  }
+
+  /// `Cancel order`
+  String get deleteReservation {
+    return Intl.message(
+      'Cancel order',
+      name: 'deleteReservation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to cancel this order?`
+  String get confirmDeleteReservation {
+    return Intl.message(
+      'Are you sure you want to cancel this order?',
+      name: 'confirmDeleteReservation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get delete {
+    return Intl.message('Cancel', name: 'delete', desc: '', args: []);
+  }
+
+  /// `Table No.`
+  String get tableNumber {
+    return Intl.message('Table No.', name: 'tableNumber', desc: '', args: []);
   }
 }
 

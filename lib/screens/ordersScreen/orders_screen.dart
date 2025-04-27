@@ -35,10 +35,10 @@ class OrdersScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             S.of(context).yourOrders,
-            style: TextStyle(color: ColorsUtility.takeAwayColor),
+            style: TextStyle(color: ColorsUtility.progressIndictorColor),
           ),
           iconTheme: const IconThemeData(
-            color: ColorsUtility.takeAwayColor,
+            color: ColorsUtility.progressIndictorColor,
           ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),

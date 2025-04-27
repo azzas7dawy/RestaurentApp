@@ -284,7 +284,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                       itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
                       itemBuilder: (context, _) => Icon(
                         Icons.star,
-                        color: ColorsUtility.takeAwayColor,
+                        color: const Color.fromARGB(255, 255, 107, 107),
                       ),
                       onRatingUpdate: (rating) {
                         _saveUserRating(rating);

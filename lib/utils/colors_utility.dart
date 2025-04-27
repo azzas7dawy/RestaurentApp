@@ -3,23 +3,24 @@ import 'package:flutter/material.dart';
 class ColorsUtility {
   // dark mode
   static const mainBackgroundColor = Color(0xFF151518);
-  static const progressIndictorColor = Color(0xffC5B358);
+  static const progressIndictorColor = Color.fromARGB(255, 167, 104, 104);
   static const onboardingColor = Color(0xfffffeff);
   static const onboardingDescriptionColor = Color(0xff505152);
   static const orderFoodColor = Color(0xFFA17ED0);
   static const cateringColor = Color(0xFF616C8C);
-  static const reserveTableColor = Color(0xFFAE4F33);
-  static const takeAwayColor = Color(0xFFF7B222);
-  static const calenderColor = Color(0xFFCD3742);
+  static const reserveTableColor = Color.fromARGB(255, 150, 109, 97);
+  static const takeAwayColor = Color(0xFFFF6B6B);
+  static const calenderColor = Color.fromARGB(255, 169, 96, 101);
   static const textFieldFillColor = Color(0xFF1B1B20);
-  static const textFieldLabelColor = Color.fromARGB(255, 172, 172, 177);
+      static const textFieldLabelColor = Color.fromARGB(255, 223, 197, 197);
   static const elevatedBtnColor = Color(0xFF26262D);
-  static const inkwellTextColor = Color.fromARGB(255, 161, 31, 35);
+  static const inkwellTextColor = Color.fromARGB(255, 195, 98, 101);
   static const successSnackbarColor = Colors.green;
-  static const errorSnackbarColor = Colors.red;
+  static const errorSnackbarColor = Color.fromARGB(255, 196, 41, 30);
   static const processingStatusColor = Colors.blue;
   static const onTheWayStatusColor = Colors.purple;
-  static const failedStatusColor = Colors.redAccent;
+  static const failedStatusColor = Color.fromARGB(255, 169, 86, 86);
+
 
   // light mode
 
@@ -37,9 +38,9 @@ class ColorsUtility {
 
   static const lightReserveTableColor = Color(0xFFFF9A8B);
 
-  static const lightTakeAwayColor = Color(0xFFFFDF9A);
+  static const lightTakeAwayColor = Color(0xFFFF6B6B);
 
-  static const lightCalenderColor = Color(0xFFEB6A5A);
+  static const lightCalenderColor = Color.fromARGB(255, 143, 96, 90);
 
   static const lightTextFieldFillColor = Color(0xFFE9EEF0);
 
@@ -51,7 +52,24 @@ class ColorsUtility {
 
   static const lightProcessingStatusColor = Color(0xFF28B1B8);
   static const lightOnTheWayStatusColor = Color(0xFF1E8E96);
-  static const lightFailedStatusColor = Color(0xFFEB6A5A);
+  static const lightFailedStatusColor = Color.fromARGB(255, 156, 112, 106);
   static const messageSenderColor = Color(0xFF4A919E);
   static const messageReceiverColor = Color(0xFF343A40);
 }
+
+
+
+
+// //   // Dark Mode Colors     
+  
+class ColorsLightUtility{
+
+static const backgColor=Color(0xFF151518);
+static const  redColor=Color(0xFFFF6B6B);
+static const  cardColorLight=Color(0xFF212529);
+static const  lightBackgColor =Color(0xFFDFDEDE);
+}
+
+// }class ColorsDarkUtility{
+  
+// }

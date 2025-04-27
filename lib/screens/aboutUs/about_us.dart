@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restrant_app/screens/adminDashbord/chat.dart';
+import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
@@ -29,7 +30,7 @@ class AboutSupportPage extends StatelessWidget {
         backgroundColor: Colors.black,
         elevation: 0,
         title: const Text('about restaurant',
-            style: TextStyle(color: Colors.white)),
+            style: TextStyle(color: ColorsUtility.progressIndictorColor)),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
@@ -41,7 +42,7 @@ class AboutSupportPage extends StatelessWidget {
             const Text(
               " about  Tasty Bites 🍔",
               style: TextStyle(
-                  color: Colors.white,
+                  color: ColorsUtility.progressIndictorColor,
                   fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
@@ -55,7 +56,7 @@ class AboutSupportPage extends StatelessWidget {
 
             const SizedBox(height: 30),
 
-            // 💬 قسم الشات
+         
             GestureDetector(
               onTap: () => Navigator.push(
                   context,
@@ -67,7 +68,7 @@ class AboutSupportPage extends StatelessWidget {
               child: const Text(
                 "Ask Admin 💬",
                 style: TextStyle(
-                    color: Colors.white,
+                    color:ColorsUtility.progressIndictorColor,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
@@ -93,7 +94,7 @@ class AboutSupportPage extends StatelessWidget {
             const Text(
               "📍  Location",
               style: TextStyle(
-                  color: Colors.white,
+                  color: ColorsUtility.progressIndictorColor,
                   fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
@@ -106,7 +107,7 @@ class AboutSupportPage extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.location_on, color: Colors.teal, size: 30),
+                  const Icon(Icons.location_on, color: ColorsUtility.progressIndictorColor, size: 30),
                   const SizedBox(width: 12),
                   const Expanded(
                     child: Text(
@@ -116,7 +117,7 @@ class AboutSupportPage extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: _openMap,
-                    icon: const Icon(Icons.map, color: Colors.teal),
+                    icon: const Icon(Icons.map, color: ColorsUtility.progressIndictorColor),
                   )
                 ],
               ),

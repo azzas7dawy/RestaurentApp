@@ -246,5 +246,16 @@
     "mexican": "المكسيكية",
     "pizza": "بيتزا",
     "sandwiches": "ساندويتشات",
-    "deleteAccount": "حذف الحساب"
+    "deleteAccount": "حذف الحساب",
+    "YourReservationScreen" : "حجوزاتك",
+    "yourReservation" : "حجوزاتك",
+    "somethingWrong" : "حدث خطأ",
+    "noReservation" : "لا توجد حجوزات",
+    "person" : "شخص",
+    "reservationName" : "اسم الحجز",
+    "date" : "التاريخ",
+    "deleteReservation": "حذف الحجز",
+    "confirmDeleteReservation": "هل أنت متأكد من حذف هذا الحجز؟",
+    "delete": "حذف",
+    "tableNumber": "طاولة رقم"
 }

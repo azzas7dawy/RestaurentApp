@@ -15,12 +15,16 @@ class ReservationSuccessSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.75,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-      decoration: const BoxDecoration(
-        color: Color(0xFF121212),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      decoration: BoxDecoration(
+        color: theme.cardColor,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -31,32 +35,31 @@ class ReservationSuccessSheet extends StatelessWidget {
                 alignment: Alignment.topRight,
                 child: GestureDetector(
                   onTap: () => Navigator.pop(context),
-                  child: const Icon(Icons.close, color: Colors.white),
+                  child: Icon(
+                    Icons.close,
+                    color: textTheme.bodyLarge?.color,
+                  ),
                 ),
               ),
               const SizedBox(height: 40),
-               Text(
+              Text(
                 S.of(context).successReser,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+                style: textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 10),
-               Text(
+              Text(
                 S.of(context).tableReservedMessage,
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 16,
+                style: textTheme.bodyMedium?.copyWith(
+                  color: textTheme.bodyMedium?.color?.withOpacity(0.7),
                 ),
               ),
               const SizedBox(height: 30),
-               Text(
+              Text(
                 S.of(context).note,
-                style: TextStyle(
-                  color: Colors.white60,
-                  fontSize: 12,
+                style: textTheme.bodySmall?.copyWith(
+                  color: textTheme.bodySmall?.color?.withOpacity(0.6),
                 ),
               ),
             ],
@@ -69,32 +72,52 @@ class ReservationSuccessSheet extends StatelessWidget {
               // Fake sparkles (can be animated later)
               Positioned(
                 top: 0,
-                child: Icon(Icons.star, color: Colors.orange, size: 16),
+                child: Icon(
+                  Icons.star,
+                  color: colorScheme.secondary,
+                  size: 16,
+                ),
               ),
               Positioned(
                 left: 0,
-                child: Icon(Icons.circle, color: Colors.greenAccent, size: 10),
+                child: Icon(
+                  Icons.circle,
+                  color: colorScheme.secondary.withOpacity(0.8),
+                  size: 10,
+                ),
               ),
               Positioned(
                 right: 0,
-                child: Icon(Icons.circle, color: Colors.greenAccent, size: 12),
+                child: Icon(
+                  Icons.circle,
+                  color: colorScheme.secondary.withOpacity(0.8),
+                  size: 12,
+                ),
               ),
               Positioned(
                 bottom: 0,
-                child: Icon(Icons.star, color: Colors.orange, size: 16),
+                child: Icon(
+                  Icons.star,
+                  color: colorScheme.secondary,
+                  size: 16,
+                ),
               ),
 
               Container(
                 height: 100,
                 width: 100,
-                decoration: const BoxDecoration(
-                  color: Colors.green,
+                decoration: BoxDecoration(
+                  color: colorScheme.primary,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.check, size: 50, color: Colors.white),
+                child: Icon(
+                  Icons.check,
+                  size: 50,
+                  color: colorScheme.onPrimary,
+                ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

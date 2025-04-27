@@ -27,11 +27,11 @@ class FavoritesScreen extends StatelessWidget {
         title: Text(
           S.of(context).yourFavorites,
           style: TextStyle(
-            color: ColorsUtility.takeAwayColor,
+            color: ColorsUtility.progressIndictorColor,
           ),
         ),
         iconTheme: const IconThemeData(
-          color: ColorsUtility.takeAwayColor,
+          color: ColorsUtility.progressIndictorColor,
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -95,7 +95,7 @@ class FavoritesScreen extends StatelessWidget {
                       S.of(context).favTxt,
                       style: TextStyle(
                         fontSize: 14,
-                        color: ColorsUtility.textFieldLabelColor,
+                        color: const Color.fromARGB(255, 136, 52, 52),
                       ),
                     ),
                   ],

@@ -27,12 +27,12 @@ class CategoryItemsScreen extends StatelessWidget {
         title: Text(
           _formatCategoryName(categoryDoc.id),
           style: TextStyle(
-            color: ColorsUtility.takeAwayColor,
+            color: ColorsUtility.progressIndictorColor,
             fontSize: theme.textTheme.titleLarge?.fontSize,
           ),
         ),
         iconTheme: IconThemeData(
-          color: ColorsUtility.takeAwayColor,
+          color: ColorsUtility.progressIndictorColor,
         ),
         centerTitle: true,
         backgroundColor: theme.scaffoldBackgroundColor,
@@ -194,7 +194,7 @@ class CategoryItemsScreen extends StatelessWidget {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: ColorsUtility.takeAwayColor,
+                                color: ColorsUtility.progressIndictorColor,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
@@ -221,7 +221,7 @@ class CategoryItemsScreen extends StatelessWidget {
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
-                            color: ColorsUtility.takeAwayColor),
+                            color: ColorsUtility.progressIndictorColor),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -230,7 +230,7 @@ class CategoryItemsScreen extends StatelessWidget {
                         children: [
                           const Icon(
                             Icons.star,
-                            color: ColorsUtility.takeAwayColor,
+                            color: ColorsUtility.progressIndictorColor,
                             size: 16,
                           ),
                           const SizedBox(width: 4),
