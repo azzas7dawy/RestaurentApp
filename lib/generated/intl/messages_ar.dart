@@ -26,7 +26,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "LOGIN": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "SIGIUP": MessageLookupByLibrary.simpleMessage("انشاء الحساب"),
     "YourReservationScreen": MessageLookupByLibrary.simpleMessage("حجوزاتك"),
+    "about": MessageLookupByLibrary.simpleMessage("حول"),
     "aboutHelp": MessageLookupByLibrary.simpleMessage("حول / مساعدة"),
+    "aboutRestaurant": MessageLookupByLibrary.simpleMessage("About Restaurant"),
+    "aboutRestaurantDescription": MessageLookupByLibrary.simpleMessage(
+      "مطعم \'تاستي بايتس\' يقدم لكم أشهى وألذ المأكولات بجودة عالية وخدمة ممتازة. نهتم براحتكم وتجربتكم، ونقدم كل وجبة بحب ❤️",
+    ),
     "accepted": MessageLookupByLibrary.simpleMessage("مقبول"),
     "addToOrdersBtn": MessageLookupByLibrary.simpleMessage("إضافة إلى الطلبات"),
     "addedToFavorites": MessageLookupByLibrary.simpleMessage(
@@ -44,6 +49,13 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "apply": MessageLookupByLibrary.simpleMessage("تطبيق"),
     "applyCoupon": MessageLookupByLibrary.simpleMessage("تطبيق القسيمة"),
+    "areYouSureDeleteAccount": MessageLookupByLibrary.simpleMessage(
+      "هل انت متأكد انك تريد حذف هذا الحساب؟",
+    ),
+    "askAdmin": MessageLookupByLibrary.simpleMessage("اسأل الأدمن"),
+    "askAdminDescription": MessageLookupByLibrary.simpleMessage(
+      "وأعطني رأيك (يمكنك سؤال الأدمن)",
+    ),
     "available": MessageLookupByLibrary.simpleMessage("متاح"),
     "beef": MessageLookupByLibrary.simpleMessage("لحم بقري ساندويتش"),
     "cAddressOne": MessageLookupByLibrary.simpleMessage(
@@ -61,10 +73,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "باراجون - مجموعة باراجون",
     ),
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+    "cancelFailed": MessageLookupByLibrary.simpleMessage("فشل في إلغاء الحجز"),
     "cancelOrder": MessageLookupByLibrary.simpleMessage("إلغاء الطلب"),
     "cancelOrderMessage": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد أنك تريد إلغاء هذا الطلب؟",
     ),
+    "cancelReservation": MessageLookupByLibrary.simpleMessage("إالغاء الحجز"),
     "cancelled": MessageLookupByLibrary.simpleMessage("تم الإلغاء"),
     "cash": MessageLookupByLibrary.simpleMessage("نقدًا"),
     "cashOnDelivery": MessageLookupByLibrary.simpleMessage("دفع عند الاستلام"),
@@ -77,6 +91,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "يرجى تقديم التفاصيل التالية: ",
     ),
     "completeProfile": MessageLookupByLibrary.simpleMessage("اكمل ملفك الشخصي"),
+    "confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
+    "confirmCancelReservationQuestion": MessageLookupByLibrary.simpleMessage(
+      "هل انت متأكد انك تريد إلغاء هذا الحجز؟",
+    ),
+    "confirmDeleteAccount": MessageLookupByLibrary.simpleMessage("حذف الحساب"),
     "confirmDeleteReservation": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد من حذف هذا الحجز؟",
     ),
@@ -115,6 +134,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterAddress": MessageLookupByLibrary.simpleMessage("يرجى إدخال عنوانك"),
     "enterCoupon": MessageLookupByLibrary.simpleMessage("برجاء إدخال القسيمة"),
     "enterCouponCode": MessageLookupByLibrary.simpleMessage("أدخل كود القسيمة"),
+    "enterEmail": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال بريدك الإلكتروني",
+    ),
+    "enterPassword": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال كلمة المرور",
+    ),
     "enterPhone": MessageLookupByLibrary.simpleMessage("يرجى إدخال رقم هاتفك"),
     "failed": MessageLookupByLibrary.simpleMessage("فشل"),
     "favPayMethod": MessageLookupByLibrary.simpleMessage(
@@ -139,6 +164,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "items": MessageLookupByLibrary.simpleMessage("الوجبات:"),
     "items2": MessageLookupByLibrary.simpleMessage("وجبات"),
     "language": MessageLookupByLibrary.simpleMessage("اللغة"),
+    "loadMore": MessageLookupByLibrary.simpleMessage("تحميل المزيد"),
+    "location": MessageLookupByLibrary.simpleMessage("الموقع"),
     "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "loginButton": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "loginGoogle": MessageLookupByLibrary.simpleMessage(
@@ -167,6 +194,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "لا توجد وجبات مضافة هنا",
     ),
     "noMealsFound": MessageLookupByLibrary.simpleMessage("لا توجد وجبات"),
+    "noMoreData": MessageLookupByLibrary.simpleMessage(
+      "لا مزيد من الأطباق للتحميل",
+    ),
+    "noMoreOrders": MessageLookupByLibrary.simpleMessage("لا توجد طلبات أخرى"),
     "noOrders": MessageLookupByLibrary.simpleMessage("لا توجد طلبات"),
     "noOrdersYet": MessageLookupByLibrary.simpleMessage(
       "لا توجد طلبات حتى الآن",
@@ -238,12 +269,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
     "pizza": MessageLookupByLibrary.simpleMessage("بيتزا"),
     "pleaseLogin": MessageLookupByLibrary.simpleMessage("يرجى تسجيل الدخول"),
+    "pleaseReAuthenticate": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال بياناتك لتأكيد حذف الحساب.",
+    ),
     "proceedWithPaymob": MessageLookupByLibrary.simpleMessage(
       "المتابعة الى باي موب",
     ),
     "processing": MessageLookupByLibrary.simpleMessage("قيد التحضير"),
     "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
     "rating": MessageLookupByLibrary.simpleMessage("التقييم: "),
+    "reAuthenticate": MessageLookupByLibrary.simpleMessage("إعادة المصادقة"),
     "readyToOrder": MessageLookupByLibrary.simpleMessage("جاهز للطلب؟"),
     "rejected": MessageLookupByLibrary.simpleMessage("مرفوض"),
     "remove": MessageLookupByLibrary.simpleMessage("حذف"),
@@ -258,6 +293,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "reserNow": MessageLookupByLibrary.simpleMessage(
       "احجز طاولة في باراجون الآن",
+    ),
+    "reservationCancelled": MessageLookupByLibrary.simpleMessage(
+      "تم إلغاء الحجز بنجاح",
     ),
     "reservationName": MessageLookupByLibrary.simpleMessage("اسم الحجز"),
     "reserve": MessageLookupByLibrary.simpleMessage("احجز"),
@@ -274,6 +312,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "resetPassword": MessageLookupByLibrary.simpleMessage(
       "إعادة تعيين كلمة المرور",
+    ),
+    "restaurantLocation": MessageLookupByLibrary.simpleMessage(
+      "موقعنا في المنيا، مصر",
     ),
     "revervationForm": MessageLookupByLibrary.simpleMessage("نموذج الحجز"),
     "sandwiches": MessageLookupByLibrary.simpleMessage("ساندويتشات"),
@@ -329,6 +370,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "subtotal": MessageLookupByLibrary.simpleMessage("المجموع"),
     "successMessage": MessageLookupByLibrary.simpleMessage("تم الحجز بنجاح!"),
     "successReser": MessageLookupByLibrary.simpleMessage("نجاح"),
+    "tableNotAvailable": MessageLookupByLibrary.simpleMessage(
+      "هذه الطاولة ليست متاحة في هذا الوقت المحدد",
+    ),
     "tableNumber": MessageLookupByLibrary.simpleMessage("طاولة رقم"),
     "tableReserved": MessageLookupByLibrary.simpleMessage(
       "تم حجز الطاولة بنجاح",
@@ -382,5 +426,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "ستظهر طلباتك هنا",
     ),
     "yourReservation": MessageLookupByLibrary.simpleMessage("حجوزاتك"),
+    "yourReservationsWillAppearHere": MessageLookupByLibrary.simpleMessage(
+      "حجوزاتك ستظهر هنا",
+    ),
   };
 }

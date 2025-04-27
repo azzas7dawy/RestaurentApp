@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restrant_app/screens/aiChat/chat_with_ai.dart';
 import 'package:restrant_app/screens/customScreen/widgets/app_bottom_nav_bar.dart';
 import 'package:restrant_app/screens/customScreen/widgets/app_drawer.dart';
 import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
@@ -43,6 +44,17 @@ class _HomePageState extends State<CustomScreen> {
       bottomNavigationBar: AppBottomNavBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatWidget(),
+            ),
+          );
+        },
+        child: const Icon(Icons.chat_bubble_outline_rounded),
       ),
     );
   }

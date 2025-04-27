@@ -8,6 +8,7 @@ import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
 import 'package:restrant_app/generated/l10n.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class CategoryItemsScreen extends StatelessWidget {
   const CategoryItemsScreen({super.key, required this.categoryDoc});
@@ -17,11 +18,7 @@ class CategoryItemsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    // final bool isDark = theme.brightness == Brightness.dark;
 
-    // final Color appBarTextColor = isDark
-    //     ? ColorsUtility.takeAwayColor
-    //     : ColorsUtility.progressIndictorColor;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -61,19 +58,31 @@ class CategoryItemsScreen extends StatelessWidget {
 
           final List<QueryDocumentSnapshot> items = snapshot.data!.docs;
 
-          return GridView.builder(
-            padding: const EdgeInsets.all(15),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 15,
-              crossAxisSpacing: 15,
-              childAspectRatio: 0.8,
+          return AnimationLimiter(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(15),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 15,
+                crossAxisSpacing: 15,
+                childAspectRatio: 0.8,
+              ),
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) {
+                final QueryDocumentSnapshot item = items[index];
+                return AnimationConfiguration.staggeredGrid(
+                  position: index,
+                  duration: const Duration(milliseconds: 500),
+                  columnCount: 2,
+                  child: SlideAnimation(
+                    verticalOffset: 50.0,
+                    child: FadeInAnimation(
+                      child: _buildItemCard(item, context),
+                    ),
+                  ),
+                );
+              },
             ),
-            itemCount: items.length,
-            itemBuilder: (BuildContext context, int index) {
-              final QueryDocumentSnapshot item = items[index];
-              return _buildItemCard(item, context);
-            },
           );
         },
       ),

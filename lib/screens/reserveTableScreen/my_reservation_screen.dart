@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restrant_app/generated/l10n.dart';
+import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:restrant_app/widgets/app_snackbar.dart';
 
 class YourReservationScreen extends StatelessWidget {
   const YourReservationScreen({super.key});
@@ -26,13 +29,17 @@ class YourReservationScreen extends StatelessWidget {
         return snapshot.docs.map((doc) {
           final data = doc.data();
           return {
-            'id': data['id'] ?? 0,
+            'id':
+                data['tableId'] ?? 0, // تغيير من data['id'] إلى data['tableId']
+            'reservationId': data['reservationId'] ?? '', // إضافة هذا الحقل
             'name': data['name'] ?? '',
             'date': data['date'] ?? '',
             'numPersons': data['numPersons'] ?? 0,
             'timeArriving': data['timeArriving'] ?? '',
             'timeLeaving': data['timeLeaving'] ?? '',
+            'status': data['status'] ?? 'pending',
             'docId': doc.id,
+            'phone': data['phone'] ?? '', // إضافة هذا الحقل إن أردت
           };
         }).toList();
       } catch (e) {
@@ -54,19 +61,47 @@ class YourReservationScreen extends StatelessWidget {
     }
   }
 
+  String _getLocalizedStatus(String status, BuildContext context) {
+    switch (status) {
+      case 'accepted':
+        return S.of(context).accepted;
+      case 'rejected':
+        return S.of(context).rejected;
+      case 'pending':
+      default:
+        return S.of(context).pending;
+    }
+  }
+
+  Color _getStatusColor(String status) {
+    switch (status) {
+      case 'accepted':
+        return ColorsUtility.successSnackbarColor;
+      case 'rejected':
+        return ColorsUtility.errorSnackbarColor;
+      case 'pending':
+      default:
+        return ColorsUtility.progressIndictorColor;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final isDarkTheme = theme.brightness == Brightness.dark;
     final textTheme = theme.textTheme;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           S.of(context).yourReservation,
-          style: textTheme.headlineMedium,
+          style: TextStyle(color: ColorsUtility.takeAwayColor),
         ),
-        backgroundColor: colorScheme.surface,
+        iconTheme: const IconThemeData(
+          color: ColorsUtility.takeAwayColor,
+        ),
+        centerTitle: true,
+        backgroundColor: theme.scaffoldBackgroundColor,
         automaticallyImplyLeading: true,
       ),
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -75,7 +110,8 @@ class YourReservationScreen extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: CircularProgressIndicator(color: colorScheme.primary),
+              child:
+                  CircularProgressIndicator(color: theme.colorScheme.primary),
             );
           }
 
@@ -87,13 +123,13 @@ class YourReservationScreen extends StatelessWidget {
                   Icon(
                     Icons.error_outline,
                     size: 50,
-                    color: colorScheme.error,
+                    color: ColorsUtility.errorSnackbarColor,
                   ),
                   const SizedBox(height: 16),
                   Text(
                     S.of(context).somethingWrong,
                     style: textTheme.bodyLarge?.copyWith(
-                      color: colorScheme.error,
+                      color: ColorsUtility.errorSnackbarColor,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -109,145 +145,261 @@ class YourReservationScreen extends StatelessWidget {
 
           final reservations = snapshot.data ?? [];
           if (reservations.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.calendar_today,
-                    size: 50,
-                    color: colorScheme.onSurface.withOpacity(0.5),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    S.of(context).noReservation,
-                    style: textTheme.bodyLarge,
-                  ),
-                ],
-              ),
-            );
-          }
-
-          return ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: reservations.length,
-            itemBuilder: (context, index) {
-              final reservation = reservations[index];
-              return Dismissible(
-                key: Key(reservation['docId']),
-                direction: DismissDirection.endToStart,
-                background: Container(
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.only(right: 20),
-                  color: colorScheme.error,
-                  child: Icon(Icons.delete, color: colorScheme.onError),
-                ),
-                confirmDismiss: (direction) async {
-                  return await showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text(S.of(context).deleteReservation),
-                      content: Text(S.of(context).confirmDeleteReservation),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(false),
-                          child: Text(S.of(context).cancel),
+            return AnimationConfiguration.synchronized(
+              duration: const Duration(milliseconds: 300),
+              child: SlideAnimation(
+                verticalOffset: 50.0,
+                child: FadeInAnimation(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.calendar_today,
+                          size: 60,
+                          color: ColorsUtility.progressIndictorColor
+                              .withAlpha(128),
                         ),
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(true),
-                          child: Text(
-                            S.of(context).delete,
-                            style: TextStyle(color: colorScheme.error),
+                        const SizedBox(height: 16),
+                        Text(
+                          S.of(context).noReservation,
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: ColorsUtility.takeAwayColor,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          S.of(context).yourReservationsWillAppearHere,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: isDarkTheme
+                                ? ColorsUtility.textFieldLabelColor
+                                    .withAlpha(128)
+                                : ColorsUtility.progressIndictorColor
+                                    .withAlpha(179),
                           ),
                         ),
                       ],
                     ),
-                  );
-                },
-                onDismissed: (direction) async {
-                  try {
-                    await _deleteReservation(reservation['docId']);
-                    // ScaffoldMessenger.of(context).showSnackBar(
-                    //   SnackBar(
-                    //     content: Text(S.of(context).reservationDeleted),
-                    //     backgroundColor: colorScheme.primary,
-                    //   ),
-                    // );
-                  } catch (e) {
-                    // ScaffoldMessenger.of(context).showSnackBar(
-                    //   SnackBar(
-                    //     content: Text('${S.of(context).deleteFailed}: $e'),
-                    //     backgroundColor: colorScheme.error,
-                    //   ),
-                    // );
-                  }
-                },
-                child: Card(
-                  margin: const EdgeInsets.only(bottom: 16),
-                  color: colorScheme.surface,
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '${S.of(context).tableNumber} ${reservation['id']}',
-                              style: textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Chip(
-                              backgroundColor:
-                                  colorScheme.primary.withOpacity(0.2),
-                              label: Text(
-                                '${reservation['numPersons']} ${S.of(context).person}',
-                                style: textTheme.bodyMedium?.copyWith(
-                                  color: colorScheme.primary,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          '${S.of(context).reservationName}: ${reservation['name']}',
-                          style: textTheme.bodyLarge,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          '${S.of(context).date}: ${reservation['date']}',
-                          style: textTheme.bodyMedium,
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.access_time,
-                              size: 16,
-                              color: colorScheme.onSurface.withOpacity(0.6),
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              '${reservation['timeArriving']} - ${reservation['timeLeaving']}',
-                              style: textTheme.bodyMedium?.copyWith(
-                                color: colorScheme.onSurface.withOpacity(0.8),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
                   ),
                 ),
-              );
-            },
+              ),
+            );
+          }
+
+          return AnimationLimiter(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: reservations.length,
+              itemBuilder: (context, index) {
+                final reservation = reservations[index];
+                final String status = reservation['status'];
+                final Color statusColor = _getStatusColor(status);
+                final String localizedStatus =
+                    _getLocalizedStatus(status, context);
+
+                return AnimationConfiguration.staggeredList(
+                  position: index,
+                  duration: const Duration(milliseconds: 500),
+                  child: SlideAnimation(
+                    verticalOffset: 50.0,
+                    child: FadeInAnimation(
+                      child: GestureDetector(
+                        child: Card(
+                          color: isDarkTheme
+                              ? ColorsUtility.elevatedBtnColor
+                              : ColorsUtility.lightMainBackgroundColor,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '${S.of(context).tableNumber} ${reservation['id']}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: theme.colorScheme.primary,
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 6,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: statusColor.withAlpha(51),
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(color: statusColor),
+                                      ),
+                                      child: Text(
+                                        localizedStatus,
+                                        style: TextStyle(
+                                          color: statusColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      reservation['date'],
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: ColorsUtility
+                                            .lightOnboardingDescriptionColor,
+                                      ),
+                                    ),
+                                    if (status == 'pending') ...[
+                                      IconButton(
+                                        onPressed: () async {
+                                          final bool? confirmCancel =
+                                              await showDialog<bool>(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              title: Text(S
+                                                  .of(context)
+                                                  .cancelReservation),
+                                              content: Text(S
+                                                  .of(context)
+                                                  .confirmCancelReservationQuestion),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.of(context)
+                                                          .pop(false),
+                                                  child: Text(
+                                                      S.of(context).cancel),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.of(context)
+                                                          .pop(true),
+                                                  child: Text(
+                                                    S.of(context).confirm,
+                                                    style: TextStyle(
+                                                        color: ColorsUtility
+                                                            .errorSnackbarColor),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+
+                                          if (confirmCancel == true) {
+                                            try {
+                                              await _deleteReservation(
+                                                  reservation['docId']);
+                                              appSnackbar(
+                                                context,
+                                                text: S
+                                                    .of(context)
+                                                    .reservationCancelled,
+                                                backgroundColor: ColorsUtility
+                                                    .successSnackbarColor,
+                                              );
+                                            } catch (e) {
+                                              appSnackbar(
+                                                context,
+                                                text:
+                                                    '${S.of(context).cancelFailed}: $e',
+                                                backgroundColor: ColorsUtility
+                                                    .errorSnackbarColor,
+                                              );
+                                            }
+                                          }
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color:
+                                              ColorsUtility.errorSnackbarColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  '${S.of(context).reservationName}: ${reservation['name']}',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: isDarkTheme
+                                        ? ColorsUtility.textFieldLabelColor
+                                        : ColorsUtility
+                                            .lightTextFieldLabelColor,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.access_time,
+                                      size: 16,
+                                      color:
+                                          ColorsUtility.progressIndictorColor,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      '${reservation['timeArriving']} - ${reservation['timeLeaving']}',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color:
+                                            ColorsUtility.progressIndictorColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 12),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 6,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: ColorsUtility.progressIndictorColor
+                                        .withAlpha(26),
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color:
+                                          ColorsUtility.progressIndictorColor,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    '${reservation['numPersons']} ${S.of(context).person}',
+                                    style: TextStyle(
+                                      color:
+                                          ColorsUtility.progressIndictorColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
           );
         },
       ),

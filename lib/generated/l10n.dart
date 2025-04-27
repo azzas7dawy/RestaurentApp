@@ -1884,6 +1884,211 @@ class S {
   String get tableNumber {
     return Intl.message('Table No.', name: 'tableNumber', desc: '', args: []);
   }
+
+  /// `No more plates`
+  String get noMoreData {
+    return Intl.message(
+      'No more plates',
+      name: 'noMoreData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Load More`
+  String get loadMore {
+    return Intl.message('Load More', name: 'loadMore', desc: '', args: []);
+  }
+
+  /// `No more orders`
+  String get noMoreOrders {
+    return Intl.message(
+      'No more orders',
+      name: 'noMoreOrders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Account`
+  String get confirmDeleteAccount {
+    return Intl.message(
+      'Delete Account',
+      name: 'confirmDeleteAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this account?`
+  String get areYouSureDeleteAccount {
+    return Intl.message(
+      'Are you sure you want to delete this account?',
+      name: 'areYouSureDeleteAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Re-authenticate`
+  String get reAuthenticate {
+    return Intl.message(
+      'Re-authenticate',
+      name: 'reAuthenticate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your credentials to confirm account deletion.`
+  String get pleaseReAuthenticate {
+    return Intl.message(
+      'Please enter your credentials to confirm account deletion.',
+      name: 'pleaseReAuthenticate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your email`
+  String get enterEmail {
+    return Intl.message(
+      'Please enter your email',
+      name: 'enterEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your password`
+  String get enterPassword {
+    return Intl.message(
+      'Please enter your password',
+      name: 'enterPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This table is not available at this time`
+  String get tableNotAvailable {
+    return Intl.message(
+      'This table is not available at this time',
+      name: 'tableNotAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel Reservation`
+  String get cancelReservation {
+    return Intl.message(
+      'Cancel Reservation',
+      name: 'cancelReservation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reservation cancelled successfully`
+  String get reservationCancelled {
+    return Intl.message(
+      'Reservation cancelled successfully',
+      name: 'reservationCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to cancel reservation`
+  String get cancelFailed {
+    return Intl.message(
+      'Failed to cancel reservation',
+      name: 'cancelFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get confirm {
+    return Intl.message('Confirm', name: 'confirm', desc: '', args: []);
+  }
+
+  /// `Are you sure you want to cancel your reservation?`
+  String get confirmCancelReservationQuestion {
+    return Intl.message(
+      'Are you sure you want to cancel your reservation?',
+      name: 'confirmCancelReservationQuestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your reservations will appear here`
+  String get yourReservationsWillAppearHere {
+    return Intl.message(
+      'Your reservations will appear here',
+      name: 'yourReservationsWillAppearHere',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About Restaurant`
+  String get aboutRestaurant {
+    return Intl.message(
+      'About Restaurant',
+      name: 'aboutRestaurant',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About`
+  String get about {
+    return Intl.message('About', name: 'about', desc: '', args: []);
+  }
+
+  /// `Tasty Bites Restaurant offers you the most delicious and tasty food with high quality and excellent service. We care about your comfort and experience, and we serve every meal with love ❤️`
+  String get aboutRestaurantDescription {
+    return Intl.message(
+      'Tasty Bites Restaurant offers you the most delicious and tasty food with high quality and excellent service. We care about your comfort and experience, and we serve every meal with love ❤️',
+      name: 'aboutRestaurantDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ask Admin`
+  String get askAdmin {
+    return Intl.message('Ask Admin', name: 'askAdmin', desc: '', args: []);
+  }
+
+  /// `And give your feedback\n(you can ask the admin)`
+  String get askAdminDescription {
+    return Intl.message(
+      'And give your feedback\n(you can ask the admin)',
+      name: 'askAdminDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location`
+  String get location {
+    return Intl.message('Location', name: 'location', desc: '', args: []);
+  }
+
+  /// `Our location in Minya, Egypt`
+  String get restaurantLocation {
+    return Intl.message(
+      'Our location in Minya, Egypt',
+      name: 'restaurantLocation',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

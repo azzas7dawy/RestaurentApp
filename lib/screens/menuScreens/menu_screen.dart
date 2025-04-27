@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/menuScreens/category_items_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
@@ -12,11 +13,6 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    // final isDarkMode = theme.brightness == Brightness.dark;
-
-    //   bool isArabic(BuildContext context) {
-    //   return Localizations.localeOf(context).languageCode == 'ar';
-    // }
 
     return Scaffold(
       body: CustomScrollView(
@@ -113,19 +109,32 @@ class MenuScreen extends StatelessWidget {
                   );
                 }
 
-                return SliverGrid(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 15,
-                    crossAxisSpacing: 15,
-                    childAspectRatio: 0.9,
-                  ),
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      var categoryDoc = menuSnapshot.data!.docs[index];
-                      return _buildCategoryCard(categoryDoc, context);
-                    },
-                    childCount: menuSnapshot.data!.docs.length,
+                return AnimationLimiter(
+                  child: SliverGrid(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 15,
+                      crossAxisSpacing: 15,
+                      childAspectRatio: 0.9,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        var categoryDoc = menuSnapshot.data!.docs[index];
+                        return AnimationConfiguration.staggeredGrid(
+                          position: index,
+                          duration: const Duration(milliseconds: 500),
+                          columnCount: 2,
+                          child: SlideAnimation(
+                            verticalOffset: 50.0,
+                            child: FadeInAnimation(
+                              child: _buildCategoryCard(categoryDoc, context),
+                            ),
+                          ),
+                        );
+                      },
+                      childCount: menuSnapshot.data!.docs.length,
+                    ),
                   ),
                 );
               },

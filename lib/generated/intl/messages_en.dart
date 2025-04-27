@@ -28,7 +28,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "YourReservationScreen": MessageLookupByLibrary.simpleMessage(
       "Your Reservation",
     ),
+    "about": MessageLookupByLibrary.simpleMessage("About"),
     "aboutHelp": MessageLookupByLibrary.simpleMessage("About / Help"),
+    "aboutRestaurant": MessageLookupByLibrary.simpleMessage("About Restaurant"),
+    "aboutRestaurantDescription": MessageLookupByLibrary.simpleMessage(
+      "Tasty Bites Restaurant offers you the most delicious and tasty food with high quality and excellent service. We care about your comfort and experience, and we serve every meal with love ❤️",
+    ),
     "accepted": MessageLookupByLibrary.simpleMessage("Accepted"),
     "addToOrdersBtn": MessageLookupByLibrary.simpleMessage("Add to Orders"),
     "addedToFavorites": MessageLookupByLibrary.simpleMessage(
@@ -44,6 +49,13 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "apply": MessageLookupByLibrary.simpleMessage("Apply"),
     "applyCoupon": MessageLookupByLibrary.simpleMessage("Apply Coupon"),
+    "areYouSureDeleteAccount": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to delete this account?",
+    ),
+    "askAdmin": MessageLookupByLibrary.simpleMessage("Ask Admin"),
+    "askAdminDescription": MessageLookupByLibrary.simpleMessage(
+      "And give your feedback\n(you can ask the admin)",
+    ),
     "available": MessageLookupByLibrary.simpleMessage("Available"),
     "beef": MessageLookupByLibrary.simpleMessage("Beef Sandwich"),
     "cAddressOne": MessageLookupByLibrary.simpleMessage(
@@ -61,9 +73,15 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "cNameTwo": MessageLookupByLibrary.simpleMessage("M Grill - Paragon Group"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "cancelFailed": MessageLookupByLibrary.simpleMessage(
+      "Failed to cancel reservation",
+    ),
     "cancelOrder": MessageLookupByLibrary.simpleMessage("Cancel Order"),
     "cancelOrderMessage": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to cancel this order?",
+    ),
+    "cancelReservation": MessageLookupByLibrary.simpleMessage(
+      "Cancel Reservation",
     ),
     "cancelled": MessageLookupByLibrary.simpleMessage("cancelled"),
     "cash": MessageLookupByLibrary.simpleMessage("Cash"),
@@ -80,6 +98,13 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "completeProfile": MessageLookupByLibrary.simpleMessage(
       "Complete your profile",
+    ),
+    "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+    "confirmCancelReservationQuestion": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to cancel your reservation?",
+    ),
+    "confirmDeleteAccount": MessageLookupByLibrary.simpleMessage(
+      "Delete Account",
     ),
     "confirmDeleteReservation": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to cancel this order?",
@@ -130,6 +155,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterCouponCode": MessageLookupByLibrary.simpleMessage(
       "Enter coupon code",
     ),
+    "enterEmail": MessageLookupByLibrary.simpleMessage(
+      "Please enter your email",
+    ),
+    "enterPassword": MessageLookupByLibrary.simpleMessage(
+      "Please enter your password",
+    ),
     "enterPhone": MessageLookupByLibrary.simpleMessage(
       "Please enter your phone number",
     ),
@@ -162,6 +193,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "items": MessageLookupByLibrary.simpleMessage("Items:"),
     "items2": MessageLookupByLibrary.simpleMessage("items"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
+    "loadMore": MessageLookupByLibrary.simpleMessage("Load More"),
+    "location": MessageLookupByLibrary.simpleMessage("Location"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "loginButton": MessageLookupByLibrary.simpleMessage("Login"),
     "loginGoogle": MessageLookupByLibrary.simpleMessage("Login with Google"),
@@ -186,6 +219,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noMealsAdded": MessageLookupByLibrary.simpleMessage("No meals added here"),
     "noMealsFound": MessageLookupByLibrary.simpleMessage("No meals found"),
+    "noMoreData": MessageLookupByLibrary.simpleMessage("No more plates"),
+    "noMoreOrders": MessageLookupByLibrary.simpleMessage("No more orders"),
     "noOrders": MessageLookupByLibrary.simpleMessage("No orders yet"),
     "noOrdersYet": MessageLookupByLibrary.simpleMessage("No orders yet"),
     "noReservation": MessageLookupByLibrary.simpleMessage(
@@ -265,12 +300,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "pleaseLogin": MessageLookupByLibrary.simpleMessage(
       "Please login to your account",
     ),
+    "pleaseReAuthenticate": MessageLookupByLibrary.simpleMessage(
+      "Please enter your credentials to confirm account deletion.",
+    ),
     "proceedWithPaymob": MessageLookupByLibrary.simpleMessage(
       "Proceed with Paymob",
     ),
     "processing": MessageLookupByLibrary.simpleMessage("Processing"),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "rating": MessageLookupByLibrary.simpleMessage("Rating: "),
+    "reAuthenticate": MessageLookupByLibrary.simpleMessage("Re-authenticate"),
     "readyToOrder": MessageLookupByLibrary.simpleMessage("Ready to order?"),
     "rejected": MessageLookupByLibrary.simpleMessage("Rejected"),
     "remove": MessageLookupByLibrary.simpleMessage("Remove"),
@@ -285,6 +324,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "reserNow": MessageLookupByLibrary.simpleMessage(
       "Reserve a table at Paragon right now",
+    ),
+    "reservationCancelled": MessageLookupByLibrary.simpleMessage(
+      "Reservation cancelled successfully",
     ),
     "reservationName": MessageLookupByLibrary.simpleMessage("Reservation Name"),
     "reserve": MessageLookupByLibrary.simpleMessage("Reserve"),
@@ -302,6 +344,9 @@ class MessageLookup extends MessageLookupByLibrary {
       " Enter your email address to receive a password reset link",
     ),
     "resetPassword": MessageLookupByLibrary.simpleMessage("Reset password"),
+    "restaurantLocation": MessageLookupByLibrary.simpleMessage(
+      "Our location in Minya, Egypt",
+    ),
     "revervationForm": MessageLookupByLibrary.simpleMessage("Reservation Form"),
     "sandwiches": MessageLookupByLibrary.simpleMessage("Sandwiches"),
     "saveButton": MessageLookupByLibrary.simpleMessage("Save"),
@@ -360,6 +405,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Reservation successful!",
     ),
     "successReser": MessageLookupByLibrary.simpleMessage("Success"),
+    "tableNotAvailable": MessageLookupByLibrary.simpleMessage(
+      "This table is not available at this time",
+    ),
     "tableNumber": MessageLookupByLibrary.simpleMessage("Table No."),
     "tableReserved": MessageLookupByLibrary.simpleMessage(
       "Your table is reserved",
@@ -424,6 +472,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "yourReservation": MessageLookupByLibrary.simpleMessage(
       "Your Reservations",
+    ),
+    "yourReservationsWillAppearHere": MessageLookupByLibrary.simpleMessage(
+      "Your reservations will appear here",
     ),
   };
 }

@@ -40,12 +40,16 @@ class PrefService {
     required String name,
     required String email,
     required String phone,
+    required String city,
+    required String address,
   }) async {
     _checkInitialized();
     await _prefs!.setString('userId', userId);
     await _prefs!.setString('userName', name);
     await _prefs!.setString('userEmail', email);
     await _prefs!.setString('userPhone', phone);
+    await _prefs!.setString('userCity', city);
+    await _prefs!.setString('userAddress', address);
   }
 
   static Future<void> saveUserImage(String imageUrl) async {
@@ -60,6 +64,8 @@ class PrefService {
       'userName': _prefs!.getString('userName') ?? '',
       'userEmail': _prefs!.getString('userEmail') ?? '',
       'userPhone': _prefs!.getString('userPhone') ?? '',
+      'userCity': _prefs!.getString('userCity') ?? '',
+      'userAddress': _prefs!.getString('userAddress') ?? '',
       'userImage': _prefs!.getString('userImage') ?? '',
     };
   }
@@ -70,6 +76,8 @@ class PrefService {
     await _prefs!.remove('userName');
     await _prefs!.remove('userEmail');
     await _prefs!.remove('userPhone');
+    await _prefs!.remove('userCity');
+    await _prefs!.remove('userAddress');
     await _prefs!.remove('userImage');
     await _prefs!.remove('isLoggedIn');
   }

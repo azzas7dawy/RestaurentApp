@@ -9,9 +9,9 @@ class FinalReservationDetailsForm extends StatefulWidget {
   final int selectedTable;
 
   const FinalReservationDetailsForm({
-    Key? key,
+    super.key,
     required this.selectedTable,
-  }) : super(key: key);
+  });
 
   @override
   State<FinalReservationDetailsForm> createState() =>
@@ -23,6 +23,7 @@ class _FinalReservationDetailsFormState
   final TextEditingController nameController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
   final TextEditingController timeController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
@@ -36,8 +37,24 @@ class _FinalReservationDetailsFormState
       initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Theme.of(context).colorScheme.primary,
+              onPrimary: Theme.of(context).colorScheme.onPrimary,
+              surface: Theme.of(context).cardColor,
+              onSurface:
+                  Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
+            ),
+            dialogBackgroundColor: Theme.of(context).cardColor,
+          ),
+          child: child!,
+        );
+      },
     );
-    if (pickedDate != null) {
+
+    if (pickedDate != null && pickedDate != selectedDate) {
       setState(() {
         selectedDate = pickedDate;
         dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
@@ -51,28 +68,92 @@ class _FinalReservationDetailsFormState
     final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
       initialTime: selectedTime ?? TimeOfDay.now(),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Theme.of(context).colorScheme.primary,
+              onPrimary: Theme.of(context).colorScheme.onPrimary,
+              surface: Theme.of(context).cardColor,
+              onSurface:
+                  Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
+            ),
+            dialogBackgroundColor: Theme.of(context).cardColor,
+          ),
+          child: child!,
+        );
+      },
     );
-    if (pickedTime != null) {
+
+    if (pickedTime != null && pickedTime != selectedTime) {
       setState(() {
         selectedTime = pickedTime;
-        timeController.text = pickedTime.format(context);
+        timeController.text = _formatTimeOfDay(pickedTime);
         error = "";
         showReservationConflict = false;
       });
     }
   }
 
+  String _formatTimeOfDay(TimeOfDay tod) {
+    final now = DateTime.now();
+    final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
+    final format = DateFormat('HH:mm');
+    return format.format(dt);
+  }
+
   String _calculateLeavingTime(String arrivalTime) {
-    final DateFormat timeFormat = DateFormat('hh:mm a');
-    final DateTime arrival = timeFormat.parse(arrivalTime);
-    final DateTime leaving = arrival.add(const Duration(hours: 2));
-    return timeFormat.format(leaving);
+    final format = DateFormat('HH:mm');
+    final dt = format.parse(arrivalTime);
+    final leaving = dt.add(const Duration(hours: 1));
+    return format.format(leaving);
+  }
+
+  String _generateReservationId() {
+    return DateTime.now().millisecondsSinceEpoch.toString().substring(0, 6);
+  }
+
+  Future<bool> _checkReservationConflict(
+    String formattedDate,
+    String formattedTime,
+    String formattedLeavingTime,
+  ) async {
+    final DateFormat timeFormat = DateFormat('HH:mm');
+    final DateTime requestedArriving = timeFormat.parse(formattedTime);
+    final DateTime requestedLeaving = timeFormat.parse(formattedLeavingTime);
+
+    final QuerySnapshot query = await FirebaseFirestore.instance
+        .collection('reservations')
+        .where('tableId', isEqualTo: widget.selectedTable)
+        .where('date', isEqualTo: formattedDate)
+        .get();
+
+    for (var doc in query.docs) {
+      final String existingArriving = doc['timeArriving'];
+      final String existingLeaving = doc['timeLeaving'];
+
+      final DateTime existingArrivingTime = timeFormat.parse(existingArriving);
+      final DateTime existingLeavingTime = timeFormat.parse(existingLeaving);
+
+      if ((requestedArriving.isAfter(existingArrivingTime) &&
+              requestedArriving.isBefore(existingLeavingTime)) ||
+          (requestedLeaving.isAfter(existingArrivingTime) &&
+              requestedLeaving.isBefore(existingLeavingTime)) ||
+          (requestedArriving.isAtSameMomentAs(existingArrivingTime)) ||
+          (requestedLeaving.isAtSameMomentAs(existingLeavingTime)) ||
+          (requestedArriving.isBefore(existingArrivingTime) &&
+              requestedLeaving.isAfter(existingLeavingTime))) {
+        return true;
+      }
+    }
+    return false;
   }
 
   Future<void> _submitForm() async {
     if (nameController.text.isEmpty ||
         selectedDate == null ||
-        selectedTime == null) {
+        selectedTime == null ||
+        phoneController.text.isEmpty) {
       setState(() {
         error = S.of(context).fillAllFields;
         showReservationConflict = false;
@@ -89,29 +170,33 @@ class _FinalReservationDetailsFormState
     }
 
     final String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate!);
-    final String formattedTime = selectedTime!.format(context);
+    final String formattedTime = _formatTimeOfDay(selectedTime!);
     final String formattedLeavingTime = _calculateLeavingTime(formattedTime);
 
-    final QuerySnapshot query = await FirebaseFirestore.instance
-        .collection('reservations')
-        .where('id', isEqualTo: widget.selectedTable)
-        .where('date', isEqualTo: formattedDate)
-        .where('timeArriving', isEqualTo: formattedTime)
-        .get();
+    final bool hasConflict = await _checkReservationConflict(
+      formattedDate,
+      formattedTime,
+      formattedLeavingTime,
+    );
 
-    if (query.docs.isNotEmpty) {
+    if (hasConflict) {
       setState(() {
-        error = "";
+        error = S.of(context).tableNotAvailable;
         showReservationConflict = true;
       });
       return;
     }
 
+    final String reservationId = _generateReservationId();
+
     await FirebaseFirestore.instance.collection('reservations').add({
-      'id': widget.selectedTable,
-      'name': nameController.text,
       'date': formattedDate,
+      'name': nameController.text,
       'numPersons': numPersons,
+      'phone': phoneController.text,
+      'reservationId': reservationId,
+      'status': "pending",
+      'tableId': widget.selectedTable,
       'timeArriving': formattedTime,
       'timeLeaving': formattedLeavingTime,
       'userId': user.uid,
@@ -156,6 +241,22 @@ class _FinalReservationDetailsFormState
                   borderSide: BorderSide.none,
                 ),
               ),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: phoneController,
+              style: TextStyle(color: textTheme.bodyLarge?.color),
+              decoration: InputDecoration(
+                labelText: 'Phone Number',
+                labelStyle: TextStyle(color: textTheme.bodyLarge?.color),
+                filled: true,
+                fillColor: theme.inputDecorationTheme.fillColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+              keyboardType: TextInputType.phone,
             ),
             const SizedBox(height: 10),
             GestureDetector(
@@ -222,25 +323,6 @@ class _FinalReservationDetailsFormState
               Text(
                 error,
                 style: TextStyle(color: colorScheme.error),
-              ),
-            ],
-            if (showReservationConflict) ...[
-              const SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: colorScheme.error.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  S.of(context).tableReserved,
-                  style: TextStyle(
-                    color: textTheme.bodyLarge?.color,
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
               ),
             ],
             const SizedBox(height: 20),

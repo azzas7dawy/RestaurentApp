@@ -27,6 +27,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _phoneController;
+  late TextEditingController _cityController;
+  late TextEditingController _addressController;
   File? _imageFile;
   Uint8List? _webImageBytes;
   String _imageUrl = '';
@@ -40,6 +42,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _nameController = TextEditingController();
     _emailController = TextEditingController();
     _phoneController = TextEditingController();
+    _cityController = TextEditingController();
+    _addressController = TextEditingController();
     _initializeUserData();
   }
 
@@ -50,86 +54,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _isGoogleUser =
             user.providerData.any((info) => info.providerId == 'google.com');
 
-        if (_isGoogleUser) {
-          String phone = '';
-          String imageUrl = '';
-          final DocumentSnapshot doc = await FirebaseFirestore.instance
-              .collection('users2')
-              .doc(user.uid)
-              .get();
+        final DocumentSnapshot doc = await FirebaseFirestore.instance
+            .collection('users2')
+            .doc(user.uid)
+            .get();
 
-          if (doc.exists) {
-            phone = doc.get('phone') ?? '';
-            imageUrl = doc.get('imageUrl') ?? '';
-          }
-
-          if (imageUrl.isEmpty) {
-            imageUrl = user.photoURL ?? '';
-          }
+        if (doc.exists) {
+          final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
           setState(() {
-            _nameController.text = user.displayName ?? '';
-            _emailController.text = user.email ?? '';
-            _phoneController.text = phone;
-            _imageUrl = imageUrl;
+            _nameController.text = data['name']?.toString() ?? '';
+            _emailController.text =
+                user.email ?? data['email']?.toString() ?? '';
+            _phoneController.text = data['phone']?.toString() ?? '';
+            _cityController.text = data['city']?.toString() ?? '';
+            _addressController.text = data['address']?.toString() ?? '';
+            _imageUrl = data['imageUrl']?.toString() ?? '';
             _isLoading = false;
           });
 
           await PrefService.saveUserData(
             userId: user.uid,
-            name: user.displayName ?? '',
-            email: user.email ?? '',
-            phone: phone,
+            name: _nameController.text,
+            email: _emailController.text,
+            phone: _phoneController.text,
+            city: _cityController.text,
+            address: _addressController.text,
           );
 
           if (_imageUrl.isNotEmpty) {
             await PrefService.saveUserImage(_imageUrl);
+          } else if (_isGoogleUser && user.photoURL != null) {
+            _imageUrl = user.photoURL!;
+            await PrefService.saveUserImage(_imageUrl);
           }
         } else {
-          final DocumentSnapshot doc = await FirebaseFirestore.instance
-              .collection('users2')
-              .doc(user.uid)
-              .get();
-
-          if (doc.exists) {
-            final Map<String, dynamic> data =
-                doc.data() as Map<String, dynamic>;
-            final Map<String, String> userData = {
-              'userId': user.uid,
-              'userName': data['name']?.toString() ?? '',
-              'userEmail': data['email']?.toString() ?? '',
-              'userPhone': data['phone']?.toString() ?? '',
-              'userImage': data['imageUrl']?.toString() ?? '',
-            };
-
-            await PrefService.saveUserData(
-              userId: userData['userId']!,
-              name: userData['userName']!,
-              email: userData['userEmail']!,
-              phone: userData['userPhone']!,
-            );
-
-            if (userData['userImage']!.isNotEmpty) {
-              await PrefService.saveUserImage(userData['userImage']!);
-            }
-
-            setState(() {
-              _nameController.text = userData['userName']!;
-              _emailController.text = userData['userEmail']!;
-              _phoneController.text = userData['userPhone']!;
-              _imageUrl = userData['userImage']!;
-              _isLoading = false;
-            });
-          } else {
-            final Map<String, String> userData = PrefService.userData;
-            setState(() {
-              _nameController.text = userData['userName'] ?? '';
-              _emailController.text = userData['userEmail'] ?? '';
-              _phoneController.text = userData['userPhone'] ?? '';
-              _imageUrl = userData['userImage'] ?? '';
-              _isLoading = false;
-            });
-          }
+          final Map<String, String> userData = PrefService.userData;
+          setState(() {
+            _nameController.text = userData['userName'] ?? '';
+            _emailController.text = userData['userEmail'] ?? '';
+            _phoneController.text = userData['userPhone'] ?? '';
+            _cityController.text = userData['userCity'] ?? '';
+            _addressController.text = userData['userAddress'] ?? '';
+            _imageUrl = userData['userImage'] ?? '';
+            _isLoading = false;
+          });
         }
       } else {
         final Map<String, String> userData = PrefService.userData;
@@ -137,11 +106,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _nameController.text = userData['userName'] ?? '';
           _emailController.text = userData['userEmail'] ?? '';
           _phoneController.text = userData['userPhone'] ?? '';
+          _cityController.text = userData['userCity'] ?? '';
+          _addressController.text = userData['userAddress'] ?? '';
           _imageUrl = userData['userImage'] ?? '';
           _isLoading = false;
         });
       }
     } catch (e) {
+      final Map<String, String> userData = PrefService.userData;
+      setState(() {
+        _nameController.text = userData['userName'] ?? '';
+        _emailController.text = userData['userEmail'] ?? '';
+        _phoneController.text = userData['userPhone'] ?? '';
+        _cityController.text = userData['userCity'] ?? '';
+        _addressController.text = userData['userAddress'] ?? '';
+        _imageUrl = userData['userImage'] ?? '';
+        _isLoading = false;
+      });
+
       if (mounted) {
         appSnackbar(
           context,
@@ -149,15 +131,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           backgroundColor: Theme.of(context).colorScheme.error,
         );
       }
-
-      final Map<String, String> userData = PrefService.userData;
-      setState(() {
-        _nameController.text = userData['userName'] ?? '';
-        _emailController.text = userData['userEmail'] ?? '';
-        _phoneController.text = userData['userPhone'] ?? '';
-        _imageUrl = userData['userImage'] ?? '';
-        _isLoading = false;
-      });
     }
   }
 
@@ -166,6 +139,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
+    _cityController.dispose();
+    _addressController.dispose();
     super.dispose();
   }
 
@@ -234,6 +209,116 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
     }
     return null;
+  }
+
+  Future<void> _showDeleteConfirmationDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text(S.of(context).confirmDeleteAccount),
+          content: Text(S.of(context).areYouSureDeleteAccount),
+          actions: <Widget>[
+            TextButton(
+              child: Text(S.of(context).cancel),
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+              },
+            ),
+            TextButton(
+              child: Text(
+                S.of(context).yes,
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                _showReAuthenticationDialog(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showReAuthenticationDialog(BuildContext context) async {
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final GlobalKey<FormState> reAuthFormKey = GlobalKey<FormState>();
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text(S.of(context).reAuthenticate),
+          content: Form(
+            key: reAuthFormKey,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(S.of(context).pleaseReAuthenticate),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      labelText: S.of(context).email,
+                      prefixIcon: Icon(Icons.email),
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return S.of(context).enterEmail;
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: passwordController,
+                    decoration: InputDecoration(
+                      labelText: S.of(context).password,
+                      prefixIcon: Icon(Icons.lock),
+                      border: OutlineInputBorder(),
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return S.of(context).enterPassword;
+                      }
+                      return null;
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(S.of(context).cancel),
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+              },
+            ),
+            TextButton(
+              child: Text(S.of(context).confirm),
+              onPressed: () async {
+                if (reAuthFormKey.currentState!.validate()) {
+                  Navigator.of(dialogContext).pop();
+                  await context.read<AuthCubit>().deleteAccount(
+                        context,
+                        email: emailController.text.trim(),
+                        password: passwordController.text.trim(),
+                      );
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -461,6 +546,96 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   return null;
                                 },
                               ),
+                              const SizedBox(height: 16),
+                              TextFormField(
+                                style: TextStyle(
+                                  color: theme.textTheme.bodyLarge?.color,
+                                ),
+                                controller: _cityController,
+                                decoration: InputDecoration(
+                                  border: _isEditing
+                                      ? UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: theme.dividerColor),
+                                        )
+                                      : InputBorder.none,
+                                  enabledBorder: _isEditing
+                                      ? UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: theme.dividerColor),
+                                        )
+                                      : InputBorder.none,
+                                  focusedBorder: _isEditing
+                                      ? UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: colorScheme.primary),
+                                        )
+                                      : InputBorder.none,
+                                  prefixIcon: Icon(
+                                    Icons.location_city,
+                                    color: theme.iconTheme.color,
+                                  ),
+                                  suffixIcon: _isEditing
+                                      ? Icon(
+                                          Icons.edit,
+                                          color: colorScheme.primary,
+                                        )
+                                      : null,
+                                ),
+                                readOnly: !_isEditing,
+                                validator: (String? value) {
+                                  if (_isEditing &&
+                                      (value == null || value.isEmpty)) {
+                                    return 'Please enter your city';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 16),
+                              TextFormField(
+                                style: TextStyle(
+                                  color: theme.textTheme.bodyLarge?.color,
+                                ),
+                                controller: _addressController,
+                                decoration: InputDecoration(
+                                  border: _isEditing
+                                      ? UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: theme.dividerColor),
+                                        )
+                                      : InputBorder.none,
+                                  enabledBorder: _isEditing
+                                      ? UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: theme.dividerColor),
+                                        )
+                                      : InputBorder.none,
+                                  focusedBorder: _isEditing
+                                      ? UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: colorScheme.primary),
+                                        )
+                                      : InputBorder.none,
+                                  prefixIcon: Icon(
+                                    Icons.home,
+                                    color: theme.iconTheme.color,
+                                  ),
+                                  suffixIcon: _isEditing
+                                      ? Icon(
+                                          Icons.edit,
+                                          color: colorScheme.primary,
+                                        )
+                                      : null,
+                                ),
+                                readOnly: !_isEditing,
+                                validator: (String? value) {
+                                  if (_isEditing &&
+                                      (value == null || value.isEmpty)) {
+                                    return 'Please enter your address';
+                                  }
+                                  return null;
+                                },
+                              ),
                             ],
                           ),
                         ),
@@ -478,6 +653,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     context.read<AuthCubit>().updateUserProfile(
                                           name: _nameController.text.trim(),
                                           phone: _phoneController.text.trim(),
+                                          city: _cityController.text.trim(),
+                                          address:
+                                              _addressController.text.trim(),
                                           imageFile: _imageFile,
                                           webImageBytes: _webImageBytes,
                                           context: context,
@@ -499,10 +677,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton(
-                          onPressed: () async {
-                            await context.read<AuthCubit>().deleteAccount(
-                                  context,
-                                );
+                          onPressed: () {
+                            _showDeleteConfirmationDialog(context);
                           },
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16),

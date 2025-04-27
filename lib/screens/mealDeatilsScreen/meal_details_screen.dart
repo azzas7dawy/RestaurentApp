@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/generated/l10n.dart';
@@ -222,121 +223,193 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
         ],
       ),
       backgroundColor: theme.scaffoldBackgroundColor,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.4,
-              ),
-              child: CachedNetworkImage(
-                imageUrl: meal['image'],
-                width: double.infinity,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => Center(
-                  child: CircularProgressIndicator(
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
-                errorWidget: (context, url, error) => Center(
-                  child: Icon(
-                    Icons.fastfood,
-                    size: 40,
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
-              ),
-            ),
-            if (description.isNotEmpty) ...[
-              const SizedBox(height: 8),
-              Text(
-                description,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: theme.textTheme.bodyMedium?.color,
-                ),
-              ),
-            ],
-            const SizedBox(height: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+      body: AnimationLimiter(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: AnimationConfiguration.staggeredList(
+            position: 0,
+            duration: const Duration(milliseconds: 500),
+            child: SlideAnimation(
+              verticalOffset: 50.0,
+              child: FadeInAnimation(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      S.of(context).rating,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.primary,
+                    AnimationConfiguration.staggeredList(
+                      position: 1,
+                      duration: const Duration(milliseconds: 500),
+                      child: SlideAnimation(
+                        verticalOffset: 50.0,
+                        child: FadeInAnimation(
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxHeight:
+                                  MediaQuery.of(context).size.height * 0.4,
+                            ),
+                            child: CachedNetworkImage(
+                              imageUrl: meal['image'],
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => Center(
+                                child: Icon(
+                                  Icons.fastfood,
+                                  size: 40,
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    RatingBar.builder(
-                      initialRating: userRating ?? defaultMealRating ?? 0,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemSize: 24.0,
-                      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: ColorsUtility.takeAwayColor,
+                    if (description.isNotEmpty) ...[
+                      AnimationConfiguration.staggeredList(
+                        position: 2,
+                        duration: const Duration(milliseconds: 500),
+                        child: SlideAnimation(
+                          verticalOffset: 50.0,
+                          child: FadeInAnimation(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Text(
+                                description,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: theme.textTheme.bodyMedium?.color,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                      onRatingUpdate: (rating) {
-                        _saveUserRating(rating);
-                        appSnackbar(
-                          context,
-                          text: '${S.of(context).youRatedThisMeal} $rating ',
-                          backgroundColor: ColorsUtility.successSnackbarColor,
-                        );
-                      },
+                    ],
+                    AnimationConfiguration.staggeredList(
+                      position: 3,
+                      duration: const Duration(milliseconds: 500),
+                      child: SlideAnimation(
+                        verticalOffset: 50.0,
+                        child: FadeInAnimation(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      S.of(context).rating,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: theme.colorScheme.primary,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    RatingBar.builder(
+                                      initialRating:
+                                          userRating ?? defaultMealRating ?? 0,
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemSize: 24.0,
+                                      itemPadding: const EdgeInsets.symmetric(
+                                          horizontal: 4.0),
+                                      itemBuilder: (context, _) => Icon(
+                                        Icons.star,
+                                        color: ColorsUtility.takeAwayColor,
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        _saveUserRating(rating);
+                                        appSnackbar(
+                                          context,
+                                          text:
+                                              '${S.of(context).youRatedThisMeal} $rating ',
+                                          backgroundColor: ColorsUtility
+                                              .successSnackbarColor,
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                if (userRating != null) ...[
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    '${S.of(context).youRated} ${userRating!.toStringAsFixed(1)}',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: theme.colorScheme.primary,
+                                    ),
+                                  ),
+                                ]
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
+                    AnimationConfiguration.staggeredList(
+                      position: 4,
+                      duration: const Duration(milliseconds: 500),
+                      child: SlideAnimation(
+                        verticalOffset: 50.0,
+                        child: FadeInAnimation(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: Text(
+                              '${meal['price']} ${S.of(context).egp}',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    AnimationConfiguration.staggeredList(
+                      position: 5,
+                      duration: const Duration(milliseconds: 500),
+                      child: SlideAnimation(
+                        verticalOffset: 50.0,
+                        child: FadeInAnimation(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 24),
+                            child: Center(
+                              child: AppElevatedBtn(
+                                onPressed: () async {
+                                  await context
+                                      .read<OrdersCubit>()
+                                      .addMeal(meal);
+                                  if (context.mounted) {
+                                    appSnackbar(
+                                      context,
+                                      text:
+                                          '${_getMealName(context)} ${S.of(context).addedToOrders}',
+                                      backgroundColor:
+                                          ColorsUtility.successSnackbarColor,
+                                    );
+                                  }
+                                },
+                                text: S.of(context).addToOrdersBtn,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
                   ],
                 ),
-                if (userRating != null) ...[
-                  const SizedBox(height: 8),
-                  Text(
-                    '${S.of(context).youRated} ${userRating!.toStringAsFixed(1)}',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: theme.colorScheme.primary,
-                    ),
-                  ),
-                ]
-              ],
-            ),
-            const SizedBox(height: 16),
-            Text(
-              '${meal['price']} ${S.of(context).egp}',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: theme.colorScheme.primary,
               ),
             ),
-            const SizedBox(height: 24),
-            Center(
-              child: AppElevatedBtn(
-                onPressed: () async {
-                  await context.read<OrdersCubit>().addMeal(meal);
-                  if (context.mounted) {
-                    appSnackbar(
-                      context,
-                      text:
-                          '${_getMealName(context)} ${S.of(context).addedToOrders}',
-                      backgroundColor: ColorsUtility.successSnackbarColor,
-                    );
-                  }
-                },
-                text: S.of(context).addToOrdersBtn,
-              ),
-            ),
-            const SizedBox(height: 16),
-          ],
+          ),
         ),
       ),
     );
