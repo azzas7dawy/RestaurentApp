@@ -162,10 +162,10 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final Map<String, dynamic> meal = _getMealData();
-    final bool isDark = theme.brightness == Brightness.dark;
-    final Color appBarTextColor = isDark
-        ? ColorsUtility.takeAwayColor
-        : ColorsUtility.progressIndictorColor;
+    // final bool isDark = theme.brightness == Brightness.dark;
+    // final Color appBarTextColor = isDark
+    //     ? ColorsUtility.takeAwayColor
+    //     : ColorsUtility.progressIndictorColor;
     final String description = _getDescription(context);
 
     return Scaffold(
@@ -173,12 +173,12 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
         title: Text(
           _getMealName(context),
           style: TextStyle(
-            color: appBarTextColor,
+            color: theme.colorScheme.primary,
             fontSize: theme.textTheme.titleLarge?.fontSize,
           ),
         ),
         iconTheme: IconThemeData(
-          color: appBarTextColor,
+          color: theme.colorScheme.primary,
         ),
         backgroundColor: theme.scaffoldBackgroundColor,
         centerTitle: true,
@@ -190,12 +190,8 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                       favorite['documentId'] == meal['documentId'])
                   : false;
               return IconButton(
-                icon: Icon(
-                  isFavorite ? Icons.favorite : Icons.favorite_border,
-                  color: isFavorite
-                      ? ColorsUtility.progressIndictorColor
-                      : theme.colorScheme.primary,
-                ),
+                icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: ColorsUtility.errorSnackbarColor),
                 onPressed: () {
                   if (isFavorite) {
                     context

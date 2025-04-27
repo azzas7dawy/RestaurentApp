@@ -91,11 +91,11 @@ class TrackOrdersScreen extends StatelessWidget {
           S.of(context).trackYourOrders,
           style: TextStyle(
             fontSize: 20,
-            color: ColorsUtility.takeAwayColor,
+            color: theme.colorScheme.primary,
           ),
         ),
         iconTheme: IconThemeData(
-          color: ColorsUtility.takeAwayColor,
+          color: theme.colorScheme.primary,
         ),
         backgroundColor: theme.scaffoldBackgroundColor,
         leading: IconButton(
@@ -158,7 +158,7 @@ class TrackOrdersScreen extends StatelessWidget {
                             Icon(
                               Icons.receipt_long,
                               size: 60,
-                              color: ColorsUtility.progressIndictorColor
+                              color: ColorsUtility.errorSnackbarColor
                                   .withAlpha(128),
                             ),
                             const SizedBox(height: 16),
@@ -166,7 +166,7 @@ class TrackOrdersScreen extends StatelessWidget {
                               S.of(context).noOrdersYet,
                               style: TextStyle(
                                 fontSize: 18,
-                                color: ColorsUtility.takeAwayColor,
+                                color: theme.colorScheme.primary,
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -174,11 +174,7 @@ class TrackOrdersScreen extends StatelessWidget {
                               S.of(context).yourOrdersWillAppearHere,
                               style: TextStyle(
                                 fontSize: 14,
-                                color: isDarkTheme
-                                    ? ColorsUtility.textFieldLabelColor
-                                        .withAlpha(128)
-                                    : ColorsUtility.progressIndictorColor
-                                        .withAlpha(179),
+                                color: ColorsUtility.textFieldLabelColor,
                               ),
                             ),
                           ],
@@ -252,7 +248,8 @@ class TrackOrdersScreen extends StatelessWidget {
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
-                                            color: theme.colorScheme.primary,
+                                            color: ColorsUtility
+                                                .errorSnackbarColor,
                                           ),
                                         ),
                                         Container(
@@ -406,7 +403,7 @@ class TrackOrdersScreen extends StatelessWidget {
                     child: Text(
                       S.of(context).yes,
                       style: TextStyle(
-                        color: ColorsUtility.failedStatusColor,
+                        color: ColorsUtility.errorSnackbarColor,
                       ),
                     ),
                   ),
@@ -577,10 +574,7 @@ class TrackOrdersScreen extends StatelessWidget {
                             width: 40,
                             height: 4,
                             decoration: BoxDecoration(
-                              color: isDarkTheme
-                                  ? ColorsUtility.progressIndictorColor
-                                      .withAlpha(102)
-                                  : ColorsUtility.takeAwayColor.withAlpha(102),
+                              color: theme.colorScheme.primary,
                               borderRadius: BorderRadius.circular(2),
                             ),
                           ),
@@ -670,9 +664,7 @@ class TrackOrdersScreen extends StatelessWidget {
                               '${S.of(context).orderId} #${orderId.substring(0, 8).toUpperCase()}',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: isDarkTheme
-                                    ? ColorsUtility.progressIndictorColor
-                                    : ColorsUtility.textFieldFillColor,
+                                color: ColorsUtility.failedStatusColor,
                               ),
                             ),
                             if (orderStatus.toLowerCase() == 'pending') ...[
@@ -696,9 +688,7 @@ class TrackOrdersScreen extends StatelessWidget {
                           '${S.of(context).orderedOn} ${DateFormat('MMM dd, yyyy - hh:mm a').format(timestamp)}',
                           style: TextStyle(
                             fontSize: 14,
-                            color: isDarkTheme
-                                ? ColorsUtility.progressIndictorColor
-                                : ColorsUtility.cateringColor,
+                            color: theme.colorScheme.primary,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -718,9 +708,7 @@ class TrackOrdersScreen extends StatelessWidget {
                               S.of(context).unknown,
                           style: TextStyle(
                             fontSize: 14,
-                            color: isDarkTheme
-                                ? ColorsUtility.progressIndictorColor
-                                : ColorsUtility.mainBackgroundColor,
+                            color: theme.colorScheme.primary,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -756,9 +744,7 @@ class TrackOrdersScreen extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
-                                      color: isDarkTheme
-                                          ? ColorsUtility.takeAwayColor
-                                          : ColorsUtility.progressIndictorColor,
+                                      color: theme.colorScheme.primary,
                                     ),
                                   ),
                                 ],
@@ -772,18 +758,14 @@ class TrackOrdersScreen extends StatelessWidget {
                               '${S.of(context).subtotal}:',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: isDarkTheme
-                                    ? ColorsUtility.progressIndictorColor
-                                    : ColorsUtility.lightTextFieldLabelColor,
+                                color: theme.colorScheme.primary,
                               ),
                             ),
                             Text(
                               '${total.toStringAsFixed(2)} ${S.of(context).egp}',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: isDarkTheme
-                                    ? ColorsUtility.textFieldLabelColor
-                                    : ColorsUtility.progressIndictorColor,
+                                color: theme.colorScheme.primary,
                               ),
                             ),
                           ],
@@ -796,18 +778,14 @@ class TrackOrdersScreen extends StatelessWidget {
                               '${S.of(context).fees}:',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: isDarkTheme
-                                    ? ColorsUtility.progressIndictorColor
-                                    : ColorsUtility.lightTextFieldLabelColor,
+                                color: theme.colorScheme.primary,
                               ),
                             ),
                             Text(
                               '0.00 ${S.of(context).egp}',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: isDarkTheme
-                                    ? ColorsUtility.textFieldLabelColor
-                                    : ColorsUtility.progressIndictorColor,
+                                color: theme.colorScheme.primary,
                               ),
                             ),
                           ],
@@ -821,9 +799,7 @@ class TrackOrdersScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: isDarkTheme
-                                    ? ColorsUtility.textFieldLabelColor
-                                    : ColorsUtility.lightTextFieldLabelColor,
+                                color: theme.colorScheme.primary,
                               ),
                             ),
                             Text(
@@ -831,9 +807,7 @@ class TrackOrdersScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: isDarkTheme
-                                    ? ColorsUtility.takeAwayColor
-                                    : ColorsUtility.progressIndictorColor,
+                                color: theme.colorScheme.primary,
                               ),
                             ),
                           ],
@@ -854,7 +828,7 @@ class TrackOrdersScreen extends StatelessWidget {
                           _translatePaymentMethod(paymentMethod, context),
                           style: TextStyle(
                               fontSize: 14,
-                              color: ColorsUtility.progressIndictorColor),
+                              color: ColorsUtility.lightTextFieldLabelColor),
                         ),
                         const SizedBox(height: 16),
                         Text(
@@ -872,7 +846,7 @@ class TrackOrdersScreen extends StatelessWidget {
                           '${S.of(context).phone}: $phoneNumber',
                           style: TextStyle(
                             fontSize: 14,
-                            color: ColorsUtility.progressIndictorColor,
+                            color: theme.colorScheme.primary,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -880,7 +854,7 @@ class TrackOrdersScreen extends StatelessWidget {
                           '${S.of(context).address}: $deliveryAddress',
                           style: TextStyle(
                             fontSize: 14,
-                            color: ColorsUtility.progressIndictorColor,
+                            color: theme.colorScheme.primary,
                           ),
                         ),
                         const SizedBox(height: 20),

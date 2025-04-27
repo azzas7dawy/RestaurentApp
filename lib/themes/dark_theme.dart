@@ -7,7 +7,7 @@ final ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor: ColorsUtility.mainBackgroundColor,
   primaryColor: ColorsUtility.progressIndictorColor,
   colorScheme: ColorScheme.dark(
-    primary: ColorsUtility.progressIndictorColor,
+    primary: ColorsLightUtility.lightBackgColor,
     secondary: ColorsUtility.takeAwayColor,
     error: ColorsUtility.errorSnackbarColor,
   ),
@@ -47,7 +47,7 @@ final ThemeData darkTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: ColorsUtility.elevatedBtnColor,
+      backgroundColor: ColorsUtility.errorSnackbarColor,
       foregroundColor: ColorsUtility.onboardingColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),

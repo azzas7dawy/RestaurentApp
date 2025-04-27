@@ -20,7 +20,7 @@ class AppBottomNavBar extends StatelessWidget {
     final theme = Theme.of(context);
     final bool isLightMode = theme.brightness == Brightness.light;
 
-    final Color selectedColor = theme.colorScheme.secondary;
+    final Color selectedColor = theme.colorScheme.primary;
     final Color unselectedColor = isLightMode
         ? ColorsUtility.mainBackgroundColor
         : ColorsUtility.textFieldLabelColor;

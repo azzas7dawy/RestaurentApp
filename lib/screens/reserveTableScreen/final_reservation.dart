@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/reserveTableScreen/final_form_reservation.dart';
+import 'package:restrant_app/utils/colors_utility.dart';
 
 class TableSelectionPage extends StatefulWidget {
   const TableSelectionPage({super.key});
@@ -92,7 +93,7 @@ class _TableSelectionPageState extends State<TableSelectionPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(S.of(context).selectYourTable),
-        backgroundColor: Theme.of(context).cardColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -110,8 +111,8 @@ class _TableSelectionPageState extends State<TableSelectionPage> {
               onTap: () => onSelectTable(table['id']),
               child: Card(
                 color: selectedTable == table['id']
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).cardColor,
+                    ? ColorsUtility.errorSnackbarColor
+                    : Theme.of(context).scaffoldBackgroundColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),

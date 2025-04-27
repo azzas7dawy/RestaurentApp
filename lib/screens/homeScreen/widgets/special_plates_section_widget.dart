@@ -233,7 +233,7 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: ColorsUtility.takeAwayColor,
+                              color: theme.colorScheme.primary,
                             ),
                           ),
                         ),
@@ -303,7 +303,8 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
-                                            color: ColorsUtility.takeAwayColor,
+                                            color: ColorsUtility
+                                                .errorSnackbarColor,
                                           ),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
@@ -351,8 +352,8 @@ class SpecialPlatesSectionWidget extends StatelessWidget {
                                                     isFavorite
                                                         ? Icons.favorite
                                                         : Icons.favorite_border,
-                                                    color: theme
-                                                        .colorScheme.primary,
+                                                    color: ColorsUtility
+                                                        .errorSnackbarColor,
                                                     size: 20,
                                                   ),
                                                   onPressed: () {

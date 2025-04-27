@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restrant_app/generated/l10n.dart';
+import 'package:restrant_app/utils/colors_utility.dart';
 
 void showReservationSuccess(BuildContext context) {
   showModalBottomSheet(
@@ -23,7 +24,7 @@ class ReservationSuccessSheet extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.75,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
       decoration: BoxDecoration(
-        color: theme.cardColor,
+        color: theme.scaffoldBackgroundColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
       ),
       child: Column(
@@ -107,13 +108,13 @@ class ReservationSuccessSheet extends StatelessWidget {
                 height: 100,
                 width: 100,
                 decoration: BoxDecoration(
-                  color: colorScheme.primary,
+                  color: ColorsUtility.successSnackbarColor,
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.check,
                   size: 50,
-                  color: colorScheme.onPrimary,
+                  color: ColorsUtility.onboardingColor,
                 ),
               ),
             ],

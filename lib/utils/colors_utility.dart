@@ -55,3 +55,10 @@ class ColorsUtility {
   static const messageSenderColor = Color(0xFF4A919E);
   static const messageReceiverColor = Color(0xFF343A40);
 }
+
+class ColorsLightUtility {
+  static const backgColor = Color(0xFF151518);
+  static const redColor = Color(0xFFFF6B6B);
+  static const cardColorLight = Color(0xFF212529);
+  static const lightBackgColor = Color(0xFFDFDEDE);
+}

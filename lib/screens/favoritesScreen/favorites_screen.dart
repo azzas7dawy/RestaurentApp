@@ -28,11 +28,11 @@ class FavoritesScreen extends StatelessWidget {
         title: Text(
           S.of(context).yourFavorites,
           style: TextStyle(
-            color: ColorsUtility.takeAwayColor,
+            color: theme.colorScheme.primary,
           ),
         ),
-        iconTheme: const IconThemeData(
-          color: ColorsUtility.takeAwayColor,
+        iconTheme: IconThemeData(
+          color: theme.colorScheme.primary,
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -50,9 +50,9 @@ class FavoritesScreen extends StatelessWidget {
       body: BlocBuilder<FavoritesCubit, FavoritesState>(
         builder: (BuildContext context, FavoritesState state) {
           if (state is FavoritesLoading) {
-            return const Center(
+            return Center(
               child: CircularProgressIndicator(
-                color: ColorsUtility.progressIndictorColor,
+                color: theme.colorScheme.primary,
               ),
             );
           }
@@ -85,8 +85,8 @@ class FavoritesScreen extends StatelessWidget {
                           Icon(
                             Icons.favorite_border_rounded,
                             size: 64,
-                            color: ColorsUtility.progressIndictorColor
-                                .withAlpha(77),
+                            color:
+                                ColorsUtility.errorSnackbarColor.withAlpha(77),
                           ),
                           const SizedBox(height: 20),
                           Text(
@@ -94,7 +94,7 @@ class FavoritesScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
-                              color: ColorsUtility.takeAwayColor,
+                              color: theme.colorScheme.primary,
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -205,7 +205,7 @@ class FavoritesScreen extends StatelessWidget {
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.bold,
                                                     color: ColorsUtility
-                                                        .takeAwayColor,
+                                                        .errorSnackbarColor,
                                                   ),
                                                   maxLines: 1,
                                                   overflow:
@@ -233,7 +233,7 @@ class FavoritesScreen extends StatelessWidget {
                                                           : Icons
                                                               .favorite_border,
                                                       color: ColorsUtility
-                                                          .progressIndictorColor,
+                                                          .errorSnackbarColor,
                                                     ),
                                                     onPressed: () {
                                                       if (isFavorite) {
@@ -292,19 +292,19 @@ class FavoritesScreen extends StatelessWidget {
                                             children: [
                                               Text(
                                                 '${item['price']} ${S.of(context).egp}',
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.bold,
-                                                  color: ColorsUtility
-                                                      .progressIndictorColor,
+                                                  color:
+                                                      theme.colorScheme.primary,
                                                 ),
                                               ),
                                               IconButton(
-                                                icon: const Icon(
+                                                icon: Icon(
                                                   Icons
                                                       .add_circle_outline_rounded,
-                                                  color: ColorsUtility
-                                                      .progressIndictorColor,
+                                                  color:
+                                                      theme.colorScheme.primary,
                                                 ),
                                                 onPressed: () {
                                                   context

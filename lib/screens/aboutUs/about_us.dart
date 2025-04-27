@@ -38,11 +38,11 @@ class AboutSupportPage extends StatelessWidget {
         title: Text(
           S.of(context).aboutRestaurant,
           style: TextStyle(
-            color: ColorsUtility.takeAwayColor,
+            color: theme.colorScheme.primary,
           ),
         ),
         iconTheme: IconThemeData(
-          color: ColorsUtility.takeAwayColor,
+          color: theme.colorScheme.primary,
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -76,7 +76,7 @@ class AboutSupportPage extends StatelessWidget {
                           Text(
                             "${S.of(context).about} ${S.of(context).splashTitle} 🍔",
                             style: TextStyle(
-                              color: ColorsUtility.takeAwayColor,
+                              color: ColorsUtility.failedStatusColor,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -125,7 +125,7 @@ class AboutSupportPage extends StatelessWidget {
                             child: Text(
                               "${S.of(context).askAdmin} 💬",
                               style: TextStyle(
-                                color: ColorsUtility.takeAwayColor,
+                                color: theme.colorScheme.primary,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -140,8 +140,7 @@ class AboutSupportPage extends StatelessWidget {
                                   : ColorsUtility.lightMainBackgroundColor,
                               borderRadius: BorderRadius.circular(15),
                               border: Border.all(
-                                color: ColorsUtility.progressIndictorColor
-                                    .withOpacity(0.3),
+                                color: theme.colorScheme.primary,
                               ),
                             ),
                             child: Center(
@@ -177,7 +176,7 @@ class AboutSupportPage extends StatelessWidget {
                           Text(
                             "📍 ${S.of(context).location}",
                             style: TextStyle(
-                              color: ColorsUtility.takeAwayColor,
+                              color: theme.colorScheme.primary,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -191,7 +190,7 @@ class AboutSupportPage extends StatelessWidget {
                                   : ColorsUtility.lightMainBackgroundColor,
                               borderRadius: BorderRadius.circular(15),
                               border: Border.all(
-                                color: ColorsUtility.progressIndictorColor
+                                color: ColorsUtility.errorSnackbarColor
                                     .withOpacity(0.3),
                               ),
                             ),
@@ -199,7 +198,7 @@ class AboutSupportPage extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.location_on,
-                                  color: ColorsUtility.progressIndictorColor,
+                                  color: ColorsUtility.failedStatusColor,
                                   size: 30,
                                 ),
                                 const SizedBox(width: 12),
@@ -219,7 +218,7 @@ class AboutSupportPage extends StatelessWidget {
                                   onPressed: _openMap,
                                   icon: Icon(
                                     Icons.map,
-                                    color: ColorsUtility.progressIndictorColor,
+                                    color: ColorsUtility.failedStatusColor,
                                   ),
                                 ),
                               ],

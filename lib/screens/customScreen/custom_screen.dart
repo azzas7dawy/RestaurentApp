@@ -9,6 +9,7 @@ import 'package:restrant_app/screens/profileScreen/profile_screen.dart';
 import 'package:restrant_app/screens/reserveTableScreen/final_reservation.dart';
 // import 'package:restrant_app/screens/reserveTableScreen/reserve_table_screen.dart';
 import 'package:restrant_app/screens/searchScreen/search_screen.dart';
+import 'package:restrant_app/utils/colors_utility.dart';
 
 class CustomScreen extends StatefulWidget {
   const CustomScreen({super.key, this.initialIndex = 0});
@@ -46,6 +47,7 @@ class _HomePageState extends State<CustomScreen> {
         onTap: (index) => setState(() => _currentIndex = index),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: ColorsUtility.errorSnackbarColor,
         onPressed: () {
           Navigator.push(
             context,
@@ -54,7 +56,9 @@ class _HomePageState extends State<CustomScreen> {
             ),
           );
         },
-        child: const Icon(Icons.chat_bubble_outline_rounded),
+        child: const Icon(
+          Icons.chat_bubble_outline_rounded,
+        ),
       ),
     );
   }

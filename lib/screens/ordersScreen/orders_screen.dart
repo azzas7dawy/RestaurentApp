@@ -36,10 +36,12 @@ class OrdersScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             S.of(context).yourOrders,
-            style: TextStyle(color: ColorsUtility.takeAwayColor),
+            style: TextStyle(
+              color: theme.colorScheme.primary,
+            ),
           ),
-          iconTheme: const IconThemeData(
-            color: ColorsUtility.takeAwayColor,
+          iconTheme: IconThemeData(
+            color: theme.colorScheme.primary,
           ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -73,9 +75,10 @@ class OrdersScreen extends StatelessWidget {
           },
           builder: (context, state) {
             if (state is OrdersLoading) {
-              return const Center(
+              return Center(
                 child: CircularProgressIndicator(
-                    color: ColorsUtility.progressIndictorColor),
+                  color: theme.colorScheme.primary,
+                ),
               );
             }
 
@@ -98,7 +101,7 @@ class OrdersScreen extends StatelessWidget {
                                     Icon(
                                       Icons.food_bank_outlined,
                                       size: 60,
-                                      color: ColorsUtility.progressIndictorColor
+                                      color: ColorsUtility.errorSnackbarColor
                                           .withAlpha(128),
                                     ),
                                     const SizedBox(height: 16),
@@ -106,7 +109,7 @@ class OrdersScreen extends StatelessWidget {
                                       S.of(context).noOrders,
                                       style: TextStyle(
                                         fontSize: 18,
-                                        color: ColorsUtility.takeAwayColor,
+                                        color: theme.colorScheme.primary,
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -161,8 +164,8 @@ class OrdersScreen extends StatelessWidget {
                                                   Center(
                                                 child:
                                                     CircularProgressIndicator(
-                                                  color: ColorsUtility
-                                                      .progressIndictorColor,
+                                                  color:
+                                                      theme.colorScheme.primary,
                                                 ),
                                               ),
                                               errorWidget:
@@ -188,15 +191,15 @@ class OrdersScreen extends StatelessWidget {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: ColorsUtility
-                                                          .takeAwayColor,
+                                                          .errorSnackbarColor,
                                                     ),
                                                   ),
                                                   const SizedBox(height: 4),
                                                   Text(
                                                     '${meal['price'] ?? 0} ${S.of(context).egp}',
-                                                    style: const TextStyle(
-                                                      color: ColorsUtility
-                                                          .progressIndictorColor,
+                                                    style: TextStyle(
+                                                      color: theme
+                                                          .colorScheme.primary,
                                                     ),
                                                   ),
                                                   const SizedBox(height: 8),
@@ -226,16 +229,17 @@ class OrdersScreen extends StatelessWidget {
                                                               icon: const Icon(
                                                                   Icons.add),
                                                               iconSize: 20,
-                                                              color: ColorsUtility
-                                                                  .progressIndictorColor,
+                                                              color: theme
+                                                                  .colorScheme
+                                                                  .primary,
                                                             ),
                                                             Text(
                                                               '$quantity',
-                                                              style:
-                                                                  const TextStyle(
+                                                              style: TextStyle(
                                                                 fontSize: 16,
-                                                                color: ColorsUtility
-                                                                    .progressIndictorColor,
+                                                                color: theme
+                                                                    .colorScheme
+                                                                    .primary,
                                                               ),
                                                             ),
                                                             IconButton(
@@ -253,8 +257,9 @@ class OrdersScreen extends StatelessWidget {
                                                               icon: const Icon(
                                                                   Icons.remove),
                                                               iconSize: 20,
-                                                              color: ColorsUtility
-                                                                  .progressIndictorColor,
+                                                              color: theme
+                                                                  .colorScheme
+                                                                  .primary,
                                                             ),
                                                           ]
                                                         : [
@@ -273,16 +278,17 @@ class OrdersScreen extends StatelessWidget {
                                                               icon: const Icon(
                                                                   Icons.remove),
                                                               iconSize: 20,
-                                                              color: ColorsUtility
-                                                                  .progressIndictorColor,
+                                                              color: theme
+                                                                  .colorScheme
+                                                                  .primary,
                                                             ),
                                                             Text(
                                                               '$quantity',
-                                                              style:
-                                                                  const TextStyle(
+                                                              style: TextStyle(
                                                                 fontSize: 16,
-                                                                color: ColorsUtility
-                                                                    .progressIndictorColor,
+                                                                color: theme
+                                                                    .colorScheme
+                                                                    .primary,
                                                               ),
                                                             ),
                                                             IconButton(
@@ -297,8 +303,9 @@ class OrdersScreen extends StatelessWidget {
                                                               icon: const Icon(
                                                                   Icons.add),
                                                               iconSize: 20,
-                                                              color: ColorsUtility
-                                                                  .progressIndictorColor,
+                                                              color: theme
+                                                                  .colorScheme
+                                                                  .primary,
                                                             ),
                                                             const Spacer(),
                                                             IconButton(
@@ -346,17 +353,15 @@ class OrdersScreen extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      color:
-                                          ColorsUtility.progressIndictorColor,
+                                      color: theme.colorScheme.primary,
                                     ),
                                   ),
                                   Text(
                                     '${cubit.calculateTotal().toStringAsFixed(2)} ${S.of(context).egp}',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      color:
-                                          ColorsUtility.progressIndictorColor,
+                                      color: theme.colorScheme.primary,
                                     ),
                                   ),
                                 ],

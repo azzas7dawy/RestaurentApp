@@ -26,7 +26,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   double _discountAmount = 0.0;
   bool _isCouponApplied = false;
   String _couponMessage = '';
-  Color _couponMessageColor = ColorsUtility.progressIndictorColor;
+  Color _couponMessageColor = Colors.green;
 
   @override
   void dispose() {
@@ -40,7 +40,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     if (couponCode.isEmpty) {
       setState(() {
         _couponMessage = S.of(context).enterCoupon;
-        _couponMessageColor = ColorsUtility.errorSnackbarColor;
+        _couponMessageColor = Theme.of(context).colorScheme.error;
       });
       return;
     }
@@ -50,21 +50,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
         _discountAmount = totalPrice * 0.1;
         _isCouponApplied = true;
         _couponMessage = S.of(context).validCoupon;
-        _couponMessageColor = ColorsUtility.successSnackbarColor;
+        _couponMessageColor = Colors.green;
       });
     } else if (couponCode == 'iti20') {
       setState(() {
         _discountAmount = totalPrice * 0.2;
         _isCouponApplied = true;
         _couponMessage = S.of(context).validCoupon;
-        _couponMessageColor = ColorsUtility.successSnackbarColor;
+        _couponMessageColor = Colors.green;
       });
     } else {
       setState(() {
         _discountAmount = 0.0;
         _isCouponApplied = false;
         _couponMessage = S.of(context).invalidCoupon;
-        _couponMessageColor = ColorsUtility.errorSnackbarColor;
+        _couponMessageColor = Theme.of(context).colorScheme.error;
       });
     }
   }
@@ -83,7 +83,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       appSnackbar(
         context,
         text: S.of(context).payMethod,
-        backgroundColor: ColorsUtility.errorSnackbarColor,
+        backgroundColor: Theme.of(context).colorScheme.error,
       );
     } else {
       Navigator.push(
@@ -101,6 +101,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final totalPrice = ModalRoute.of(context)!.settings.arguments as double? ??
         widget.initialTotal;
 
@@ -108,11 +110,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
       appBar: AppBar(
         title: Text(
           S.of(context).paymentMethod,
-          style: TextStyle(color: ColorsUtility.takeAwayColor),
+          style: TextStyle(color: colorScheme.secondary),
         ),
-        iconTheme: const IconThemeData(
-          color: ColorsUtility.takeAwayColor,
-        ),
+        iconTheme: IconThemeData(color: colorScheme.secondary),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -122,7 +122,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
       body: BlocBuilder<OrdersCubit, OrdersState>(
         builder: (context, state) {
-          // final cubit = context.read<OrdersCubit>();
           final finalPrice = totalPrice - _discountAmount;
 
           return Column(
@@ -135,9 +134,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     children: [
                       Text(
                         S.of(context).favPayMethod,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: ColorsUtility.textFieldLabelColor,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.textTheme.bodyMedium?.color
+                              ?.withOpacity(0.7),
                         ),
                       ),
                       const SizedBox(height: 24),
@@ -179,22 +178,23 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildCouponSection(BuildContext context, double totalPrice) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           S.of(context).applyCoupon,
-          style: TextStyle(
-            fontSize: 18,
+          style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
-            color: ColorsUtility.textFieldLabelColor,
           ),
         ),
         const SizedBox(height: 12),
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: ColorsUtility.elevatedBtnColor,
+            color: theme.cardColor,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
@@ -204,27 +204,27 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   Expanded(
                     flex: 3,
                     child: TextField(
-                      style: const TextStyle(
-                          color: ColorsUtility.textFieldLabelColor),
+                      style:
+                          TextStyle(color: theme.textTheme.bodyMedium?.color),
                       controller: _couponController,
                       decoration: InputDecoration(
                         hintText: S.of(context).enterCouponCode,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: ColorsUtility.progressIndictorColor,
+                          borderSide: BorderSide(
+                            color: colorScheme.primary.withOpacity(0.5),
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: ColorsUtility.onboardingDescriptionColor,
+                          borderSide: BorderSide(
+                            color: theme.dividerColor,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: ColorsUtility.takeAwayColor,
+                          borderSide: BorderSide(
+                            color: colorScheme.secondary,
                           ),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
@@ -239,7 +239,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       ? IconButton(
                           onPressed: _removeCoupon,
                           icon: const Icon(Icons.close),
-                          color: ColorsUtility.takeAwayColor,
+                          color: colorScheme.secondary,
                         )
                       : Expanded(
                           flex: 1,
@@ -248,7 +248,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             child: ElevatedButton(
                               onPressed: () => _applyCoupon(totalPrice),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorsUtility.takeAwayColor,
+                                backgroundColor: colorScheme.secondary,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -260,7 +260,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               child: Text(
                                 S.of(context).apply,
                                 style: TextStyle(
-                                    color: ColorsUtility.onboardingColor),
+                                    color: theme.colorScheme.onSecondary),
                               ),
                             ),
                           ),
@@ -292,6 +292,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
     required String subtitle,
     required String value,
   }) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return InkWell(
       onTap: () {
         setState(() {
@@ -302,12 +305,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: ColorsUtility.elevatedBtnColor,
+          color: theme.cardColor,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: _selectedPaymentMethod == value
-                ? ColorsUtility.takeAwayColor
-                : ColorsUtility.mainBackgroundColor,
+                ? colorScheme.secondary
+                : theme.cardColor,
             width: _selectedPaymentMethod == value ? 1.5 : 1,
           ),
         ),
@@ -316,12 +319,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: ColorsUtility.takeAwayColor.withAlpha(26),
+                color: colorScheme.secondary.withAlpha(26),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 icon,
-                color: ColorsUtility.takeAwayColor,
+                color: colorScheme.secondary,
                 size: 24,
               ),
             ),
@@ -332,17 +335,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: ColorsUtility.takeAwayColor),
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: colorScheme.secondary,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: ColorsUtility.progressIndictorColor,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color:
+                          theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
                     ),
                   ),
                 ],
@@ -356,7 +359,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   _selectedPaymentMethod = value;
                 });
               },
-              activeColor: ColorsUtility.takeAwayColor,
+              activeColor: colorScheme.secondary,
             ),
           ],
         ),
@@ -366,22 +369,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   Widget _buildOrderSummary(
       BuildContext context, double totalPrice, double finalPrice) {
+    final theme = Theme.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           S.of(context).orderSummary,
-          style: TextStyle(
-            fontSize: 18,
+          style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
-            color: ColorsUtility.textFieldLabelColor,
           ),
         ),
         const SizedBox(height: 12),
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: ColorsUtility.elevatedBtnColor,
+            color: theme.cardColor,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
@@ -399,7 +402,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ),
               ],
               const SizedBox(height: 8),
-              const Divider(height: 1),
+              Divider(height: 1, color: theme.dividerColor),
               const SizedBox(height: 8),
               _buildSummaryRow(
                 S.of(context).total,
@@ -415,25 +418,28 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   Widget _buildSummaryRow(String label, String value,
       {bool isTotal = false, bool isDiscount = false}) {
+    final theme = Theme.of(context);
+    // final colorScheme = theme.colorScheme;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           label,
-          style: TextStyle(
+          style: theme.textTheme.bodyMedium?.copyWith(
             fontSize: isTotal ? 16 : 14,
             fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
-            color: ColorsUtility.progressIndictorColor,
+            color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
           ),
         ),
         Text(
           value,
-          style: TextStyle(
+          style: theme.textTheme.bodyMedium?.copyWith(
             fontSize: isTotal ? 16 : 14,
             fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
             color: isDiscount
                 ? ColorsUtility.successSnackbarColor
-                : ColorsUtility.textFieldLabelColor,
+                : theme.textTheme.bodyMedium?.color,
           ),
         ),
       ],

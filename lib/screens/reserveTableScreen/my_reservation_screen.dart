@@ -95,10 +95,12 @@ class YourReservationScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           S.of(context).yourReservation,
-          style: TextStyle(color: ColorsUtility.takeAwayColor),
+          style: TextStyle(
+            color: theme.colorScheme.primary,
+          ),
         ),
-        iconTheme: const IconThemeData(
-          color: ColorsUtility.takeAwayColor,
+        iconTheme: IconThemeData(
+          color: theme.colorScheme.primary,
         ),
         centerTitle: true,
         backgroundColor: theme.scaffoldBackgroundColor,
@@ -157,28 +159,23 @@ class YourReservationScreen extends StatelessWidget {
                         Icon(
                           Icons.calendar_today,
                           size: 60,
-                          color: ColorsUtility.progressIndictorColor
-                              .withAlpha(128),
+                          color:
+                              ColorsUtility.errorSnackbarColor.withAlpha(128),
                         ),
                         const SizedBox(height: 16),
                         Text(
                           S.of(context).noReservation,
                           style: TextStyle(
                             fontSize: 18,
-                            color: ColorsUtility.takeAwayColor,
+                            color: theme.colorScheme.primary,
                           ),
                         ),
                         const SizedBox(height: 8),
                         Text(
                           S.of(context).yourReservationsWillAppearHere,
                           style: TextStyle(
-                            fontSize: 14,
-                            color: isDarkTheme
-                                ? ColorsUtility.textFieldLabelColor
-                                    .withAlpha(128)
-                                : ColorsUtility.progressIndictorColor
-                                    .withAlpha(179),
-                          ),
+                              fontSize: 14,
+                              color: ColorsUtility.textFieldLabelColor),
                         ),
                       ],
                     ),
@@ -351,16 +348,14 @@ class YourReservationScreen extends StatelessWidget {
                                     Icon(
                                       Icons.access_time,
                                       size: 16,
-                                      color:
-                                          ColorsUtility.progressIndictorColor,
+                                      color: theme.colorScheme.primary,
                                     ),
                                     const SizedBox(width: 4),
                                     Text(
                                       '${reservation['timeArriving']} - ${reservation['timeLeaving']}',
                                       style: TextStyle(
                                         fontSize: 14,
-                                        color:
-                                            ColorsUtility.progressIndictorColor,
+                                        color: theme.colorScheme.primary,
                                       ),
                                     ),
                                   ],

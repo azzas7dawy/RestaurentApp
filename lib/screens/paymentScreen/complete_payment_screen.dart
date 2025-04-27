@@ -2,16 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:paymob_payment/paymob_payment.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/paymentScreen/payment_screen.dart';
 import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
-import 'package:restrant_app/utils/colors_utility.dart';
-import 'package:restrant_app/utils/icons_utility.dart';
-import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
-import 'package:paymob_payment/paymob_payment.dart';
+import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
+import 'package:restrant_app/utils/icons_utility.dart';
 
 class CompletePaymentScreen extends StatefulWidget {
   const CompletePaymentScreen({
@@ -38,7 +37,6 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
   @override
   void initState() {
     super.initState();
-    // Load environment variables when the widget initializes
     _loadEnvVariables();
   }
 
@@ -55,6 +53,9 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -62,14 +63,12 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
           widget.paymentMethod == 'cash'
               ? S.of(context).cashOnDelivery
               : S.of(context).payWithCard,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 20,
-            color: ColorsUtility.takeAwayColor,
+            color: colorScheme.secondary,
           ),
         ),
-        iconTheme: const IconThemeData(
-          color: ColorsUtility.takeAwayColor,
-        ),
+        iconTheme: IconThemeData(color: colorScheme.secondary),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -93,6 +92,9 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
   }
 
   Widget _buildCashOnDeliveryContent() {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Form(
       key: _formKey,
       child: SizedBox(
@@ -106,18 +108,18 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
               IconsUtility.cashOnDeliveryIcon,
               width: 100,
               height: 100,
-              colorFilter: const ColorFilter.mode(
-                ColorsUtility.progressIndictorColor,
+              colorFilter: ColorFilter.mode(
+                colorScheme.primary,
                 BlendMode.srcIn,
               ),
             ),
             const SizedBox(height: 20),
             Text(
               '${S.of(context).txtp1} ${widget.totalAmount.toStringAsFixed(2)} ${S.of(context).egp} ${S.of(context).txtp2}',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: ColorsUtility.takeAwayColor,
+                color: colorScheme.secondary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -126,7 +128,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
               S.of(context).subTitle,
               style: TextStyle(
                 fontSize: 16,
-                color: ColorsUtility.progressIndictorColor,
+                color: colorScheme.primary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -134,14 +136,14 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextFormField(
-                style: const TextStyle(color: ColorsUtility.onboardingColor),
+                style: TextStyle(color: theme.textTheme.bodyMedium?.color),
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelText: S.of(context).phoneLabel,
-                  labelStyle: const TextStyle(
-                    color: ColorsUtility.textFieldLabelColor,
+                  labelStyle: TextStyle(
+                    color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -149,20 +151,22 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: ColorsUtility.onboardingDescriptionColor,
+                    borderSide: BorderSide(
+                      color: theme.dividerColor,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: ColorsUtility.takeAwayColor,
+                    borderSide: BorderSide(
+                      color: colorScheme.secondary,
                     ),
                   ),
-                  prefixIcon: const Icon(
+                  prefixIcon: Icon(
                     Icons.phone,
-                    color: ColorsUtility.takeAwayColor,
+                    color: colorScheme.secondary,
                   ),
+                  filled: true,
+                  fillColor: theme.cardColor,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -179,15 +183,15 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextFormField(
-                style: const TextStyle(color: ColorsUtility.onboardingColor),
+                style: TextStyle(color: theme.textTheme.bodyMedium?.color),
                 controller: _addressController,
                 keyboardType: TextInputType.streetAddress,
                 maxLines: 3,
                 decoration: InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelText: S.of(context).deliveryAddress,
-                  labelStyle: const TextStyle(
-                    color: ColorsUtility.textFieldLabelColor,
+                  labelStyle: TextStyle(
+                    color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -195,20 +199,22 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: ColorsUtility.onboardingDescriptionColor,
+                    borderSide: BorderSide(
+                      color: theme.dividerColor,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: ColorsUtility.takeAwayColor,
+                    borderSide: BorderSide(
+                      color: colorScheme.secondary,
                     ),
                   ),
-                  prefixIcon: const Icon(
+                  prefixIcon: Icon(
                     Icons.location_on,
-                    color: ColorsUtility.takeAwayColor,
+                    color: colorScheme.secondary,
                   ),
+                  filled: true,
+                  fillColor: theme.cardColor,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -229,7 +235,6 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
                   final address = _addressController.text;
 
                   final ordersCubit = context.read<OrdersCubit>();
-
                   ordersCubit.setDeliveryInfo(
                       phone: phoneNumber, address: address);
 
@@ -256,6 +261,9 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
   }
 
   Widget _buildPaymobContent() {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Form(
       key: _formKey,
       child: SizedBox(
@@ -268,18 +276,18 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
               IconsUtility.creditCardIcon,
               width: 100,
               height: 100,
-              colorFilter: const ColorFilter.mode(
-                ColorsUtility.progressIndictorColor,
+              colorFilter: ColorFilter.mode(
+                colorScheme.primary,
                 BlendMode.srcIn,
               ),
             ),
             const SizedBox(height: 20),
             Text(
               '${S.of(context).totalAmount} ${widget.totalAmount.toStringAsFixed(2)} ${S.of(context).egp}',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: ColorsUtility.takeAwayColor,
+                color: colorScheme.secondary,
               ),
             ),
             const SizedBox(height: 20),
@@ -287,7 +295,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
               S.of(context).payWithCard,
               style: TextStyle(
                 fontSize: 16,
-                color: ColorsUtility.progressIndictorColor,
+                color: colorScheme.primary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -295,14 +303,14 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextFormField(
-                style: const TextStyle(color: ColorsUtility.onboardingColor),
+                style: TextStyle(color: theme.textTheme.bodyMedium?.color),
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelText: S.of(context).phoneLabel,
-                  labelStyle: const TextStyle(
-                    color: ColorsUtility.textFieldLabelColor,
+                  labelStyle: TextStyle(
+                    color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -310,20 +318,22 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: ColorsUtility.onboardingDescriptionColor,
+                    borderSide: BorderSide(
+                      color: theme.dividerColor,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: ColorsUtility.takeAwayColor,
+                    borderSide: BorderSide(
+                      color: colorScheme.secondary,
                     ),
                   ),
-                  prefixIcon: const Icon(
+                  prefixIcon: Icon(
                     Icons.phone,
-                    color: ColorsUtility.takeAwayColor,
+                    color: colorScheme.secondary,
                   ),
+                  filled: true,
+                  fillColor: theme.cardColor,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -340,15 +350,15 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextFormField(
-                style: const TextStyle(color: ColorsUtility.onboardingColor),
+                style: TextStyle(color: theme.textTheme.bodyMedium?.color),
                 controller: _addressController,
                 keyboardType: TextInputType.streetAddress,
                 maxLines: 3,
                 decoration: InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelText: S.of(context).deliveryAddress,
-                  labelStyle: const TextStyle(
-                    color: ColorsUtility.textFieldLabelColor,
+                  labelStyle: TextStyle(
+                    color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -356,20 +366,22 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: ColorsUtility.onboardingDescriptionColor,
+                    borderSide: BorderSide(
+                      color: theme.dividerColor,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: ColorsUtility.takeAwayColor,
+                    borderSide: BorderSide(
+                      color: colorScheme.secondary,
                     ),
                   ),
-                  prefixIcon: const Icon(
+                  prefixIcon: Icon(
                     Icons.location_on,
-                    color: ColorsUtility.takeAwayColor,
+                    color: colorScheme.secondary,
                   ),
+                  filled: true,
+                  fillColor: theme.cardColor,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -384,7 +396,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             ),
             const Spacer(),
             _isProcessingPayment
-                ? const CircularProgressIndicator()
+                ? CircularProgressIndicator(color: colorScheme.secondary)
                 : AppElevatedBtn(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
@@ -415,7 +427,6 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
         throw Exception('Paymob configuration is missing');
       }
 
-      // Initialize Paymob
       await PaymobPayment.instance.initialize(
         apiKey: apiKey,
         integrationID: int.parse(integrationId),
@@ -475,7 +486,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
         appSnackbar(
           context,
           text: S.of(context).paymentFailed,
-          backgroundColor: ColorsUtility.errorSnackbarColor,
+          backgroundColor: Theme.of(context).colorScheme.error,
         );
       }
     } catch (e) {
@@ -483,7 +494,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
       appSnackbar(
         context,
         text: 'Payment Error: ${e.toString()}',
-        backgroundColor: ColorsUtility.errorSnackbarColor,
+        backgroundColor: Theme.of(context).colorScheme.error,
       );
     } finally {
       if (mounted) {

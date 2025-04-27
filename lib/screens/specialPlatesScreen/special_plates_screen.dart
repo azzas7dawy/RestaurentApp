@@ -88,12 +88,12 @@ class _SpecialPlatesScreenState extends State<SpecialPlatesScreen> {
         title: Text(
           S.of(context).specialPlates,
           style: TextStyle(
-            color: ColorsUtility.takeAwayColor,
+            color: theme.colorScheme.primary,
             fontSize: theme.textTheme.titleLarge?.fontSize,
           ),
         ),
         iconTheme: IconThemeData(
-          color: ColorsUtility.takeAwayColor,
+          color: theme.colorScheme.primary,
         ),
         centerTitle: true,
       ),
@@ -174,7 +174,7 @@ class _SpecialPlatesScreenState extends State<SpecialPlatesScreen> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: ColorsUtility.takeAwayColor,
+                                  color: ColorsUtility.errorSnackbarColor,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -228,7 +228,8 @@ class _SpecialPlatesScreenState extends State<SpecialPlatesScreen> {
                                               isFavorite
                                                   ? Icons.favorite
                                                   : Icons.favorite_border,
-                                              color: theme.colorScheme.primary,
+                                              color: ColorsUtility
+                                                  .errorSnackbarColor,
                                             ),
                                             onPressed: () {
                                               if (isFavorite) {

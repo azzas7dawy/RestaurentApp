@@ -10,7 +10,7 @@ import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
-import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
+// import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -646,7 +646,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             SizedBox(
                               width: double.infinity,
-                              child: AppElevatedBtn(
+                              child: ElevatedButton(
                                 onPressed: () {
                                   if (_formKey.currentState != null &&
                                       _formKey.currentState!.validate()) {
@@ -668,8 +668,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     );
                                   }
                                 },
-                                text: S.of(context).saveButton,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: colorScheme.primary,
+                                  foregroundColor: colorScheme.onPrimary,
+                                  minimumSize: const Size(double.infinity, 50),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                child: Text(S.of(context).saveButton),
                               ),
+
+                              // AppElevatedBtn(
+
+                              //   onPressed: () {
+                              //     if (_formKey.currentState != null &&
+                              //         _formKey.currentState!.validate()) {
+                              //       context.read<AuthCubit>().updateUserProfile(
+                              //             name: _nameController.text.trim(),
+                              //             phone: _phoneController.text.trim(),
+                              //             city: _cityController.text.trim(),
+                              //             address:
+                              //                 _addressController.text.trim(),
+                              //             imageFile: _imageFile,
+                              //             webImageBytes: _webImageBytes,
+                              //             context: context,
+                              //           );
+                              //     } else {
+                              //       appSnackbar(
+                              //         context,
+                              //         text: S.of(context).fillAllFields,
+                              //         backgroundColor: colorScheme.error,
+                              //       );
+                              //     }
+                              //   },
+                              //   text: S.of(context).saveButton,
+                              // ),
                             ),
                             const SizedBox(height: 16),
                           ],

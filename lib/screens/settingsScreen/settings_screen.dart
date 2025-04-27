@@ -23,12 +23,12 @@ class SettignsScreen extends StatelessWidget {
         centerTitle: true,
         title: Text(
           S.of(context).settings,
-          style: const TextStyle(
-            color: ColorsUtility.takeAwayColor,
+          style: TextStyle(
+            color: theme.colorScheme.primary,
           ),
         ),
-        iconTheme: const IconThemeData(
-          color: ColorsUtility.takeAwayColor,
+        iconTheme: IconThemeData(
+          color: theme.colorScheme.primary,
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -47,14 +47,14 @@ class SettignsScreen extends StatelessWidget {
             ListTile(
               title: Text(
                 S.of(context).language,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
-                  color: ColorsUtility.takeAwayColor,
+                  color: theme.colorScheme.primary,
                 ),
               ),
               trailing: Switch(
                 value: isArabic,
-                activeColor: ColorsUtility.progressIndictorColor,
+                activeColor: ColorsUtility.lightOnboardingDescriptionColor,
                 onChanged: (value) {
                   final newLocale =
                       value ? const Locale('ar') : const Locale('en');
@@ -69,16 +69,16 @@ class SettignsScreen extends StatelessWidget {
                 children: [
                   Text(
                     isArabic ? 'العربية' : 'English',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
-                      color: ColorsUtility.progressIndictorColor,
+                      color: theme.colorScheme.primary,
                     ),
                   ),
                   Text(
                     isArabic ? 'English' : 'العربية',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
-                      color: ColorsUtility.progressIndictorColor,
+                      color: theme.colorScheme.primary,
                     ),
                   ),
                 ],
@@ -96,14 +96,15 @@ class SettignsScreen extends StatelessWidget {
                     ListTile(
                       title: Text(
                         S.of(context).theme,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
-                          color: ColorsUtility.takeAwayColor,
+                          color: theme.colorScheme.primary,
                         ),
                       ),
                       trailing: Switch(
                         value: isDarkMode,
-                        activeColor: ColorsUtility.progressIndictorColor,
+                        activeColor:
+                            ColorsUtility.lightOnboardingDescriptionColor,
                         onChanged: (value) {
                           context.read<ThemeCubit>().toggleTheme(value);
                         },
@@ -119,7 +120,7 @@ class SettignsScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16,
                               color: !isDarkMode
-                                  ? ColorsUtility.progressIndictorColor
+                                  ? ColorsUtility.textFieldLabelColor
                                   : Colors.grey,
                             ),
                           ),
@@ -128,7 +129,7 @@ class SettignsScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16,
                               color: isDarkMode
-                                  ? ColorsUtility.progressIndictorColor
+                                  ? ColorsUtility.textFieldLabelColor
                                   : Colors.grey,
                             ),
                           ),

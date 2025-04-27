@@ -24,12 +24,12 @@ class CategoryItemsScreen extends StatelessWidget {
         title: Text(
           _formatCategoryName(categoryDoc.id),
           style: TextStyle(
-            color: ColorsUtility.takeAwayColor,
+            color: theme.colorScheme.primary,
             fontSize: theme.textTheme.titleLarge?.fontSize,
           ),
         ),
         iconTheme: IconThemeData(
-          color: ColorsUtility.takeAwayColor,
+          color: theme.colorScheme.primary,
         ),
         centerTitle: true,
         backgroundColor: theme.scaffoldBackgroundColor,
@@ -39,9 +39,9 @@ class CategoryItemsScreen extends StatelessWidget {
         stream: categoryDoc.reference.collection('items').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
+            return Center(
                 child: CircularProgressIndicator(
-              color: ColorsUtility.progressIndictorColor,
+              color: theme.colorScheme.primary,
             ));
           }
 
@@ -50,7 +50,7 @@ class CategoryItemsScreen extends StatelessWidget {
               child: Text(
                 S.of(context).noItemInCat,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: theme.colorScheme.primary,
                 ),
               ),
             );
@@ -203,7 +203,7 @@ class CategoryItemsScreen extends StatelessWidget {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: ColorsUtility.takeAwayColor,
+                                color: theme.colorScheme.primary,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
@@ -230,7 +230,7 @@ class CategoryItemsScreen extends StatelessWidget {
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
-                            color: ColorsUtility.takeAwayColor),
+                            color: ColorsUtility.errorSnackbarColor),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -245,17 +245,17 @@ class CategoryItemsScreen extends StatelessWidget {
                           const SizedBox(width: 4),
                           Text(
                             rate,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
-                              color: ColorsUtility.progressIndictorColor,
+                              color: theme.colorScheme.primary,
                             ),
                           ),
                           const Spacer(),
                           Text(
                             '${S.of(context).egp} $price',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: ColorsUtility.progressIndictorColor,
+                              color: theme.colorScheme.primary,
                             ),
                           ),
                         ],
@@ -277,9 +277,9 @@ class CategoryItemsScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           IconButton(
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.add_circle_outline,
-                              color: ColorsUtility.progressIndictorColor,
+                              color: theme.colorScheme.primary,
                             ),
                             onPressed: () async {
                               await ordersCubit.addMeal(itemData);
@@ -299,7 +299,7 @@ class CategoryItemsScreen extends StatelessWidget {
                               isFavorite
                                   ? Icons.favorite
                                   : Icons.favorite_border,
-                              color: ColorsUtility.progressIndictorColor,
+                              color: ColorsUtility.errorSnackbarColor,
                             ),
                             onPressed: () {
                               if (isFavorite) {

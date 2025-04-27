@@ -24,7 +24,7 @@ class MenuScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: ColorsUtility.takeAwayColor,
+                color: ColorsUtility.onboardingColor,
                 shadows: [
                   Shadow(
                     blurRadius: 10,
@@ -49,7 +49,7 @@ class MenuScreen extends StatelessWidget {
                         color: theme.scaffoldBackgroundColor,
                         child: Center(
                           child: CircularProgressIndicator(
-                            color: ColorsUtility.progressIndictorColor,
+                            color: theme.colorScheme.primary,
                           ),
                         ),
                       ),
@@ -87,10 +87,10 @@ class MenuScreen extends StatelessWidget {
               stream: FirebaseFirestore.instance.collection('menu').snapshots(),
               builder: (context, menuSnapshot) {
                 if (menuSnapshot.connectionState == ConnectionState.waiting) {
-                  return const SliverFillRemaining(
+                  return SliverFillRemaining(
                     child: Center(
                       child: CircularProgressIndicator(
-                        color: ColorsUtility.progressIndictorColor,
+                        color: theme.colorScheme.primary,
                       ),
                     ),
                   );
@@ -189,9 +189,7 @@ class MenuScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: isDarkMode
-                          ? theme.colorScheme.secondary
-                          : ColorsUtility.textFieldFillColor,
+                      color: ColorsUtility.errorSnackbarColor,
                     ),
                   ),
                   const SizedBox(height: 5),

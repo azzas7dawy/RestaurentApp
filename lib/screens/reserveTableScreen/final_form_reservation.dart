@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/reserveTableScreen/success_reserved_page.dart';
+import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 
 class FinalReservationDetailsForm extends StatefulWidget {
   final int selectedTable;
@@ -281,7 +282,7 @@ class _FinalReservationDetailsFormState
             const SizedBox(height: 10),
             DropdownButton<int>(
               value: numPersons,
-              dropdownColor: theme.cardColor,
+              dropdownColor: theme.inputDecorationTheme.fillColor,
               style: TextStyle(color: textTheme.bodyLarge?.color),
               onChanged: (int? value) {
                 setState(() {
@@ -326,18 +327,24 @@ class _FinalReservationDetailsFormState
               ),
             ],
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _submitForm,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colorScheme.primary,
-                foregroundColor: colorScheme.onPrimary,
-                minimumSize: const Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
+            Center(
+              child: AppElevatedBtn(
+                onPressed: _submitForm,
+                text: S.of(context).reserve,
               ),
-              child: Text(S.of(context).reserve),
             ),
+            // ElevatedButton(
+            //   onPressed: _submitForm,
+            //   style: ElevatedButton.styleFrom(
+            //     backgroundColor: colorScheme.primary,
+            //     foregroundColor: colorScheme.onPrimary,
+            //     minimumSize: const Size(double.infinity, 50),
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(15),
+            //     ),
+            //   ),
+            //   child: Text(S.of(context).reserve),
+            // ),
           ],
         ),
       ),

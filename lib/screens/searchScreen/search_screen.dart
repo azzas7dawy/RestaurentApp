@@ -316,9 +316,8 @@ class _SearchScreenState extends State<SearchScreen> {
                       title: Text(
                         meal['title'],
                         style: theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: ColorsUtility.takeAwayColor,
-                        ),
+                            fontWeight: FontWeight.w600,
+                            color: ColorsUtility.errorSnackbarColor),
                       ),
                       subtitle: Padding(
                         padding: const EdgeInsets.only(top: 4),
@@ -336,13 +335,15 @@ class _SearchScreenState extends State<SearchScreen> {
                                   '\$${meal['price'].toStringAsFixed(2)}',
                                   style: theme.textTheme.titleSmall?.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: ColorsUtility.progressIndictorColor,
+                                    color: theme.colorScheme.primary,
                                   ),
                                 ),
                                 if (meal['rate'] > 0) ...[
                                   const SizedBox(width: 16),
-                                  Icon(Icons.star,
-                                      color: theme.colorScheme.primary),
+                                  Icon(
+                                    Icons.star,
+                                    color: ColorsUtility.takeAwayColor,
+                                  ),
                                   const SizedBox(width: 4),
                                   Text(
                                     meal['rate'].toStringAsFixed(1),

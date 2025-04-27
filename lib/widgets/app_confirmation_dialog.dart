@@ -43,8 +43,8 @@ class AppConfirmationDialog extends StatelessWidget {
           children: [
             Text(
               message,
-              style: const TextStyle(
-                color: ColorsUtility.progressIndictorColor,
+              style: TextStyle(
+                color: theme.colorScheme.primary,
               ),
             ),
           ],
@@ -90,6 +90,7 @@ class AppConfirmationDialog extends StatelessWidget {
     Color? cancelColor,
     VoidCallback? onCancel,
   }) async {
+    final theme = Theme.of(context);
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -100,7 +101,7 @@ class AppConfirmationDialog extends StatelessWidget {
           confirmText: confirmText,
           cancelText: cancelText ?? S.of(context).cancel,
           confirmColor: confirmColor ?? ColorsUtility.errorSnackbarColor,
-          cancelColor: cancelColor ?? ColorsUtility.progressIndictorColor,
+          cancelColor: cancelColor ?? theme.colorScheme.primary,
           onConfirm: onConfirm,
           onCancel: onCancel,
         );
