@@ -10,7 +10,7 @@ class ColorsUtility {
   static const cateringColor = Color(0xFF616C8C);
   static const reserveTableColor = Color(0xFFAE4F33);
   static const takeAwayColor = Color(0xFFF7B222);
-  static const calenderColor = Color(0xFFCD3742);
+  static const calenderColor = Color.fromARGB(255, 182, 105, 111);
   static const textFieldFillColor = Color(0xFF1B1B20);
   static const textFieldLabelColor = Color.fromARGB(255, 172, 172, 177);
   static const elevatedBtnColor = Color(0xFF26262D);
@@ -54,4 +54,11 @@ class ColorsUtility {
   static const lightFailedStatusColor = Color(0xFFEB6A5A);
   static const messageSenderColor = Color(0xFF4A919E);
   static const messageReceiverColor = Color(0xFF343A40);
+}
+
+class ColorsLightUtility {
+  static const backgColor = Color(0xFF151518);
+  static const redColor = Color(0xFFFF6B6B);
+  static const cardColorLight = Color(0xFF212529);
+  static const lightBackgColor = Color(0xFFDFDEDE);
 }

@@ -1,8 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:restrant_app/cubit/ThemeLogic/cubit/theme_cubit.dart';
 import 'package:restrant_app/screens/adminDashbord/chat.dart';
+import 'package:restrant_app/generated/l10n.dart';
+import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:url_launcher/url_launcher.dart';
-// import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class AboutSupportPage extends StatelessWidget {
   const AboutSupportPage({super.key});
@@ -11,7 +15,6 @@ class AboutSupportPage extends StatelessWidget {
   final String googleMapsUrl =
       "https://www.google.com/maps/place/Minya,+Menia,+Egypt";
 
- 
   void _openMap() async {
     final Uri url = Uri.parse(googleMapsUrl);
     if (await canLaunchUrl(url)) {
@@ -23,107 +26,214 @@ class AboutSupportPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
+    // final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
-        title: const Text('about restaurant',
-            style: TextStyle(color: Colors.white)),
-        iconTheme: const IconThemeData(color: Colors.white),
+        title: Text(
+          S.of(context).aboutRestaurant,
+          style: TextStyle(
+            color: theme.colorScheme.primary,
+          ),
+        ),
+        iconTheme: IconThemeData(
+          color: theme.colorScheme.primary,
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ✨ نبذة عن المطعم
-            const Text(
-              " about  Tasty Bites 🍔",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              'Tasty Bites Restaurant offers you the most delicious and tasty food with high quality and excellent service. We care about your comfort and experience, and we serve every meal with love ❤️',
-              style:
-                  TextStyle(color: Colors.white70, fontSize: 15, height: 1.5),
-              textAlign: TextAlign.justify,
-            ),
-
-            const SizedBox(height: 30),
-
-            // 💬 قسم الشات
-            GestureDetector(
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ChatScreen(
-                            otherUserEmail:
-                                FirebaseAuth.instance.currentUser?.email ?? '',
-                          ))),
-              child: const Text(
-                "Ask Admin 💬",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey[850],
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: const Center(
-                child: Text(
-                  ".and give your feedback\n(you can ask the admin)",
-                  style: TextStyle(color: Colors.white70),
-                  textAlign: TextAlign.center,
+      body: AnimationLimiter(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: AnimationConfiguration.toStaggeredList(
+              duration: const Duration(milliseconds: 375),
+              childAnimationBuilder: (widget) => SlideAnimation(
+                horizontalOffset: 50.0,
+                child: FadeInAnimation(
+                  child: widget,
                 ),
               ),
-            ),
-
-            const SizedBox(height: 30),
-
-            const Text(
-              "📍  Location",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey[850],
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.location_on, color: Colors.teal, size: 30),
-                  const SizedBox(width: 12),
-                  const Expanded(
-                    child: Text(
-                      "our location in Minya, Egypt",
-                      style: TextStyle(color: Colors.white70, fontSize: 14),
+              children: [
+                // ✨ About Restaurant Section
+                AnimationConfiguration.staggeredList(
+                  position: 0,
+                  duration: const Duration(milliseconds: 375),
+                  child: SlideAnimation(
+                    verticalOffset: 50.0,
+                    child: FadeInAnimation(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${S.of(context).about} ${S.of(context).splashTitle} 🍔",
+                            style: TextStyle(
+                              color: ColorsUtility.failedStatusColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            S.of(context).aboutRestaurantDescription,
+                            style: TextStyle(
+                              color: isDarkTheme
+                                  ? ColorsUtility.textFieldLabelColor
+                                  : ColorsUtility.lightTextFieldLabelColor,
+                              fontSize: 15,
+                              height: 1.5,
+                            ),
+                            textAlign: TextAlign.justify,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  IconButton(
-                    onPressed: _openMap,
-                    icon: const Icon(Icons.map, color: Colors.teal),
-                  )
-                ],
-              ),
-            ),
+                ),
 
-            const SizedBox(height: 20),
-          ],
+                const SizedBox(height: 30),
+
+                // 💬 Chat Section
+                AnimationConfiguration.staggeredList(
+                  position: 1,
+                  duration: const Duration(milliseconds: 425),
+                  child: SlideAnimation(
+                    verticalOffset: 50.0,
+                    child: FadeInAnimation(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatScreen(
+                                  otherUserEmail: FirebaseAuth
+                                          .instance.currentUser?.email ??
+                                      '',
+                                ),
+                              ),
+                            ),
+                            child: Text(
+                              "${S.of(context).askAdmin} 💬",
+                              style: TextStyle(
+                                color: theme.colorScheme.primary,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: isDarkTheme
+                                  ? ColorsUtility.elevatedBtnColor
+                                  : ColorsUtility.lightMainBackgroundColor,
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                color: theme.colorScheme.primary,
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                S.of(context).askAdminDescription,
+                                style: TextStyle(
+                                  color: isDarkTheme
+                                      ? ColorsUtility.textFieldLabelColor
+                                      : ColorsUtility.lightTextFieldLabelColor,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+
+                // 📍 Location Section
+                AnimationConfiguration.staggeredList(
+                  position: 2,
+                  duration: const Duration(milliseconds: 475),
+                  child: SlideAnimation(
+                    verticalOffset: 50.0,
+                    child: FadeInAnimation(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "📍 ${S.of(context).location}",
+                            style: TextStyle(
+                              color: theme.colorScheme.primary,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: isDarkTheme
+                                  ? ColorsUtility.elevatedBtnColor
+                                  : ColorsUtility.lightMainBackgroundColor,
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                color: ColorsUtility.errorSnackbarColor
+                                    .withOpacity(0.3),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on,
+                                  color: ColorsUtility.failedStatusColor,
+                                  size: 30,
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Text(
+                                    S.of(context).restaurantLocation,
+                                    style: TextStyle(
+                                      color: isDarkTheme
+                                          ? ColorsUtility.textFieldLabelColor
+                                          : ColorsUtility
+                                              .lightTextFieldLabelColor,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: _openMap,
+                                  icon: Icon(
+                                    Icons.map,
+                                    color: ColorsUtility.failedStatusColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
         ),
       ),
     );

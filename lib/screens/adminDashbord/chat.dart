@@ -62,7 +62,7 @@ void initState() {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Chat with ${widget.otherUserEmail}')),
+      appBar: AppBar(title: Text('${widget.otherUserEmail}')),
       body: Column(
         children: [
           Expanded(
@@ -86,7 +86,7 @@ void initState() {
                           margin: const EdgeInsets.all(8),
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            color: isMe ? ColorsUtility.messageSenderColor : ColorsUtility.messageReceiverColor,
+                            color: isMe ? ColorsUtility.calenderColor : ColorsUtility.messageReceiverColor,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Column(
@@ -126,7 +126,7 @@ void initState() {
                       fillColor: const Color.fromARGB(255, 41, 29, 41),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                       hintText: 'Type your message...',
-                      hintStyle: TextStyle(color: ColorsUtility.lightElevatedBtnColor),
+                      hintStyle: TextStyle(color: ColorsUtility.calenderColor),
                       border: const OutlineInputBorder(),
                       focusedBorder: const OutlineInputBorder(),
                       

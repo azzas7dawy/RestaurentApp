@@ -36,6 +36,7 @@ import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
 import 'package:restrant_app/screens/ordersScreen/orders_screen.dart';
 import 'package:restrant_app/screens/paymentScreen/complete_payment_screen.dart';
 import 'package:restrant_app/screens/paymentScreen/payment_screen.dart';
+import 'package:restrant_app/screens/reserveTableScreen/my_reservation_screen.dart';
 import 'package:restrant_app/screens/reserveTableScreen/reserve_table_screen.dart';
 import 'package:restrant_app/screens/specialPlatesScreen/special_plates_screen.dart';
 import 'package:restrant_app/screens/splash/splash_screen.dart';
@@ -117,7 +118,7 @@ class MyApp extends StatelessWidget {
                     title: 'Flutter Demo',
                     theme: lightTheme,
                     darkTheme: darkTheme,
-                    themeMode: themeState.themeMode, // تم التعديل هنا
+                    themeMode: themeState.themeMode,
                     onGenerateRoute: (settings) {
                       final String routeName = settings.name ?? '';
                       final dynamic data = settings.arguments;
@@ -234,6 +235,10 @@ class MyApp extends StatelessWidget {
                           return MaterialPageRoute(
                             builder: (context) => AboutSupportPage(),
                           );
+                        case YourReservationScreen.id:
+                          return MaterialPageRoute(
+                            builder: (context) => YourReservationScreen(),
+                          );
 
                         default:
                           return MaterialPageRoute(
@@ -243,9 +248,11 @@ class MyApp extends StatelessWidget {
                     initialRoute: SplashPage.id,
                   );
                 } else {
-                  return const Center(
+                  return Center(
                     child: CircularProgressIndicator(
-                      color: ColorsUtility.progressIndictorColor,
+                      color: themeState.themeMode == ThemeMode.light
+                          ? ColorsUtility.onboardingDescriptionColor
+                          : ColorsUtility.lightOnboardingColor,
                     ),
                   );
                 }

@@ -63,8 +63,10 @@ class AuthCubit extends Cubit<AuthState> {
           email: email,
           name: name,
           phone: phone,
+          city: '',
+          address: '',
           provider: 'email',
-          isProfileComplete: true,
+          isProfileComplete: false,
           imageUrl: '',
         );
 
@@ -74,16 +76,27 @@ class AuthCubit extends Cubit<AuthState> {
           name: name,
           email: email,
           phone: phone,
+          city: '',
+          address: '',
         );
 
         emit(SignupSuccess());
         if (context.mounted) {
           appSnackbar(
             context,
-            text: 'Registration successful!',
+            text: 'Registration successful! Please complete your profile',
             backgroundColor: ColorsUtility.successSnackbarColor,
           );
-          Navigator.pushReplacementNamed(context, CustomScreen.id);
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CompleteUserDataScreen(
+                user: userCredential.user!,
+                isGoogleSignIn: false,
+              ),
+            ),
+          );
         }
       }
     } on FirebaseAuthException catch (e) {
@@ -123,6 +136,8 @@ class AuthCubit extends Cubit<AuthState> {
           name: 'Admin',
           email: _adminEmail,
           phone: '',
+          city: '',
+          address: '',
         );
 
         emit(LoginSuccess());
@@ -161,9 +176,13 @@ class AuthCubit extends Cubit<AuthState> {
             .doc(userCredential.user!.uid)
             .get();
         String phone = '';
+        String city = '';
+        String address = '';
         String imageUrl = '';
         if (doc.exists) {
           phone = doc.data()?['phone'] ?? '';
+          city = doc.data()?['city'] ?? '';
+          address = doc.data()?['address'] ?? '';
           imageUrl = doc.data()?['imageUrl'] ?? '';
         }
 
@@ -173,6 +192,8 @@ class AuthCubit extends Cubit<AuthState> {
           name: userCredential.user!.displayName ?? '',
           email: userCredential.user!.email ?? '',
           phone: phone,
+          city: city,
+          address: address,
         );
         if (imageUrl.isNotEmpty) {
           await PrefService.saveUserImage(imageUrl);
@@ -233,16 +254,20 @@ class AuthCubit extends Cubit<AuthState> {
       final User? user = userCredential.user;
 
       if (user != null) {
-        String imageUrl = '';
+        String imageUrl = user.photoURL ?? '';
         String phone = '';
+        String city = '';
+        String address = '';
+
         final doc = await _firestore.collection('users2').doc(user.uid).get();
+        bool isProfileComplete = false;
+
         if (doc.exists) {
           phone = doc.data()?['phone'] ?? '';
-          imageUrl = doc.data()?['imageUrl'] ?? '';
-        }
-
-        if (imageUrl.isEmpty && user.photoURL != null) {
-          imageUrl = user.photoURL!;
+          city = doc.data()?['city'] ?? '';
+          address = doc.data()?['address'] ?? '';
+          isProfileComplete =
+              (doc.data()?['isProfileComplete'] as bool?) ?? false;
         }
 
         await PrefService.setLoggedIn(true);
@@ -251,18 +276,18 @@ class AuthCubit extends Cubit<AuthState> {
           name: user.displayName ?? '',
           email: user.email ?? '',
           phone: phone,
+          city: city,
+          address: address,
         );
+
         if (imageUrl.isNotEmpty) {
           await PrefService.saveUserImage(imageUrl);
         }
 
-        final userDoc =
-            await _firestore.collection('users2').doc(user.uid).get();
-        final bool isProfileComplete = userDoc.exists
-            ? (userDoc.data()?['isProfileComplete'] as bool?) ?? false
-            : false;
-
-        if (isProfileComplete == false) {
+        if (!isProfileComplete ||
+            phone.isEmpty ||
+            city.isEmpty ||
+            address.isEmpty) {
           if (context.mounted) {
             Navigator.pushReplacement(
               context,
@@ -274,26 +299,29 @@ class AuthCubit extends Cubit<AuthState> {
               ),
             );
           }
-        } else {
-          await _saveUserDataToFirestore(
-            userId: user.uid,
-            name: user.displayName ?? 'No Name',
-            email: user.email ?? 'No Email',
-            phone: phone,
-            provider: 'google',
-            isProfileComplete: true,
-            imageUrl: imageUrl,
-          );
+          return;
+        }
 
-          emit(GoogleLoginSuccess());
-          if (context.mounted) {
-            appSnackbar(
-              context,
-              text: 'Google sign in successful!',
-              backgroundColor: ColorsUtility.successSnackbarColor,
-            );
-            Navigator.pushReplacementNamed(context, CustomScreen.id);
-          }
+        await _saveUserDataToFirestore(
+          userId: user.uid,
+          name: user.displayName ?? 'No Name',
+          email: user.email ?? 'No Email',
+          phone: phone,
+          city: city,
+          address: address,
+          provider: 'google',
+          isProfileComplete: true,
+          imageUrl: imageUrl,
+        );
+
+        emit(GoogleLoginSuccess());
+        if (context.mounted) {
+          appSnackbar(
+            context,
+            text: 'Google sign in successful!',
+            backgroundColor: ColorsUtility.successSnackbarColor,
+          );
+          Navigator.pushReplacementNamed(context, CustomScreen.id);
         }
       } else {
         emit(GoogleLoginFailed('User is null after sign in'));
@@ -314,6 +342,8 @@ class AuthCubit extends Cubit<AuthState> {
     required User user,
     required String name,
     required String phone,
+    required String city,
+    required String address,
     required bool isGoogleSignIn,
     required BuildContext context,
   }) async {
@@ -330,6 +360,8 @@ class AuthCubit extends Cubit<AuthState> {
         name: name,
         email: user.email ?? 'No Email',
         phone: phone,
+        city: city,
+        address: address,
         provider: isGoogleSignIn ? 'google' : 'email',
         isProfileComplete: true,
         imageUrl: imageUrl,
@@ -340,6 +372,8 @@ class AuthCubit extends Cubit<AuthState> {
         name: name,
         email: user.email ?? 'No Email',
         phone: phone,
+        city: city,
+        address: address,
       );
       if (imageUrl.isNotEmpty) {
         await PrefService.saveUserImage(imageUrl);
@@ -369,6 +403,8 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> updateUserProfile({
     required String name,
     required String phone,
+    required String city,
+    required String address,
     required File? imageFile,
     required Uint8List? webImageBytes,
     required BuildContext context,
@@ -412,6 +448,8 @@ class AuthCubit extends Cubit<AuthState> {
         name: name,
         email: user.email ?? 'No Email',
         phone: phone,
+        city: city,
+        address: address,
         provider:
             user.providerData.any((info) => info.providerId == 'google.com')
                 ? 'google'
@@ -425,6 +463,8 @@ class AuthCubit extends Cubit<AuthState> {
         name: name,
         email: user.email ?? 'No Email',
         phone: phone,
+        city: city,
+        address: address,
       );
 
       if (imageUrl.isNotEmpty) {
@@ -457,6 +497,8 @@ class AuthCubit extends Cubit<AuthState> {
     required String name,
     required String email,
     required String phone,
+    required String city,
+    required String address,
     required String provider,
     required bool isProfileComplete,
     required String imageUrl,
@@ -465,6 +507,8 @@ class AuthCubit extends Cubit<AuthState> {
       'name': name,
       'email': email,
       'phone': phone,
+      'city': city,
+      'address': address,
       'provider': provider,
       'isProfileComplete': isProfileComplete,
       'updatedAt': FieldValue.serverTimestamp(),
@@ -614,27 +658,85 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> deleteAccount(BuildContext context) async {
+  Future<void> reAuthenticateUser({
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) {
+        throw Exception('No user is currently signed in');
+      }
+
+      final credential = EmailAuthProvider.credential(
+        email: email,
+        password: password,
+      );
+
+      await user.reauthenticateWithCredential(credential);
+    } on FirebaseAuthException catch (e) {
+      final errorMessage = _getReAuthErrorMessage(e);
+      throw Exception(errorMessage);
+    } catch (e) {
+      throw Exception('An unexpected error occurred during re-authentication.');
+    }
+  }
+
+  String _getReAuthErrorMessage(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'wrong-password':
+        return 'Incorrect password. Please try again.';
+      case 'user-not-found':
+        return 'No account found with this email.';
+      case 'invalid-email':
+        return 'The email address is invalid.';
+      case 'user-mismatch':
+        return 'The provided credentials do not match the current user.';
+      case 'too-many-requests':
+        return 'Too many requests. Try again later.';
+      default:
+        return 'Re-authentication failed. Please try again.';
+    }
+  }
+
+  Future<void> deleteAccount(
+    BuildContext context, {
+    String? email,
+    String? password,
+  }) async {
     emit(DeleteAccountLoading());
     try {
       final user = _auth.currentUser;
-      if (user != null) {
-        await _firestore.collection('users2').doc(user.uid).delete();
-        await user.delete();
-        await PrefService.clearUserData();
-        emit(DeleteAccountSuccess());
-        if (context.mounted) {
-          appSnackbar(
-            context,
-            text: 'Account deleted successfully!',
-            backgroundColor: ColorsUtility.successSnackbarColor,
-          );
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            LoginScreen.id,
-            (Route<dynamic> route) => false,
-          );
-        }
+      if (user == null) {
+        throw Exception('No user is currently signed in');
+      }
+
+      if (email != null && password != null) {
+        await reAuthenticateUser(
+          email: email,
+          password: password,
+          context: context,
+        );
+      } else {
+        throw Exception('Re-authentication credentials are required');
+      }
+
+      await _firestore.collection('users2').doc(user.uid).delete();
+      await user.delete();
+      await PrefService.clearUserData();
+      emit(DeleteAccountSuccess());
+      if (context.mounted) {
+        appSnackbar(
+          context,
+          text: 'Account deleted successfully!',
+          backgroundColor: ColorsUtility.successSnackbarColor,
+        );
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          LoginScreen.id,
+          (Route<dynamic> route) => false,
+        );
       }
     } catch (e) {
       emit(DeleteAccountFailed(e.toString()));

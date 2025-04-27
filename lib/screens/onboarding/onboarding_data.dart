@@ -127,6 +127,7 @@ class _OnboardingDataState extends State<OnboardingData> {
               widget.description,
               style: textTheme.bodyMedium?.copyWith(
                 fontSize: 14,
+
               ),
             ),
           ),
@@ -141,7 +142,9 @@ class _OnboardingDataState extends State<OnboardingData> {
                 child: Text(
                   S.of(context).skipButton,
                   style: textTheme.bodyLarge?.copyWith(
+                    
                     fontSize: 16,
+                    
                   ),
                 ),
               ),

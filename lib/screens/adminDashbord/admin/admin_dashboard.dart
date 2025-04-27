@@ -8,6 +8,7 @@ import 'package:restrant_app/screens/adminDashbord/admin/admin_orders_screen.dar
 import 'package:restrant_app/screens/adminDashbord/admin/orders_screen.dart';
 import 'package:restrant_app/screens/adminDashbord/admin/statistics_screen.dart';
 import 'package:restrant_app/screens/adminDashbord/chat.dart';
+import 'package:restrant_app/utils/colors_utility.dart';
 
 class DashboardHomeScreen extends StatefulWidget {
   const DashboardHomeScreen({super.key});
@@ -128,14 +129,14 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
                 color: Colors.white,
                 fontSize: 20,
                 fontWeight: FontWeight.bold)),
-        backgroundColor: const Color.fromARGB(255, 33, 75, 81),
+        backgroundColor:  ColorsUtility.calenderColor,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             _buildStatCard("Total Reservations", "$totalReservations",
-                Icons.event_seat, Colors.teal),
+                Icons.event_seat, ColorsUtility.calenderColor),
             _buildStatCard("Today's Orders", "$todaysOrders ",
                 Icons.shopping_cart, Colors.orange),
             const SizedBox(height: 20),
@@ -181,10 +182,10 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
                         (index) => FlSpot(index.toDouble(),
                             (weeklyOrders.values.toList()[index]).toDouble())),
                     isCurved: true,
-                    color: Colors.cyan,
+                    color: ColorsUtility.calenderColor,
                     barWidth: 3,
                     belowBarData: BarAreaData(
-                        show: true, color: Colors.cyan.withOpacity(0.3)),
+                        show: true, color: ColorsUtility.calenderColor.withOpacity(0.3)),
                   ),
                 ],
               )),

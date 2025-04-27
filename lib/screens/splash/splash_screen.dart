@@ -57,18 +57,20 @@ class SplashPage extends StatelessWidget {
                               logoAsset,
                               width: 50,
                               height: 50,
-                              colorFilter: const ColorFilter.mode(
-                                ColorsUtility.progressIndictorColor,
+                              colorFilter: ColorFilter.mode(
+                                // ColorsUtility.calenderColor,
+                                theme.brightness == Brightness.dark
+                                    ? ColorsUtility.onboardingColor
+                                    : ColorsUtility.mainBackgroundColor,
                                 BlendMode.srcIn,
                               ),
                             ),
                             Text(
                               S.of(context).splashTitle,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                color: ColorsUtility.progressIndictorColor,
-                              ),
+                              style:  theme.textTheme.titleLarge?.copyWith(
+                // color: titleColor,
+                fontWeight: FontWeight.bold,
+              ),
                             ),
                           ],
                         ),
@@ -84,8 +86,12 @@ class SplashPage extends StatelessWidget {
                         state is SplashCubitNavigateToLogin ||
                         state is SplashCubitNavigateToOnboarding) {
                       return const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            ColorsUtility.progressIndictorColor),
+                        // valueColor: AlwaysStoppedAnimation<Color>(
+                          
+                        //     Color.fromARGB(255, 196, 193, 180)
+                            
+                        //     )
+                        //     ,
                       );
                     }
                     return const SizedBox.shrink();

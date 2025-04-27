@@ -8,6 +8,7 @@ import 'package:restrant_app/cubit/FavoritesLogic/cubit/favorites_cubit.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
 import 'package:restrant_app/generated/l10n.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class CategoryItemsScreen extends StatelessWidget {
   const CategoryItemsScreen({super.key, required this.categoryDoc});
@@ -17,22 +18,18 @@ class CategoryItemsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    // final bool isDark = theme.brightness == Brightness.dark;
 
-    // final Color appBarTextColor = isDark
-    //     ? ColorsUtility.takeAwayColor
-    //     : ColorsUtility.progressIndictorColor;
     return Scaffold(
       appBar: AppBar(
         title: Text(
           _formatCategoryName(categoryDoc.id),
           style: TextStyle(
-            color: ColorsUtility.takeAwayColor,
+            color: theme.colorScheme.primary,
             fontSize: theme.textTheme.titleLarge?.fontSize,
           ),
         ),
         iconTheme: IconThemeData(
-          color: ColorsUtility.takeAwayColor,
+          color: theme.colorScheme.primary,
         ),
         centerTitle: true,
         backgroundColor: theme.scaffoldBackgroundColor,
@@ -42,9 +39,9 @@ class CategoryItemsScreen extends StatelessWidget {
         stream: categoryDoc.reference.collection('items').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
+            return Center(
                 child: CircularProgressIndicator(
-              color: ColorsUtility.progressIndictorColor,
+              color: theme.colorScheme.primary,
             ));
           }
 
@@ -53,7 +50,7 @@ class CategoryItemsScreen extends StatelessWidget {
               child: Text(
                 S.of(context).noItemInCat,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: theme.colorScheme.primary,
                 ),
               ),
             );
@@ -61,19 +58,31 @@ class CategoryItemsScreen extends StatelessWidget {
 
           final List<QueryDocumentSnapshot> items = snapshot.data!.docs;
 
-          return GridView.builder(
-            padding: const EdgeInsets.all(15),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 15,
-              crossAxisSpacing: 15,
-              childAspectRatio: 0.8,
+          return AnimationLimiter(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(15),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 15,
+                crossAxisSpacing: 15,
+                childAspectRatio: 0.8,
+              ),
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) {
+                final QueryDocumentSnapshot item = items[index];
+                return AnimationConfiguration.staggeredGrid(
+                  position: index,
+                  duration: const Duration(milliseconds: 500),
+                  columnCount: 2,
+                  child: SlideAnimation(
+                    verticalOffset: 50.0,
+                    child: FadeInAnimation(
+                      child: _buildItemCard(item, context),
+                    ),
+                  ),
+                );
+              },
             ),
-            itemCount: items.length,
-            itemBuilder: (BuildContext context, int index) {
-              final QueryDocumentSnapshot item = items[index];
-              return _buildItemCard(item, context);
-            },
           );
         },
       ),
@@ -194,7 +203,7 @@ class CategoryItemsScreen extends StatelessWidget {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: ColorsUtility.takeAwayColor,
+                                color: theme.colorScheme.primary,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
@@ -221,7 +230,7 @@ class CategoryItemsScreen extends StatelessWidget {
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
-                            color: ColorsUtility.takeAwayColor),
+                            color: ColorsUtility.errorSnackbarColor),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -236,17 +245,17 @@ class CategoryItemsScreen extends StatelessWidget {
                           const SizedBox(width: 4),
                           Text(
                             rate,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12,
-                              color: ColorsUtility.progressIndictorColor,
+                              color: theme.colorScheme.primary,
                             ),
                           ),
                           const Spacer(),
                           Text(
                             '${S.of(context).egp} $price',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: ColorsUtility.progressIndictorColor,
+                              color: theme.colorScheme.primary,
                             ),
                           ),
                         ],
@@ -268,9 +277,9 @@ class CategoryItemsScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           IconButton(
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.add_circle_outline,
-                              color: ColorsUtility.progressIndictorColor,
+                              color: theme.colorScheme.primary,
                             ),
                             onPressed: () async {
                               await ordersCubit.addMeal(itemData);
@@ -290,7 +299,7 @@ class CategoryItemsScreen extends StatelessWidget {
                               isFavorite
                                   ? Icons.favorite
                                   : Icons.favorite_border,
-                              color: ColorsUtility.progressIndictorColor,
+                              color: ColorsUtility.errorSnackbarColor,
                             ),
                             onPressed: () {
                               if (isFavorite) {

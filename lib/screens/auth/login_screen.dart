@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text(
                         S.of(context).forgotPassword,
                         style: TextStyle(
-                          color: ColorsUtility.progressIndictorColor,
+                          color: Theme.of(context).colorScheme.primary,
                           decoration: TextDecoration.none,
                         ),
                       ),

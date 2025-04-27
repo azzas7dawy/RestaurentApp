@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/mealDeatilsScreen/meal_details_screen.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class SearchScreen extends StatefulWidget {
   static const String id = "SearchScreen";
@@ -16,9 +17,14 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
-  List<Map<String, dynamic>> _searchResults = [];
+  final ScrollController _scrollController = ScrollController();
+  List<Map<String, dynamic>> _allSearchResults = [];
+  List<Map<String, dynamic>> _displayedResults = [];
   bool _isSearching = false;
   bool _hasSearched = false;
+  int _currentMax = 5;
+  bool _isLoadingMore = false;
+  bool _hasMoreData = true;
 
   dynamic _getLocalizedValue(Map<String, dynamic> data, String field) {
     final locale = Localizations.localeOf(context);
@@ -93,11 +99,43 @@ class _SearchScreenState extends State<SearchScreen> {
     return results;
   }
 
+  void _loadMore() {
+    if (_isLoadingMore || !_hasMoreData) return;
+
+    setState(() {
+      _isLoadingMore = true;
+    });
+
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (_currentMax < _allSearchResults.length) {
+        setState(() {
+          _currentMax += 5;
+          if (_currentMax >= _allSearchResults.length) {
+            _currentMax = _allSearchResults.length;
+            _hasMoreData = false;
+          }
+          _displayedResults = _allSearchResults.take(_currentMax).toList();
+        });
+      } else {
+        setState(() {
+          _hasMoreData = false;
+        });
+      }
+
+      setState(() {
+        _isLoadingMore = false;
+      });
+    });
+  }
+
   Future<void> _performSearch(String query) async {
     if (query.isEmpty) {
       setState(() {
-        _searchResults = [];
+        _allSearchResults = [];
+        _displayedResults = [];
         _hasSearched = false;
+        _currentMax = 5;
+        _hasMoreData = true;
       });
       return;
     }
@@ -105,19 +143,37 @@ class _SearchScreenState extends State<SearchScreen> {
     setState(() {
       _isSearching = true;
       _hasSearched = true;
+      _currentMax = 5;
+      _hasMoreData = true;
     });
 
     final results = await _fetchMealsOnly(query);
 
     setState(() {
-      _searchResults = results;
+      _allSearchResults = results;
+      _displayedResults = results.take(_currentMax).toList();
       _isSearching = false;
+      _hasMoreData = results.length > _currentMax;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+              _scrollController.position.maxScrollExtent - 100 &&
+          !_isLoadingMore &&
+          _hasMoreData) {
+        _loadMore();
+      }
     });
   }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -205,7 +261,7 @@ class _SearchScreenState extends State<SearchScreen> {
       );
     }
 
-    if (_searchResults.isEmpty) {
+    if (_displayedResults.isEmpty) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -233,83 +289,125 @@ class _SearchScreenState extends State<SearchScreen> {
       );
     }
 
-    return ListView.separated(
-      padding: const EdgeInsets.only(top: 16),
-      itemCount: _searchResults.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        final meal = _searchResults[index];
+    return AnimationLimiter(
+      child: ListView.separated(
+        controller: _scrollController,
+        padding: const EdgeInsets.only(top: 16),
+        itemCount: _displayedResults.length + 1,
+        separatorBuilder: (_, __) => const SizedBox(height: 12),
+        itemBuilder: (context, index) {
+          if (index < _displayedResults.length) {
+            final meal = _displayedResults[index];
 
-        return Container(
-          decoration: BoxDecoration(
-            color: theme.scaffoldBackgroundColor,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: ListTile(
-            contentPadding: const EdgeInsets.all(12),
-            leading: _buildMealImage(meal['image'], theme),
-            title: Text(
-              meal['title'],
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: ColorsUtility.takeAwayColor,
-              ),
-            ),
-            subtitle: Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    meal['category'].toString(),
-                    style: theme.textTheme.bodySmall,
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Text(
-                        '\$${meal['price'].toStringAsFixed(2)}',
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: ColorsUtility.progressIndictorColor,
-                        ),
-                      ),
-                      if (meal['rate'] > 0) ...[
-                        const SizedBox(width: 16),
-                        Icon(Icons.star, color: theme.colorScheme.primary),
-                        const SizedBox(width: 4),
-                        Text(
-                          meal['rate'].toStringAsFixed(1),
-                          style: theme.textTheme.bodySmall,
-                        ),
-                      ],
-                    ],
-                  ),
-                  if (meal['description']?.isNotEmpty == true)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 6),
-                      child: Text(
-                        meal['description'],
-                        style:
-                            theme.textTheme.bodySmall?.copyWith(fontSize: 12),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+            return AnimationConfiguration.staggeredList(
+              position: index,
+              duration: const Duration(milliseconds: 500),
+              child: SlideAnimation(
+                verticalOffset: 50.0,
+                child: FadeInAnimation(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: theme.scaffoldBackgroundColor,
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                ],
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.all(12),
+                      leading: _buildMealImage(meal['image'], theme),
+                      title: Text(
+                        meal['title'],
+                        style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: ColorsUtility.errorSnackbarColor),
+                      ),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              meal['category'].toString(),
+                              style: theme.textTheme.bodySmall,
+                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                Text(
+                                  '\$${meal['price'].toStringAsFixed(2)}',
+                                  style: theme.textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: theme.colorScheme.primary,
+                                  ),
+                                ),
+                                if (meal['rate'] > 0) ...[
+                                  const SizedBox(width: 16),
+                                  Icon(
+                                    Icons.star,
+                                    color: ColorsUtility.takeAwayColor,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    meal['rate'].toStringAsFixed(1),
+                                    style: theme.textTheme.bodySmall,
+                                  ),
+                                ],
+                              ],
+                            ),
+                            if (meal['description']?.isNotEmpty == true)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 6),
+                                child: Text(
+                                  meal['description'],
+                                  style: theme.textTheme.bodySmall
+                                      ?.copyWith(fontSize: 12),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      trailing: Icon(Icons.chevron_right,
+                          color: theme.iconTheme.color),
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          MealDetailsScreen.id,
+                          arguments: meal,
+                        );
+                      },
+                    ),
+                  ),
+                ),
               ),
-            ),
-            trailing: Icon(Icons.chevron_right, color: theme.iconTheme.color),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                MealDetailsScreen.id,
-                arguments: meal,
+            );
+          } else {
+            if (_isLoadingMore) {
+              return const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: CircularProgressIndicator(),
+                ),
               );
-            },
-          ),
-        );
-      },
+            } else if (!_hasMoreData && _allSearchResults.isNotEmpty) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Text(
+                    S.of(context).noMoreData,
+                    style: TextStyle(
+                      color: theme.colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              );
+            } else {
+              return const SizedBox();
+            }
+          }
+        },
+      ),
     );
   }
 
