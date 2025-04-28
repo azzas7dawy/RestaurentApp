@@ -65,10 +65,10 @@ class _CompleteUserDataScreenState extends State<CompleteUserDataScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    final Color appBarTextColor = isDark
-        ? ColorsUtility.takeAwayColor
-        : ColorsUtility.progressIndictorColor;
+    // final isDark = theme.brightness == Brightness.dark;
+    // final Color appBarTextColor = isDark
+    //     ? ColorsUtility.takeAwayColor
+    //     : ColorsUtility.progressIndictorColor;
 
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
@@ -91,7 +91,7 @@ class _CompleteUserDataScreenState extends State<CompleteUserDataScreen> {
           title: Text(
             S.of(context).completeProfile,
             style: TextStyle(
-              color: appBarTextColor,
+              color: theme.colorScheme.primary,
               fontSize: theme.textTheme.titleLarge?.fontSize,
             ),
           ),
@@ -122,13 +122,14 @@ class _CompleteUserDataScreenState extends State<CompleteUserDataScreen> {
               child: Text(
                 S.of(context).skipButton,
                 style: TextStyle(
-                  color: appBarTextColor,
+                  color: theme.colorScheme.primary,
                   fontSize: theme.textTheme.titleSmall?.fontSize,
                 ),
               ),
             ),
           ],
         ),
+        backgroundColor: theme.scaffoldBackgroundColor,
         body: SafeArea(
           child: Center(
             child: Padding(
@@ -174,14 +175,14 @@ class _CompleteUserDataScreenState extends State<CompleteUserDataScreen> {
                       ),
                     AppTextField(
                       controller: _cityController,
-                      label: 'City',
+                      label: S.of(context).city,
                       keyboardType: TextInputType.text,
                       validator: _validateCity,
                     ),
                     const SizedBox(height: 20),
                     AppTextField(
                       controller: _addressController,
-                      label: 'Address',
+                      label: S.of(context).address,
                       keyboardType: TextInputType.streetAddress,
                       validator: _validateAddress,
                     ),

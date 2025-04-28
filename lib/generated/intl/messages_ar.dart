@@ -33,6 +33,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "مطعم \'تاستي بايتس\' يقدم لكم أشهى وألذ المأكولات بجودة عالية وخدمة ممتازة. نهتم براحتكم وتجربتكم، ونقدم كل وجبة بحب ❤️",
     ),
     "accepted": MessageLookupByLibrary.simpleMessage("مقبول"),
+    "accountDeleted": MessageLookupByLibrary.simpleMessage(
+      "تم حذف الحساب بنجاح!",
+    ),
     "addToOrdersBtn": MessageLookupByLibrary.simpleMessage("إضافة إلى الطلبات"),
     "addedToFavorites": MessageLookupByLibrary.simpleMessage(
       "تمت إضافته إلى المفضلة",
@@ -41,6 +44,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "تمت إضافته إلى الطلبات",
     ),
     "address": MessageLookupByLibrary.simpleMessage("العنوان"),
+    "addressDetails": MessageLookupByLibrary.simpleMessage("تفاصيل العنوان"),
+    "addressDetailsPlease": MessageLookupByLibrary.simpleMessage(
+      "من فضلك أدخل تفاصيل العنوان",
+    ),
+    "addressDetailsShort": MessageLookupByLibrary.simpleMessage(
+      "تفاصيل العنوان قصيرة جدًا.",
+    ),
+    "adminLogin": MessageLookupByLibrary.simpleMessage(
+      "تم تسجيل دخول الأدمن بنجاح!",
+    ),
     "allSpecialPlates": MessageLookupByLibrary.simpleMessage(
       "جميع الأطباق الخاصة",
     ),
@@ -83,7 +96,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "cash": MessageLookupByLibrary.simpleMessage("نقدًا"),
     "cashOnDelivery": MessageLookupByLibrary.simpleMessage("دفع عند الاستلام"),
     "cashTxt": MessageLookupByLibrary.simpleMessage("ادفع عند استلام طلبك"),
+    "changeLangFailed": MessageLookupByLibrary.simpleMessage(
+      "فشل في تغيير اللغة",
+    ),
     "chicken": MessageLookupByLibrary.simpleMessage("دجاج ساندويتش"),
+    "city": MessageLookupByLibrary.simpleMessage("المدينة"),
     "cityOne": MessageLookupByLibrary.simpleMessage("سيراليون"),
     "cityThree": MessageLookupByLibrary.simpleMessage("تيروفانانثابورام"),
     "cityTwo": MessageLookupByLibrary.simpleMessage("كوتشي"),
@@ -91,6 +108,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "يرجى تقديم التفاصيل التالية: ",
     ),
     "completeProfile": MessageLookupByLibrary.simpleMessage("اكمل ملفك الشخصي"),
+    "completeProfileSnackbar": MessageLookupByLibrary.simpleMessage(
+      "تم التسجيل بنجاح! من فضلك أكمل ملفك الشخصي.",
+    ),
     "confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
     "confirmCancelReservationQuestion": MessageLookupByLibrary.simpleMessage(
       "هل انت متأكد انك تريد إلغاء هذا الحجز؟",
@@ -131,6 +151,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "emailOrPhone": MessageLookupByLibrary.simpleMessage(
       "البريد الإلكتروني/رقم الهاتف",
     ),
+    "emailValid": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال بريدك الإلكتروني",
+    ),
     "enterAddress": MessageLookupByLibrary.simpleMessage("يرجى إدخال عنوانك"),
     "enterCoupon": MessageLookupByLibrary.simpleMessage("برجاء إدخال القسيمة"),
     "enterCouponCode": MessageLookupByLibrary.simpleMessage("أدخل كود القسيمة"),
@@ -141,7 +164,17 @@ class MessageLookup extends MessageLookupByLibrary {
       "يرجى إدخال كلمة المرور",
     ),
     "enterPhone": MessageLookupByLibrary.simpleMessage("يرجى إدخال رقم هاتفك"),
+    "errUpdateProfile": MessageLookupByLibrary.simpleMessage(
+      "خطأ في تحديث البروفايل",
+    ),
+    "error": MessageLookupByLibrary.simpleMessage("خطأ"),
+    "errorDelete": MessageLookupByLibrary.simpleMessage(
+      "حدث خطأ في حذف الحساب",
+    ),
     "failed": MessageLookupByLibrary.simpleMessage("فشل"),
+    "failedProfileImg": MessageLookupByLibrary.simpleMessage(
+      "فشل في رفع صورة الملف الشخصي.",
+    ),
     "favPayMethod": MessageLookupByLibrary.simpleMessage(
       "اختر طريقة الدفع المفضلة لديك",
     ),
@@ -156,6 +189,15 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "forgotPassword": MessageLookupByLibrary.simpleMessage("نسيت كلمة المرور؟"),
     "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
+    "googleCancel": MessageLookupByLibrary.simpleMessage(
+      "تم إلغاء تسجيل الدخول باستخدام جوجل.",
+    ),
+    "googleReAuth": MessageLookupByLibrary.simpleMessage(
+      "فشل إعادة التوثيق عبر جوجل.",
+    ),
+    "googleSignIn": MessageLookupByLibrary.simpleMessage(
+      "تم تسجيل الدخول باستخدام جوجل بنجاح!",
+    ),
     "hello": MessageLookupByLibrary.simpleMessage("مرحبا"),
     "hi": MessageLookupByLibrary.simpleMessage("مرحبا"),
     "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
@@ -171,7 +213,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "loginGoogle": MessageLookupByLibrary.simpleMessage(
       "تسجيل دخول بواسطة جوجل",
     ),
+    "loginSuccess": MessageLookupByLibrary.simpleMessage(
+      "تم تسجيل الدخول بنجاح!",
+    ),
     "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
+    "logoutFailed": MessageLookupByLibrary.simpleMessage("فشل تسجيل الخروج"),
+    "logoutSuccess": MessageLookupByLibrary.simpleMessage(
+      "تم تسجيل الخروج بنجاح",
+    ),
     "matchPassword": MessageLookupByLibrary.simpleMessage(
       "كلمات المرور غير متطابقة",
     ),
@@ -183,9 +232,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "nextButton": MessageLookupByLibrary.simpleMessage("التالي"),
     "no": MessageLookupByLibrary.simpleMessage("لا"),
+    "noAccountWithThisNum": MessageLookupByLibrary.simpleMessage(
+      "لا يوجد حساب مرتبط بهذا رقم الهاتف.",
+    ),
+    "noAcountWithThisEmail": MessageLookupByLibrary.simpleMessage(
+      "لا يوجد حساب مرتبط بهذا البريد الإلكتروني.",
+    ),
     "noCatAvailable": MessageLookupByLibrary.simpleMessage(
       "لا توجد فئات متاحة",
     ),
+    "noEmail": MessageLookupByLibrary.simpleMessage("لا يوجد بريد إلكتروني"),
     "noFav": MessageLookupByLibrary.simpleMessage("لا توجد مفضلات"),
     "noItemInCat": MessageLookupByLibrary.simpleMessage(
       "لا توجد وجبات متاحة في هذه الفئة",
@@ -198,6 +254,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "لا مزيد من الأطباق للتحميل",
     ),
     "noMoreOrders": MessageLookupByLibrary.simpleMessage("لا توجد طلبات أخرى"),
+    "noName": MessageLookupByLibrary.simpleMessage("لا يوجد إسم"),
     "noOrders": MessageLookupByLibrary.simpleMessage("لا توجد طلبات"),
     "noOrdersYet": MessageLookupByLibrary.simpleMessage(
       "لا توجد طلبات حتى الآن",
@@ -207,6 +264,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "لا توجد أطباق خاصة",
     ),
     "noTitle": MessageLookupByLibrary.simpleMessage("لا يوجد عنوان"),
+    "noUserSignedIn": MessageLookupByLibrary.simpleMessage(
+      "لا يوجد مستخدم مسجل الدخول حاليًا.",
+    ),
     "notAvailable": MessageLookupByLibrary.simpleMessage("غير متاح حاليًا"),
     "notAvailableTxt": MessageLookupByLibrary.simpleMessage("غير متاح"),
     "note": MessageLookupByLibrary.simpleMessage(
@@ -246,11 +306,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "ourMenu": MessageLookupByLibrary.simpleMessage("قائمتنا"),
     "outForDelivery": MessageLookupByLibrary.simpleMessage("في الطريق"),
     "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+    "passwordSent": MessageLookupByLibrary.simpleMessage(
+      "تم إرسال لينك إعادة التعيين. من فضلك تفقد بريدك",
+    ),
     "payBtn": MessageLookupByLibrary.simpleMessage("المتابعة إلى الدفع"),
     "payMethod": MessageLookupByLibrary.simpleMessage(
       "يرجى اختيار طريقة الدفع",
     ),
-    "payWithCard": MessageLookupByLibrary.simpleMessage("Pay with Card"),
+    "payWithCard": MessageLookupByLibrary.simpleMessage(
+      "الدفع عن طريق البطاقة",
+    ),
+    "paymentError": MessageLookupByLibrary.simpleMessage("خطأ في الدفع"),
     "paymentFailed": MessageLookupByLibrary.simpleMessage("فشل الدفع"),
     "paymentMethod": MessageLookupByLibrary.simpleMessage("طريقة الدفع"),
     "paymobSubtitle": MessageLookupByLibrary.simpleMessage(
@@ -266,8 +332,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "person": MessageLookupByLibrary.simpleMessage("شخص"),
     "phone": MessageLookupByLibrary.simpleMessage("الهاتف"),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+    "phoneNumAlreadyRegistered": MessageLookupByLibrary.simpleMessage(
+      "رقم الهاتف مسجل بالفعل.",
+    ),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
     "pizza": MessageLookupByLibrary.simpleMessage("بيتزا"),
+    "pleaseEnterCity": MessageLookupByLibrary.simpleMessage(
+      "من فضلك أدخل مدينتك ",
+    ),
     "pleaseLogin": MessageLookupByLibrary.simpleMessage("يرجى تسجيل الدخول"),
     "pleaseReAuthenticate": MessageLookupByLibrary.simpleMessage(
       "يرجى إدخال بياناتك لتأكيد حذف الحساب.",
@@ -277,7 +349,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "processing": MessageLookupByLibrary.simpleMessage("قيد التحضير"),
     "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
+    "profileCompleted": MessageLookupByLibrary.simpleMessage(
+      "تم إكمال الملف الشخصي بنجاح!",
+    ),
+    "profileUpdate": MessageLookupByLibrary.simpleMessage(
+      "تم تحديث الملف الشخصي بنجاح!",
+    ),
     "rating": MessageLookupByLibrary.simpleMessage("التقييم: "),
+    "reAuthError": MessageLookupByLibrary.simpleMessage(
+      "حدث خطأ غير متوقع أثناء إعادة تسجيل الدخول.",
+    ),
     "reAuthenticate": MessageLookupByLibrary.simpleMessage("إعادة المصادقة"),
     "readyToOrder": MessageLookupByLibrary.simpleMessage("جاهز للطلب؟"),
     "rejected": MessageLookupByLibrary.simpleMessage("مرفوض"),
@@ -343,6 +424,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sigUpGoogle": MessageLookupByLibrary.simpleMessage(
       "انشاء حساب دخول بواسطة جوجل",
     ),
+    "signInFailed": MessageLookupByLibrary.simpleMessage("فشل في تسجيل الدخول"),
     "signupButton": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
     "skipButton": MessageLookupByLibrary.simpleMessage("تخطي"),
     "sliderFour": MessageLookupByLibrary.simpleMessage(
@@ -392,6 +474,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "txtp1": MessageLookupByLibrary.simpleMessage("ستدفع"),
     "txtp2": MessageLookupByLibrary.simpleMessage("عند الاستلام"),
+    "unexpectedError": MessageLookupByLibrary.simpleMessage(
+      "حدث خطأ غير متوقع. من فضلك حاول مرة أخرى.",
+    ),
     "unknown": MessageLookupByLibrary.simpleMessage("غير معروف"),
     "validCoupon": MessageLookupByLibrary.simpleMessage(
       "تم تطبيق القسيمة بنجاح!",

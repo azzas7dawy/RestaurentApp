@@ -44,9 +44,9 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
-    final Color inkwellColor = theme.brightness == Brightness.dark
-        ? ColorsUtility.inkwellTextColor
-        : ColorsUtility.progressIndictorColor;
+    // final Color inkwellColor = theme.brightness == Brightness.dark
+    //     ? ColorsUtility.inkwellTextColor
+    //     : ColorsUtility.progressIndictorColor;
 
     return Scaffold(
       body: Stack(
@@ -175,7 +175,7 @@ class _AuthTemplateWidgetState extends State<AuthTemplateWidget> {
                           child: Text(
                             isLogin ? S.of(context).sigUp : S.of(context).login,
                             style: textTheme.bodyMedium?.copyWith(
-                              color: inkwellColor,
+                              color: ColorsUtility.failedStatusColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

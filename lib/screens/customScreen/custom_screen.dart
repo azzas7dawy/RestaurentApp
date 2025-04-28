@@ -46,20 +46,22 @@ class _HomePageState extends State<CustomScreen> {
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ColorsUtility.errorSnackbarColor,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatWidget(),
-            ),
-          );
-        },
-        child: const Icon(
-          Icons.chat_bubble_outline_rounded,
-        ),
-      ),
+      floatingActionButton: _currentIndex == 0
+          ? FloatingActionButton(
+              backgroundColor: ColorsUtility.errorSnackbarColor,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatWidget(),
+                  ),
+                );
+              },
+              child: const Icon(
+                Icons.chat_bubble_outline_rounded,
+              ),
+            )
+          : null,
     );
   }
 }

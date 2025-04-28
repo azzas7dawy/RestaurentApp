@@ -16,23 +16,23 @@ class ForgotPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    // final isDark = theme.brightness == Brightness.dark;
 
-    final Color appBarTextColor = isDark
-        ? ColorsUtility.takeAwayColor
-        : ColorsUtility.progressIndictorColor;
+    // final Color appBarTextColor = isDark
+    //     ? ColorsUtility.takeAwayColor
+    //     : ColorsUtility.progressIndictorColor;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: theme.scaffoldBackgroundColor,
         title: Text(
           S.of(context).resetPassword,
           style: TextStyle(
-            color: appBarTextColor,
+            color: theme.colorScheme.primary,
             fontSize: theme.textTheme.titleLarge?.fontSize,
           ),
         ),
         iconTheme: IconThemeData(
-          color: appBarTextColor,
+          color: theme.colorScheme.primary,
         ),
       ),
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -90,7 +90,7 @@ class ForgotPasswordScreen extends StatelessWidget {
     if (value == null || value.isEmpty) {
       return S.of(context).validationErrorEmail;
     } else if (!value.contains('@')) {
-      return S.of(context).validEmail;
+      return S.of(context).emailValid;
     }
     return null;
   }

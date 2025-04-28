@@ -13,7 +13,7 @@ class OrdersCubit extends Cubit<OrdersState> {
 
   List<Map<String, dynamic>> meals = [];
   String? _phoneNumber;
-  String? _deliveryAddress;
+  Map<String, String>? _shippingInfo;
   String? _customerName;
   bool _isLoadingCart = false;
 
@@ -144,10 +144,11 @@ class OrdersCubit extends Cubit<OrdersState> {
     }
   }
 
-  void setDeliveryInfo({required String phone, required String address}) {
+  void setDeliveryInfo(
+      {required String phone, required Map<String, String> shipping}) {
     _phoneNumber = phone;
-    _deliveryAddress = address;
-    log('Set delivery info: phone=$phone, address=$address');
+    _shippingInfo = shipping;
+    log('Set delivery info: phone=$phone, shipping=$shipping');
   }
 
   Future<void> submitOrder({
@@ -161,8 +162,8 @@ class OrdersCubit extends Cubit<OrdersState> {
       await _loadCartFromFirestore();
       log('Meals after reload for order submission: $meals');
 
-      if (_phoneNumber == null || _deliveryAddress == null) {
-        throw Exception('Phone number and delivery address are required');
+      if (_phoneNumber == null || _shippingInfo == null) {
+        throw Exception('Phone number and shipping info are required');
       }
       if (_customerName == null) {
         await _loadCustomerName();
@@ -196,7 +197,7 @@ class OrdersCubit extends Cubit<OrdersState> {
         'discountApplied': discountAmount,
         'paymentMethod': paymentMethod,
         'phoneNumber': _phoneNumber,
-        'deliveryAddress': _deliveryAddress,
+        'shipping': _shippingInfo,
         'timestamp': FieldValue.serverTimestamp(),
         'status': status,
         'trackingStatus': trackingStatus,

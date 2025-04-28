@@ -248,7 +248,7 @@ class _FinalReservationDetailsFormState
               controller: phoneController,
               style: TextStyle(color: textTheme.bodyLarge?.color),
               decoration: InputDecoration(
-                labelText: 'Phone Number',
+                labelText: S.of(context).phoneNumber,
                 labelStyle: TextStyle(color: textTheme.bodyLarge?.color),
                 filled: true,
                 fillColor: theme.inputDecorationTheme.fillColor,

@@ -201,7 +201,7 @@ class TrackOrdersScreen extends StatelessWidget {
                     final timestamp =
                         data['timestamp']?.toDate() ?? DateTime.now();
                     final paymentMethod = data['paymentMethod'] ?? 'cash';
-                    final deliveryAddress = data['deliveryAddress'] ?? '';
+                    final shipping = data['shipping'] ?? {};
                     final phoneNumber = data['phoneNumber'] ?? '';
 
                     return AnimationConfiguration.staggeredList(
@@ -221,7 +221,7 @@ class TrackOrdersScreen extends StatelessWidget {
                                 trackStatus: trackStatus,
                                 timestamp: timestamp,
                                 paymentMethod: paymentMethod,
-                                deliveryAddress: deliveryAddress,
+                                shipping: shipping,
                                 phoneNumber: phoneNumber,
                               );
                             },
@@ -524,7 +524,7 @@ class TrackOrdersScreen extends StatelessWidget {
     required String trackStatus,
     required DateTime timestamp,
     required String paymentMethod,
-    required String deliveryAddress,
+    required dynamic shipping,
     required String phoneNumber,
   }) {
     final theme = Theme.of(context);
@@ -851,7 +851,15 @@ class TrackOrdersScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '${S.of(context).address}: $deliveryAddress',
+                          '${S.of(context).city}: ${shipping is Map ? shipping['city'] ?? 'N/A' : 'N/A'}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '${S.of(context).address}: ${shipping is Map ? shipping['details'] ?? 'N/A' : 'N/A'}',
                           style: TextStyle(
                             fontSize: 14,
                             color: theme.colorScheme.primary,

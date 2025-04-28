@@ -109,18 +109,27 @@ class _ChatWidgetState extends State<ChatWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chat with AI'),
+        title: Text(
+          'Chat with AI',
+          style: TextStyle(
+            color: theme.colorScheme.primary,
+          ),
+        ),
         actions: [
           // New: Ping button in the AppBar
           IconButton(
             icon: const Icon(Icons.wifi_tethering),
             tooltip: 'Ping Server',
             onPressed: _pingServer,
+            color: theme.colorScheme.primary,
           ),
         ],
+        backgroundColor: theme.scaffoldBackgroundColor,
       ),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Column(
         children: [
           // New: Display ping result
@@ -188,7 +197,8 @@ class _ChatWidgetState extends State<ChatWidget> {
                       ),
                       const SizedBox(width: 8),
                       IconButton(
-                        icon: const Icon(Icons.send, color: Colors.blue),
+                        icon:
+                            Icon(Icons.send, color: theme.colorScheme.primary),
                         onPressed: isLoading ? null : _handleSearch,
                       ),
                     ],

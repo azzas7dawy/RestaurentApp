@@ -102,7 +102,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    // final colorScheme = theme.colorScheme;
     final totalPrice = ModalRoute.of(context)!.settings.arguments as double? ??
         widget.initialTotal;
 
@@ -110,16 +110,23 @@ class _PaymentScreenState extends State<PaymentScreen> {
       appBar: AppBar(
         title: Text(
           S.of(context).paymentMethod,
-          style: TextStyle(color: colorScheme.secondary),
+          style: TextStyle(
+            color: theme.colorScheme.primary,
+          ),
         ),
-        iconTheme: IconThemeData(color: colorScheme.secondary),
+        iconTheme: IconThemeData(
+          color: theme.colorScheme.primary,
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacementNamed(context, OrdersScreen.id);
           },
         ),
+        backgroundColor: theme.scaffoldBackgroundColor,
+        centerTitle: true,
       ),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: BlocBuilder<OrdersCubit, OrdersState>(
         builder: (context, state) {
           final finalPrice = totalPrice - _discountAmount;
@@ -135,8 +142,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       Text(
                         S.of(context).favPayMethod,
                         style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.textTheme.bodyMedium?.color
-                              ?.withOpacity(0.7),
+                          color: theme.colorScheme.primary,
                         ),
                       ),
                       const SizedBox(height: 24),
@@ -179,7 +185,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   Widget _buildCouponSection(BuildContext context, double totalPrice) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    // final colorScheme = theme.colorScheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -212,7 +218,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide(
-                            color: colorScheme.primary.withOpacity(0.5),
+                            color: ColorsUtility.lightCalenderColor,
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
@@ -224,7 +230,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide(
-                            color: colorScheme.secondary,
+                            color: ColorsUtility.lightCalenderColor,
                           ),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
@@ -239,7 +245,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       ? IconButton(
                           onPressed: _removeCoupon,
                           icon: const Icon(Icons.close),
-                          color: colorScheme.secondary,
+                          color: ColorsUtility.lightCalenderColor,
                         )
                       : Expanded(
                           flex: 1,
@@ -248,7 +254,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             child: ElevatedButton(
                               onPressed: () => _applyCoupon(totalPrice),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: colorScheme.secondary,
+                                backgroundColor:
+                                    ColorsUtility.lightCalenderColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -260,7 +267,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               child: Text(
                                 S.of(context).apply,
                                 style: TextStyle(
-                                    color: theme.colorScheme.onSecondary),
+                                  color: ColorsUtility.onboardingColor,
+                                ),
                               ),
                             ),
                           ),
@@ -309,7 +317,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: _selectedPaymentMethod == value
-                ? colorScheme.secondary
+                ? ColorsUtility.lightFailedStatusColor
                 : theme.cardColor,
             width: _selectedPaymentMethod == value ? 1.5 : 1,
           ),
@@ -324,7 +332,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
               child: Icon(
                 icon,
-                color: colorScheme.secondary,
+                color: ColorsUtility.errorSnackbarColor,
                 size: 24,
               ),
             ),
@@ -337,15 +345,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     title,
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: colorScheme.secondary,
+                      color: theme.colorScheme.primary,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color:
-                          theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
+                      color: theme.textTheme.bodyMedium?.color,
                     ),
                   ),
                 ],
@@ -359,7 +366,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   _selectedPaymentMethod = value;
                 });
               },
-              activeColor: colorScheme.secondary,
+              activeColor: ColorsUtility.lightFailedStatusColor,
             ),
           ],
         ),

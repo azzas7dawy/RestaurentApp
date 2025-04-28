@@ -195,6 +195,16 @@ class S {
     );
   }
 
+  /// `Please enter your email`
+  String get emailValid {
+    return Intl.message(
+      'Please enter your email',
+      name: 'emailValid',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Full name`
   String get fullName {
     return Intl.message('Full name', name: 'fullName', desc: '', args: []);
@@ -2085,6 +2095,306 @@ class S {
     return Intl.message(
       'Our location in Minya, Egypt',
       name: 'restaurantLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `City`
+  String get city {
+    return Intl.message('City', name: 'city', desc: '', args: []);
+  }
+
+  /// `Logout successful!`
+  String get logoutSuccess {
+    return Intl.message(
+      'Logout successful!',
+      name: 'logoutSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logout failed`
+  String get logoutFailed {
+    return Intl.message(
+      'Logout failed',
+      name: 'logoutFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password reset email sent. Check your inbox.`
+  String get passwordSent {
+    return Intl.message(
+      'Password reset email sent. Check your inbox.',
+      name: 'passwordSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An unexpected error occurred. Please try again.`
+  String get unexpectedError {
+    return Intl.message(
+      'An unexpected error occurred. Please try again.',
+      name: 'unexpectedError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No account found with this email.`
+  String get noAcountWithThisEmail {
+    return Intl.message(
+      'No account found with this email.',
+      name: 'noAcountWithThisEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No user is currently signed in`
+  String get noUserSignedIn {
+    return Intl.message(
+      'No user is currently signed in',
+      name: 'noUserSignedIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An unexpected error occurred during re-authentication.`
+  String get reAuthError {
+    return Intl.message(
+      'An unexpected error occurred during re-authentication.',
+      name: 'reAuthError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account deleted successfully!`
+  String get accountDeleted {
+    return Intl.message(
+      'Account deleted successfully!',
+      name: 'accountDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error deleting account`
+  String get errorDelete {
+    return Intl.message(
+      'Error deleting account',
+      name: 'errorDelete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to change language`
+  String get changeLangFailed {
+    return Intl.message(
+      'Failed to change language',
+      name: 'changeLangFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error updating profile`
+  String get errUpdateProfile {
+    return Intl.message(
+      'Error updating profile',
+      name: 'errUpdateProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile updated successfully!`
+  String get profileUpdate {
+    return Intl.message(
+      'Profile updated successfully!',
+      name: 'profileUpdate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Email`
+  String get noEmail {
+    return Intl.message('No Email', name: 'noEmail', desc: '', args: []);
+  }
+
+  /// `Failed to upload profile image`
+  String get failedProfileImg {
+    return Intl.message(
+      'Failed to upload profile image',
+      name: 'failedProfileImg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get error {
+    return Intl.message('Error', name: 'error', desc: '', args: []);
+  }
+
+  /// `Profile completed successfully!`
+  String get profileCompleted {
+    return Intl.message(
+      'Profile completed successfully!',
+      name: 'profileCompleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in failed`
+  String get signInFailed {
+    return Intl.message(
+      'Sign in failed',
+      name: 'signInFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Google sign in successful!`
+  String get googleSignIn {
+    return Intl.message(
+      'Google sign in successful!',
+      name: 'googleSignIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Name`
+  String get noName {
+    return Intl.message('No Name', name: 'noName', desc: '', args: []);
+  }
+
+  /// `Login successful!`
+  String get loginSuccess {
+    return Intl.message(
+      'Login successful!',
+      name: 'loginSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No account found with this phone number`
+  String get noAccountWithThisNum {
+    return Intl.message(
+      'No account found with this phone number',
+      name: 'noAccountWithThisNum',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Admin login successful!`
+  String get adminLogin {
+    return Intl.message(
+      'Admin login successful!',
+      name: 'adminLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registration successful! Please complete your profile`
+  String get completeProfileSnackbar {
+    return Intl.message(
+      'Registration successful! Please complete your profile',
+      name: 'completeProfileSnackbar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone number already registered`
+  String get phoneNumAlreadyRegistered {
+    return Intl.message(
+      'Phone number already registered',
+      name: 'phoneNumAlreadyRegistered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Google sign-in cancelled.`
+  String get googleCancel {
+    return Intl.message(
+      'Google sign-in cancelled.',
+      name: 'googleCancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Google re-authentication failed`
+  String get googleReAuth {
+    return Intl.message(
+      'Google re-authentication failed',
+      name: 'googleReAuth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address Details`
+  String get addressDetails {
+    return Intl.message(
+      'Address Details',
+      name: 'addressDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your city`
+  String get pleaseEnterCity {
+    return Intl.message(
+      'Please enter your city',
+      name: 'pleaseEnterCity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address details are too short`
+  String get addressDetailsShort {
+    return Intl.message(
+      'Address details are too short',
+      name: 'addressDetailsShort',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter address details`
+  String get addressDetailsPlease {
+    return Intl.message(
+      'Please enter address details',
+      name: 'addressDetailsPlease',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment Error`
+  String get paymentError {
+    return Intl.message(
+      'Payment Error',
+      name: 'paymentError',
       desc: '',
       args: [],
     );

@@ -213,16 +213,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _showDeleteConfirmationDialog(BuildContext context) async {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: Text(S.of(context).confirmDeleteAccount),
-          content: Text(S.of(context).areYouSureDeleteAccount),
+          backgroundColor: isDarkTheme
+              ? ColorsUtility.elevatedBtnColor
+              : ColorsUtility.lightMainBackgroundColor,
+          title: Text(
+            S.of(context).confirmDeleteAccount,
+            style: TextStyle(
+              color: theme.colorScheme.primary,
+            ),
+          ),
+          content: Text(
+            S.of(context).areYouSureDeleteAccount,
+            style: TextStyle(
+              color: theme.colorScheme.primary,
+            ),
+          ),
           actions: <Widget>[
             TextButton(
-              child: Text(S.of(context).cancel),
+              child: Text(
+                S.of(context).cancel,
+                style: TextStyle(
+                  color: theme.colorScheme.primary,
+                ),
+              ),
               onPressed: () {
                 Navigator.of(dialogContext).pop();
               },
@@ -248,7 +268,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (user == null) {
       appSnackbar(
         context,
-        text: 'No user is currently signed in.',
+        text: S.of(context).noUserSignedIn,
         backgroundColor: Theme.of(context).colorScheme.error,
       );
       return;
@@ -263,7 +283,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         if (googleUser == null) {
           appSnackbar(
             context,
-            text: 'Google sign-in cancelled.',
+            text: S.of(context).googleCancel,
             backgroundColor: Theme.of(context).colorScheme.error,
           );
           return;
@@ -286,27 +306,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
       } catch (e) {
         appSnackbar(
           context,
-          text: 'Google re-authentication failed: ${e.toString()}',
+          text: '${S.of(context).googleReAuth}: ${e.toString()}',
           backgroundColor: Theme.of(context).colorScheme.error,
         );
       }
     } else {
       final TextEditingController passwordController = TextEditingController();
       final GlobalKey<FormState> reAuthFormKey = GlobalKey<FormState>();
+      final theme = Theme.of(context);
+      final isDark = theme.brightness == Brightness.dark;
 
       return showDialog<void>(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext dialogContext) {
           return AlertDialog(
-            title: Text(S.of(context).reAuthenticate),
+            backgroundColor: isDark
+                ? ColorsUtility.elevatedBtnColor
+                : ColorsUtility.lightMainBackgroundColor,
+            title: Text(
+              S.of(context).reAuthenticate,
+              style: TextStyle(
+                color: theme.colorScheme.primary,
+              ),
+            ),
             content: Form(
               key: reAuthFormKey,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(S.of(context).pleaseReAuthenticate),
+                    Text(
+                      S.of(context).pleaseReAuthenticate,
+                      style: TextStyle(
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: passwordController,
@@ -329,13 +364,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             actions: <Widget>[
               TextButton(
-                child: Text(S.of(context).cancel),
+                child: Text(
+                  S.of(context).cancel,
+                  style: TextStyle(
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
                 onPressed: () {
                   Navigator.of(dialogContext).pop();
                 },
               ),
               TextButton(
-                child: Text(S.of(context).confirm),
+                child: Text(
+                  S.of(context).confirm,
+                  style: TextStyle(
+                    color: ColorsUtility.errorSnackbarColor,
+                  ),
+                ),
                 onPressed: () async {
                   if (reAuthFormKey.currentState!.validate()) {
                     Navigator.of(dialogContext).pop();

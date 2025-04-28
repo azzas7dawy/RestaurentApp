@@ -35,12 +35,25 @@ class MessageLookup extends MessageLookupByLibrary {
       "Tasty Bites Restaurant offers you the most delicious and tasty food with high quality and excellent service. We care about your comfort and experience, and we serve every meal with love ❤️",
     ),
     "accepted": MessageLookupByLibrary.simpleMessage("Accepted"),
+    "accountDeleted": MessageLookupByLibrary.simpleMessage(
+      "Account deleted successfully!",
+    ),
     "addToOrdersBtn": MessageLookupByLibrary.simpleMessage("Add to Orders"),
     "addedToFavorites": MessageLookupByLibrary.simpleMessage(
       "Added to favorites",
     ),
     "addedToOrders": MessageLookupByLibrary.simpleMessage("added to orders"),
     "address": MessageLookupByLibrary.simpleMessage("Address"),
+    "addressDetails": MessageLookupByLibrary.simpleMessage("Address Details"),
+    "addressDetailsPlease": MessageLookupByLibrary.simpleMessage(
+      "Please enter address details",
+    ),
+    "addressDetailsShort": MessageLookupByLibrary.simpleMessage(
+      "Address details are too short",
+    ),
+    "adminLogin": MessageLookupByLibrary.simpleMessage(
+      "Admin login successful!",
+    ),
     "allSpecialPlates": MessageLookupByLibrary.simpleMessage(
       "All Special Plates",
     ),
@@ -89,7 +102,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "cashTxt": MessageLookupByLibrary.simpleMessage(
       "Pay when you receive your order",
     ),
+    "changeLangFailed": MessageLookupByLibrary.simpleMessage(
+      "Failed to change language",
+    ),
     "chicken": MessageLookupByLibrary.simpleMessage("Chicken Sandwich"),
+    "city": MessageLookupByLibrary.simpleMessage("City"),
     "cityOne": MessageLookupByLibrary.simpleMessage("Calicut"),
     "cityThree": MessageLookupByLibrary.simpleMessage("Thiruvananthapuram"),
     "cityTwo": MessageLookupByLibrary.simpleMessage("Kochi"),
@@ -98,6 +115,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "completeProfile": MessageLookupByLibrary.simpleMessage(
       "Complete your profile",
+    ),
+    "completeProfileSnackbar": MessageLookupByLibrary.simpleMessage(
+      "Registration successful! Please complete your profile",
     ),
     "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
     "confirmCancelReservationQuestion": MessageLookupByLibrary.simpleMessage(
@@ -143,6 +163,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
     "emailOrPhone": MessageLookupByLibrary.simpleMessage("Email/Phone number"),
+    "emailValid": MessageLookupByLibrary.simpleMessage(
+      "Please enter your email",
+    ),
     "enetrLetterNumberPassword": MessageLookupByLibrary.simpleMessage(
       "Password must include both letters and numbers",
     ),
@@ -164,7 +187,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterPhone": MessageLookupByLibrary.simpleMessage(
       "Please enter your phone number",
     ),
+    "errUpdateProfile": MessageLookupByLibrary.simpleMessage(
+      "Error updating profile",
+    ),
+    "error": MessageLookupByLibrary.simpleMessage("Error"),
+    "errorDelete": MessageLookupByLibrary.simpleMessage(
+      "Error deleting account",
+    ),
     "failed": MessageLookupByLibrary.simpleMessage("failed"),
+    "failedProfileImg": MessageLookupByLibrary.simpleMessage(
+      "Failed to upload profile image",
+    ),
     "favPayMethod": MessageLookupByLibrary.simpleMessage(
       "Select your preferred payment method",
     ),
@@ -183,6 +216,15 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "forgotPassword": MessageLookupByLibrary.simpleMessage("Forgot password?"),
     "fullName": MessageLookupByLibrary.simpleMessage("Full name"),
+    "googleCancel": MessageLookupByLibrary.simpleMessage(
+      "Google sign-in cancelled.",
+    ),
+    "googleReAuth": MessageLookupByLibrary.simpleMessage(
+      "Google re-authentication failed",
+    ),
+    "googleSignIn": MessageLookupByLibrary.simpleMessage(
+      "Google sign in successful!",
+    ),
     "hello": MessageLookupByLibrary.simpleMessage("Hello"),
     "hi": MessageLookupByLibrary.simpleMessage("Hi"),
     "home": MessageLookupByLibrary.simpleMessage("Home"),
@@ -198,7 +240,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "loginButton": MessageLookupByLibrary.simpleMessage("Login"),
     "loginGoogle": MessageLookupByLibrary.simpleMessage("Login with Google"),
+    "loginSuccess": MessageLookupByLibrary.simpleMessage("Login successful!"),
     "logout": MessageLookupByLibrary.simpleMessage("Logout"),
+    "logoutFailed": MessageLookupByLibrary.simpleMessage("Logout failed"),
+    "logoutSuccess": MessageLookupByLibrary.simpleMessage("Logout successful!"),
     "matchPassword": MessageLookupByLibrary.simpleMessage(
       "Passwords do not match",
     ),
@@ -210,9 +255,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "nextButton": MessageLookupByLibrary.simpleMessage("NEXT"),
     "no": MessageLookupByLibrary.simpleMessage("No"),
+    "noAccountWithThisNum": MessageLookupByLibrary.simpleMessage(
+      "No account found with this phone number",
+    ),
+    "noAcountWithThisEmail": MessageLookupByLibrary.simpleMessage(
+      "No account found with this email.",
+    ),
     "noCatAvailable": MessageLookupByLibrary.simpleMessage(
       "No categories available",
     ),
+    "noEmail": MessageLookupByLibrary.simpleMessage("No Email"),
     "noFav": MessageLookupByLibrary.simpleMessage("No favorites yet"),
     "noItemInCat": MessageLookupByLibrary.simpleMessage(
       "No items available in this category",
@@ -221,6 +273,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "noMealsFound": MessageLookupByLibrary.simpleMessage("No meals found"),
     "noMoreData": MessageLookupByLibrary.simpleMessage("No more plates"),
     "noMoreOrders": MessageLookupByLibrary.simpleMessage("No more orders"),
+    "noName": MessageLookupByLibrary.simpleMessage("No Name"),
     "noOrders": MessageLookupByLibrary.simpleMessage("No orders yet"),
     "noOrdersYet": MessageLookupByLibrary.simpleMessage("No orders yet"),
     "noReservation": MessageLookupByLibrary.simpleMessage(
@@ -230,6 +283,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "No special plates found",
     ),
     "noTitle": MessageLookupByLibrary.simpleMessage("No title"),
+    "noUserSignedIn": MessageLookupByLibrary.simpleMessage(
+      "No user is currently signed in",
+    ),
     "notAvailable": MessageLookupByLibrary.simpleMessage(
       "is not available for now",
     ),
@@ -275,11 +331,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "ourMenu": MessageLookupByLibrary.simpleMessage("Our Menu"),
     "outForDelivery": MessageLookupByLibrary.simpleMessage("Out for Delivery"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
+    "passwordSent": MessageLookupByLibrary.simpleMessage(
+      "Password reset email sent. Check your inbox.",
+    ),
     "payBtn": MessageLookupByLibrary.simpleMessage("Proceed to Payment"),
     "payMethod": MessageLookupByLibrary.simpleMessage(
       "Please choose a payment method",
     ),
     "payWithCard": MessageLookupByLibrary.simpleMessage("Pay with Card"),
+    "paymentError": MessageLookupByLibrary.simpleMessage("Payment Error"),
     "paymentFailed": MessageLookupByLibrary.simpleMessage("Payment failed"),
     "paymentMethod": MessageLookupByLibrary.simpleMessage("Payment Method"),
     "paymobSubtitle": MessageLookupByLibrary.simpleMessage(
@@ -295,8 +355,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "person": MessageLookupByLibrary.simpleMessage("Person"),
     "phone": MessageLookupByLibrary.simpleMessage("Phone"),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("Phone Number"),
+    "phoneNumAlreadyRegistered": MessageLookupByLibrary.simpleMessage(
+      "Phone number already registered",
+    ),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
     "pizza": MessageLookupByLibrary.simpleMessage("Pizza"),
+    "pleaseEnterCity": MessageLookupByLibrary.simpleMessage(
+      "Please enter your city",
+    ),
     "pleaseLogin": MessageLookupByLibrary.simpleMessage(
       "Please login to your account",
     ),
@@ -308,7 +374,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "processing": MessageLookupByLibrary.simpleMessage("Processing"),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+    "profileCompleted": MessageLookupByLibrary.simpleMessage(
+      "Profile completed successfully!",
+    ),
+    "profileUpdate": MessageLookupByLibrary.simpleMessage(
+      "Profile updated successfully!",
+    ),
     "rating": MessageLookupByLibrary.simpleMessage("Rating: "),
+    "reAuthError": MessageLookupByLibrary.simpleMessage(
+      "An unexpected error occurred during re-authentication.",
+    ),
     "reAuthenticate": MessageLookupByLibrary.simpleMessage("Re-authenticate"),
     "readyToOrder": MessageLookupByLibrary.simpleMessage("Ready to order?"),
     "rejected": MessageLookupByLibrary.simpleMessage("Rejected"),
@@ -372,6 +447,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "sigUp": MessageLookupByLibrary.simpleMessage("Sign up"),
     "sigUpGoogle": MessageLookupByLibrary.simpleMessage("Sign in with Google"),
+    "signInFailed": MessageLookupByLibrary.simpleMessage("Sign in failed"),
     "signupButton": MessageLookupByLibrary.simpleMessage("Sign up"),
     "skipButton": MessageLookupByLibrary.simpleMessage("Skip"),
     "sliderFour": MessageLookupByLibrary.simpleMessage(
@@ -433,6 +509,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "txtp1": MessageLookupByLibrary.simpleMessage("You will pay"),
     "txtp2": MessageLookupByLibrary.simpleMessage(
       "when you receive your order",
+    ),
+    "unexpectedError": MessageLookupByLibrary.simpleMessage(
+      "An unexpected error occurred. Please try again.",
     ),
     "unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
     "validCoupon": MessageLookupByLibrary.simpleMessage(

@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
+import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/adminDashbord/admin/admin_dashboard.dart';
 import 'package:restrant_app/screens/auth/complete_user_data.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
@@ -47,7 +48,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (phoneQuery.docs.isNotEmpty) {
         throw FirebaseAuthException(
           code: 'phone-already-in-use',
-          message: 'Phone number already registered',
+          message: S.of(context).phoneNumAlreadyRegistered,
         );
       }
 
@@ -84,7 +85,7 @@ class AuthCubit extends Cubit<AuthState> {
         if (context.mounted) {
           appSnackbar(
             context,
-            text: 'Registration successful! Please complete your profile',
+            text: S.of(context).completeProfileSnackbar,
             backgroundColor: ColorsUtility.successSnackbarColor,
           );
 
@@ -110,7 +111,7 @@ class AuthCubit extends Cubit<AuthState> {
         );
       }
     } catch (e) {
-      const errorMessage = 'An unexpected error occurred. Please try again.';
+      final errorMessage = S.of(context).unexpectedError;
       emit(SignupFailed(errorMessage));
       if (context.mounted) {
         appSnackbar(
@@ -144,7 +145,7 @@ class AuthCubit extends Cubit<AuthState> {
         if (context.mounted) {
           appSnackbar(
             context,
-            text: 'Admin login successful!',
+            text: S.of(context).adminLogin,
             backgroundColor: ColorsUtility.successSnackbarColor,
           );
           Navigator.pushReplacementNamed(context, DashboardHomeScreen.id);
@@ -159,7 +160,7 @@ class AuthCubit extends Cubit<AuthState> {
         if (userData == null) {
           throw FirebaseAuthException(
             code: 'user-not-found',
-            message: 'No account found with this phone number',
+            message: S.of(context).noAccountWithThisNum,
           );
         }
         emailToUse = userData['email'];
@@ -203,7 +204,7 @@ class AuthCubit extends Cubit<AuthState> {
         if (context.mounted) {
           appSnackbar(
             context,
-            text: 'Login successful!',
+            text: S.of(context).loginSuccess,
             backgroundColor: ColorsUtility.successSnackbarColor,
           );
           Navigator.pushReplacementNamed(context, CustomScreen.id);
@@ -220,7 +221,7 @@ class AuthCubit extends Cubit<AuthState> {
         );
       }
     } catch (e) {
-      const errorMessage = 'An unexpected error occurred. Please try again.';
+      final errorMessage = S.of(context).unexpectedError;
       emit(LoginFailed(errorMessage));
       if (context.mounted) {
         appSnackbar(
@@ -304,8 +305,8 @@ class AuthCubit extends Cubit<AuthState> {
 
         await _saveUserDataToFirestore(
           userId: user.uid,
-          name: user.displayName ?? 'No Name',
-          email: user.email ?? 'No Email',
+          name: user.displayName ?? S.of(context).noName,
+          email: user.email ?? S.of(context).noEmail,
           phone: phone,
           city: city,
           address: address,
@@ -318,7 +319,7 @@ class AuthCubit extends Cubit<AuthState> {
         if (context.mounted) {
           appSnackbar(
             context,
-            text: 'Google sign in successful!',
+            text: S.of(context).googleSignIn,
             backgroundColor: ColorsUtility.successSnackbarColor,
           );
           Navigator.pushReplacementNamed(context, CustomScreen.id);
@@ -330,7 +331,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (!context.mounted) return;
       appSnackbar(
         context,
-        text: 'Sign in failed',
+        text: S.of(context).signInFailed,
         backgroundColor: ColorsUtility.errorSnackbarColor,
       );
       log('google sign in failed: $e');
@@ -385,7 +386,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (context.mounted) {
         appSnackbar(
           context,
-          text: 'Profile completed successfully!',
+          text: S.of(context).profileCompleted,
           backgroundColor: ColorsUtility.successSnackbarColor,
         );
         Navigator.pushReplacementNamed(context, CustomScreen.id);
@@ -395,7 +396,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (context.mounted) {
         appSnackbar(
           context,
-          text: 'Error: ${e.toString()}',
+          text: '${S.of(context).error}: ${e.toString()}',
           backgroundColor: ColorsUtility.errorSnackbarColor,
         );
       }
@@ -415,7 +416,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       final user = _auth.currentUser;
       if (user == null) {
-        throw Exception('No user is currently signed in');
+        throw Exception(S.of(context).noUserSignedIn);
       }
 
       String imageUrl = PrefService.userData['userImage'] ?? '';
@@ -439,7 +440,7 @@ class AuthCubit extends Cubit<AuthState> {
           log('Download URL obtained: $imageUrl');
         } catch (e) {
           log('Error uploading image: $e');
-          throw Exception('Failed to upload profile image');
+          throw Exception(S.of(context).failedProfileImg);
         }
       }
 
@@ -448,7 +449,7 @@ class AuthCubit extends Cubit<AuthState> {
       await _saveUserDataToFirestore(
         userId: user.uid,
         name: name,
-        email: user.email ?? 'No Email',
+        email: user.email ?? S.of(context).noEmail,
         phone: phone,
         city: city,
         address: address,
@@ -463,7 +464,7 @@ class AuthCubit extends Cubit<AuthState> {
       await PrefService.saveUserData(
         userId: user.uid,
         name: name,
-        email: user.email ?? 'No Email',
+        email: user.email ?? S.of(context).noEmail,
         phone: phone,
         city: city,
         address: address,
@@ -477,7 +478,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (context.mounted) {
         appSnackbar(
           context,
-          text: 'Profile updated successfully!',
+          text: S.of(context).profileUpdate,
           backgroundColor: ColorsUtility.successSnackbarColor,
         );
       }
@@ -487,7 +488,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (context.mounted) {
         appSnackbar(
           context,
-          text: 'Error updating profile: ${e.toString()}',
+          text: '${S.of(context).errUpdateProfile}: ${e.toString()}',
           backgroundColor: ColorsUtility.errorSnackbarColor,
         );
       }
@@ -591,7 +592,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (context.mounted) {
         appSnackbar(
           context,
-          text: 'Logout successful!',
+          text: S.of(context).logoutSuccess,
           backgroundColor: ColorsUtility.successSnackbarColor,
         );
         Navigator.pushReplacementNamed(context, LoginScreen.id);
@@ -601,7 +602,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (context.mounted) {
         appSnackbar(
           context,
-          text: 'Logout failed',
+          text: S.of(context).logoutFailed,
           backgroundColor: ColorsUtility.errorSnackbarColor,
         );
       }
@@ -619,7 +620,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (context.mounted) {
         appSnackbar(
           context,
-          text: 'Password reset email sent. Check your inbox.',
+          text: S.of(context).passwordSent,
           backgroundColor: ColorsUtility.successSnackbarColor,
         );
         Navigator.pop(context);
@@ -635,7 +636,7 @@ class AuthCubit extends Cubit<AuthState> {
         );
       }
     } catch (e) {
-      const errorMessage = 'An unexpected error occurred. Please try again.';
+      final errorMessage = S.of(context).unexpectedError;
       emit(ResetPasswordFailed(errorMessage));
       if (context.mounted) {
         appSnackbar(
@@ -668,7 +669,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       final user = _auth.currentUser;
       if (user == null) {
-        throw Exception('No user is currently signed in');
+        throw Exception(S.of(context).noUserSignedIn);
       }
 
       final credential = EmailAuthProvider.credential(
@@ -682,7 +683,7 @@ class AuthCubit extends Cubit<AuthState> {
       final errorMessage = _getReAuthErrorMessage(e);
       throw Exception(errorMessage);
     } catch (e) {
-      throw Exception('An unexpected error occurred during re-authentication.');
+      throw Exception(S.of(context).reAuthError);
     }
   }
 
@@ -712,7 +713,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       final user = _auth.currentUser;
       if (user == null) {
-        throw Exception('No user is currently signed in');
+        throw Exception(S.of(context).noUserSignedIn);
       }
 
       await _firestore.collection('users2').doc(user.uid).delete();
@@ -724,7 +725,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (context.mounted) {
         appSnackbar(
           context,
-          text: 'Account deleted successfully!',
+          text: S.of(context).accountDeleted,
           backgroundColor: ColorsUtility.successSnackbarColor,
         );
       }
@@ -733,7 +734,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (context.mounted) {
         appSnackbar(
           context,
-          text: 'Error deleting account: ${e.toString()}',
+          text: '${S.of(context).errorDelete}: ${e.toString()}',
           backgroundColor: ColorsUtility.errorSnackbarColor,
         );
       }
@@ -761,7 +762,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (context.mounted) {
         appSnackbar(
           context,
-          text: 'Failed to change language',
+          text: S.of(context).changeLangFailed,
           backgroundColor: ColorsUtility.errorSnackbarColor,
         );
       }

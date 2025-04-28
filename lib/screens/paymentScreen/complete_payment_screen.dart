@@ -8,6 +8,7 @@ import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/paymentScreen/payment_screen.dart';
 import 'package:restrant_app/screens/trackOrdersScreen/track_orders_screen.dart';
 import 'package:restrant_app/cubit/OrdersLogic/cubit/orders_cubit.dart';
+import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
 import 'package:restrant_app/utils/icons_utility.dart';
@@ -30,7 +31,8 @@ class CompletePaymentScreen extends StatefulWidget {
 
 class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _detailsController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isProcessingPayment = false;
 
@@ -47,14 +49,15 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
   @override
   void dispose() {
     _phoneController.dispose();
-    _addressController.dispose();
+    _cityController.dispose();
+    _detailsController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    // final colorScheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -65,10 +68,12 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
               : S.of(context).payWithCard,
           style: TextStyle(
             fontSize: 20,
-            color: colorScheme.secondary,
+            color: theme.colorScheme.primary,
           ),
         ),
-        iconTheme: IconThemeData(color: colorScheme.secondary),
+        iconTheme: IconThemeData(
+          color: theme.colorScheme.primary,
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -79,7 +84,9 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             );
           },
         ),
+        backgroundColor: theme.scaffoldBackgroundColor,
       ),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -109,7 +116,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
               width: 100,
               height: 100,
               colorFilter: ColorFilter.mode(
-                colorScheme.primary,
+                ColorsUtility.lightCalenderColor,
                 BlendMode.srcIn,
               ),
             ),
@@ -119,7 +126,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: colorScheme.secondary,
+                color: theme.colorScheme.primary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -136,37 +143,15 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextFormField(
-                style: TextStyle(color: theme.textTheme.bodyMedium?.color),
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelText: S.of(context).phoneLabel,
-                  labelStyle: TextStyle(
-                    color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: theme.dividerColor,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: colorScheme.secondary,
-                    ),
-                  ),
+                  border: OutlineInputBorder(),
                   prefixIcon: Icon(
                     Icons.phone,
-                    color: colorScheme.secondary,
+                    color: ColorsUtility.errorSnackbarColor,
                   ),
-                  filled: true,
-                  fillColor: theme.cardColor,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -183,45 +168,45 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextFormField(
-                style: TextStyle(color: theme.textTheme.bodyMedium?.color),
-                controller: _addressController,
-                keyboardType: TextInputType.streetAddress,
-                maxLines: 3,
+                controller: _cityController,
+                keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  labelText: S.of(context).deliveryAddress,
-                  labelStyle: TextStyle(
-                    color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: theme.dividerColor,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: colorScheme.secondary,
-                    ),
-                  ),
+                  labelText: S.of(context).city,
+                  border: OutlineInputBorder(),
                   prefixIcon: Icon(
-                    Icons.location_on,
-                    color: colorScheme.secondary,
+                    Icons.location_city,
+                    color: ColorsUtility.errorSnackbarColor,
                   ),
-                  filled: true,
-                  fillColor: theme.cardColor,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return S.of(context).enterAddress;
+                    return 'Please enter your city';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: TextFormField(
+                controller: _detailsController,
+                keyboardType: TextInputType.streetAddress,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  labelText: S.of(context).addressDetails,
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(
+                    Icons.location_on,
+                    color: ColorsUtility.errorSnackbarColor,
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return S.of(context).pleaseEnterCity;
                   }
                   if (value.length < 10) {
-                    return S.of(context).shortAddress;
+                    return S.of(context).addressDetailsShort;
                   }
                   return null;
                 },
@@ -232,11 +217,14 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   final phoneNumber = _phoneController.text;
-                  final address = _addressController.text;
+                  final shippingInfo = {
+                    'city': _cityController.text,
+                    'details': _detailsController.text,
+                  };
 
                   final ordersCubit = context.read<OrdersCubit>();
                   ordersCubit.setDeliveryInfo(
-                      phone: phoneNumber, address: address);
+                      phone: phoneNumber, shipping: shippingInfo);
 
                   await ordersCubit.submitOrder(
                     paymentMethod: 'cash',
@@ -277,7 +265,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
               width: 100,
               height: 100,
               colorFilter: ColorFilter.mode(
-                colorScheme.primary,
+                ColorsUtility.lightCalenderColor,
                 BlendMode.srcIn,
               ),
             ),
@@ -285,10 +273,9 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             Text(
               '${S.of(context).totalAmount} ${widget.totalAmount.toStringAsFixed(2)} ${S.of(context).egp}',
               style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: colorScheme.secondary,
-              ),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.primary),
             ),
             const SizedBox(height: 20),
             Text(
@@ -303,37 +290,15 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextFormField(
-                style: TextStyle(color: theme.textTheme.bodyMedium?.color),
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelText: S.of(context).phoneLabel,
-                  labelStyle: TextStyle(
-                    color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: theme.dividerColor,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: colorScheme.secondary,
-                    ),
-                  ),
+                  border: OutlineInputBorder(),
                   prefixIcon: Icon(
                     Icons.phone,
-                    color: colorScheme.secondary,
+                    color: ColorsUtility.errorSnackbarColor,
                   ),
-                  filled: true,
-                  fillColor: theme.cardColor,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -350,45 +315,45 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextFormField(
-                style: TextStyle(color: theme.textTheme.bodyMedium?.color),
-                controller: _addressController,
-                keyboardType: TextInputType.streetAddress,
-                maxLines: 3,
+                controller: _cityController,
+                keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  labelText: S.of(context).deliveryAddress,
-                  labelStyle: TextStyle(
-                    color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: theme.dividerColor,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: colorScheme.secondary,
-                    ),
-                  ),
+                  labelText: S.of(context).city,
+                  border: OutlineInputBorder(),
                   prefixIcon: Icon(
-                    Icons.location_on,
-                    color: colorScheme.secondary,
+                    Icons.location_city,
+                    color: ColorsUtility.errorSnackbarColor,
                   ),
-                  filled: true,
-                  fillColor: theme.cardColor,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return S.of(context).enterAddress;
+                    return S.of(context).pleaseEnterCity;
+                  }
+                  return null;
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: TextFormField(
+                controller: _detailsController,
+                keyboardType: TextInputType.streetAddress,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  labelText: S.of(context).addressDetails,
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(
+                    Icons.location_on,
+                    color: ColorsUtility.errorSnackbarColor,
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return S.of(context).addressDetailsPlease;
                   }
                   if (value.length < 10) {
-                    return S.of(context).shortAddress;
+                    return S.of(context).addressDetailsShort;
                   }
                   return null;
                 },
@@ -452,7 +417,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
         lastName: lastName,
         email: FirebaseAuth.instance.currentUser?.email ?? '',
         phoneNumber: _phoneController.text,
-        street: _addressController.text,
+        street: '${_cityController.text}, ${_detailsController.text}',
       );
 
       if (!mounted) return;
@@ -468,10 +433,13 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
 
       if (paymentResponse != null && paymentResponse.success) {
         final phoneNumber = _phoneController.text;
-        final address = _addressController.text;
+        final shippingInfo = {
+          'city': _cityController.text,
+          'details': _detailsController.text,
+        };
 
         final ordersCubit = context.read<OrdersCubit>();
-        ordersCubit.setDeliveryInfo(phone: phoneNumber, address: address);
+        ordersCubit.setDeliveryInfo(phone: phoneNumber, shipping: shippingInfo);
         await ordersCubit.submitOrder(
           discountAmount: widget.discountAmount,
           isPaid: true,
@@ -493,7 +461,7 @@ class _CompletePaymentScreenState extends State<CompletePaymentScreen> {
       if (!mounted) return;
       appSnackbar(
         context,
-        text: 'Payment Error: ${e.toString()}',
+        text: '${S.of(context).paymentError}: ${e.toString()}',
         backgroundColor: Theme.of(context).colorScheme.error,
       );
     } finally {
