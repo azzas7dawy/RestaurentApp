@@ -5,12 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:restrant_app/cubit/AuthLogic/cubit/auth_cubit.dart';
 import 'package:restrant_app/generated/l10n.dart';
+import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/services/pref_service.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
-// import 'package:restrant_app/widgets/app_elevated_btn_widget.dart';
 import 'package:restrant_app/widgets/app_snackbar.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -243,82 +244,130 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _showReAuthenticationDialog(BuildContext context) async {
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final GlobalKey<FormState> reAuthFormKey = GlobalKey<FormState>();
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      appSnackbar(
+        context,
+        text: 'No user is currently signed in.',
+        backgroundColor: Theme.of(context).colorScheme.error,
+      );
+      return;
+    }
 
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: Text(S.of(context).reAuthenticate),
-          content: Form(
-            key: reAuthFormKey,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(S.of(context).pleaseReAuthenticate),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      labelText: S.of(context).email,
-                      prefixIcon: Icon(Icons.email),
-                      border: OutlineInputBorder(),
+    final bool isGoogleUser =
+        user.providerData.any((info) => info.providerId == 'google.com');
+
+    if (isGoogleUser) {
+      try {
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+        if (googleUser == null) {
+          appSnackbar(
+            context,
+            text: 'Google sign-in cancelled.',
+            backgroundColor: Theme.of(context).colorScheme.error,
+          );
+          return;
+        }
+
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        await user.reauthenticateWithCredential(credential);
+
+        await context.read<AuthCubit>().deleteAccount(
+              context,
+              email: user.email ?? '',
+              password: '',
+            );
+      } catch (e) {
+        appSnackbar(
+          context,
+          text: 'Google re-authentication failed: ${e.toString()}',
+          backgroundColor: Theme.of(context).colorScheme.error,
+        );
+      }
+    } else {
+      final TextEditingController passwordController = TextEditingController();
+      final GlobalKey<FormState> reAuthFormKey = GlobalKey<FormState>();
+
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext dialogContext) {
+          return AlertDialog(
+            title: Text(S.of(context).reAuthenticate),
+            content: Form(
+              key: reAuthFormKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(S.of(context).pleaseReAuthenticate),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        labelText: S.of(context).password,
+                        prefixIcon: Icon(Icons.lock),
+                        border: OutlineInputBorder(),
+                      ),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return S.of(context).enterPassword;
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return S.of(context).enterEmail;
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                      labelText: S.of(context).password,
-                      prefixIcon: Icon(Icons.lock),
-                      border: OutlineInputBorder(),
-                    ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return S.of(context).enterPassword;
-                      }
-                      return null;
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(S.of(context).cancel),
-              onPressed: () {
-                Navigator.of(dialogContext).pop();
-              },
-            ),
-            TextButton(
-              child: Text(S.of(context).confirm),
-              onPressed: () async {
-                if (reAuthFormKey.currentState!.validate()) {
+            actions: <Widget>[
+              TextButton(
+                child: Text(S.of(context).cancel),
+                onPressed: () {
                   Navigator.of(dialogContext).pop();
-                  await context.read<AuthCubit>().deleteAccount(
-                        context,
-                        email: emailController.text.trim(),
-                        password: passwordController.text.trim(),
-                      );
-                }
-              },
-            ),
-          ],
-        );
-      },
-    );
+                },
+              ),
+              TextButton(
+                child: Text(S.of(context).confirm),
+                onPressed: () async {
+                  if (reAuthFormKey.currentState!.validate()) {
+                    Navigator.of(dialogContext).pop();
+                    try {
+                      await context.read<AuthCubit>().reAuthenticateUser(
+                            email: user.email!,
+                            password: passwordController.text.trim(),
+                            context: context,
+                          );
+
+                      await context.read<AuthCubit>().deleteAccount(
+                            context,
+                            email: user.email!,
+                            password: passwordController.text.trim(),
+                          );
+                    } catch (e) {
+                      if (mounted) {
+                        appSnackbar(
+                          context,
+                          text: 'Error: ${e.toString()}',
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                        );
+                      }
+                    }
+                  }
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -363,6 +412,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       context,
                       text: state.error,
                       backgroundColor: colorScheme.error,
+                    );
+                  }
+                } else if (state is DeleteAccountSuccess) {
+                  if (mounted) {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      LoginScreen.id,
+                      (Route<dynamic> route) => false,
                     );
                   }
                 }
@@ -678,32 +735,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 child: Text(S.of(context).saveButton),
                               ),
-
-                              // AppElevatedBtn(
-
-                              //   onPressed: () {
-                              //     if (_formKey.currentState != null &&
-                              //         _formKey.currentState!.validate()) {
-                              //       context.read<AuthCubit>().updateUserProfile(
-                              //             name: _nameController.text.trim(),
-                              //             phone: _phoneController.text.trim(),
-                              //             city: _cityController.text.trim(),
-                              //             address:
-                              //                 _addressController.text.trim(),
-                              //             imageFile: _imageFile,
-                              //             webImageBytes: _webImageBytes,
-                              //             context: context,
-                              //           );
-                              //     } else {
-                              //       appSnackbar(
-                              //         context,
-                              //         text: S.of(context).fillAllFields,
-                              //         backgroundColor: colorScheme.error,
-                              //       );
-                              //     }
-                              //   },
-                              //   text: S.of(context).saveButton,
-                              // ),
                             ),
                             const SizedBox(height: 16),
                           ],

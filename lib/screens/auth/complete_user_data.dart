@@ -36,13 +36,20 @@ class _CompleteUserDataScreenState extends State<CompleteUserDataScreen> {
   @override
   void initState() {
     super.initState();
+    _loadInitialData();
+  }
+
+  Future<void> _loadInitialData() async {
     if (widget.isGoogleSignIn && widget.user.displayName != null) {
       _nameController.text = widget.user.displayName!;
     } else if (!widget.isGoogleSignIn) {
+      await PrefService.init();
       final userData = PrefService.userData;
       _nameController.text =
           userData['userName'] ?? widget.user.displayName ?? '';
       _phoneController.text = userData['userPhone'] ?? '';
+      _cityController.text = userData['userCity'] ?? '';
+      _addressController.text = userData['userAddress'] ?? '';
     }
   }
 
@@ -79,6 +86,7 @@ class _CompleteUserDataScreenState extends State<CompleteUserDataScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           centerTitle: true,
           title: Text(
             S.of(context).completeProfile,
@@ -87,32 +95,38 @@ class _CompleteUserDataScreenState extends State<CompleteUserDataScreen> {
               fontSize: theme.textTheme.titleLarge?.fontSize,
             ),
           ),
-          iconTheme: IconThemeData(
-            color: appBarTextColor,
-          ),
           backgroundColor: theme.scaffoldBackgroundColor,
           actions: [
-            if (!widget.isGoogleSignIn)
-              TextButton(
-                onPressed: () {
-                  context.read<AuthCubit>().completeUserProfile(
-                        user: widget.user,
-                        name: widget.user.displayName ?? '',
-                        phone: '',
-                        city: '',
-                        address: '',
-                        isGoogleSignIn: widget.isGoogleSignIn,
-                        context: context,
-                      );
-                },
-                child: Text(
-                  S.of(context).skipButton,
-                  style: TextStyle(
-                    color: appBarTextColor,
-                    fontSize: theme.textTheme.titleSmall?.fontSize,
-                  ),
+            TextButton(
+              onPressed: () {
+                final name = widget.isGoogleSignIn
+                    ? (widget.user.displayName ?? '')
+                    : (widget.user.displayName ??
+                        PrefService.userData['userName'] ??
+                        '');
+
+                final phone = widget.isGoogleSignIn
+                    ? ''
+                    : PrefService.userData['userPhone'] ?? '';
+
+                context.read<AuthCubit>().completeUserProfile(
+                      user: widget.user,
+                      name: name,
+                      phone: phone,
+                      city: '',
+                      address: '',
+                      isGoogleSignIn: widget.isGoogleSignIn,
+                      context: context,
+                    );
+              },
+              child: Text(
+                S.of(context).skipButton,
+                style: TextStyle(
+                  color: appBarTextColor,
+                  fontSize: theme.textTheme.titleSmall?.fontSize,
                 ),
               ),
+            ),
           ],
         ),
         body: SafeArea(

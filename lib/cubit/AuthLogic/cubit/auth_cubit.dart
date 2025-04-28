@@ -367,6 +367,7 @@ class AuthCubit extends Cubit<AuthState> {
         imageUrl: imageUrl,
       );
 
+      await PrefService.init();
       await PrefService.saveUserData(
         userId: user.uid,
         name: name,
@@ -375,6 +376,7 @@ class AuthCubit extends Cubit<AuthState> {
         city: city,
         address: address,
       );
+
       if (imageUrl.isNotEmpty) {
         await PrefService.saveUserImage(imageUrl);
       }
@@ -675,6 +677,7 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       await user.reauthenticateWithCredential(credential);
+      return;
     } on FirebaseAuthException catch (e) {
       final errorMessage = _getReAuthErrorMessage(e);
       throw Exception(errorMessage);
@@ -712,30 +715,17 @@ class AuthCubit extends Cubit<AuthState> {
         throw Exception('No user is currently signed in');
       }
 
-      if (email != null && password != null) {
-        await reAuthenticateUser(
-          email: email,
-          password: password,
-          context: context,
-        );
-      } else {
-        throw Exception('Re-authentication credentials are required');
-      }
-
       await _firestore.collection('users2').doc(user.uid).delete();
       await user.delete();
       await PrefService.clearUserData();
+
       emit(DeleteAccountSuccess());
+
       if (context.mounted) {
         appSnackbar(
           context,
           text: 'Account deleted successfully!',
           backgroundColor: ColorsUtility.successSnackbarColor,
-        );
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          LoginScreen.id,
-          (Route<dynamic> route) => false,
         );
       }
     } catch (e) {
