@@ -6,7 +6,7 @@ import 'package:restrant_app/generated/l10n.dart';
 import 'package:restrant_app/screens/auth/login_screen.dart';
 import 'package:restrant_app/screens/customScreen/custom_screen.dart';
 import 'package:restrant_app/screens/onboarding/onboarding_screen.dart';
-import 'package:restrant_app/utils/colors_utility.dart';
+// import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:restrant_app/utils/icons_utility.dart';
 
 class SplashPage extends StatelessWidget {
@@ -57,8 +57,8 @@ class SplashPage extends StatelessWidget {
                               logoAsset,
                               width: 50,
                               height: 50,
-                              colorFilter: const ColorFilter.mode(
-                                ColorsUtility.progressIndictorColor,
+                              colorFilter: ColorFilter.mode(
+                                theme.colorScheme.primary,
                                 BlendMode.srcIn,
                               ),
                             ),
@@ -67,7 +67,7 @@ class SplashPage extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
-                                color: ColorsUtility.progressIndictorColor,
+                                color: theme.colorScheme.primary,
                               ),
                             ),
                           ],
@@ -83,9 +83,10 @@ class SplashPage extends StatelessWidget {
                         state is SplashCubitNavigateToHome ||
                         state is SplashCubitNavigateToLogin ||
                         state is SplashCubitNavigateToOnboarding) {
-                      return const CircularProgressIndicator(
+                      return CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation<Color>(
-                            ColorsUtility.progressIndictorColor),
+                          theme.colorScheme.primary,
+                        ),
                       );
                     }
                     return const SizedBox.shrink();
