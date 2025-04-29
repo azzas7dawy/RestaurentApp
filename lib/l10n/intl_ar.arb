@@ -259,7 +259,7 @@
     "confirmDeleteReservation": "هل أنت متأكد من حذف هذا الحجز؟",
     "delete": "حذف",
     "tableNumber": "طاولة رقم",
-    "noMoreData": "لا مزيد من الأطباق للتحميل",
+    "noMoreData": "لا يوجد مزيد من الأطباق للتحميل",
     "loadMore" : "تحميل المزيد",
     "noMoreOrders": "لا توجد طلبات أخرى",
     "confirmDeleteAccount": "حذف الحساب",
@@ -313,6 +313,12 @@
     "pleaseEnterCity": "من فضلك أدخل مدينتك ",
     "addressDetailsShort": "تفاصيل العنوان قصيرة جدًا.",
     "addressDetailsPlease": "من فضلك أدخل تفاصيل العنوان",
-    "paymentError": "خطأ في الدفع"
+    "paymentError": "خطأ في الدفع",
+    "typeYourMsg" : "أدخل رسالتك...",
+    "bot": "بوت",
+    "noImgSelected" : "لم يتم اختيار صورة",
+    "failedToPickImg" : "فشل في اختيار الصورة",
+    "noFileSelected": "لم يتم اختيار ملف",
+    "failedToPickFile": "فشل في اختيار الملف"
     
 }

@@ -71,6 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "available": MessageLookupByLibrary.simpleMessage("Available"),
     "beef": MessageLookupByLibrary.simpleMessage("Beef Sandwich"),
+    "bot": MessageLookupByLibrary.simpleMessage("AI Chat"),
     "cAddressOne": MessageLookupByLibrary.simpleMessage(
       "Kannur road, Near CH over bridge",
     ),
@@ -198,6 +199,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "failedProfileImg": MessageLookupByLibrary.simpleMessage(
       "Failed to upload profile image",
     ),
+    "failedToPickFile": MessageLookupByLibrary.simpleMessage(
+      "Failed to pick file",
+    ),
+    "failedToPickImg": MessageLookupByLibrary.simpleMessage(
+      "Failed to pick image",
+    ),
     "favPayMethod": MessageLookupByLibrary.simpleMessage(
       "Select your preferred payment method",
     ),
@@ -266,6 +273,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noEmail": MessageLookupByLibrary.simpleMessage("No Email"),
     "noFav": MessageLookupByLibrary.simpleMessage("No favorites yet"),
+    "noFileSelected": MessageLookupByLibrary.simpleMessage("No file selected."),
+    "noImgSelected": MessageLookupByLibrary.simpleMessage("No image selected."),
     "noItemInCat": MessageLookupByLibrary.simpleMessage(
       "No items available in this category",
     ),
@@ -510,6 +519,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "txtp2": MessageLookupByLibrary.simpleMessage(
       "when you receive your order",
     ),
+    "typeYourMsg": MessageLookupByLibrary.simpleMessage("Type your message..."),
     "unexpectedError": MessageLookupByLibrary.simpleMessage(
       "An unexpected error occurred. Please try again.",
     ),

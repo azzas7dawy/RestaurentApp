@@ -2399,6 +2399,61 @@ class S {
       args: [],
     );
   }
+
+  /// `Type your message...`
+  String get typeYourMsg {
+    return Intl.message(
+      'Type your message...',
+      name: 'typeYourMsg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `AI Chat`
+  String get bot {
+    return Intl.message('AI Chat', name: 'bot', desc: '', args: []);
+  }
+
+  /// `No image selected.`
+  String get noImgSelected {
+    return Intl.message(
+      'No image selected.',
+      name: 'noImgSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to pick image`
+  String get failedToPickImg {
+    return Intl.message(
+      'Failed to pick image',
+      name: 'failedToPickImg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No file selected.`
+  String get noFileSelected {
+    return Intl.message(
+      'No file selected.',
+      name: 'noFileSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to pick file`
+  String get failedToPickFile {
+    return Intl.message(
+      'Failed to pick file',
+      name: 'failedToPickFile',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

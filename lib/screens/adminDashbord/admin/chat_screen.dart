@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:restrant_app/generated/l10n.dart';
 
 class ChatScreenn extends StatefulWidget {
-  final String myId;    
-  final String otherId;  
+  final String myId;
+  final String otherId;
 
-  ChatScreenn({required this.myId, required this.otherId, required String otherUserEmail});
+  const ChatScreenn(
+      {super.key,
+      required this.myId,
+      required this.otherId,
+      required String otherUserEmail});
 
   @override
   _ChatScreennState createState() => _ChatScreennState();
@@ -36,7 +41,8 @@ class _ChatScreennState extends State<ChatScreenn> {
             'timestamp': value['timestamp'],
           });
         });
-        temp.sort((a, b) => a['timestamp'].compareTo(b['timestamp'])); // ترتيب زمني
+        temp.sort(
+            (a, b) => a['timestamp'].compareTo(b['timestamp'])); // ترتيب زمني
         setState(() {
           messages = temp;
         });
@@ -50,7 +56,9 @@ class _ChatScreennState extends State<ChatScreenn> {
       Map data = snapshot.value as Map;
       data.forEach((key, value) {
         if (value['read'] == false && value['sender'] != widget.otherId) {
-          dbRef.child('chat admin/${widget.otherId}/$key').update({'read': true});
+          dbRef
+              .child('chat admin/${widget.otherId}/$key')
+              .update({'read': true});
         }
       });
     }
@@ -71,8 +79,20 @@ class _ChatScreennState extends State<ChatScreenn> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text('Chat with ${widget.otherId}')),
+      backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: AppBar(
+        title: Text(
+          'Chat with ${widget.otherId}',
+          style: TextStyle(color: theme.colorScheme.primary),
+        ),
+        iconTheme: IconThemeData(
+          color: theme.colorScheme.primary,
+        ),
+        centerTitle: true,
+        backgroundColor: theme.scaffoldBackgroundColor,
+      ),
       body: Column(
         children: [
           Expanded(
@@ -83,12 +103,15 @@ class _ChatScreennState extends State<ChatScreenn> {
                 final msg = messages[messages.length - 1 - index];
                 final isMe = msg['sender'] == widget.myId;
                 return Align(
-                  alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+                  alignment:
+                      isMe ? Alignment.centerRight : Alignment.centerLeft,
                   child: Container(
                     padding: EdgeInsets.all(12),
                     margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                     decoration: BoxDecoration(
-                      color: isMe ? const Color.fromARGB(255, 201, 96, 73) : const Color.fromARGB(255, 12, 151, 169),
+                      color: isMe
+                          ? theme.colorScheme.primary.withOpacity(0.2)
+                          : theme.colorScheme.secondary.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(msg['message'], style: TextStyle(fontSize: 16)),
@@ -97,23 +120,25 @@ class _ChatScreennState extends State<ChatScreenn> {
               },
             ),
           ),
-          Divider(height: 1),
+          // Divider(height: 1),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 8),
-            color: const Color.fromARGB(255, 212, 100, 100),
             child: Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: messageController,
                     decoration: InputDecoration(
-                      hintText: 'Write a message...',
+                      hintText: S.of(context).typeYourMsg,
                       border: InputBorder.none,
                     ),
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.send, color: Colors.blue),
+                  icon: Icon(
+                    Icons.send,
+                    color: theme.colorScheme.primary,
+                  ),
                   onPressed: sendMessage,
                 ),
               ],

@@ -64,8 +64,18 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text('Chat with ${widget.otherUserEmail}')),
+      backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: AppBar(
+        title: Text(
+          'Chat with ${widget.otherUserEmail}',
+          style: TextStyle(color: theme.colorScheme.primary),
+        ),
+        iconTheme: IconThemeData(
+          color: theme.colorScheme.primary,
+        ),
+      ),
       body: Column(
         children: [
           Expanded(
@@ -141,7 +151,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 IconButton(
                   onPressed: _sendMessage,
-                  icon: const Icon(Icons.send),
+                  icon: Icon(
+                    Icons.send,
+                    color: theme.colorScheme.primary,
+                  ),
                 )
               ],
             ),

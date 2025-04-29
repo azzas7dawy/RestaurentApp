@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restrant_app/screens/aiChat/chat_with_ai.dart';
+import 'package:restrant_app/screens/aiChat/chat_screen.dart' show ChatScreen;
 import 'package:restrant_app/screens/customScreen/widgets/app_bottom_nav_bar.dart';
 import 'package:restrant_app/screens/customScreen/widgets/app_drawer.dart';
 import 'package:restrant_app/screens/customScreen/widgets/custom_app_bar.dart';
@@ -53,7 +53,7 @@ class _HomePageState extends State<CustomScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ChatWidget(),
+                    builder: (context) => ChatScreen(),
                   ),
                 );
               },
@@ -62,6 +62,22 @@ class _HomePageState extends State<CustomScreen> {
               ),
             )
           : null,
+      // floatingActionButton: _currentIndex == 0
+      //     ? FloatingActionButton(
+      //         backgroundColor: ColorsUtility.errorSnackbarColor,
+      //         onPressed: () {
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //               builder: (context) => ChatWidget(),
+      //             ),
+      //           );
+      //         },
+      //         child: const Icon(
+      //           Icons.chat_bubble_outline_rounded,
+      //         ),
+      //       )
+      //     : null,
     );
   }
 }

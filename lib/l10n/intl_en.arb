@@ -312,5 +312,11 @@
     "pleaseEnterCity": "Please enter your city",
     "addressDetailsShort": "Address details are too short",
     "addressDetailsPlease": "Please enter address details",
-    "paymentError": "Payment Error"
+    "paymentError": "Payment Error",
+    "typeYourMsg" : "Type your message...",
+    "bot": "AI Chat",
+    "noImgSelected" : "No image selected.",
+    "failedToPickImg" : "Failed to pick image",
+    "noFileSelected": "No file selected.",
+    "failedToPickFile": "Failed to pick file"
 }

@@ -71,6 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "available": MessageLookupByLibrary.simpleMessage("متاح"),
     "beef": MessageLookupByLibrary.simpleMessage("لحم بقري ساندويتش"),
+    "bot": MessageLookupByLibrary.simpleMessage("بوت"),
     "cAddressOne": MessageLookupByLibrary.simpleMessage(
       " باراجون -كنار - باراجون",
     ),
@@ -175,6 +176,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "failedProfileImg": MessageLookupByLibrary.simpleMessage(
       "فشل في رفع صورة الملف الشخصي.",
     ),
+    "failedToPickFile": MessageLookupByLibrary.simpleMessage(
+      "فشل في اختيار الملف",
+    ),
+    "failedToPickImg": MessageLookupByLibrary.simpleMessage(
+      "فشل في اختيار الصورة",
+    ),
     "favPayMethod": MessageLookupByLibrary.simpleMessage(
       "اختر طريقة الدفع المفضلة لديك",
     ),
@@ -243,6 +250,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noEmail": MessageLookupByLibrary.simpleMessage("لا يوجد بريد إلكتروني"),
     "noFav": MessageLookupByLibrary.simpleMessage("لا توجد مفضلات"),
+    "noFileSelected": MessageLookupByLibrary.simpleMessage("لم يتم اختيار ملف"),
+    "noImgSelected": MessageLookupByLibrary.simpleMessage("لم يتم اختيار صورة"),
     "noItemInCat": MessageLookupByLibrary.simpleMessage(
       "لا توجد وجبات متاحة في هذه الفئة",
     ),
@@ -251,7 +260,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noMealsFound": MessageLookupByLibrary.simpleMessage("لا توجد وجبات"),
     "noMoreData": MessageLookupByLibrary.simpleMessage(
-      "لا مزيد من الأطباق للتحميل",
+      "لا يوجد مزيد من الأطباق للتحميل",
     ),
     "noMoreOrders": MessageLookupByLibrary.simpleMessage("لا توجد طلبات أخرى"),
     "noName": MessageLookupByLibrary.simpleMessage("لا يوجد إسم"),
@@ -474,6 +483,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "txtp1": MessageLookupByLibrary.simpleMessage("ستدفع"),
     "txtp2": MessageLookupByLibrary.simpleMessage("عند الاستلام"),
+    "typeYourMsg": MessageLookupByLibrary.simpleMessage("أدخل رسالتك..."),
     "unexpectedError": MessageLookupByLibrary.simpleMessage(
       "حدث خطأ غير متوقع. من فضلك حاول مرة أخرى.",
     ),
