@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:restrant_app/screens/adminDashbord/admin/chat_screen.dart';
-
+import 'package:flutter/material.dart';
+import 'package:restrant_app/screens/adminDashbord/chat.dart';
+import 'chat_screen.dart';  // تأكد من استيراد صفحة الشات هنا
 
 class ChatsListScreen extends StatefulWidget {
   @override
@@ -9,66 +9,68 @@ class ChatsListScreen extends StatefulWidget {
 }
 
 class _ChatsListScreenState extends State<ChatsListScreen> {
-  final DatabaseReference dbRef = FirebaseDatabase.instance.ref().child('chat admin');
-  List<Map<String, dynamic>> users = [];
-
-  @override
-  void initState() {
-    super.initState();
-    fetchChats();
-  }
-
-  void fetchChats() {
-    dbRef.onValue.listen((event) {
-      final data = event.snapshot.value as Map?;
-      if (data != null) {
-        List<Map<String, dynamic>> temp = [];
-        data.forEach((uid, messages) {
-          final msgs = Map<String, dynamic>.from(messages);
-          final hasUnread = msgs.values.any((msg) =>
-            msg['read'] == false && msg['sender'] != 'adminUID'); 
-
-          final lastMsg = msgs.values.last['message'] ?? '';
-
-          temp.add({
-            'uid': uid,
-            'hasUnread': hasUnread,
-            'lastMessage': lastMsg,
-          });
-        });
-
-        setState(() {
-          users = temp;
-        });
-      }
-    });
-  }
+  final DatabaseReference _chatsRef =
+      FirebaseDatabase.instance.ref().child('Chats');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('All Chats')),
-      body: ListView.builder(
-        itemCount: users.length,
-        itemBuilder: (context, index) {
-          final user = users[index];
-          return ListTile(
-            title: Text(user['uid']),
-            subtitle: Text(user['lastMessage']),
-            trailing: user['hasUnread']
-              ? Container(
-                  padding: EdgeInsets.all(6),
-                  decoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-                  child: Text('!', style: TextStyle(color: Colors.white)),
-                )
-              : null,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ChatScreenn(myId: 'adminUID', otherId:user['uid'], otherUserEmail: user['uid'],)),
-              );
-            },
-          );
+      appBar: AppBar(title: Text('Chats')),
+      body: StreamBuilder(
+        stream: _chatsRef.onValue,
+        builder: (context, snapshot) {
+          if (snapshot.hasData &&
+              snapshot.data!.snapshot.value != null &&
+              snapshot.data!.snapshot.value is Map) {
+            final chatsMap =
+                Map<String, dynamic>.from(snapshot.data!.snapshot.value as Map);
+            final chats = chatsMap.entries.map((entry) {
+              final userId = entry.key;
+              final messagesMap = entry.value['messages'];
+              if (messagesMap != null && messagesMap is Map) {
+                final messages = Map<String, dynamic>.from(messagesMap);
+                final lastEntry = messages.entries.last;
+                final lastValue = lastEntry.value;
+
+                String lastText = '';
+                if (lastValue is Map && lastValue.containsKey('text')) {
+                  lastText = lastValue['text'];
+                }
+
+                return {
+                  'userId': userId,
+                  'lastMessage': lastText,
+                };
+              } else {
+                return {
+                  'userId': userId,
+                  'lastMessage': '',
+                };
+              }
+            }).toList();
+
+            return ListView.builder(
+              itemCount: chats.length,
+              itemBuilder: (context, index) {
+                final chat = chats[index];
+                return ListTile(
+                  title: Text('User: ${chat['userId']}'),
+                  subtitle: Text('Last message: ${chat['lastMessage']}'),
+                  onTap: () {
+                    // انتقل إلى صفحة الشات عندما تضغط على أحد العناصر
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatScreen(userId: chat['userId'], otherUserEmail: '',),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          } else {
+            return Center(child: Text('No chats found.'));
+          }
         },
       ),
     );

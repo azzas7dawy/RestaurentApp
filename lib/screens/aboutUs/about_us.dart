@@ -118,11 +118,12 @@ class AboutSupportPage extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ChatScreenn(
-                                  otherUserEmail: FirebaseAuth
-                                          .instance.currentUser?.email ??
-                                      '', myId: FirebaseAuth.instance.currentUser?.uid ?? '',
+                                  // otherUserEmail: FirebaseAuth
+                                  //         .instance.currentUser?.email ??
+                                  //     '', myId: FirebaseAuth.instance.currentUser?.uid ?? '',
                                   
-                                  otherId: 'adminUID',
+                                 otherId: 'adminUID', // Replace with actual admin UID
+                                  userId: FirebaseAuth.instance.currentUser?.uid ?? '', myId: null,
                                 ),
                               ),
                             ),

@@ -1,16 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:restrant_app/generated/l10n.dart';
-
+import 'package:intl/intl.dart';
 class ChatScreenn extends StatefulWidget {
-  final String myId;
-  final String otherId;
+  final String userId; // ID المستخدم الآخر
 
-  const ChatScreenn(
-      {super.key,
-      required this.myId,
-      required this.otherId,
-      required String otherUserEmail});
+  ChatScreenn({required this.userId, required myId, required String otherId});
 
   @override
   _ChatScreennState createState() => _ChatScreennState();
@@ -18,128 +13,174 @@ class ChatScreenn extends StatefulWidget {
 
 class _ChatScreennState extends State<ChatScreenn> {
   final DatabaseReference dbRef = FirebaseDatabase.instance.ref();
-  List<Map<String, dynamic>> messages = [];
-  TextEditingController messageController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+
+  List<Map<String, dynamic>> messagesList = [];
+  bool isSending = false;
+  String myId = '';
+  String otherUserEmail = '';
 
   @override
   void initState() {
     super.initState();
-    fetchMessages();
-    markMessagesAsRead();
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      myId = user.uid;
+      otherUserEmail = user.email ?? '';
+      listenToMessages();
+    } else {
+      // المستخدم غير مسجل دخول
+      print('No user signed in');
+    }
   }
 
-  void fetchMessages() {
-    dbRef.child('chat admin/${widget.otherId}').onValue.listen((event) {
-      final data = event.snapshot.value as Map?;
-      if (data != null) {
-        List<Map<String, dynamic>> temp = [];
-        data.forEach((key, value) {
-          temp.add({
-            'id': key,
-            'message': value['message'],
-            'sender': value['sender'],
-            'timestamp': value['timestamp'],
+  void listenToMessages() {
+    dbRef.child('Chats').child(widget.userId).child('messages').onValue.listen(
+      (event) {
+        final data = event.snapshot.value as Map?;
+        if (data != null) {
+          List<Map<String, dynamic>> temp = [];
+          data.forEach((key, value) {
+            final msg = Map<String, dynamic>.from(value);
+            msg['id'] = key;
+            temp.add(msg);
           });
-        });
-        temp.sort(
-            (a, b) => a['timestamp'].compareTo(b['timestamp'])); // ترتيب زمني
-        setState(() {
-          messages = temp;
-        });
-      }
-    });
+
+          temp.sort((a, b) => a['timestamp'].compareTo(b['timestamp']));
+
+          setState(() {
+            messagesList = temp;
+          });
+
+          markMessagesAsRead(temp);
+          Future.delayed(Duration(milliseconds: 100), () {
+            _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+          });
+        } else {
+          setState(() {
+            messagesList = [];
+          });
+        }
+      },
+      onError: (error) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to load messages')));
+      },
+    );
   }
 
-  void markMessagesAsRead() async {
-    final snapshot = await dbRef.child('chat admin/${widget.otherId}').get();
-    if (snapshot.exists) {
-      Map data = snapshot.value as Map;
-      data.forEach((key, value) {
-        if (value['read'] == false && value['sender'] != widget.otherId) {
-          dbRef
-              .child('chat admin/${widget.otherId}/$key')
-              .update({'read': true});
-        }
-      });
+  void markMessagesAsRead(List<Map<String, dynamic>> msgs) {
+    final messagesRef = dbRef.child('Chats').child(widget.userId).child('messages');
+    for (var msg in msgs) {
+      if (msg['sender'] != myId && msg['read'] == false) {
+        messagesRef.child(msg['id']).update({'read': true});
+      }
     }
   }
 
   void sendMessage() {
-    final msg = messageController.text.trim();
-    if (msg.isNotEmpty) {
-      dbRef.child('chat admin/${widget.otherId}').push().set({
-        'message': msg,
-        'sender': widget.myId,
-        'timestamp': DateTime.now().millisecondsSinceEpoch,
-        'read': false,
+    final text = _messageController.text.trim();
+    if (text.isEmpty) return;
+
+    setState(() {
+      isSending = true;
+    });
+
+    final messageId = dbRef.child('Chats').child(widget.userId).child('messages').push().key;
+    final messageData = {
+      'message': text,
+      'sender': myId,
+      'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'read': false,
+    };
+
+    dbRef.child('Chats').child(widget.userId).child('messages').child(messageId!).set(messageData);
+    _messageController.clear();
+
+    Future.delayed(Duration(milliseconds: 300), () {
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      setState(() {
+        isSending = false;
       });
-      messageController.clear();
-    }
+    });
+  }
+
+  String formatTimestamp(int timestamp) {
+    final date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    return DateFormat('hh:mm a').format(date);
+  }
+
+  Widget buildReadStatus(bool isMe, bool read) {
+    if (!isMe) return SizedBox.shrink();
+    return Icon(
+      read ? Icons.done_all : Icons.check,
+      size: 16,
+      color: read ? Colors.blue : Colors.black54,
+    );
+  }
+
+  Widget buildMessageBubble(Map<String, dynamic> msg, bool isMe) {
+    return Align(
+      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: isMe ? const Color.fromARGB(255, 117, 51, 31) : Colors.grey[300],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(msg['message'], style: TextStyle(fontSize: 16)),
+            SizedBox(height: 5),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  formatTimestamp(msg['timestamp']),
+                  style: TextStyle(fontSize: 10, color: const Color.fromARGB(137, 202, 115, 115)),
+                ),
+                SizedBox(width: 5),
+                buildReadStatus(isMe, msg['read']),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: AppBar(
-        title: Text(
-          'Chat with ${widget.otherId}',
-          style: TextStyle(color: theme.colorScheme.primary),
-        ),
-        iconTheme: IconThemeData(
-          color: theme.colorScheme.primary,
-        ),
-        centerTitle: true,
-        backgroundColor: theme.scaffoldBackgroundColor,
-      ),
+      appBar: AppBar(title: Text(otherUserEmail.isNotEmpty ? otherUserEmail : 'Chat')),
       body: Column(
         children: [
           Expanded(
             child: ListView.builder(
-              reverse: true, // الجديد يطلع تحت
-              itemCount: messages.length,
+              controller: _scrollController,
+              itemCount: messagesList.length,
               itemBuilder: (context, index) {
-                final msg = messages[messages.length - 1 - index];
-                final isMe = msg['sender'] == widget.myId;
-                return Align(
-                  alignment:
-                      isMe ? Alignment.centerRight : Alignment.centerLeft,
-                  child: Container(
-                    padding: EdgeInsets.all(12),
-                    margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    decoration: BoxDecoration(
-                      color: isMe
-                          ? theme.colorScheme.primary.withOpacity(0.2)
-                          : theme.colorScheme.secondary.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(msg['message'], style: TextStyle(fontSize: 16)),
-                  ),
-                );
+                final msg = messagesList[index];
+                final isMe = msg['sender'] == myId;
+                return buildMessageBubble(msg, isMe);
               },
             ),
           ),
-          // Divider(height: 1),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 8),
+          Padding(
+            padding: EdgeInsets.all(8),
             child: Row(
               children: [
                 Expanded(
                   child: TextField(
-                    controller: messageController,
-                    decoration: InputDecoration(
-                      hintText: S.of(context).typeYourMsg,
-                      border: InputBorder.none,
-                    ),
+                    controller: _messageController,
+                    decoration: InputDecoration(hintText: 'Type a message...' , hintStyle: TextStyle(color: Colors.black)),
                   ),
                 ),
                 IconButton(
-                  icon: Icon(
-                    Icons.send,
-                    color: theme.colorScheme.primary,
-                  ),
-                  onPressed: sendMessage,
+                  icon: Icon(isSending ? Icons.access_time : Icons.send),
+                  onPressed: isSending ? null : sendMessage,
                 ),
               ],
             ),
