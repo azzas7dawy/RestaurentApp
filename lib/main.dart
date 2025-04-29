@@ -229,7 +229,7 @@ class MyApp extends StatelessWidget {
                         case ChatScreen.id:
                           return MaterialPageRoute(
                             builder: (context) =>
-                                ChatScreen(otherUserEmail: data),
+                                ChatScreen(otherUserEmail: data, userId: data,),
                           );
                         case AboutSupportPage.id:
                           return MaterialPageRoute(

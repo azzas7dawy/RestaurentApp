@@ -5,6 +5,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import 'package:restrant_app/screens/adminDashbord/admin/MenuScreen%20.dart';
 import 'package:restrant_app/screens/adminDashbord/admin/admin_orders_screen.dart';
+import 'package:restrant_app/screens/adminDashbord/admin/chat_screen.dart';
+import 'package:restrant_app/screens/adminDashbord/admin/chats_list_screen.dart';
 import 'package:restrant_app/screens/adminDashbord/admin/orders_screen.dart';
 import 'package:restrant_app/screens/adminDashbord/admin/statistics_screen.dart';
 import 'package:restrant_app/screens/adminDashbord/chat.dart';
@@ -110,10 +112,8 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
               onTap: () => Navigator.pushNamed(context, StatisticsScreen.id),
             ),
             ListTile(
-              title: const Text("Chat", style: TextStyle(color: Colors.white)),
-                 onTap: () => Navigator.push(context, MaterialPageRoute( builder: (context) => ChatScreen(   otherUserEmail:
-                                FirebaseAuth.instance.currentUser?.email ?? 'admin@gmail.com',
-                            ))),
+              title: const Text("Chat ", style: TextStyle(color: Colors.white)),
+                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ChatsListScreen())),
             ),
             ListTile(
               title: const Text("Dashboard",

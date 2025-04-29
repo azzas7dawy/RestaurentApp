@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:restrant_app/cubit/ThemeLogic/cubit/theme_cubit.dart';
-import 'package:restrant_app/screens/adminDashbord/chat.dart';
+// import 'package:restrant_app/screens/adminDashbord/chat.dart';
 import 'package:restrant_app/generated/l10n.dart';
+import 'package:restrant_app/screens/adminDashbord/admin/chat_screen.dart';
+import 'package:restrant_app/screens/adminDashbord/chat.dart';
 import 'package:restrant_app/utils/colors_utility.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -115,10 +117,12 @@ class AboutSupportPage extends StatelessWidget {
                             onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ChatScreen(
+                                builder: (context) => ChatScreenn(
                                   otherUserEmail: FirebaseAuth
                                           .instance.currentUser?.email ??
-                                      '',
+                                      '', myId: FirebaseAuth.instance.currentUser?.uid ?? '',
+                                  
+                                  otherId: 'adminUID',
                                 ),
                               ),
                             ),

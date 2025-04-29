@@ -8,7 +8,7 @@ class ChatScreen extends StatefulWidget {
 
   static const String id = 'chat_screen';
 
-  const ChatScreen({super.key, required this.otherUserEmail});
+  const ChatScreen({super.key, required this.otherUserEmail, required userId});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
