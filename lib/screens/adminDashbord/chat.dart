@@ -37,7 +37,7 @@ void initState() {
   }
 
   final chatId = getChatId(currentUserEmail, widget.otherUserEmail);
-  _chatRef = FirebaseDatabase.instance.ref().child('Chats').child(chatId).child('messages');
+  _chatRef = FirebaseDatabase.instance.ref().child('Chat admin').child(chatId).child('messages');
 }
 
 
@@ -62,7 +62,7 @@ void initState() {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Chat with ${widget.otherUserEmail}')),
+      appBar: AppBar(title: Text(' ${widget.otherUserEmail.replaceAll('@gmail.com', '')}')),
       body: Column(
         children: [
           Expanded(
@@ -108,7 +108,7 @@ void initState() {
                     },
                   );
                 } else {
-                  return const Center(child: Text('No messages yet.'));
+                  return const Center(child: Text('No messages yet.', style: TextStyle(color: ColorsUtility.lightMainBackgroundColor)));
                 }
               },
             ),

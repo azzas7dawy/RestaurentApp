@@ -250,7 +250,7 @@ class MyApp extends StatelessWidget {
                 } else {
                   return const Center(
                     child: CircularProgressIndicator(
-                      color: ColorsUtility.progressIndictorColor,
+                      color: ColorsUtility.reserveTableColor,
                     ),
                   );
                 }

@@ -13,11 +13,11 @@ class StatisticsScreen extends StatelessWidget {
     for (var doc in snapshot.docs) {
       final status = doc['status'];
       if (status == 'pending') pending++;
-      if (status == 'completed') completed++;
+      if (status == 'accepted') completed++;
       if (status == 'cancelled') cancelled++;
     }
 
-    return {'Pending': pending, 'Completed': completed, 'Cancelled': cancelled};
+    return {'Pending': pending, 'Accepted': completed, 'Cancelled': cancelled};
   }
 
   @override
@@ -56,8 +56,8 @@ class StatisticsScreen extends StatelessWidget {
                         ),
                         PieChartSectionData(
                           color: Colors.green,
-                          value: data['Completed']!.toDouble(),
-                          title: 'Completed',
+                          value: data['Accepted']!.toDouble(),
+                          title: 'Accepted',
                           radius: 50,
                           titleStyle: const TextStyle(color: Colors.black),
                         ),
