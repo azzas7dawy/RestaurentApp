@@ -66,6 +66,5 @@ Built With
 - **Google Sign-In**  
 - **Multiple Flutter packages** – UI & functional enhancements
 
-Demo
 You can find the app demos at this Google Drive link
 https://drive.google.com/drive/folders/1NVv_f_tVks0VIIlbte-UgA28W9KRVSCL
